@@ -1,5 +1,6 @@
 'use client'
 
+import Timeline from '@/components/experience/timeline'
 import { ErrorState } from '@/components/experience/ErrorState'
 import { LoadingState } from '@/components/experience/LoadingState'
 import { ExperienceHero } from '@/components/experience/ExperienceHero'
@@ -10,12 +11,10 @@ import { ExperienceProjects } from '@/components/experience/ExperienceProjects'
 import { ExperienceNavigation } from '@/components/experience/ExperienceNavigation'
 import { useExperienceShare } from '@/components/experience/hooks/useExperienceShare'
 import { ExperienceDescription } from '@/components/experience/ExperienceDescription'
-import { cn } from '@/lib/utils'
 
 export default function ExperienceDetailPage({ params }: { params: any }) {
   const { experience, loading, error } = useExperience(params.id)
-  const { handleShare, handleCopyMarkdown, shareClicked, copyClicked } =
-    useExperienceShare(experience)
+  const { handleShare, handleCopyMarkdown, shareClicked, copyClicked } = useExperienceShare(experience)
 
   if (loading) return <LoadingState />
   if (error || !experience) return <ErrorState error={error} />
@@ -40,6 +39,7 @@ export default function ExperienceDetailPage({ params }: { params: any }) {
             <ExperienceDescription experience={experience} />
             <ExperienceMedia experience={experience} />
             <ExperienceProjects experience={experience} />
+            <Timeline experience={experience} />
           </div>
         </div>
       </main>
