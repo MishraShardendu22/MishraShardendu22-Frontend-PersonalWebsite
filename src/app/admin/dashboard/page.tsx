@@ -50,221 +50,262 @@ export default function AdminDashboardPage() {
 
   if (loading)
     return (
-      <div className="min-h-[40vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary border-solid"></div>
+      <div className="min-h-[60vh] flex items-center justify-center p-8">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary border-solid mx-auto"></div>
+          <p className="text-lg text-foreground/70">Loading dashboard data...</p>
+        </div>
       </div>
     )
   if (error)
     return (
-      <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4">
-        <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
-          <span className="text-4xl">😢</span>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-6 p-8">
+        <div className="w-24 h-24 rounded-full bg-destructive/10 flex items-center justify-center">
+          <span className="text-5xl">😢</span>
         </div>
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl font-heading text-foreground">Oops! Something went wrong</h2>
-          <p className="text-foreground text-lg">{error}</p>
+        <div className="text-center space-y-3 max-w-md">
+          <h2 className="text-3xl font-heading font-bold text-foreground">Oops! Something went wrong</h2>
+          <p className="text-foreground/70 text-lg">{error}</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">
+            Try Again
+          </Button>
         </div>
       </div>
     )
 
   return (
-    <div className="space-y-10">
-      {/* Enhanced Header */}
-      <div className="text-center mb-12 space-y-6">
-        <h1 className="text-2xl md:text-3xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
-          Welcome, Admin Manage your professional experiences and work history.
-        </h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      {/* Enhanced Header with better spacing */}
+      <div className="text-center space-y-6 pb-8">
+        <div className="space-y-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
+            Welcome, Admin
+          </h1>
+          <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto leading-relaxed">
+            Manage your professional experiences and work history with ease
+          </p>
+        </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
-        {/* Stat Card Example */}
-        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center animate-fade-in">
-          <Briefcase className="h-8 w-8 text-primary mb-2" />
-          <div className="text-3xl font-bold text-foreground">{projects.length}</div>
-          <div className="text-base text-foreground">Projects</div>
+      {/* Stats Cards with improved spacing */}
+      <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
+          <Briefcase className="h-10 w-10 text-primary mb-4" />
+          <div className="text-4xl font-bold text-foreground mb-2">{projects.length}</div>
+          <div className="text-base font-medium text-foreground/80">Projects</div>
         </div>
-        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center animate-fade-in">
-          <GraduationCap className="h-8 w-8 text-secondary mb-2" />
-          <div className="text-3xl font-bold text-foreground">{experiences.length}</div>
-          <div className="text-base text-foreground">Experiences</div>
+        
+        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
+          <GraduationCap className="h-10 w-10 text-secondary mb-4" />
+          <div className="text-4xl font-bold text-foreground mb-2">{experiences.length}</div>
+          <div className="text-base font-medium text-foreground/80">Experiences</div>
         </div>
-        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-accent/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center animate-fade-in">
-          <Settings className="h-8 w-8 text-accent mb-2" />
-          <div className="text-3xl font-bold text-foreground">{skills.length}</div>
-          <div className="text-base text-foreground">Skills</div>
+        
+        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-accent/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
+          <Settings className="h-10 w-10 text-accent mb-4" />
+          <div className="text-4xl font-bold text-foreground mb-2">{skills.length}</div>
+          <div className="text-base font-medium text-foreground/80">Skills</div>
         </div>
-        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center animate-fade-in">
-          <Medal className="h-8 w-8 text-primary mb-2 flex items-center justify-center" />
-          <div className="text-3xl font-bold text-foreground">{certifications.length}</div>
-          <div className="text-base text-foreground">Certifications</div>
+        
+        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
+          <Medal className="h-10 w-10 text-primary mb-4" />
+          <div className="text-4xl font-bold text-foreground mb-2">{certifications.length}</div>
+          <div className="text-base font-medium text-foreground/80">Certifications</div>
         </div>
-        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center animate-fade-in">
-          <span className="h-8 w-8 flex items-center justify-center text-secondary mb-2 font-bold text-2xl">
+        
+        <div className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in sm:col-span-2 lg:col-span-3 xl:col-span-1">
+          <span className="h-10 w-10 flex items-center justify-center text-secondary mb-4 text-3xl">
             🌐
           </span>
-          <div className="text-3xl font-bold text-foreground">Live</div>
-          <div className="text-base text-foreground">Portfolio Status</div>
+          <div className="text-4xl font-bold text-foreground mb-2">Live</div>
+          <div className="text-base font-medium text-foreground/80">Portfolio Status</div>
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        <Link href="/admin/projects">
-          <Button
-            variant="outline"
-            className="w-full h-auto p-6 flex-col gap-2 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 animate-fade-in"
-          >
-            <Briefcase className="h-8 w-8 mb-2 text-primary" />
-            Manage Projects
-          </Button>
-        </Link>
-        <Link href="/admin/experiences">
-          <Button
-            variant="outline"
-            className="w-full h-auto p-6 flex-col gap-2 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 animate-fade-in"
-          >
-            <GraduationCap className="h-8 w-8 mb-2 text-secondary" />
-            Manage Experiences
-          </Button>
-        </Link>
-        <Link href="/admin/skills">
-          <Button
-            variant="outline"
-            className="w-full h-auto p-6 flex-col gap-2 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 animate-fade-in"
-          >
-            <Settings className="h-8 w-8 mb-2 text-accent" />
-            Manage Skills
-          </Button>
-        </Link>
-        <Link href="/">
-          <Button
-            variant="outline"
-            className="w-full h-auto p-6 flex-col gap-2 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 animate-fade-in"
-          >
-            <ExternalLink className="h-8 w-8 mb-2 text-primary" />
-            View Portfolio
-          </Button>
-        </Link>
+      {/* Quick Actions with better spacing */}
+      <div className="space-y-6">
+        <h2 className="text-2xl md:text-3xl font-heading font-bold text-center text-foreground">
+          Quick Actions
+        </h2>
+        <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <Link href="/admin/projects" className="group">
+            <Button
+              variant="outline"
+              className="w-full h-auto p-6 lg:p-8 flex-col gap-4 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105 animate-fade-in border-2 hover:border-primary/50"
+            >
+              <Briefcase className="h-10 w-10 text-primary group-hover:scale-110 transition-transform duration-300" />
+              <span>Manage Projects</span>
+            </Button>
+          </Link>
+          
+          <Link href="/admin/experiences" className="group">
+            <Button
+              variant="outline"
+              className="w-full h-auto p-6 lg:p-8 flex-col gap-4 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105 animate-fade-in border-2 hover:border-secondary/50"
+            >
+              <GraduationCap className="h-10 w-10 text-secondary group-hover:scale-110 transition-transform duration-300" />
+              <span>Manage Experiences</span>
+            </Button>
+          </Link>
+          
+          <Link href="/admin/skills" className="group">
+            <Button
+              variant="outline"
+              className="w-full h-auto p-6 lg:p-8 flex-col gap-4 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105 animate-fade-in border-2 hover:border-accent/50"
+            >
+              <Settings className="h-10 w-10 text-accent group-hover:scale-110 transition-transform duration-300" />
+              <span>Manage Skills</span>
+            </Button>
+          </Link>
+          
+          <Link href="/" className="group">
+            <Button
+              variant="outline"
+              className="w-full h-auto p-6 lg:p-8 flex-col gap-4 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105 animate-fade-in border-2 hover:border-primary/50"
+            >
+              <ExternalLink className="h-10 w-10 text-primary group-hover:scale-110 transition-transform duration-300" />
+              <span>View Portfolio</span>
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      {/* Recent Projects & Experiences */}
-      <div className="grid gap-8 md:grid-cols-2">
-        {/* Recent Projects */}
-        <div className="rounded-2xl border border-border bg-card/80 shadow-lg p-6 animate-fade-in">
-          <h2 className="text-2xl font-bold mb-2 text-primary">Recent Projects</h2>
-          <div className="space-y-4">
-            {projects.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-8">
-                <Briefcase className="mx-auto h-12 w-12 text-foreground" />
-                <h3 className="mt-2 text-lg font-medium text-foreground">No projects</h3>
-                <p className="mt-1 text-base text-foreground">
-                  Get started by creating your first project.
-                </p>
-                <div className="mt-6">
+      {/* Recent Projects & Experiences with improved layout */}
+      <div className="space-y-6">
+        <h2 className="text-2xl md:text-3xl font-heading font-bold text-center text-foreground">
+          Recent Activity
+        </h2>
+        <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2">
+          {/* Recent Projects */}
+          <div className="rounded-2xl border-2 border-border bg-card/80 shadow-xl p-6 lg:p-8 animate-fade-in hover:shadow-2xl transition-shadow duration-300">
+            <div className="flex items-center gap-3 mb-6">
+              <Briefcase className="h-6 w-6 text-primary" />
+              <h3 className="text-2xl font-bold text-primary">Recent Projects</h3>
+            </div>
+            
+            <div className="space-y-6">
+              {projects.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Briefcase className="h-8 w-8 text-primary/60" />
+                  </div>
+                  <div className="text-center space-y-2">
+                    <h4 className="text-xl font-semibold text-foreground">No projects yet</h4>
+                    <p className="text-foreground/70">
+                      Get started by creating your first project
+                    </p>
+                  </div>
                   <Link href="/admin/projects">
-                    <Button>
+                    <Button className="mt-4">
                       <Plus className="mr-2 h-5 w-5" />
                       Add Project
                     </Button>
                   </Link>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {projects.slice(0, 3).map((project) => (
-                  <div
-                    key={project.inline.id}
-                    className="flex items-center justify-between gap-4 p-3 rounded-lg bg-primary/5 hover:bg-primary/10 transition-all duration-200"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-base font-semibold text-foreground truncate">
-                        {project.project_name}
-                      </p>
-                      <p className="text-sm text-foreground truncate">
-                        {project.small_description}
-                      </p>
+              ) : (
+                <div className="space-y-4">
+                  {projects.slice(0, 3).map((project) => (
+                    <div
+                      key={project.inline.id}
+                      className="flex items-center justify-between gap-4 p-4 rounded-xl bg-primary/5 hover:bg-primary/10 transition-all duration-200 border border-primary/10 hover:border-primary/20"
+                    >
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <p className="text-lg font-semibold text-foreground truncate">
+                          {project.project_name}
+                        </p>
+                        <p className="text-sm text-foreground/70 line-clamp-2">
+                          {project.small_description}
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-3 flex-shrink-0">
+                        {project.project_live_link && (
+                          <a
+                            href={project.project_live_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-lg text-primary hover:text-accent hover:bg-accent/10 transition-all duration-200"
+                          >
+                            <ExternalLink className="h-5 w-5" />
+                          </a>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      {project.project_live_link && (
-                        <a
-                          href={project.project_live_link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:text-accent"
-                        >
-                          <ExternalLink className="h-5 w-5" />
-                        </a>
-                      )}
+                  ))}
+                  {projects.length > 3 && (
+                    <div className="pt-4 border-t border-border/50">
+                      <Link href="/admin/projects">
+                        <Button variant="outline" className="w-full">
+                          View All {projects.length} Projects
+                        </Button>
+                      </Link>
                     </div>
-                  </div>
-                ))}
-                {projects.length > 3 && (
-                  <div className="pt-4">
-                    <Link href="/admin/projects">
-                      <Button variant="outline" className="w-full">
-                        View All Projects
-                      </Button>
-                    </Link>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Recent Experiences */}
-        <div className="rounded-2xl border border-border bg-card/80 shadow-lg p-6 animate-fade-in">
-          <h2 className="text-2xl font-bold mb-2 text-secondary">Recent Experiences</h2>
-          <div className="space-y-4">
-            {experiences.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-8">
-                <GraduationCap className="mx-auto h-12 w-12 text-foreground" />
-                <h3 className="mt-2 text-lg font-medium text-foreground">No experiences</h3>
-                <p className="mt-1 text-base text-foreground">
-                  Get started by adding your work experience.
-                </p>
-                <div className="mt-6">
+          {/* Recent Experiences */}
+          <div className="rounded-2xl border-2 border-border bg-card/80 shadow-xl p-6 lg:p-8 animate-fade-in hover:shadow-2xl transition-shadow duration-300">
+            <div className="flex items-center gap-3 mb-6">
+              <GraduationCap className="h-6 w-6 text-secondary" />
+              <h3 className="text-2xl font-bold text-secondary">Recent Experiences</h3>
+            </div>
+            
+            <div className="space-y-6">
+              {experiences.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <GraduationCap className="h-8 w-8 text-secondary/60" />
+                  </div>
+                  <div className="text-center space-y-2">
+                    <h4 className="text-xl font-semibold text-foreground">No experiences yet</h4>
+                    <p className="text-foreground/70">
+                      Get started by adding your work experience
+                    </p>
+                  </div>
                   <Link href="/admin/experiences">
-                    <Button>
+                    <Button className="mt-4">
                       <Plus className="mr-2 h-5 w-5" />
                       Add Experience
                     </Button>
                   </Link>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {experiences.slice(0, 3).map((experience) => (
-                  <div
-                    key={experience.inline.id}
-                    className="flex items-center justify-between gap-4 p-3 rounded-lg bg-secondary/5 hover:bg-secondary/10 transition-all duration-200"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-base font-semibold text-foreground truncate">
-                        {experience.position}
-                      </p>
-                      <p className="text-sm text-foreground truncate">{experience.company_name}</p>
+              ) : (
+                <div className="space-y-4">
+                  {experiences.slice(0, 3).map((experience) => (
+                    <div
+                      key={experience.inline.id}
+                      className="flex items-center justify-between gap-4 p-4 rounded-xl bg-secondary/5 hover:bg-secondary/10 transition-all duration-200 border border-secondary/10 hover:border-secondary/20"
+                    >
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <p className="text-lg font-semibold text-foreground truncate">
+                          {experience.company_name}
+                        </p>
+                        <p className="text-sm text-foreground/70 truncate">
+                          {experience.company_name}
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-3 flex-shrink-0">
+                        <Badge variant="secondary" className="text-sm px-3 py-1">
+                          {new Date(experience.experience_time_line[0].start_date).getFullYear()} -{' '}
+                          {new Date(experience.experience_time_line[0].end_date).getFullYear()}
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="secondary" className="text-xs">
-                        {new Date(experience.start_date).getFullYear()} -{' '}
-                        {new Date(experience.end_date).getFullYear()}
-                      </Badge>
+                  ))}
+                  {experiences.length > 3 && (
+                    <div className="pt-4 border-t border-border/50">
+                      <Link href="/admin/experiences">
+                        <Button variant="outline" className="w-full">
+                          View All {experiences.length} Experiences
+                        </Button>
+                      </Link>
                     </div>
-                  </div>
-                ))}
-                {experiences.length > 3 && (
-                  <div className="pt-4">
-                    <Link href="/admin/experiences">
-                      <Button variant="outline" className="w-full">
-                        View All Experiences
-                      </Button>
-                    </Link>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
