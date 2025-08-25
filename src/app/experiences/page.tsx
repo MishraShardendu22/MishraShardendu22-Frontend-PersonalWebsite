@@ -31,7 +31,7 @@ export default function ExperiencePageContent() {
   const [selectedYear, setSelectedYear] = useState<string>('__all__')
   const router = useRouter()
   const searchParams = useSearchParams()
-  const initialSearch = searchParams.get('search')?.toLowerCase() || ''
+  const initialSearch = searchParams?.get('search')?.toLowerCase() || ''
   const [searchTerm, setSearchTerm] = useState(initialSearch)
 
   const allTechs = Array.from(new Set(experiences.flatMap((e) => e.technologies)))
@@ -69,6 +69,7 @@ export default function ExperiencePageContent() {
   const transformedExperiences = currentExperiences.map((experience) => ({
     title: experience.position,
     company: experience.company_name,
+  companyLogo: experience.company_logo,
     description: experience.description,
     link: `/experiences/${experience.inline?.id || experience.inline.id}`,
     technologies: experience.technologies,

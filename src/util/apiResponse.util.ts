@@ -1,19 +1,19 @@
 import api from './api'
 import {
+  Project,
+  Experience,
   ApiResponse,
   AuthRequest,
+  Certification,
   SkillsRequest,
   SkillsResponse,
-  Project,
+  VolunteerExperience,
   CreateProjectRequest,
   UpdateProjectRequest,
-  Experience,
   CreateExperienceRequest,
   UpdateExperienceRequest,
-  Certification,
   CreateCertificationRequest,
   UpdateCertificationRequest,
-  VolunteerExperience,
   CreateVolunteerExperienceRequest,
   UpdateVolunteerExperienceRequest,
 } from '../data/types.data'
@@ -25,7 +25,6 @@ export const authAPI = {
   },
 }
 
-// Skills API
 export const skillsAPI = {
   getSkills: async (): Promise<ApiResponse<SkillsResponse>> => {
     const response = await api.get('/skills')
@@ -38,7 +37,6 @@ export const skillsAPI = {
   },
 }
 
-// Projects API
 export const projectsAPI = {
   getAllProjects: async (): Promise<ApiResponse<Project[]>> => {
     const response = await api.get('/projects')
@@ -69,7 +67,6 @@ export const projectsAPI = {
   },
 }
 
-// Experiences API
 export const experiencesAPI = {
   getAllExperiences: async (): Promise<ApiResponse<Experience[]>> => {
     const response = await api.get('/experiences')
@@ -102,7 +99,6 @@ export const experiencesAPI = {
   },
 }
 
-// Certifications API
 export const certificationsAPI = {
   getAllCertifications: async (): Promise<ApiResponse<Certification[]>> => {
     const response = await api.get('/certifications')
@@ -135,7 +131,6 @@ export const certificationsAPI = {
   },
 }
 
-// Volunteer Experiences API
 export const volunteerExperiencesAPI = {
   getAllVolunteerExperiences: async (): Promise<ApiResponse<VolunteerExperience[]>> => {
     const response = await api.get('/volunteer/experiences')
@@ -168,10 +163,8 @@ export const volunteerExperiencesAPI = {
   },
 }
 
-// Achievements API (alias for certifications if same contract)
 export const achievementsAPI = certificationsAPI
 
-// Test API
 export const testAPI = {
   testEndpoint: async (): Promise<ApiResponse<{ message: string }>> => {
     const response = await api.get('/test')

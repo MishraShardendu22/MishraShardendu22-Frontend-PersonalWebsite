@@ -13,7 +13,7 @@ import { SkillsSkeleton } from '@/components/main/loading'
 import { DesktopSidebar } from '@/components/extra/sidebar'
 import FooterSection from '@/components/main/FooterSection'
 import { LazyProjectsSection } from '@/components/lazy/proj'
-import { LazyExperienceSection, LazyVolunteerExperienceSection } from '@/components/lazy/exp'
+import { LazyExperienceSection } from '@/components/lazy/exp'
 import { ShootingStars } from '@/components/ui/shooting-stars'
 import { MobileNavigation } from '@/components/extra/mobile-nav'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
@@ -29,7 +29,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Update active section based on scroll position
       const sections = navItems.map((item) => item.href.substring(1))
       const currentSection = sections.find((section) => {
         const element = document.getElementById(section)
@@ -90,7 +89,6 @@ export default function HomePage() {
           <ShootingStars />
         </section>
 
-        {/* Education renders immediately since it's static data */}
         <section id="education" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
           <Education />
@@ -101,14 +99,8 @@ export default function HomePage() {
           {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
         </section>
 
-        {/* Lazy loaded sections */}
         <section id="projects">
           <LazyProjectsSection />
-        </section>
-
-        <section id="volunteer">
-          {/* TEMP: Always-on volunteer section for debugging */}
-          {require('@/components/main/volunteer-always').default()}
         </section>
 
         <section id="experience">

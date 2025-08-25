@@ -7,6 +7,7 @@ interface ExperienceGridProps {
   items: {
     title: string
     company: string
+  companyLogo?: string
     description: string
     link: string
     technologies?: string[]
@@ -51,6 +52,7 @@ export default function ExperienceGrid({ items, className }: ExperienceGridProps
           <ExperienceCards
             title={item.title}
             company={item.company}
+            companyLogo={item.companyLogo}
             description={item.description}
             link={item.link}
             technologies={item.technologies}

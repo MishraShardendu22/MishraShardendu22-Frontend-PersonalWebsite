@@ -21,14 +21,14 @@ export default function VolunteerSection({ experiences }: VolunteerSectionProps)
   // If no experiences, show a message
   if (!experiences || experiences.length === 0) {
     return (
-      <section id="volunteer" className="py-20 bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 dark:from-gray-900 dark:via-pink-900 dark:to-rose-900">
+      <section id="volunteer" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="p-3 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl shadow-lg">
+              <div className="p-3 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg">
                 <Heart className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Volunteer Experience
               </h2>
             </div>
@@ -45,14 +45,14 @@ export default function VolunteerSection({ experiences }: VolunteerSectionProps)
   }
 
   return (
-    <section id="volunteer" className="py-20 bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 dark:from-gray-900 dark:via-pink-900 dark:to-rose-900">
+      <section id="volunteer" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl shadow-lg">
+            <div className="p-3 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg">
               <Heart className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Volunteer Experience
             </h2>
           </div>
@@ -68,22 +68,22 @@ export default function VolunteerSection({ experiences }: VolunteerSectionProps)
             return (
               <div
                 key={experience.inline.id}
-                className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-pink-200/50 dark:border-pink-700/50 hover:shadow-xl hover:shadow-pink-200/20 transition-all duration-300 hover:scale-[1.02]"
+                className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-border/50 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
               >
                 <div className="flex items-start gap-4 mb-4">
                   {experience.organisation_logo && (
                     <img
                       src={experience.organisation_logo}
                       alt={experience.organisation}
-                      className="w-16 h-16 object-contain rounded-lg border border-pink-200 bg-white dark:bg-gray-900"
+                      className="w-16 h-16 object-contain rounded-lg border border-border bg-white dark:bg-gray-900"
                     />
                   )}
                   
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-pink-600 transition-colors">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
                       {latestTimeline?.position || 'Volunteer'}
                     </h3>
-                    <p className="text-pink-700 dark:text-pink-300 font-medium">
+                    <p className="text-secondary font-medium dark:text-secondary">
                       {experience.organisation}
                     </p>
                     
@@ -104,7 +104,7 @@ export default function VolunteerSection({ experiences }: VolunteerSectionProps)
 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {experience.technologies.slice(0, 3).map((tech, idx) => (
-                    <Badge key={idx} className="bg-rose-100 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-200 dark:border-rose-700">
+                    <Badge key={idx} className="bg-muted/20 text-muted-foreground border-border">
                       {tech}
                     </Badge>
                   ))}
@@ -115,7 +115,7 @@ export default function VolunteerSection({ experiences }: VolunteerSectionProps)
                   )}
                 </div>
 
-                <Button asChild variant="ghost" className="w-full text-pink-600 hover:text-pink-800 hover:bg-pink-50">
+                <Button asChild variant="ghost" className="w-full text-primary hover:text-primary/80 hover:bg-muted">
                   <Link href={`/volunteer/${experience.inline.id}`}>
                     View Details <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>

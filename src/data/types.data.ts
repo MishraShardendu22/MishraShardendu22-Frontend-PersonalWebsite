@@ -1,3 +1,4 @@
+// Base Types
 export interface CommitData {
   date: string
   count: number
@@ -48,6 +49,7 @@ export interface ApiResponse<T> {
   message: string
   data: T
   error?: string
+  status?: number
 }
 
 // Authentication Types
@@ -103,20 +105,21 @@ export interface ProfileData {
 
 // Project Types
 export interface Project {
-  title: string | undefined
-  stats: any
-  id: any
-  images: never[]
-  inline: any
+  inline: {
+    id: string
+    created_at: string
+    updated_at: string
+  }
+  images: string[]
+  stats?: any
   project_name: string
+  title?: string
   small_description: string
   description: string
   skills: string[]
   project_repository: string
   project_live_link: string
   project_video: string
-  created_at?: string
-  updated_at?: string
 }
 
 export interface CreateProjectRequest {
@@ -131,37 +134,57 @@ export interface CreateProjectRequest {
 
 export type UpdateProjectRequest = CreateProjectRequest
 
-// Experience Types
-export interface Experience {
-  inline: any
-  company_name: string
+// Experience Timeline Type
+export interface ExperienceTimeLine {
   position: string
   start_date: string
   end_date: string
+}
+
+// Experience Types
+export interface Experience {
+  inline: {
+    id: string
+    created_at: string
+    updated_at: string
+  }
+  images: string[]
+  projects: string[]
+  created_by: string
   description: string
   technologies: string[]
+  company_name: string
   company_logo: string
   certificate_url: string
-  projects: string[]
-  images: string[]
-  created_at?: string
-  updated_at?: string
+  experience_time_line: ExperienceTimeLine[]
 }
 
 export interface CreateExperienceRequest {
-  company_name: string
-  position: string
-  start_date: string
-  end_date: string
+  images: string[]
+  projects: string[]
+  created_by: string
   description: string
   technologies: string[]
+  company_name: string
   company_logo: string
   certificate_url: string
-  projects: string[]
-  images: string[]
+  experience_time_line: ExperienceTimeLine[]
 }
 
 export type UpdateExperienceRequest = CreateExperienceRequest
+
+// Experience API Response Types
+export interface ExperienceListResponse {
+  data: Experience[]
+  message: string
+  status: number
+}
+
+export interface ExperienceResponse {
+  data: Experience
+  message: string
+  status: number
+}
 
 // Certification Types
 export interface Certification {
@@ -231,7 +254,7 @@ export interface CreateVolunteerExperienceRequest {
 
 export type UpdateVolunteerExperienceRequest = CreateVolunteerExperienceRequest
 
-// Achievement Types (if different, otherwise alias Certification)
+// Achievement Types (alias for Certification)
 export type Achievement = Certification
 export type CreateAchievementRequest = CreateCertificationRequest
 export type UpdateAchievementRequest = UpdateCertificationRequest
