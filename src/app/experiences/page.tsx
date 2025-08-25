@@ -38,7 +38,11 @@ export default function ExperiencePageContent() {
   const allCompanies = Array.from(new Set(experiences.map((e) => e.company_name)))
   const allYears = Array.from(
     new Set(
-      experiences.map((e) => (e.start_date ? new Date(e.start_date).getFullYear().toString() : ''))
+      experiences.map((e) =>
+        e.experience_time_line?.[0]?.start_date
+          ? new Date(e.experience_time_line[0].start_date).getFullYear().toString()
+          : ''
+      )
     )
   ).filter(Boolean)
 
@@ -49,12 +53,14 @@ export default function ExperiencePageContent() {
       selectedCompany !== '__all__' ? experience.company_name === selectedCompany : true
     const matchesYear =
       selectedYear !== '__all__'
-        ? experience.start_date &&
-          new Date(experience.start_date).getFullYear().toString() === selectedYear
+        ? experience.experience_time_line?.[0]?.start_date &&
+          new Date(experience.experience_time_line[0].start_date).getFullYear().toString() === selectedYear
         : true
     const matchesSearch =
       searchTerm === '' ||
-      experience.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (experience.experience_time_line?.[0]?.position ?? '')
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       experience.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       experience.description.toLowerCase().includes(searchTerm.toLowerCase())
 
@@ -67,15 +73,15 @@ export default function ExperiencePageContent() {
   const currentExperiences = filteredExperiences.slice(startIndex, endIndex)
 
   const transformedExperiences = currentExperiences.map((experience) => ({
-    title: experience.position,
+    title: experience.experience_time_line?.[0]?.position ?? '',
     company: experience.company_name,
-  companyLogo: experience.company_logo,
+    companyLogo: experience.company_logo,
     description: experience.description,
     link: `/experiences/${experience.inline?.id || experience.inline.id}`,
     technologies: experience.technologies,
     certificateUrl: experience.certificate_url,
-    startDate: experience.start_date,
-    endDate: experience.end_date,
+    startDate: experience.experience_time_line?.[0]?.start_date ?? '',
+    endDate: experience.experience_time_line?.[0]?.end_date ?? '',
   }))
 
   useEffect(() => {

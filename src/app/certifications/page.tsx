@@ -31,7 +31,8 @@ export default function CertificationPageContent() {
   const [selectedYear, setSelectedYear] = useState<string>('__all__')
   const router = useRouter()
   const searchParams = useSearchParams()
-  const initialSearch = searchParams.get('search')?.toLowerCase() || ''
+  // useSearchParams can return null in some environments; guard access
+  const initialSearch = (searchParams?.get('search') ?? '').toLowerCase() || ''
   const [searchTerm, setSearchTerm] = useState(initialSearch)
 
   const allSkills = Array.from(new Set(certifications.flatMap((c) => c.skills)))

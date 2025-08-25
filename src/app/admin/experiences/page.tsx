@@ -134,13 +134,27 @@ export default function AdminExperiencesPage() {
 
   const onSubmit = async (data: ExperienceFormData) => {
     try {
-      const experienceData: CreateExperienceRequest = {
-        ...data,
-        technologies: selectedTechnologies,
-        projects: selectedProjects,
+  const experienceData: CreateExperienceRequest = {
+        // form fields
         images: data.images.split(',').map((img) => img.trim()),
+        projects: selectedProjects,
+        // created_by is required by the API/type; if you have an auth/user id, replace '' with it
+        created_by: '',
+        description: data.description,
+        technologies: selectedTechnologies,
+        company_name: data.company_name,
+        company_logo: data.company_logo,
+        certificate_url: data.certificate_url,
+        // experience_time_line expects an array; use the position/start/end from the form
+        experience_time_line: [
+          {
+            position: data.position,
+            start_date: data.start_date,
+            end_date: data.end_date,
+          },
+        ],
       }
-      if (editingExperience) {
+  if (editingExperience) {
         await experiencesAPI.updateExperience(editingExperience.inline.id, experienceData)
         setSuccess('Experience updated successfully')
       } else {
@@ -164,9 +178,10 @@ export default function AdminExperiencesPage() {
     setSelectedProjects(exp.projects || [])
     reset({
       company_name: exp.company_name,
-      position: exp.position,
-      start_date: exp.start_date,
-      end_date: exp.end_date,
+      // read position/start/end from the first timeline entry if available
+      position: exp.experience_time_line?.[0]?.position ?? '',
+      start_date: exp.experience_time_line?.[0]?.start_date ?? '',
+      end_date: exp.experience_time_line?.[0]?.end_date ?? '',
       description: exp.description,
       technologies: exp.technologies,
       company_logo: exp.company_logo,
@@ -415,11 +430,12 @@ export default function AdminExperiencesPage() {
                 <CardHeader className="bg-gradient-to-r from-secondary/10 to-card pb-2">
                   <CardTitle className="text-2xl font-semibold text-secondary flex items-center gap-2">
                     <Briefcase className="h-5 w-5 text-secondary" />
-                    {exp.position}
+                    {exp.experience_time_line?.[0]?.position ?? 'Position'}
                   </CardTitle>
                   <CardDescription className="text-foreground">
-                    {exp.company_name} &bull; {formatDate(exp.start_date)} to{' '}
-                    {formatDate(exp.end_date)}
+                    {exp.company_name} &bull; {formatDate(
+                      exp.experience_time_line?.[0]?.start_date ?? ''
+                    )} to {formatDate(exp.experience_time_line?.[0]?.end_date ?? '')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col gap-2 p-2">

@@ -23,7 +23,7 @@ export default function ProjectPageContent() {
   const [selectedSkill, setSelectedSkill] = useState<string>('__all__')
   const router = useRouter()
   const searchParams = useSearchParams()
-  const initialSearch = searchParams.get('name_has')?.toLowerCase() || ''
+  const initialSearch = (searchParams?.get('name_has') ?? '').toLowerCase() || ''
   const [searchTerm, setSearchTerm] = useState(initialSearch)
 
   const allSkills = Array.from(new Set(projects.flatMap((p) => p.skills)))

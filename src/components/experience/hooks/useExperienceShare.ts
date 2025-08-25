@@ -11,10 +11,14 @@ export function useExperienceShare(experience: Experience | null) {
   const handleCopyMarkdown = async () => {
     if (!experience) return
 
-    const markdownContent = `# ${experience.position} at ${experience.company_name}
+  const position = experience.experience_time_line?.[0]?.position ?? ''
+  const start = experience.experience_time_line?.[0]?.start_date ?? ''
+  const end = experience.experience_time_line?.[0]?.end_date ?? ''
+
+  const markdownContent = `# ${position} at ${experience.company_name}
 
 ## Duration
-${formatDate(experience.start_date)} - ${formatDate(experience.end_date)}
+${formatDate(start)} - ${formatDate(end)}
 
 ## Technologies Used
 ${experience.technologies.map((tech) => `- ${tech}`).join('\n')}
@@ -24,9 +28,9 @@ ${experience.description}
 
 ${
   experience.certificate_url
-    ? `## Certificate
+  ? `## Certificate
 - **Certificate:** ${experience.certificate_url}`
-    : ''
+  : ''
 }
 
 ---
@@ -58,10 +62,11 @@ ${
   const handleShare = async () => {
     if (!experience) return
 
+    const position = experience.experience_time_line?.[0]?.position ?? ''
     const experienceUrl = `${window.location.origin}/experiences/${experience.company_name}`
     const shareData = {
-      title: `${experience.position} at ${experience.company_name}`,
-      text: `Check out my experience: ${experience.position} at ${experience.company_name}`,
+      title: `${position} at ${experience.company_name}`,
+      text: `Check out my experience: ${position} at ${experience.company_name}`,
       url: experienceUrl,
     }
 

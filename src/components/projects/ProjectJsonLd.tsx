@@ -10,12 +10,12 @@ export function ProjectJsonLd({ project }: ProjectJsonLdProps) {
     '@type': 'CreativeWork',
     name: project.project_name,
     description: project.small_description,
-    url: `https://mishrashardendu22.is-a.dev/projects/${project.id}`,
+  url: `https://mishrashardendu22.is-a.dev/projects/${project.inline?.id || ''}`,
     creator: {
       '@type': 'Person',
       name: 'Shardendu Mishra',
     },
-    dateCreated: project.created_at,
+  dateCreated: project.inline?.created_at,
     keywords: project.skills,
     image: project.images || [],
   }

@@ -6,11 +6,15 @@ export async function generateMetadata({ params }: { params: any }) {
   const response = await experiencesAPI.getExperienceById(id)
   const exp = response.data
   if (!exp) return {}
+  const position = exp.experience_time_line?.[0]?.position ?? ''
+  const start = exp.experience_time_line?.[0]?.start_date ?? ''
+  const end = exp.experience_time_line?.[0]?.end_date ?? ''
+
   return {
-    title: `${exp.position} at ${exp.company_name} | Experience | Mishra Shardendu Portfolio`,
+    title: `${position} at ${exp.company_name} | Experience | Mishra Shardendu Portfolio`,
     description: exp.description,
     openGraph: {
-      title: `${exp.position} at ${exp.company_name} | Experience | Mishra Shardendu Portfolio`,
+      title: `${position} at ${exp.company_name} | Experience | Mishra Shardendu Portfolio`,
       description: exp.description,
       url: `https://mishrashardendu22.is-a.dev/experiences/${id}`,
       type: 'article',
@@ -19,7 +23,7 @@ export async function generateMetadata({ params }: { params: any }) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${exp.position} at ${exp.company_name} | Experience | Mishra Shardendu Portfolio`,
+      title: `${position} at ${exp.company_name} | Experience | Mishra Shardendu Portfolio`,
       description: exp.description,
       images: exp.images || [],
     },

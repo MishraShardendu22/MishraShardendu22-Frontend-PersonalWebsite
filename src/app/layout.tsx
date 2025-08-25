@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
-import { Toaster } from 'react-hot-toast'
+// render Toaster only on client to avoid SSR/CSR attribute mismatches
+import ToasterClient from '@/components/extra/ToasterClient'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
@@ -119,8 +120,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ThemeToggleClient />
             </div>
             {children}
-            <Toaster position="top-right" reverseOrder />
-{/*             <PWAInstallBanner /> */}
+            <ToasterClient />
+            {/* <PWAInstallBanner /> */}
             <PWARegister />
             <Analytics />
             <SpeedInsights />

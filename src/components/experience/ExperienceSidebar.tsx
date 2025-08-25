@@ -51,14 +51,16 @@ export function ExperienceSidebar({
                 </div>
               )}
               <h4 className="text-white font-semibold text-lg">{experience.company_name}</h4>
-              <p className="text-white/80 text-sm">{experience.position}</p>
+              <p className="text-white/80 text-sm">{experience.experience_time_line?.[0]?.position ?? ''}</p>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
               <Clock className="w-4 h-4" />
-              <span>
-                {formatDate(experience.start_date)} - {formatDate(experience.end_date)}
-              </span>
+                <span>
+                  {formatDate(experience.experience_time_line?.[0]?.start_date ?? '')} - {formatDate(
+                    experience.experience_time_line?.[0]?.end_date ?? ''
+                  )}
+                </span>
             </div>
 
             {experience.certificate_url && (
