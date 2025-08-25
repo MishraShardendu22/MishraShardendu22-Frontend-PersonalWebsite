@@ -1,8 +1,9 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Badge } from './badge'
+import { cn } from '@/lib/utils'
 import { Button } from './button'
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -26,11 +27,9 @@ export const ExperienceFocusCard = React.memo(
     startIndex: number
     isMobile: boolean
   }) => {
-    // Get the latest position from experience timeline
     const latestPosition = exp.experience_time_line?.[exp.experience_time_line.length - 1]
     const earliestPosition = exp.experience_time_line?.[0]
 
-    // Hydration-safe date rendering
     const [dateRange, setDateRange] = useState<string>('')
     const [durationText, setDurationText] = useState<string>('')
 
@@ -38,7 +37,6 @@ export const ExperienceFocusCard = React.memo(
       if (!earliestPosition?.start_date || !latestPosition?.end_date) return;
       const startDate = new Date(earliestPosition.start_date)
       const endDate = new Date(latestPosition.end_date)
-      // Use fixed locale and options for consistency
       const startStr = startDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'short' })
       const endStr = endDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'short' })
       setDateRange(`${startStr} - ${endStr}`)
@@ -57,24 +55,22 @@ export const ExperienceFocusCard = React.memo(
           hovered !== null && hovered !== index && 'blur-sm scale-[0.98] opacity-70'
         )}
       >
-        <Card className="group relative overflow-hidden border border-border/30 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 bg-card/95 backdrop-blur-sm hover:bg-card/100 h-[450px]">
-          {/* Animated gradient background */}
+        <Card className="group relative overflow-hidden border border-border/30 hover:border-primary/40 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 bg-card/95 backdrop-blur-sm hover:bg-card/100">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/[0.02] to-secondary/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-          {/* Experience number badge */}
           <div className="absolute top-4 sm:top-6 right-4 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary via-primary/90 to-secondary flex items-center justify-center text-primary-foreground text-xs sm:text-sm font-bold shadow-lg border border-primary/20">
             {String(startIndex + index + 1).padStart(2, '0')}
           </div>
 
-          <div className="relative z-10 p-4 sm:p-6 h-full flex flex-col">
-            {/* Header Section - Fixed height with better spacing */}
-            <div className="flex-shrink-0 h-[140px] pr-10 sm:pr-12 space-y-3">
-              {/* Company info */}
+          <div className="relative z-10 p-4 sm:p-6 flex flex-col">
+            <div className="flex-shrink-0 pr-10 sm:pr-12 space-y-3">
               <div className="flex items-center space-x-3">
                 {exp.company_logo && (
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-background border border-border/50 flex-shrink-0">
-                    <img 
+                    <Image 
                       src={exp.company_logo} 
+                      width={50}
+                      height={50}
                       alt={`${exp.company_name} logo`}
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -83,7 +79,7 @@ export const ExperienceFocusCard = React.memo(
                         target.nextElementSibling?.classList.remove('hidden');
                       }}
                     />
-                    <div className="hidden w-full h-full bg-primary/10 flex items-center justify-center">
+                    <div className="flex w-full h-full bg-primary/10 items-center justify-center" style={{ display: 'none' }}>
                       <Building2 className="w-3 h-3 sm:w-4 sm:h-4 text-primary/60" />
                     </div>
                   </div>
@@ -93,12 +89,10 @@ export const ExperienceFocusCard = React.memo(
                 </CardDescription>
               </div>
 
-              {/* Position title */}
               <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold group-hover:text-primary transition-colors duration-300 leading-tight line-clamp-2 min-h-[2.5rem]">
                 {latestPosition?.position || 'Position Not Specified'}
               </CardTitle>
 
-              {/* Date and duration */}
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center text-xs sm:text-sm text-foreground/60 bg-secondary/5 px-2 py-1.5 rounded border border-secondary/20">
                   <Calendar className="mr-1.5 h-3 w-3 text-primary/60 flex-shrink-0" />
@@ -112,14 +106,11 @@ export const ExperienceFocusCard = React.memo(
               </div>
             </div>
 
-            {/* Separator line */}
             <div className="w-full h-px bg-border/50 my-4"></div>
 
-            {/* Content Section - Fixed height with clear boundaries */}
             <div className="flex-1 min-h-0 space-y-4">
-              {/* Description section with clear boundary */}
               <div className="space-y-2">
-                <div className="h-[90px] overflow-hidden">
+                <div className="overflow-hidden">
                   <div className="text-foreground/80 leading-relaxed text-xs sm:text-sm">
                     <div className="prose-md">
                       <ReactMarkdown>
@@ -134,7 +125,6 @@ export const ExperienceFocusCard = React.memo(
                 </div>
               </div>
 
-              {/* Technologies section with clear boundary */}
               <div className="space-y-2">
                 <h4 className="text-sm font-medium text-foreground/70">Technologies</h4>
                 <div className="flex flex-wrap gap-1.5">
@@ -159,11 +149,9 @@ export const ExperienceFocusCard = React.memo(
               </div>
             </div>
 
-            {/* Separator line */}
             <div className="w-full h-px bg-border/50 my-4"></div>
 
-            {/* Actions - Fixed height */}
-            <div className="flex-shrink-0 h-[70px] flex flex-col gap-2">
+            <div className="flex-shrink-0 flex flex-col gap-2">
               <Link href={`/experiences/${exp.inline?.id || exp.inline.id}`} className="w-full">
                 <Button
                   size="sm"
