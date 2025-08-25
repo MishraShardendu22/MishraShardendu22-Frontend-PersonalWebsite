@@ -195,6 +195,42 @@ export interface CreateCertificationRequest {
 
 export type UpdateCertificationRequest = CreateCertificationRequest
 
+// Volunteer Experience Types
+export interface VolunteerExperienceTimeLine {
+  position: string
+  start_date: string
+  end_date: string
+}
+
+export interface VolunteerExperience {
+  inline: {
+    id: string
+    created_at: string
+    updated_at: string
+  }
+  images: string[]
+  projects: string[]
+  created_by: string
+  description: string
+  technologies: string[]
+  organisation: string
+  organisation_logo: string
+  volunteer_time_line: VolunteerExperienceTimeLine[]
+}
+
+export interface CreateVolunteerExperienceRequest {
+  images: string[]
+  projects: string[]
+  created_by: string
+  description: string
+  technologies: string[]
+  organisation: string
+  organisation_logo: string
+  volunteer_time_line: VolunteerExperienceTimeLine[]
+}
+
+export type UpdateVolunteerExperienceRequest = CreateVolunteerExperienceRequest
+
 // Achievement Types (if different, otherwise alias Certification)
 export type Achievement = Certification
 export type CreateAchievementRequest = CreateCertificationRequest

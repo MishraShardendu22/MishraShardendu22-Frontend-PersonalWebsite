@@ -25,3 +25,6 @@ coverage/
 pnpm-debug.log*
 .vercel
 .env*.local
+
+pnpm-lock.yaml
+pnpm-workspace.yaml

@@ -1,11 +1,11 @@
 'use client'
-import React, { useMemo, useCallback } from 'react'
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
+import Link from 'next/link'
 import { Badge } from './badge'
 import { Button } from './button'
+import React, { useMemo } from 'react'
 import { Card, CardDescription, CardTitle } from './card'
 import { ExternalLink, Github, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
 
 export interface HeroProject {
   inline: { id: string }
@@ -23,9 +23,9 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
   }, [projects])
 
   // 🚀 LAYOUT FIX: Redistributed cards for balanced rows
-  const firstRow = useMemo(() => optimizedProjects.slice(0, 4), [optimizedProjects]) // Increased to 4
-  const secondRow = useMemo(() => optimizedProjects.slice(4, 8), [optimizedProjects]) // 4 cards
-  const thirdRow = useMemo(() => optimizedProjects.slice(8, 12), [optimizedProjects]) // 4 cards
+  const firstRow = useMemo(() => optimizedProjects.slice(0, 4), [optimizedProjects])
+  const secondRow = useMemo(() => optimizedProjects.slice(4, 8), [optimizedProjects])
+  const thirdRow = useMemo(() => optimizedProjects.slice(8, 12), [optimizedProjects])
 
   const ref = React.useRef(null)
   const { scrollYProgress } = useScroll({

@@ -13,7 +13,7 @@ import { SkillsSkeleton } from '@/components/main/loading'
 import { DesktopSidebar } from '@/components/extra/sidebar'
 import FooterSection from '@/components/main/FooterSection'
 import { LazyProjectsSection } from '@/components/lazy/proj'
-import { LazyExperienceSection } from '@/components/lazy/exp'
+import { LazyExperienceSection, LazyVolunteerExperienceSection } from '@/components/lazy/exp'
 import { ShootingStars } from '@/components/ui/shooting-stars'
 import { MobileNavigation } from '@/components/extra/mobile-nav'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
@@ -104,6 +104,11 @@ export default function HomePage() {
         {/* Lazy loaded sections */}
         <section id="projects">
           <LazyProjectsSection />
+        </section>
+
+        <section id="volunteer">
+          {/* TEMP: Always-on volunteer section for debugging */}
+          {require('@/components/main/volunteer-always').default()}
         </section>
 
         <section id="experience">

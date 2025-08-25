@@ -13,6 +13,9 @@ import {
   Certification,
   CreateCertificationRequest,
   UpdateCertificationRequest,
+  VolunteerExperience,
+  CreateVolunteerExperienceRequest,
+  UpdateVolunteerExperienceRequest,
 } from '../data/types.data'
 
 export const authAPI = {
@@ -128,6 +131,39 @@ export const certificationsAPI = {
 
   deleteCertification: async (id: string): Promise<ApiResponse<{ message: string }>> => {
     const response = await api.delete(`/certifications/${id}`)
+    return response.data
+  },
+}
+
+// Volunteer Experiences API
+export const volunteerExperiencesAPI = {
+  getAllVolunteerExperiences: async (): Promise<ApiResponse<VolunteerExperience[]>> => {
+    const response = await api.get('/volunteer/experiences')
+    return response.data
+  },
+
+  getVolunteerExperienceById: async (id: string): Promise<ApiResponse<VolunteerExperience>> => {
+    const response = await api.get(`/volunteer/experiences/${id}`)
+    return response.data
+  },
+
+  createVolunteerExperience: async (
+    experience: CreateVolunteerExperienceRequest
+  ): Promise<ApiResponse<VolunteerExperience>> => {
+    const response = await api.post('/volunteer/experiences', experience)
+    return response.data
+  },
+
+  updateVolunteerExperience: async (
+    id: string,
+    experience: UpdateVolunteerExperienceRequest
+  ): Promise<ApiResponse<VolunteerExperience>> => {
+    const response = await api.put(`/volunteer/experiences/${id}`, experience)
+    return response.data
+  },
+
+  deleteVolunteerExperience: async (id: string): Promise<ApiResponse<{ message: string }>> => {
+    const response = await api.delete(`/volunteer/experiences/${id}`)
     return response.data
   },
 }

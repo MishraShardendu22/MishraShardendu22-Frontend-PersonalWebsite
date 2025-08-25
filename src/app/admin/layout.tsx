@@ -29,16 +29,21 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
-  const { logout, isAuthenticated, isLoading } = useAuth()
+  const { logout, isAuthenticated, isLoading, initializeAuth } = useAuth()
 
   type Profile = { email: string }
   const [profile, setProfile] = useState<Profile | null>(null)
   const [error, setError] = useState('')
 
+  // Initialize auth state on mount
+  useEffect(() => {
+    initializeAuth()
+  }, [initializeAuth])
+
   // Check authentication and redirect if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated && pathname !== '/admin/login') {
-      router.push('/')
+      router.push('/admin/login')
     }
   }, [isAuthenticated, isLoading, pathname, router])
 

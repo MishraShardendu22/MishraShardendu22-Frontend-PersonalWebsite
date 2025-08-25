@@ -12,6 +12,7 @@ interface AuthState {
   login: (credentials: AuthRequest) => Promise<{ success: boolean; error?: string }>
   logout: () => void
   setLoading: (loading: boolean) => void
+  initializeAuth: () => void
 }
 
 // Helper to normalize user object
@@ -36,6 +37,7 @@ export const useAuth = create<AuthState>()(
         set({ isLoading: true })
         try {
           const response = await authAPI.login(credentials)
+          console.log('Login response:', response)
 
           // Defensive checks for backend response shape
           if (!response || typeof response !== 'object') {
@@ -44,31 +46,38 @@ export const useAuth = create<AuthState>()(
             return { success: false, error: 'No response from server.' }
           }
 
+          // Accept status 202 (User already exists) or 201 (created) as success
+          const status = response.status
+          const token = response.token
+          console.log('Status:', status, 'Token:', token ? 'present' : 'missing')
+          
+          if ((status === 202 || status === 201) && token) {
+            console.log('Login successful, setting auth state')
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('jwt_token', token)
+            }
+            set({
+              token,
+              isAuthenticated: true,
+              isLoading: false,
+            })
+            return { success: true }
+          }
+
+          // If backend returns error or missing token
           if (response.error) {
             console.error('Login failed:', response.error)
             set({ isLoading: false })
             return { success: false, error: response.error || 'Login failed. Please try again.' }
           }
-
-          // Extract token from top-level, user from data
-          const token = response.token
           if (!token) {
             console.error('Login failed: Missing token in response', response)
             set({ isLoading: false })
             return { success: false, error: 'Invalid server response. Please contact support.' }
           }
 
-          // Store token in localStorage
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('jwt_token', token)
-          }
-
-          set({
-            token,
-            isAuthenticated: true,
-            isLoading: false,
-          })
-          return { success: true }
+          set({ isLoading: false })
+          return { success: false, error: 'Login failed. Please try again.' }
         } catch (error: any) {
           let errorMsg = 'Login error. Please try again.'
           if (error?.response?.data?.error) {
@@ -103,6 +112,28 @@ export const useAuth = create<AuthState>()(
        */
       setLoading: (loading: boolean) => {
         set({ isLoading: loading })
+      },
+
+      /**
+       * Initialize auth state from localStorage on app start
+       */
+      initializeAuth: () => {
+        if (typeof window !== 'undefined') {
+          const token = localStorage.getItem('jwt_token')
+          if (token) {
+            set({
+              token,
+              isAuthenticated: true,
+              isLoading: false,
+            })
+          } else {
+            set({
+              token: null,
+              isAuthenticated: false,
+              isLoading: false,
+            })
+          }
+        }
       },
     }),
     {
