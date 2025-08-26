@@ -108,7 +108,7 @@ export default function HomePage() {
           <LazyExperienceSection />
         </section>
 
-        <section id="experience">
+        <section id="volunteer">
           <LazyVExperienceSection />
         </section>
 
