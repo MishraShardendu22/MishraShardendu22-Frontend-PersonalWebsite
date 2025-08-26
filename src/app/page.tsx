@@ -18,6 +18,7 @@ import { ShootingStars } from '@/components/ui/shooting-stars'
 import { MobileNavigation } from '@/components/extra/mobile-nav'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
 import { StarsBackground } from '@/components/ui/stars-background'
+import { LazyVExperienceSection } from '@/components/lazy/volunteer'
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
@@ -105,6 +106,10 @@ export default function HomePage() {
 
         <section id="experience">
           <LazyExperienceSection />
+        </section>
+
+        <section id="experience">
+          <LazyVExperienceSection />
         </section>
 
         <section id="certifications">

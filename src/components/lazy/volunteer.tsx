@@ -1,18 +1,18 @@
-// components/sections/LazyExperienceSection.tsx
 import toast from 'react-hot-toast'
-import ExperienceSection from '../main/exp'
-import { Experience } from '@/data/types.data'
 import { useIntersectionObserver } from './obs'
-import { ExperienceSkeleton } from '../main/loading'
-import { LoadingState } from '../experience/load-error'
-import { experiencesAPI } from '@/util/apiResponse.util'
-import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const LazyExperienceSection = () => {
+import { ExperienceSkeleton } from '../main/loading'
+import { VolunteerExperience } from '@/data/types.data'
+import { LoadingState } from '../experience/load-error'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { volunteerExperiencesAPI } from '@/util/apiResponse.util'
+import ExperienceSection from '../main/volunteer'
+
+export const LazyVExperienceSection = () => {
   const [loaded, setLoaded] = useState(false)
   const [loading, setLoading] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const [experiences, setExperiences] = useState<Experience[]>([])
+  const [experiences, setExperiences] = useState<VolunteerExperience[]>([])
   
   const { hasBeenVisible } = useIntersectionObserver(sectionRef as React.RefObject<Element>, {
     threshold: 0.05,
@@ -24,7 +24,7 @@ export const LazyExperienceSection = () => {
 
     setLoading(true)
     try {
-      const experiencesRes = await experiencesAPI.getAllExperiences()
+      const experiencesRes = await volunteerExperiencesAPI.getAllVolunteerExperiences()
       setExperiences(Array.isArray(experiencesRes.data) ? experiencesRes.data : [])
       setLoaded(true)
     } catch (err) {
@@ -52,7 +52,6 @@ export const LazyExperienceSection = () => {
           <ExperienceSkeleton />
         </div>
       ) : loaded ? (
-        
         <ExperienceSection experiences={experiences} />
       ) : (
         <div className="min-h-[300px] w-full flex items-center justify-center py-20">

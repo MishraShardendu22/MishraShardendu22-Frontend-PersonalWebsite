@@ -1,16 +1,16 @@
 'use client'
 
-import { ErrorState } from '@/components/experience/ErrorState'
-import ExperienceTimeline from '@/components/experience/timeline'
-import { LoadingState } from '@/components/experience/LoadingState'
-import { ExperienceHero } from '@/components/experience/ExperienceHero'
-import { ExperienceMedia } from '@/components/experience/ExperienceMedia'
-import { useExperience } from '@/components/experience/hooks/useExperience'
-import { ExperienceSidebar } from '@/components/experience/ExperienceSidebar'
-import { ExperienceProjects } from '@/components/experience/ExperienceProjects'
-import { ExperienceNavigation } from '@/components/experience/ExperienceNavigation'
-import { useExperienceShare } from '@/components/experience/hooks/useExperienceShare'
-import { ExperienceDescription } from '@/components/experience/ExperienceDescription'
+import Timeline from '@/components/volunteer/timeline'
+import { ErrorState } from '@/components/volunteer/ErrorState'
+import { LoadingState } from '@/components/volunteer/LoadingState'
+import { ExperienceHero } from '@/components/volunteer/ExperienceHero'
+import { ExperienceMedia } from '@/components/volunteer/ExperienceMedia'
+import { useExperience } from '@/components/volunteer/hooks/useExperience'
+import { ExperienceSidebar } from '@/components/volunteer/ExperienceSidebar'
+import { ExperienceProjects } from '@/components/volunteer/ExperienceProjects'
+import { ExperienceNavigation } from '@/components/volunteer/ExperienceNavigation'
+import { useExperienceShare } from '@/components/volunteer/hooks/useExperienceShare'
+import { ExperienceDescription } from '@/components/volunteer/ExperienceDescription'
 
 export default function ExperienceDetailPage({ params }: { params: any }) {
   const { experience, loading, error } = useExperience(params.id)
@@ -39,7 +39,7 @@ export default function ExperienceDetailPage({ params }: { params: any }) {
             <ExperienceDescription experience={experience} />
             <ExperienceMedia experience={experience} />
             <ExperienceProjects experience={experience} />
-            <ExperienceTimeline experience={experience} />
+            <Timeline experience={experience} />
           </div>
         </div>
       </main>

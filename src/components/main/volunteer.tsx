@@ -1,140 +1,382 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
 import { VolunteerExperience } from '@/data/types.data'
-import { Heart, ArrowRight, Calendar } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import ReactMarkdown from 'react-markdown'
-import Image from 'next/image'
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import { ArrowRight, ChevronLeft, ChevronRight, Heart, Users, HandHeart } from 'lucide-react'
+import { ExperienceFocusCards } from '../ui/focus-cards-vol'
 
-interface VolunteerSectionProps {
+interface VolunteerExperienceSectionProps {
   experiences: VolunteerExperience[]
 }
 
-export default function VolunteerSection({ experiences }: VolunteerSectionProps) {
-  const formatDate = (dateString: string) => {
-    if (!dateString) return 'Present'
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-    })
-  }
+export default function VolunteerExperienceSection({ experiences }: VolunteerExperienceSectionProps) {
+  const [currentPage, setCurrentPage] = useState(0)
+  const [windowWidth, setWindowWidth] = useState(0)
 
-  // If no experiences, show a message
-  if (!experiences || experiences.length === 0) {
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Fixed: Always show 2 experiences per page as designed
+  const itemsPerPage = 2
+  const totalPages = Math.ceil(experiences.length / itemsPerPage)
+
+  const { currentPageExperiences, startIndex, endIndex } = useMemo(() => {
+    const startIndex = currentPage * itemsPerPage
+    const endIndex = Math.min(startIndex + itemsPerPage, experiences.length)
+    const currentPageExperiences = experiences.slice(startIndex, endIndex)
+
+    return { currentPageExperiences, startIndex, endIndex }
+  }, [experiences, currentPage, itemsPerPage])
+
+  const nextPage = useCallback(() => {
+    if (currentPage < totalPages - 1) setCurrentPage((prev) => prev + 1)
+  }, [currentPage, totalPages])
+
+  const prevPage = useCallback(() => {
+    if (currentPage > 0) setCurrentPage((prev) => prev - 1)
+  }, [currentPage])
+
+  // Simplified pagination for consistent 2-cards-per-page layout
+  const getVisiblePageNumbers = useCallback(() => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i)
+    }
+
+    const pages = []
+    const delta = 1
+
+    // Always show first page
+    pages.push(0)
+
+    // Calculate range around current page
+    const start = Math.max(1, currentPage - delta)
+    const end = Math.min(totalPages - 2, currentPage + delta)
+
+    // Add ellipsis if there's a gap
+    if (start > 1) {
+      pages.push('...')
+    }
+
+    // Add pages around current
+    for (let i = start; i <= end; i++) {
+      if (i !== 0 && i !== totalPages - 1) {
+        pages.push(i)
+      }
+    }
+
+    // Add ellipsis if there's a gap
+    if (end < totalPages - 2) {
+      pages.push('...')
+    }
+
+    // Always show last page if more than one page
+    if (totalPages > 1) {
+      pages.push(totalPages - 1)
+    }
+
+    return pages
+  }, [totalPages, currentPage])
+
+  const isMobile = windowWidth < 640
+
+  // Calculate total volunteer statistics
+  const volunteerStats = useMemo(() => {
+    const totalOrganizations = new Set(experiences.map(exp => exp.organisation)).size
+    const totalProjects = experiences.reduce((sum, exp) => sum + (exp.projects?.length || 0), 0)
+    const totalTechnologies = new Set(
+      experiences.flatMap(exp => exp.technologies || [])
+    ).size
+    const totalPositions = experiences.reduce((sum, exp) => sum + (exp.volunteer_time_line?.length || 0), 0)
+
+    return {
+      organizations: totalOrganizations,
+      projects: totalProjects,
+      technologies: totalTechnologies,
+      positions: totalPositions
+    }
+  }, [experiences])
+
+  if (!experiences.length) {
     return (
-      <section id="volunteer" className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="p-3 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg">
-                <Heart className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Volunteer Experience
-              </h2>
-            </div>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              My journey of giving back to the community through technology and leadership
-            </p>
-          </div>
-          <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400">No volunteer experiences found. Please check the backend connection.</p>
-          </div>
+      <section className="relative overflow-hidden min-h-[500px] flex items-center justify-center">
+        <div className="text-center">
+          <HandHeart className="mx-auto h-16 w-16 text-foreground/30 mb-4" />
+          <h3 className="text-lg font-semibold text-foreground/70 mb-2">No Volunteer Experiences</h3>
+          <p className="text-foreground/60">Check back later for community contributions and volunteer work.</p>
         </div>
       </section>
     )
   }
 
   return (
-      <section id="volunteer" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg">
-              <Heart className="w-8 h-8 text-white" />
-            </div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Volunteer Experience
-            </h2>
+    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+      {/* Background Pattern */}
+      <div
+        className={cn(
+          'absolute inset-0',
+          '[background-size:20px_20px]',
+          '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
+          'dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]'
+        )}
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+          {/* Badge */}
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <Badge
+              variant="outline"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-sm"
+            >
+              <Heart className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" aria-hidden="true" />
+              Community Impact & Service
+            </Badge>
           </div>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            My journey of giving back to the community through technology and leadership
-          </p>
+
+          {/* Main heading */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6 sm:mb-8">
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Volunteer
+            </span>{' '}
+            <span className="text-foreground">Experience</span>
+          </h1>
+
+          {/* Decorative line */}
+          <div className="mx-auto w-16 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg mb-6 sm:mb-8" aria-hidden="true" />
+
+          {/* Description */}
+          <div className="max-w-2xl lg:max-w-3xl mx-auto mb-6 sm:mb-8">
+            <p className="text-base sm:text-lg lg:text-xl leading-7 sm:leading-8 text-foreground/80 font-medium">
+              My journey of giving back to the community through volunteer work and leadership roles across various organizations, fostering growth and making meaningful impact.
+            </p>
+          </div>
+
+          {/* Volunteer Statistics */}
+          <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 rounded-xl p-4 border border-blue-200/50 dark:border-blue-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
+                  {volunteerStats.organizations}
+                </div>
+                <div className="text-xs sm:text-sm text-blue-600/80 dark:text-blue-400/80 font-medium">
+                  Organization{volunteerStats.organizations !== 1 ? 's' : ''}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/20 rounded-xl p-4 border border-green-200/50 dark:border-green-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400">
+                  {volunteerStats.positions}
+                </div>
+                <div className="text-xs sm:text-sm text-green-600/80 dark:text-green-400/80 font-medium">
+                  Position{volunteerStats.positions !== 1 ? 's' : ''}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/30 dark:to-purple-900/20 rounded-xl p-4 border border-purple-200/50 dark:border-purple-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  {volunteerStats.projects}
+                </div>
+                <div className="text-xs sm:text-sm text-purple-600/80 dark:text-purple-400/80 font-medium">
+                  Project{volunteerStats.projects !== 1 ? 's' : ''}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/30 dark:to-orange-900/20 rounded-xl p-4 border border-orange-200/50 dark:border-orange-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-orange-600 dark:text-orange-400">
+                  {volunteerStats.technologies}
+                </div>
+                <div className="text-xs sm:text-sm text-orange-600/80 dark:text-orange-400/80 font-medium">
+                  Tech{volunteerStats.technologies !== 1 ? 's' : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Summary info */}
+          {experiences.length > 0 && (
+            <div className="text-sm sm:text-base text-foreground/70 font-medium">
+              Showing {startIndex + 1}-{Math.min(endIndex, experiences.length)} of{' '}
+              {experiences.length} volunteer experience{experiences.length !== 1 ? 's' : ''}
+            </div>
+          )}
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          {experiences.slice(0, 4).map((experience) => {
-            const latestTimeline = experience.volunteer_time_line.length > 0 ? experience.volunteer_time_line[0] : null
-            
-            return (
-              <div
-                key={experience.inline.id}
-                className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 border border-border/50 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-              >
-                <div className="flex items-start gap-4 mb-4">
-                  {experience.organisation_logo && (
-                    <Image
-                      src={experience.organisation_logo}
-                      alt={experience.organisation}
-                      width={64}
-                      height={64}
-                      className="w-16 h-16 object-contain rounded-lg border border-border bg-white dark:bg-gray-900"
-                    />
-                  )}
-                  
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">
-                      {latestTimeline?.position || 'Volunteer'}
-                    </h3>
-                    <p className="text-secondary font-medium dark:text-secondary">
-                      {experience.organisation}
-                    </p>
-                    
-                    {latestTimeline && (
-                      <div className="flex items-center gap-2 mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        <Calendar className="w-4 h-4" />
-                        <span>
-                          {formatDate(latestTimeline.start_date)} - {formatDate(latestTimeline.end_date)}
-                        </span>
-                      </div>
-                    )}
+        {/* Navigation Section */}
+        {totalPages > 1 && (
+          <div className="mb-8 sm:mb-12 lg:mb-16">
+            <div className="max-w-4xl mx-auto">
+              {/* Desktop Navigation */}
+              <div className="hidden sm:flex items-center justify-center gap-4 lg:gap-6">
+                {/* Previous Button */}
+                <Button
+                  onClick={prevPage}
+                  variant="outline"
+                  size="default"
+                  className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 min-w-[110px] backdrop-blur-sm shadow-sm hover:shadow-md"
+                  disabled={currentPage === 0}
+                  aria-label="Go to previous page"
+                >
+                  <ChevronLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+                  <span className="text-sm font-medium">Previous</span>
+                </Button>
+
+                {/* Page Numbers */}
+                {totalPages <= 10 && (
+                  <div className="flex items-center gap-2">
+                    {getVisiblePageNumbers().map((pageNum, index) => {
+                      if (pageNum === '...') {
+                        return (
+                          <span
+                            key={`dots-${index}`}
+                            className="w-10 h-10 flex items-center justify-center text-sm text-foreground/50 font-medium"
+                            aria-hidden="true"
+                          >
+                            ...
+                          </span>
+                        )
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum as number)}
+                          className={cn(
+                            "w-10 h-10 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2",
+                            currentPage === pageNum
+                              ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg shadow-primary/25 scale-105"
+                              : "bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary hover:scale-105 backdrop-blur-sm"
+                          )}
+                          aria-label={`Go to page ${(pageNum as number) + 1}`}
+                          aria-current={currentPage === pageNum ? 'page' : undefined}
+                        >
+                          {(pageNum as number) + 1}
+                        </button>
+                      )
+                    })}
                   </div>
-                </div>
+                )}
 
-                <div className="prose prose-sm dark:prose-invert mb-4 line-clamp-3">
-                  <ReactMarkdown>{experience.description.substring(0, 200) + '...'}</ReactMarkdown>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {experience.technologies.slice(0, 3).map((tech, idx) => (
-                    <Badge key={idx} className="bg-muted/20 text-muted-foreground border-border">
-                      {tech}
-                    </Badge>
-                  ))}
-                  {experience.technologies.length > 3 && (
-                    <Badge variant="outline" className="text-gray-500">
-                      +{experience.technologies.length - 3} more
-                    </Badge>
-                  )}
-                </div>
-
-                <Button asChild variant="ghost" className="w-full text-primary hover:text-primary/80 hover:bg-muted">
-                  <Link href={`/volunteer/${experience.inline.id}`}>
-                    View Details <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
+                {/* Next Button */}
+                <Button
+                  onClick={nextPage}
+                  variant="outline"
+                  size="default"
+                  className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 min-w-[110px] backdrop-blur-sm shadow-sm hover:shadow-md"
+                  disabled={currentPage === totalPages - 1}
+                  aria-label="Go to next page"
+                >
+                  <span className="text-sm font-medium">Next</span>
+                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                 </Button>
               </div>
-            )
-          })}
+
+              {/* Mobile Navigation */}
+              <div className="sm:hidden space-y-4">
+                {/* Page indicator */}
+                <div className="text-center">
+                  <span className="text-sm text-foreground/70 font-medium">
+                    Page {currentPage + 1} of {totalPages}
+                  </span>
+                </div>
+
+                {/* Navigation buttons */}
+                <div className="flex items-center justify-center gap-3">
+                  <Button
+                    onClick={prevPage}
+                    variant="outline"
+                    size="sm"
+                    className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[140px] backdrop-blur-sm"
+                    disabled={currentPage === 0}
+                    aria-label="Go to previous page"
+                  >
+                    <ChevronLeft className="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+                    <span className="text-sm font-medium">Previous</span>
+                  </Button>
+
+                  <Button
+                    onClick={nextPage}
+                    variant="outline"
+                    size="sm"
+                    className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[140px] backdrop-blur-sm"
+                    disabled={currentPage === totalPages - 1}
+                    aria-label="Go to next page"
+                  >
+                    <span className="text-sm font-medium">Next</span>
+                    <ChevronRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  </Button>
+                </div>
+
+                {/* Page numbers for mobile - compact version */}
+                {totalPages <= 7 && (
+                  <div className="flex items-center justify-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentPage(i)}
+                        className={cn(
+                          "w-9 h-9 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center",
+                          currentPage === i
+                            ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105"
+                            : "bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm"
+                        )}
+                        aria-label={`Go to page ${i + 1}`}
+                        aria-current={currentPage === i ? 'page' : undefined}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Experience Cards */}
+        <div className="mb-16 sm:mb-20 lg:mb-24">
+          <ExperienceFocusCards
+            experiences={currentPageExperiences}
+            startIndex={startIndex}
+            isMobile={isMobile}
+          />
         </div>
 
-        {experiences.length > 4 && (
-          <div className="text-center mt-12">
-            <Button asChild size="lg" className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600">
-              <Link href="/volunteer">
-                View All Volunteer Experiences <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-            </Button>
+        {experiences.length > 2 && (
+          <div className="text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-6 sm:p-8 bg-gradient-to-r from-card/80 via-card/90 to-card/80 rounded-2xl border border-border/50 backdrop-blur-sm shadow-xl max-w-lg sm:max-w-2xl mx-auto">
+              <div className="text-center sm:text-left flex-1">
+                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
+                  Explore All My Volunteer Work
+                </h3>
+                <p className="text-sm sm:text-base text-foreground/70">
+                  Discover detailed stories and impact from all {experiences.length} volunteer experience{experiences.length !== 1 ? 's' : ''} across {volunteerStats.organizations} organization{volunteerStats.organizations !== 1 ? 's' : ''}
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <Link href="/volunteer" className="block">
+                  <Button
+                    size={isMobile ? 'default' : 'lg'}
+                    className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 min-w-[140px] sm:min-w-[160px]"
+                  >
+                    <Users className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="text-sm sm:text-base font-semibold">View All</span>
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         )}
       </div>

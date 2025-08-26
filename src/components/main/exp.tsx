@@ -3,9 +3,10 @@ import { cn } from '@/lib/utils'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Experience } from '@/data/types.data'
-import { ExperienceFocusCards } from '../ui/focus-cards-exp'
+
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { ArrowRight, ChevronLeft, ChevronRight, Briefcase } from 'lucide-react'
+import { ExperienceFocusCards } from '../ui/focus-cards-exp'
 
 interface ExperienceSectionProps {
   experiences: Experience[]
@@ -21,8 +22,6 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
-  // Fixed: Always show 2 experiences per page as designed
   const itemsPerPage = 2
   const totalPages = Math.ceil(experiences.length / itemsPerPage)
 
@@ -97,20 +96,6 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-      {/* Background pattern */}
-      <div
-        className={cn(
-          'absolute inset-0',
-          '[background-size:20px_20px]',
-          '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
-          'dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]'
-        )}
-        aria-hidden="true"
-      />
-      <div 
-        className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" 
-        aria-hidden="true"
-      />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
@@ -294,7 +279,6 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
           />
         </div>
 
-        {/* View All CTA */}
         {experiences.length > 2 && (
           <div className="text-center">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-6 sm:p-8 bg-gradient-to-r from-card/80 via-card/90 to-card/80 rounded-2xl border border-border/50 backdrop-blur-sm shadow-xl max-w-lg sm:max-w-2xl mx-auto">

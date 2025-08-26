@@ -6,7 +6,7 @@ import {
 } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Calendar, MapPin, Briefcase, Clock, Award, Building2, Users, Trophy, Target } from "lucide-react";
-import { Experience, ExperienceTimeLine } from "@/data/types.data";
+import { VolunteerExperience, VolunteerExperienceTimeLine } from "@/data/types.data";
 import { cn } from "@/lib/utils";
 
 interface TimelineEntry {
@@ -14,11 +14,11 @@ interface TimelineEntry {
   content: React.ReactNode;
 }
 
-interface ExperienceTimelineProps {
-  experience: Experience;
+interface VolunteerTimelineProps {
+  experience: VolunteerExperience;
 }
 
-export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
+export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -64,14 +64,14 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
     });
   };
 
-  // **REVERSED TIMELINE** - Create timeline data from experience (newest first)
+  // **REVERSED TIMELINE** - Create timeline data from volunteer experience (newest first)
   const timelineData: TimelineEntry[] = React.useMemo(() => {
-    return [...experience.experience_time_line].reverse().map(
-      (timeline: ExperienceTimeLine, index: number) => {
+    return [...experience.volunteer_time_line].reverse().map(
+      (timeline: VolunteerExperienceTimeLine, index: number) => {
         const duration = calculateDuration(timeline.start_date, timeline.end_date);
         const isCurrent = isCurrentPosition(timeline.end_date);
-        const originalIndex = experience.experience_time_line.length - 1 - index;
-        const isLatest = originalIndex === experience.experience_time_line.length - 1;
+        const originalIndex = experience.volunteer_time_line.length - 1 - index;
+        const isLatest = originalIndex === experience.volunteer_time_line.length - 1;
         
         return {
           title: timeline.position,
@@ -108,7 +108,7 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
                   </motion.div>
                 )}
                 
-                {/* Company Info */}
+                {/* Organization Info */}
                 <div className="flex items-start gap-4 mb-4">
                   <div className={cn(
                     "p-3 rounded-xl border",
@@ -125,7 +125,7 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <h4 className="text-lg font-bold text-foreground truncate">
-                        {experience.company_name}
+                        {experience.organisation}
                       </h4>
                       {isLatest && !isCurrent && (
                         <div className="px-2 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold rounded-full border border-amber-500/30 flex-shrink-0">
@@ -160,7 +160,7 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
                   </div>
                   
                   <p className="text-foreground/80 leading-relaxed">
-                    Worked as <strong>{timeline.position}</strong> at {experience.company_name}, contributing to product development and organizational growth through dedicated professional service.
+                    Served as <strong>{timeline.position}</strong> at {experience.organisation}, contributing to community development and organizational growth through dedicated volunteer service.
                   </p>
                 </div>
               </motion.div>
@@ -233,10 +233,10 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
                     
                     <div className="text-center p-3 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/50">
                       <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                        {experience.experience_time_line.length}
+                        {experience.volunteer_time_line.length}
                       </div>
                       <div className="text-sm text-purple-600/70 dark:text-purple-400/70 font-medium">
-                        Position{experience.experience_time_line.length !== 1 ? 's' : ''}
+                        Position{experience.volunteer_time_line.length !== 1 ? 's' : ''}
                       </div>
                     </div>
                   </div>
@@ -264,21 +264,21 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
               <Briefcase className="w-8 h-8 text-primary" />
             </div>
             <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Professional Journey
+              Volunteer Journey
             </h2>
           </div>
           
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            My professional career and contributions through dedicated work at <strong>{experience.company_name}</strong>, showcasing growth and expertise in the industry.
+            My commitment to community service and organizational growth through dedicated volunteer work at <strong>{experience.organisation}</strong>.
           </p>
           
           <div className="flex items-center justify-center gap-6 mt-8">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary">
-                {experience.experience_time_line.length}
+                {experience.volunteer_time_line.length}
               </div>
               <div className="text-sm text-muted-foreground">
-                Position{experience.experience_time_line.length !== 1 ? 's' : ''}
+                Position{experience.volunteer_time_line.length !== 1 ? 's' : ''}
               </div>
             </div>
             <div className="w-px h-8 bg-border" />
@@ -312,12 +312,12 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
                   transition={{ delay: index * 0.1, type: "spring" }}
                   className={cn(
                     "h-6 w-6 rounded-full flex items-center justify-center",
-                    isCurrentPosition(experience.experience_time_line[experience.experience_time_line.length - 1 - index]?.end_date)
+                    isCurrentPosition(experience.volunteer_time_line[experience.volunteer_time_line.length - 1 - index]?.end_date)
                       ? "bg-gradient-to-br from-primary to-secondary shadow-lg shadow-primary/50"
                       : "bg-gradient-to-br from-secondary to-accent"
                   )}
                 >
-                  {isCurrentPosition(experience.experience_time_line[experience.experience_time_line.length - 1 - index]?.end_date) ? (
+                  {isCurrentPosition(experience.volunteer_time_line[experience.volunteer_time_line.length - 1 - index]?.end_date) ? (
                     <Award className="w-3 h-3 text-white" />
                   ) : (
                     <Briefcase className="w-3 h-3 text-white" />
@@ -367,4 +367,4 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
   );
 };
 
-export default ExperienceTimeline;
+export default VolunteerTimeline;
