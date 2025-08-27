@@ -16,20 +16,20 @@ export const getThemeColors = (): ChartTheme => {
 
 export const getLanguageColor = (language: string, index: number): string => {
   const languageColors: Record<string, string> = {
-    TypeScript: '#3178c6',
-    JavaScript: '#f7df1e',
-    Python: '#3776ab',
-    Java: '#ed8b00',
-    Go: '#00add8',
-    Rust: '#000000',
-    'C++': '#00599c',
-    C: '#a8b9cc',
-    HTML: '#e34f26',
-    CSS: '#1572b6',
-    PHP: '#777bb4',
-    Ruby: '#cc342d',
-    Swift: '#fa7343',
-    Kotlin: '#7f52ff',
+    "C": '#a8b9cc',
+    "Go": '#00add8',
+    "C++": '#00599c',
+    "CSS": '#1572b6',
+    "PHP": '#777bb4',
+    "Ruby": '#cc342d',
+    "Java": '#ed8b00',
+    "Rust": '#000000',
+    "HTML": '#e34f26',
+    "Swift": '#fa7343',
+    "Python": '#3776ab',
+    "Kotlin": '#7f52ff',
+    "TypeScript": '#3178c6',
+    "JavaScript": '#f7df1e',
   }
 
   return (
