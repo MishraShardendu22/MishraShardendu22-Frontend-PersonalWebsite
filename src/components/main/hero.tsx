@@ -1,9 +1,9 @@
 import { Briefcase, Mail, ArrowRight, Code, Coffee, LinkedinIcon, Github } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '../ui/button'
-import Image from 'next/image'
+import { OptimizedImage } from '../ui/optimized-image'
 import { GitHubProject, LinkedInProfile } from '@/data/static_link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 export default function HeroSection() {
   const [windowWidth, setWindowWidth] = useState(0)
@@ -21,9 +21,29 @@ export default function HeroSection() {
   const isMobile = windowWidth < 640
   const isTablet = windowWidth >= 640 && windowWidth < 1024
 
+  // Performance optimization: Detect low-end devices
+  const isLowEnd = useMemo(() => {
+    if (typeof window === 'undefined') return false
+    
+    // Check for reduced motion preference
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true
+    
+    // Check for low-end device indicators
+    const connection = (navigator as any).connection
+    if (connection) {
+      if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') return true
+      if (connection.downlink < 1) return true
+    }
+    
+    // Check for low memory
+    if ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) return true
+    
+    return false
+  }, [])
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5 py-8 sm:py-12 lg:py-16">
-      {/* Optimized background gradients */}
+      {/* Optimized background gradients - reduced complexity for low-end devices */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,theme(colors.primary/6),transparent_50%)] sm:bg-[radial-gradient(circle_at_30%_40%,theme(colors.primary/8),transparent_50%)]"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,theme(colors.secondary/4),transparent_50%)] sm:bg-[radial-gradient(circle_at_70%_60%,theme(colors.secondary/6),transparent_50%)]"></div>
 
@@ -32,12 +52,12 @@ export default function HeroSection() {
           {/* Image Section - Mobile optimized */}
           <div className="relative flex justify-center lg:justify-start order-1 lg:order-1">
             <div className="relative group">
-              {/* Responsive glow effect */}
-              <div className="absolute -inset-1.5 sm:-inset-2 bg-gradient-to-r from-primary/15 via-secondary/15 to-accent/15 sm:from-primary/20 sm:via-secondary/20 sm:to-accent/20 rounded-xl sm:rounded-2xl blur-md sm:blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+              {/* Responsive glow effect - reduced for low-end devices */}
+              <div className={`absolute -inset-1.5 sm:-inset-2 bg-gradient-to-r from-primary/15 via-secondary/15 to-accent/15 sm:from-primary/20 sm:via-secondary/20 sm:to-accent/20 rounded-xl sm:rounded-2xl ${isLowEnd ? 'opacity-20' : 'opacity-40'} group-hover:opacity-60 transition-opacity duration-500 ${isLowEnd ? 'blur-sm' : 'blur-md sm:blur-lg'}`}></div>
 
               {/* Responsive image container */}
               <div className="relative bg-gradient-to-br from-card to-card/80 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl border border-border/50 group-hover:border-primary/30 transition-all duration-500">
-                <Image
+                <OptimizedImage
                   src="/Professional.webp"
                   alt="Shardendu Mishra - Software Engineer"
                   width={500}
@@ -45,6 +65,8 @@ export default function HeroSection() {
                   priority
                   className="rounded-lg sm:rounded-xl object-cover w-full h-auto max-w-[280px] sm:max-w-[400px] lg:max-w-[500px] transition-transform duration-500 group-hover:scale-[1.02]"
                   sizes="(max-width: 640px) 280px, (max-width: 1024px) 400px, 500px"
+                  quality={isLowEnd ? 60 : 85}
+                  performanceMode={isLowEnd ? 'low' : 'auto'}
                 />
               </div>
 

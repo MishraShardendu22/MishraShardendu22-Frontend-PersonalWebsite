@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable prefer-const */
 import { cn } from '@/lib/utils'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useMemo, useCallback } from 'react'
 import { createNoise3D } from 'simplex-noise'
 import { motion } from 'motion/react'
 
@@ -17,29 +17,57 @@ interface VortexProps {
   baseRadius?: number
   rangeRadius?: number
   backgroundColor?: string
+  reducedMotion?: boolean
+}
+
+// Performance optimization: Detect low-end devices
+const isLowEndDevice = () => {
+  if (typeof window === 'undefined') return false
+  
+  // Check for reduced motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true
+  
+  // Check for low-end device indicators
+  const connection = (navigator as any).connection
+  if (connection) {
+    if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') return true
+    if (connection.downlink < 1) return true
+  }
+  
+  // Check for low memory
+  if ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) return true
+  
+  return false
 }
 
 export const Vortex = (props: VortexProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef(null)
   const animationFrameId = useRef<number | null>(null)
-  const particleCount = props.particleCount || 700
+  const lastUpdateRef = useRef<number>(0)
+  
+  // Performance optimization: Reduce complexity for low-end devices
+  const isLowEnd = useMemo(() => isLowEndDevice() || props.reducedMotion, [props.reducedMotion])
+  
+  // Reduce particle count and complexity for low-end devices
+  const particleCount = isLowEnd ? Math.min(props.particleCount || 700, 200) : (props.particleCount || 700)
   const particlePropCount = 9
   const particlePropsLength = particleCount * particlePropCount
   const rangeY = props.rangeY || 100
-  const baseTTL = 50
-  const rangeTTL = 150
+  const baseTTL = isLowEnd ? 30 : 50
+  const rangeTTL = isLowEnd ? 80 : 150
   const baseSpeed = props.baseSpeed || 0.0
-  const rangeSpeed = props.rangeSpeed || 1.5
+  const rangeSpeed = isLowEnd ? (props.rangeSpeed || 1.5) * 0.5 : (props.rangeSpeed || 1.5)
   const baseRadius = props.baseRadius || 1
   const rangeRadius = props.rangeRadius || 2
   const baseHue = props.baseHue || 220
-  const rangeHue = 100
-  const noiseSteps = 3
-  const xOff = 0.00125
-  const yOff = 0.00125
-  const zOff = 0.0005
+  const rangeHue = isLowEnd ? 50 : 100
+  const noiseSteps = isLowEnd ? 2 : 3
+  const xOff = isLowEnd ? 0.0025 : 0.00125
+  const yOff = isLowEnd ? 0.0025 : 0.00125
+  const zOff = isLowEnd ? 0.001 : 0.0005
   const backgroundColor = props.backgroundColor || '#000000'
+  
   let tick = 0
   const noise3D = createNoise3D()
   let particleProps = new Float32Array(particlePropsLength)
@@ -56,7 +84,7 @@ export const Vortex = (props: VortexProps) => {
   }
   const lerp = (n1: number, n2: number, speed: number): number => (1 - speed) * n1 + speed * n2
 
-  const setup = () => {
+  const setup = useCallback(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
     if (canvas && container) {
@@ -65,21 +93,23 @@ export const Vortex = (props: VortexProps) => {
       if (ctx) {
         resize(canvas, ctx)
         initParticles()
-        draw(canvas, ctx)
+        if (!isLowEnd) {
+          draw(canvas, ctx)
+        }
       }
     }
-  }
+  }, [isLowEnd])
 
-  const initParticles = () => {
+  const initParticles = useCallback(() => {
     tick = 0
     particleProps = new Float32Array(particlePropsLength)
 
     for (let i = 0; i < particlePropsLength; i += particlePropCount) {
       initParticle(i)
     }
-  }
+  }, [particlePropsLength, particlePropCount])
 
-  const initParticle = (i: number) => {
+  const initParticle = useCallback((i: number) => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -96,31 +126,38 @@ export const Vortex = (props: VortexProps) => {
     hue = baseHue + rand(rangeHue)
 
     particleProps.set([x, y, vx, vy, life, ttl, speed, radius, hue], i)
-  }
+  }, [baseTTL, rangeTTL, baseSpeed, rangeSpeed, baseRadius, rangeRadius, baseHue, rangeHue])
 
-  const draw = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+  const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+    if (isLowEnd) return // Skip animation for low-end devices
+    
     tick++
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    // Background fill removed for transparent background
-    // ctx.fillStyle = backgroundColor;
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     drawParticles(ctx)
-    renderGlow(canvas, ctx)
-    renderToScreen(canvas, ctx)
+    if (!isLowEnd) {
+      renderGlow(canvas, ctx)
+      renderToScreen(canvas, ctx)
+    }
 
-    animationFrameId.current = window.requestAnimationFrame(() => draw(canvas, ctx))
-  }
+    // Throttle animation for better performance
+    const timestamp = performance.now()
+    if (timestamp - lastUpdateRef.current >= (isLowEnd ? 100 : 16)) {
+      lastUpdateRef.current = timestamp
+      animationFrameId.current = window.requestAnimationFrame(() => draw(canvas, ctx))
+    } else {
+      animationFrameId.current = window.requestAnimationFrame(() => draw(canvas, ctx))
+    }
+  }, [isLowEnd])
 
-  const drawParticles = (ctx: CanvasRenderingContext2D) => {
+  const drawParticles = useCallback((ctx: CanvasRenderingContext2D) => {
     for (let i = 0; i < particlePropsLength; i += particlePropCount) {
       updateParticle(i, ctx)
     }
-  }
+  }, [particlePropsLength, particlePropCount])
 
-  const updateParticle = (i: number, ctx: CanvasRenderingContext2D) => {
+  const updateParticle = useCallback((i: number, ctx: CanvasRenderingContext2D) => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -158,9 +195,9 @@ export const Vortex = (props: VortexProps) => {
     particleProps[i5] = life
 
     ;(checkBounds(x, y, canvas) || life > ttl) && initParticle(i)
-  }
+  }, [noise3D, xOff, yOff, zOff, noiseSteps, TAU, initParticle])
 
-  const drawParticle = (
+  const drawParticle = useCallback((
     x: number,
     y: number,
     x2: number,
@@ -181,13 +218,13 @@ export const Vortex = (props: VortexProps) => {
     ctx.stroke()
     ctx.closePath()
     ctx.restore()
-  }
+  }, [])
 
-  const checkBounds = (x: number, y: number, canvas: HTMLCanvasElement) => {
+  const checkBounds = useCallback((x: number, y: number, canvas: HTMLCanvasElement) => {
     return x > canvas.width || x < 0 || y > canvas.height || y < 0
-  }
+  }, [])
 
-  const resize = (canvas: HTMLCanvasElement, ctx?: CanvasRenderingContext2D) => {
+  const resize = useCallback((canvas: HTMLCanvasElement, ctx?: CanvasRenderingContext2D) => {
     const { innerWidth, innerHeight } = window
 
     canvas.width = innerWidth
@@ -195,9 +232,11 @@ export const Vortex = (props: VortexProps) => {
 
     center[0] = 0.5 * canvas.width
     center[1] = 0.5 * canvas.height
-  }
+  }, [])
 
-  const renderGlow = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+  const renderGlow = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+    if (isLowEnd) return // Skip glow effects for low-end devices
+    
     ctx.save()
     ctx.filter = 'blur(8px) brightness(200%)'
     ctx.globalCompositeOperation = 'lighter'
@@ -209,22 +248,22 @@ export const Vortex = (props: VortexProps) => {
     ctx.globalCompositeOperation = 'lighter'
     ctx.drawImage(canvas, 0, 0)
     ctx.restore()
-  }
+  }, [isLowEnd])
 
-  const renderToScreen = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
+  const renderToScreen = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
     ctx.save()
     ctx.globalCompositeOperation = 'lighter'
     ctx.drawImage(canvas, 0, 0)
     ctx.restore()
-  }
+  }, [])
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (canvas && ctx) {
       resize(canvas, ctx)
     }
-  }
+  }, [resize])
 
   useEffect(() => {
     setup()
@@ -236,7 +275,23 @@ export const Vortex = (props: VortexProps) => {
         cancelAnimationFrame(animationFrameId.current)
       }
     }
-  })
+  }, [setup, handleResize])
+
+  // For low-end devices, render a simplified static background
+  if (isLowEnd) {
+    return (
+      <div className={cn('relative h-full w-full', props.containerClassName)}>
+        <div
+          ref={containerRef}
+          className="absolute inset-0 z-0 flex h-full w-full items-center justify-center bg-transparent"
+          style={{
+            background: `radial-gradient(circle at 50% 50%, rgba(0,255,0,0.1) 0%, transparent 70%)`,
+          }}
+        />
+        <div className={cn('relative z-10', props.className)}>{props.children}</div>
+      </div>
+    )
+  }
 
   return (
     <div className={cn('relative h-full w-full', props.containerClassName)}>

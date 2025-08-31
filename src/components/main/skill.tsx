@@ -79,9 +79,10 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
       <Vortex
         backgroundColor="black"
         rangeY={800}
-        particleCount={500}
+        particleCount={300}
         baseHue={120}
         className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-full"
+        reducedMotion={false}
       >
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">

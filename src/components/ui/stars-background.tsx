@@ -1,6 +1,6 @@
 'use client'
 import { cn } from '@/lib/utils'
-import React, { useState, useEffect, useRef, RefObject, useCallback } from 'react'
+import React, { useState, useEffect, useRef, RefObject, useCallback, useMemo } from 'react'
 
 interface StarProps {
   x: number
@@ -17,6 +17,27 @@ interface StarBackgroundProps {
   minTwinkleSpeed?: number
   maxTwinkleSpeed?: number
   className?: string
+  reducedMotion?: boolean
+}
+
+// Performance optimization: Detect low-end devices
+const isLowEndDevice = () => {
+  if (typeof window === 'undefined') return false
+  
+  // Check for reduced motion preference
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true
+  
+  // Check for low-end device indicators
+  const connection = (navigator as any).connection
+  if (connection) {
+    if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') return true
+    if (connection.downlink < 1) return true
+  }
+  
+  // Check for low memory
+  if ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) return true
+  
+  return false
 }
 
 export const StarsBackground: React.FC<StarBackgroundProps> = ({
@@ -26,16 +47,27 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
   minTwinkleSpeed = 0.5,
   maxTwinkleSpeed = 1,
   className,
+  reducedMotion = false,
 }) => {
   const [stars, setStars] = useState<StarProps[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationFrameRef = useRef<number>()
+  const lastUpdateRef = useRef<number>(0)
+  
+  // Performance optimization: Reduce complexity for low-end devices
+  const isLowEnd = useMemo(() => isLowEndDevice() || reducedMotion, [reducedMotion])
+  
+  // Reduce star density and animation for low-end devices
+  const effectiveStarDensity = isLowEnd ? starDensity * 0.3 : starDensity
+  const effectiveTwinkleProbability = isLowEnd ? 0.3 : twinkleProbability
+  const animationThrottle = isLowEnd ? 200 : 16 // 5fps vs 60fps
 
   const generateStars = useCallback(
     (width: number, height: number): StarProps[] => {
       const area = width * height
-      const numStars = Math.floor(area * starDensity)
+      const numStars = Math.floor(area * effectiveStarDensity)
       return Array.from({ length: numStars }, () => {
-        const shouldTwinkle = allStarsTwinkle || Math.random() < twinkleProbability
+        const shouldTwinkle = allStarsTwinkle || Math.random() < effectiveTwinkleProbability
         return {
           x: Math.random() * width,
           y: Math.random() * height,
@@ -47,7 +79,7 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
         }
       })
     },
-    [starDensity, allStarsTwinkle, twinkleProbability, minTwinkleSpeed, maxTwinkleSpeed]
+    [effectiveStarDensity, allStarsTwinkle, effectiveTwinkleProbability, minTwinkleSpeed, maxTwinkleSpeed]
   )
 
   useEffect(() => {
@@ -78,24 +110,32 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
       }
     }
   }, [
-    starDensity,
+    effectiveStarDensity,
     allStarsTwinkle,
-    twinkleProbability,
+    effectiveTwinkleProbability,
     minTwinkleSpeed,
     maxTwinkleSpeed,
     generateStars,
   ])
 
   useEffect(() => {
+    if (isLowEnd) return // Skip animation for low-end devices
+    
     const canvas = canvasRef.current
     if (!canvas) return
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let animationFrameId: number
-
-    const render = () => {
+    const render = (timestamp: number) => {
+      // Throttle animation for better performance
+      if (timestamp - lastUpdateRef.current < animationThrottle) {
+        animationFrameRef.current = requestAnimationFrame(render)
+        return
+      }
+      
+      lastUpdateRef.current = timestamp
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       stars.forEach((star) => {
         ctx.beginPath()
@@ -108,15 +148,31 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
         }
       })
 
-      animationFrameId = requestAnimationFrame(render)
+      animationFrameRef.current = requestAnimationFrame(render)
     }
 
-    render()
+    animationFrameRef.current = requestAnimationFrame(render)
 
     return () => {
-      cancelAnimationFrame(animationFrameId)
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
     }
-  }, [stars])
+  }, [stars, isLowEnd, animationThrottle])
+
+  // For low-end devices, render static stars without animation
+  if (isLowEnd) {
+    return (
+      <canvas 
+        ref={canvasRef} 
+        className={cn('h-full w-full absolute inset-0', className)}
+        style={{ 
+          background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }}
+      />
+    )
+  }
 
   return <canvas ref={canvasRef} className={cn('h-full w-full absolute inset-0', className)} />
 }

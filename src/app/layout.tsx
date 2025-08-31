@@ -9,6 +9,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
 import PWARegister from '@/components/extra/PWARegister'
 import PWAInstallBanner from '@/components/extra/PWAInstallBanner'
+import PerformanceMonitor from '@/components/ui/performance-monitor'
 
 const fredoka = Fredoka({
   variable: '--font-heading',
@@ -125,6 +126,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <PWARegister />
             <Analytics />
             <SpeedInsights />
+            
+            {/* Performance Monitor - Only show in development */}
+            {process.env.NODE_ENV === 'development' && (
+              <PerformanceMonitor position="bottom-right" />
+            )}
           </div>
         </ThemeProvider>
       </body>

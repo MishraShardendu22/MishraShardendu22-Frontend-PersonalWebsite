@@ -1,7 +1,7 @@
 'use client'
 
 import toast from 'react-hot-toast'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Error from '@/components/extra/Error'
 import { navItems } from '@/data/static_link'
 import HeroSection from '@/components/main/hero'
@@ -20,6 +20,68 @@ import { LazyCertificationsSection } from '@/components/lazy/cert'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { LazyVExperienceSection } from '@/components/lazy/volunteer'
 
+// Performance optimization: Detect low-end devices
+const usePerformanceMode = () => {
+  const [isLowEnd, setIsLowEnd] = useState(false)
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
+    const checkPerformance = () => {
+      // Check for reduced motion preference
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setIsLowEnd(true)
+        return
+      }
+      
+      // Check for low-end device indicators
+      const connection = (navigator as any).connection
+      if (connection) {
+        if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+          setIsLowEnd(true)
+          return
+        }
+        if (connection.downlink < 1) {
+          setIsLowEnd(true)
+          return
+        }
+      }
+      
+      // Check for low memory
+      if ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) {
+        setIsLowEnd(true)
+        return
+      }
+      
+      // Check for low-end CPU (rough estimation)
+      const start = performance.now()
+      let sum = 0
+      for (let i = 0; i < 1000000; i++) {
+        sum += Math.random()
+      }
+      const end = performance.now()
+      if (end - start > 50) { // If simple math takes more than 50ms
+        setIsLowEnd(true)
+        return
+      }
+      
+      setIsLowEnd(false)
+    }
+    
+    checkPerformance()
+    
+    // Listen for changes in connection
+    if ((navigator as any).connection) {
+      (navigator as any).connection.addEventListener('change', checkPerformance)
+      return () => {
+        (navigator as any).connection.removeEventListener('change', checkPerformance)
+      }
+    }
+  }, [])
+  
+  return isLowEnd
+}
+
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
   const [loading, setLoading] = useState({
@@ -27,6 +89,9 @@ export default function HomePage() {
   })
   const [error, setError] = useState('')
   const [activeSection, setActiveSection] = useState('hero')
+  
+  // Performance optimization
+  const isLowEnd = usePerformanceMode()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,8 +110,20 @@ export default function HomePage() {
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Throttle scroll events for better performance
+    let ticking = false
+    const throttledScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', throttledScroll, { passive: true })
+    return () => window.removeEventListener('scroll', throttledScroll)
   }, [])
 
   useEffect(() => {
@@ -87,13 +164,13 @@ export default function HomePage() {
       <div className="md:pl-20 transition-all duration-500 ease-out">
         <section id="hero" className="relative">
           <HeroSection />
-          <ShootingStars />
+          <ShootingStars reducedMotion={isLowEnd} />
         </section>
 
         <section id="education" className="scroll-mt-20 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary/5 to-transparent opacity-50 pointer-events-none" />
           <Education />
-          <ShootingStars />
+          <ShootingStars reducedMotion={isLowEnd} />
         </section>
 
         <section id="skills" className="scroll-mt-20 relative">
@@ -118,7 +195,7 @@ export default function HomePage() {
 
         <section id="contact" className="scroll-mt-20 relative">
           <ContactSection />
-          <StarsBackground />
+          <StarsBackground reducedMotion={isLowEnd} />
         </section>
 
         <section>
