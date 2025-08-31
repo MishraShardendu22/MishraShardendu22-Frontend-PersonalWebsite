@@ -1,6 +1,6 @@
 'use client'
 import { cn } from '@/lib/utils'
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useRef, RefObject, useCallback } from 'react'
 
 interface StarProps {
   x: number
@@ -27,8 +27,8 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
   maxTwinkleSpeed = 1,
   className,
 }) => {
+  const [stars, setStars] = useState<StarProps[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const starsRef = useRef<StarProps[]>([])
 
   const generateStars = useCallback(
     (width: number, height: number): StarProps[] => {
@@ -51,47 +51,72 @@ export const StarsBackground: React.FC<StarBackgroundProps> = ({
   )
 
   useEffect(() => {
+    const updateStars = () => {
+      if (canvasRef.current) {
+        const canvas = canvasRef.current
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        const { width, height } = canvas.getBoundingClientRect()
+        canvas.width = width
+        canvas.height = height
+        setStars(generateStars(width, height))
+      }
+    }
+
+    updateStars()
+
+    const canvasEl = canvasRef.current
+    const resizeObserver = new ResizeObserver(updateStars)
+    if (canvasEl) {
+      resizeObserver.observe(canvasEl)
+    }
+
+    return () => {
+      if (canvasEl) {
+        resizeObserver.unobserve(canvasEl)
+      }
+    }
+  }, [
+    starDensity,
+    allStarsTwinkle,
+    twinkleProbability,
+    minTwinkleSpeed,
+    maxTwinkleSpeed,
+    generateStars,
+  ])
+
+  useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const handleResize = () => {
-      const { width, height } = canvas.getBoundingClientRect()
-      canvas.width = width
-      canvas.height = height
-      starsRef.current = generateStars(width, height)
-    }
-
-    handleResize() // Initial generation
-    const resizeObserver = new ResizeObserver(handleResize)
-    resizeObserver.observe(canvas)
-
     let animationFrameId: number
+
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      starsRef.current.forEach((star) => {
+      stars.forEach((star) => {
         ctx.beginPath()
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`
         ctx.fill()
 
         if (star.twinkleSpeed !== null) {
-          // Mutate the star object in the ref directly
           star.opacity = 0.5 + Math.abs(Math.sin((Date.now() * 0.001) / star.twinkleSpeed) * 0.5)
         }
       })
+
       animationFrameId = requestAnimationFrame(render)
     }
 
     render()
 
     return () => {
-      resizeObserver.disconnect()
       cancelAnimationFrame(animationFrameId)
     }
-  }, [generateStars])
+  }, [stars])
 
   return <canvas ref={canvasRef} className={cn('h-full w-full absolute inset-0', className)} />
 }
