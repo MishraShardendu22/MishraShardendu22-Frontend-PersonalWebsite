@@ -11,14 +11,6 @@ html {
   touch-action: manipulation;
 }
 
-/* Performance optimizations */
-* {
-  /* Enable hardware acceleration for transforms */
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
 /* Mobile-first responsive font scaling */
 :root {
   /* Enhanced font system with better mobile readability */
@@ -382,15 +374,15 @@ h6 {
   0% {
     background-position: -200% 0;
     opacity: 0;
-    transform: scale(0.9) translateZ(0);
+    transform: scale(0.9);
   }
   50% {
     opacity: 1;
-    transform: scale(1.02) translateZ(0);
+    transform: scale(1.02);
   }
   100% {
     background-position: 200% 0;
-    transform: scale(1) translateZ(0);
+    transform: scale(1);
   }
 }
 
@@ -416,51 +408,46 @@ h6 {
 @keyframes slide-up {
   0% {
     opacity: 0;
-    transform: translateY(20px) translateZ(0);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translateY(0);
   }
 }
 
 @keyframes slide-down {
   0% {
     opacity: 0;
-    transform: translateY(-20px) translateZ(0);
+    transform: translateY(-20px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) translateZ(0);
+    transform: translateY(0);
   }
 }
 
 /* Performance-optimized animation classes */
 .animate-blast {
   animation: blast 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
 }
 
 .animate-shimmer {
   animation: shimmer 2s linear infinite;
   background: linear-gradient(90deg, transparent, var(--muted), transparent);
   background-size: 200% 100%;
-  will-change: background-position;
 }
 
 .animate-pulse-soft {
   animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  will-change: opacity;
 }
 
 .animate-slide-up {
   animation: slide-up 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
 }
 
 .animate-slide-down {
   animation: slide-down 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  will-change: transform, opacity;
 }
 
 /* Mobile-specific utility classes */
@@ -538,53 +525,6 @@ h6 {
   .dark {
     --border: #ffffff;
     --border-strong: #ffffff;
-  }
-}
-
-/* Performance optimizations for low-end devices */
-@media (prefers-reduced-motion: reduce) {
-  .animate-blast,
-  .animate-shimmer,
-  .animate-pulse-soft,
-  .animate-slide-up,
-  .animate-slide-down {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-/* Optimize blur effects for better performance */
-.backdrop-blur-sm {
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.backdrop-blur-md {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.backdrop-blur-lg {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-/* Reduce blur effects on low-end devices */
-@media (max-width: 768px) {
-  .backdrop-blur-sm {
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-  }
-  
-  .backdrop-blur-md {
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  
-  .backdrop-blur-lg {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
 }
 

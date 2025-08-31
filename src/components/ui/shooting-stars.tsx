@@ -77,7 +77,7 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
 }) => {
   const [stars, setStars] = useState<ShootingStar[]>([])
   const svgRef = useRef<SVGSVGElement>(null)
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number | undefined>(undefined)
   const lastUpdateRef = useRef<number>(0)
   
   // Performance optimization: Reduce complexity for low-end devices
