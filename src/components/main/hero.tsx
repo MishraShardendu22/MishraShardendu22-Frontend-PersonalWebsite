@@ -3,8 +3,24 @@ import Link from 'next/link'
 import { Button } from '../ui/button'
 import Image from 'next/image'
 import { GitHubProject, LinkedInProfile } from '@/data/static_link'
+import { useState, useEffect } from 'react'
 
 export default function HeroSection() {
+  const [windowWidth, setWindowWidth] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+
+    if (typeof window !== 'undefined') {
+      handleResize()
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  const isMobile = windowWidth < 640
+  const isTablet = windowWidth >= 640 && windowWidth < 1024
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-primary/5 py-8 sm:py-12 lg:py-16">
       {/* Optimized background gradients */}
@@ -91,14 +107,12 @@ export default function HeroSection() {
                 {/* Primary CTA */}
                 <Link href={GitHubProject} className="w-full sm:w-auto">
                   <Button
-                    className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground border-0 shadow-lg hover:shadow-primary/25 transition-all duration-300 w-full sm:w-auto touch-manipulation h-9 px-4 py-2 has-[>svg]:px-3 sm:h-10 sm:px-6 sm:has-[>svg]:px-4"
+                    size={isMobile ? 'default' : 'lg'}
+                    className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground border-0 shadow-lg hover:shadow-primary/25 transition-all duration-300 w-full sm:w-auto touch-manipulation"
                   >
                     <Github className="mr-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:scale-110 flex-shrink-0" />
                     <span className="text-sm sm:text-base truncate">
-                      <span className="inline sm:hidden">View GitHub Projects</span>
-                      <span className="hidden sm:inline">
-                        GitHub - Check Out My Projects
-                      </span>
+                      {isMobile ? 'View GitHub Projects' : 'GitHub - Check Out My Projects'}
                     </span>
                     <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-1 flex-shrink-0" />
                   </Button>
@@ -108,14 +122,14 @@ export default function HeroSection() {
                 <Link href={LinkedInProfile} className="w-full sm:w-auto">
                   <Button
                     variant="outline"
-                    className="group border-2 border-primary/30 hover:border-primary/50 bg-background/80 backdrop-blur-sm hover:bg-primary/5 text-foreground hover:text-primary transition-all duration-300 shadow-lg w-full sm:w-auto touch-manipulation h-9 px-4 py-2 has-[>svg]:px-3 sm:h-10 sm:px-6 sm:has-[>svg]:px-4"
+                    size={isMobile ? 'default' : 'lg'}
+                    className="group border-2 border-primary/30 hover:border-primary/50 bg-background/80 backdrop-blur-sm hover:bg-primary/5 text-foreground hover:text-primary transition-all duration-300 shadow-lg w-full sm:w-auto touch-manipulation"
                   >
                     <LinkedinIcon className="mr-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:scale-110 flex-shrink-0" />
                     <span className="text-sm sm:text-base truncate">
-                      <span className="inline sm:hidden">Connect on LinkedIn</span>
-                      <span className="hidden sm:inline">
-                        Super Active on LinkedIn - Let&apos;s Connect
-                      </span>
+                      {isMobile
+                        ? 'Connect on LinkedIn'
+                        : "Super Active on LinkedIn - Let's Connect"}
                     </span>
                   </Button>
                 </Link>
@@ -132,11 +146,13 @@ export default function HeroSection() {
         </div>
 
         {/* Mobile scroll indicator */}
-        <div className="flex sm:hidden justify-center mt-8">
-          <div className="animate-bounce">
-            <ArrowRight className="h-4 w-4 text-primary/60 rotate-90" />
+        {isMobile && (
+          <div className="flex justify-center mt-8">
+            <div className="animate-bounce">
+              <ArrowRight className="h-4 w-4 text-primary/60 rotate-90" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   )
