@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 interface AdvancedPerformanceMetrics {
   fps: number
@@ -54,7 +54,7 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
   })
 
   const [frameCount, setFrameCount] = useState(0)
-  const [lastTime, setLastTime] = useState(performance.now())
+  const [lastTime, setLastTime] = useState(0)
 
   // Advanced device detection
   const detectDeviceType = useCallback(() => {
@@ -105,6 +105,8 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // FPS calculation with advanced throttling
   const measureFPS = useCallback(() => {
+    if (typeof window === 'undefined') return
+    
     const now = performance.now()
     setFrameCount(prev => prev + 1)
 
@@ -118,6 +120,7 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Advanced memory detection
   const checkMemory = useCallback(() => {
+    if (typeof window === 'undefined') return
     if ('memory' in performance) {
       const memory = (performance as any).memory
       const memoryUsage = memory.usedJSHeapSize / (1024 * 1024 * 1024) // Convert to GB
@@ -127,6 +130,7 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Advanced connection detection
   const checkConnection = useCallback(() => {
+    if (typeof window === 'undefined') return
     if ('connection' in navigator) {
       const connection = (navigator as any).connection
       setMetrics(prev => ({ 
@@ -138,6 +142,7 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Battery monitoring
   const checkBattery = useCallback(async () => {
+    if (typeof window === 'undefined') return
     if (!enableBatteryMonitoring || !('getBattery' in navigator)) return
     
     try {
@@ -163,6 +168,8 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Hardware detection
   const checkHardware = useCallback(() => {
+    if (typeof window === 'undefined') return
+    
     // CPU cores
     if ('hardwareConcurrency' in navigator) {
       setMetrics(prev => ({ 
@@ -182,6 +189,7 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Reduced motion preference
   const checkReducedMotion = useCallback(() => {
+    if (typeof window === 'undefined') return
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     setMetrics(prev => ({ ...prev, reducedMotion: prefersReducedMotion }))
   }, [])
@@ -255,6 +263,8 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Performance monitoring loop with adaptive throttling
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    
     let animationFrameId: number
     let lastUpdate = 0
     const throttleInterval = metrics.isLowEnd ? 100 : 16 // 10fps vs 60fps
@@ -278,6 +288,8 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Initialize all checks
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    
     checkMemory()
     checkConnection()
     checkReducedMotion()
@@ -298,6 +310,8 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Update device properties on resize
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    
     const handleResize = () => {
       setMetrics(prev => ({
         ...prev,
@@ -319,6 +333,7 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Listen for connection changes
   useEffect(() => {
+    if (typeof window === 'undefined') return
     if ('connection' in navigator) {
       const connection = (navigator as any).connection
       const handleChange = () => {
@@ -333,6 +348,8 @@ export const useAdvancedPerformance = (options: AdvancedPerformanceOptions = {})
 
   // Listen for reduced motion preference changes
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const handleChange = () => {
       checkReducedMotion()

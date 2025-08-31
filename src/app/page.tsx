@@ -20,7 +20,7 @@ import { LazyCertificationsSection } from '@/components/lazy/cert'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { LazyVExperienceSection } from '@/components/lazy/volunteer'
 
-// Performance optimization: Detect low-end devices
+// Simplified performance optimization: Detect low-end devices
 const usePerformanceMode = () => {
   const [isLowEnd, setIsLowEnd] = useState(false)
   
@@ -49,18 +49,6 @@ const usePerformanceMode = () => {
       
       // Check for low memory
       if ((navigator as any).deviceMemory && (navigator as any).deviceMemory < 4) {
-        setIsLowEnd(true)
-        return
-      }
-      
-      // Check for low-end CPU (rough estimation)
-      const start = performance.now()
-      let sum = 0
-      for (let i = 0; i < 1000000; i++) {
-        sum += Math.random()
-      }
-      const end = performance.now()
-      if (end - start > 50) { // If simple math takes more than 50ms
         setIsLowEnd(true)
         return
       }

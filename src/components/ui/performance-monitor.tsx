@@ -21,11 +21,6 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
   const [isExpanded, setIsExpanded] = useState(false)
   const { metrics, isLowEnd, getOptimizationRecommendations, getPerformanceSettings } = usePerformance()
 
-  // Theme detection
-  const currentTheme = theme === 'auto' ? 
-    (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : 
-    theme
-
   // Position classes
   const positionClasses = {
     'top-left': 'top-4 left-4',
