@@ -1,5 +1,6 @@
 'use client'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState, useRef } from 'react'
 
 interface ShootingStar {
@@ -8,8 +9,8 @@ interface ShootingStar {
   y: number
   angle: number
   scale: number
-  speed: number
-  distance: number
+  speed: number // speed in pixels per second
+  duration: number // animation duration in seconds
 }
 
 interface ShootingStarsProps {
@@ -22,121 +23,115 @@ interface ShootingStarsProps {
   starWidth?: number
   starHeight?: number
   className?: string
+  numStars?: number
 }
 
 const getRandomStartPoint = () => {
+  if (typeof window === 'undefined') {
+    return { x: 0, y: 0, angle: 45 }
+  }
   const side = Math.floor(Math.random() * 4)
   const offset = Math.random() * window.innerWidth
 
   switch (side) {
     case 0:
-      return { x: offset, y: 0, angle: 45 }
+      return { x: offset, y: -20, angle: 45 }
     case 1:
-      return { x: window.innerWidth, y: offset, angle: 135 }
+      return { x: window.innerWidth + 20, y: offset, angle: 135 }
     case 2:
-      return { x: offset, y: window.innerHeight, angle: 225 }
+      return { x: offset, y: window.innerHeight + 20, angle: 225 }
     case 3:
-      return { x: 0, y: offset, angle: 315 }
+      return { x: -20, y: offset, angle: 315 }
     default:
       return { x: 0, y: 0, angle: 45 }
   }
 }
 
 export const ShootingStars: React.FC<ShootingStarsProps> = ({
-  minSpeed = 10,
-  maxSpeed = 30,
-  minDelay = 1000,
-  maxDelay = 1200,
+  minSpeed = 500,
+  maxSpeed = 1000,
+  minDelay = 0.5,
+  maxDelay = 1,
   starColor = '#9E00FF',
   trailColor = '#2EB9DF',
   starWidth = 20,
   starHeight = 1,
   className,
+  numStars = 5,
 }) => {
-  // Changed from single star to array of stars
   const [stars, setStars] = useState<ShootingStar[]>([])
-  const svgRef = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
-    const createStar = () => {
-      const { x, y, angle } = getRandomStartPoint()
-      const newStar: ShootingStar = {
-        id: Date.now() + Math.random(), // More unique ID
-        x,
-        y,
-        angle,
-        scale: 1,
-        speed: Math.random() * (maxSpeed - minSpeed) + minSpeed,
-        distance: 0,
+    const timeouts = Array.from({ length: numStars }).map(() => {
+      let timeoutId: NodeJS.Timeout
+
+      const createStar = () => {
+        const { x, y, angle } = getRandomStartPoint()
+        const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed
+        const duration = (window.innerWidth * 1.5) / speed
+
+        const newStar: ShootingStar = {
+          id: Date.now() + Math.random(),
+          x,
+          y,
+          angle,
+          scale: 1,
+          speed,
+          duration,
+        }
+
+        setStars((prevStars) => [...prevStars, newStar])
+
+        setTimeout(() => {
+          setStars((prev) => prev.filter((s) => s.id !== newStar.id))
+        }, duration * 1000 + 500)
+
+        const randomDelay = (Math.random() * (maxDelay - minDelay) + minDelay) * 1000
+        timeoutId = setTimeout(createStar, randomDelay)
       }
 
-      // Add new star to the array instead of replacing
-      setStars((prevStars) => [...prevStars, newStar])
+      createStar()
 
-      const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay
-      setTimeout(createStar, randomDelay)
-    }
+      return () => clearTimeout(timeoutId)
+    })
 
-    createStar()
-
-    return () => {}
-  }, [minSpeed, maxSpeed, minDelay, maxDelay])
-
-  useEffect(() => {
-    const moveStars = () => {
-      setStars((prevStars) =>
-        prevStars
-          .map((star) => {
-            const newX = star.x + star.speed * Math.cos((star.angle * Math.PI) / 180)
-            const newY = star.y + star.speed * Math.sin((star.angle * Math.PI) / 180)
-            const newDistance = star.distance + star.speed
-            const newScale = 1 + newDistance / 100
-
-            return {
-              ...star,
-              x: newX,
-              y: newY,
-              distance: newDistance,
-              scale: newScale,
-            }
-          })
-          // Filter out stars that are off-screen
-          .filter(
-            (star) =>
-              star.x >= -20 &&
-              star.x <= window.innerWidth + 20 &&
-              star.y >= -20 &&
-              star.y <= window.innerHeight + 20
-          )
-      )
-    }
-
-    const animationFrame = requestAnimationFrame(moveStars)
-    return () => cancelAnimationFrame(animationFrame)
-  }, [stars])
+    return () => timeouts.forEach((cleanup) => cleanup())
+  }, [minSpeed, maxSpeed, minDelay, maxDelay, numStars])
 
   return (
-    <svg ref={svgRef} className={cn('w-full h-full absolute inset-0', className)}>
-      {/* Render all stars from the array */}
-      {stars.map((star) => (
-        <rect
-          key={star.id}
-          x={star.x}
-          y={star.y}
-          width={starWidth * star.scale}
-          height={starHeight}
-          fill="url(#gradient)"
-          transform={`rotate(${star.angle}, ${
-            star.x + (starWidth * star.scale) / 2
-          }, ${star.y + starHeight / 2})`}
-        />
-      ))}
-      <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: trailColor, stopOpacity: 0 }} />
-          <stop offset="100%" style={{ stopColor: starColor, stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-    </svg>
+    <div className={cn('w-full h-full absolute inset-0 overflow-hidden', className)}>
+      {stars.map((star) => {
+        const distance = star.speed * star.duration
+        const endX = star.x + distance * Math.cos((star.angle * Math.PI) / 180)
+        const endY = star.y + distance * Math.sin((star.angle * Math.PI) / 180)
+
+        return (
+          <motion.div
+            key={star.id}
+            className="absolute"
+            initial={{
+              x: star.x,
+              y: star.y,
+              rotate: star.angle,
+              scale: star.scale,
+            }}
+            animate={{
+              x: endX,
+              y: endY,
+              scale: star.scale + distance / 200,
+            }}
+            transition={{
+              duration: star.duration,
+              ease: 'linear',
+            }}
+            style={{
+              width: `${starWidth}px`,
+              height: `${starHeight}px`,
+              background: `linear-gradient(to right, ${trailColor}00, ${starColor})`,
+            }}
+          />
+        )
+      })}
+    </div>
   )
 }
