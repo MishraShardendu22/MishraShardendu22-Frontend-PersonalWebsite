@@ -48,9 +48,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -167,6 +169,8 @@
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.30.1",
     "eslint-config-next": "15.3.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
     "prettier": "^3.2.5",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.20.3",
@@ -175,5 +179,14 @@
   },
   "overrides": {
     "esbuild": "^0.25.6"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
   }
 }
