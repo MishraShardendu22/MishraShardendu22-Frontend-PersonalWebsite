@@ -1,14 +1,12 @@
 import './globals.css'
-import type { Metadata, Viewport } from 'next'
-// render Toaster only on client to avoid SSR/CSR attribute mismatches
-import ToasterClient from '@/components/extra/ToasterClient'
 import { ThemeProvider } from 'next-themes'
+import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
+import PWARegister from '@/components/extra/PWARegister'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import ToasterClient from '@/components/extra/ToasterClient'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
-import PWARegister from '@/components/extra/PWARegister'
-import PWAInstallBanner from '@/components/extra/PWAInstallBanner'
 
 const fredoka = Fredoka({
   variable: '--font-heading',
