@@ -19,6 +19,7 @@ import { MobileNavigation } from '@/components/extra/mobile-nav'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { LazyVExperienceSection } from '@/components/lazy/volunteer'
+import { LazyTimelineSection } from '@/components/lazy/timeline'
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
@@ -98,6 +99,10 @@ export default function HomePage() {
 
         <section id="skills" className="scroll-mt-20 relative">
           {loading.skills ? <SkillsSkeleton /> : <SkillsSection skills={skills} />}
+        </section>
+
+        <section id="timeline">
+          <LazyTimelineSection />
         </section>
 
         <section id="projects">

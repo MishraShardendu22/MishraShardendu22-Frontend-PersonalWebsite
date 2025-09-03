@@ -49,6 +49,18 @@ export const metadata: Metadata = {
   authors: [{ name: 'Shardendu Mishra' }],
   creator: 'Shardendu Mishra',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/icons/icon-192.png',
+    other: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        url: '/favicon.ico',
+      },
+    ],
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
