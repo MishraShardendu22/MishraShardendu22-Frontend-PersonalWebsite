@@ -171,3 +171,10 @@ export const testAPI = {
     return response.data
   },
 }
+
+export const TimelineAPI = {
+  getAllEndpoints: async (): Promise<ApiResponse<string[]>> => {
+    const response = await api.get('/timeline')
+    return response.data
+  },
+}
