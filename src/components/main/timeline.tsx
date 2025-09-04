@@ -4,7 +4,16 @@ import { useMemo, useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Experience, VolunteerExperience } from '@/data/types.data'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { Briefcase, Heart, Calendar, ArrowLeft, ArrowRight, Clock, Building } from 'lucide-react'
+import {
+  Briefcase,
+  Heart,
+  Calendar,
+  ArrowLeft,
+  ArrowRight,
+  Clock,
+  Building,
+  Users,
+} from 'lucide-react'
 
 interface CombinedTimelineProps {
   experiences: Experience[]
@@ -270,7 +279,7 @@ const CombinedTimeline = ({
           {/* Scrollable timeline container */}
           <div
             ref={scrollContainerRef}
-            className="overflow-x-auto overflow-y-hidden pb-4 mx-4 lg:mx-8 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted/20 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70"
+            className="overflow-x-auto overflow-y-visible pb-4 pt-4 mx-4 lg:mx-8 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted/20 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70"
             style={{
               scrollbarWidth: 'thin',
               scrollbarColor: 'var(--primary) var(--muted)',
@@ -278,7 +287,7 @@ const CombinedTimeline = ({
             }}
           >
             <div
-              className="relative bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-6 shadow-lg"
+              className="relative bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-6 pb-16 shadow-lg"
               style={{
                 width: `${Math.max(processedData.months.length * (isMobile ? 80 : 120), 800)}px`,
                 minWidth: '100%',
@@ -356,10 +365,11 @@ const CombinedTimeline = ({
                         >
                           {/* Company logo/icon above timeline */}
                           <div
-                            className="absolute z-10 transition-all duration-300"
+                            className="absolute transition-all duration-300"
                             style={{
                               left: `${position.left + position.width / 2 - 24}px`,
                               top: '-12px',
+                              zIndex: 20,
                             }}
                             onMouseEnter={() => !isMobile && setHoveredCard(expId)}
                             onMouseLeave={() => !isMobile && setHoveredCard(null)}
@@ -368,8 +378,8 @@ const CombinedTimeline = ({
                               className={`
                               w-12 h-12 rounded-full border-3 border-card bg-card shadow-lg
                               flex items-center justify-center cursor-pointer
-                              transition-all duration-300 hover:scale-110
-                              ${isHovered ? 'scale-110 shadow-xl' : ''}
+                              transition-all duration-300 hover:scale-125 hover:shadow-2xl
+                              ${isHovered ? 'scale-125 shadow-2xl ring-2 ring-primary/20' : ''}
                             `}
                               style={{ borderColor: companyColor }}
                             >
@@ -390,14 +400,19 @@ const CombinedTimeline = ({
                             <div
                               className={`
                               absolute top-14 left-1/2 -translate-x-1/2 
-                              px-2 py-1 bg-card/95 backdrop-blur-sm border border-border/50 
-                              rounded-md shadow-lg text-xs font-medium whitespace-nowrap
-                              transition-all duration-200
-                              ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
+                              px-3 py-2 bg-card/95 backdrop-blur-sm border border-border/50 
+                              rounded-lg shadow-xl text-xs font-medium whitespace-nowrap
+                              transition-all duration-300 z-50
+                              ${isHovered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-2 scale-95 pointer-events-none'}
                             `}
+                              style={{ zIndex: 1000 }}
                             >
-                              {exp.name}
-                              <div className="text-xs text-muted-foreground">{exp.position}</div>
+                              <div className="font-semibold text-foreground">{exp.name}</div>
+                              <div className="text-xs text-muted-foreground mt-1">
+                                {exp.position}
+                              </div>
+                              {/* Tooltip arrow */}
+                              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-card/95 border-l border-t border-border/50 rotate-45"></div>
                             </div>
                           </div>
 
@@ -487,10 +502,11 @@ const CombinedTimeline = ({
                         >
                           {/* Organization logo/icon above timeline */}
                           <div
-                            className="absolute z-10 transition-all duration-300"
+                            className="absolute transition-all duration-300"
                             style={{
                               left: `${position.left + position.width / 2 - 24}px`,
                               top: '-12px',
+                              zIndex: 20,
                             }}
                             onMouseEnter={() => !isMobile && setHoveredCard(expId)}
                             onMouseLeave={() => !isMobile && setHoveredCard(null)}
@@ -499,8 +515,8 @@ const CombinedTimeline = ({
                               className={`
                               w-12 h-12 rounded-full border-3 border-card bg-card shadow-lg
                               flex items-center justify-center cursor-pointer
-                              transition-all duration-300 hover:scale-110
-                              ${isHovered ? 'scale-110 shadow-xl' : ''}
+                              transition-all duration-300 hover:scale-125 hover:shadow-2xl
+                              ${isHovered ? 'scale-125 shadow-2xl ring-2 ring-secondary/20' : ''}
                             `}
                               style={{ borderColor: companyColor }}
                             >
@@ -521,14 +537,19 @@ const CombinedTimeline = ({
                             <div
                               className={`
                               absolute top-14 left-1/2 -translate-x-1/2 
-                              px-2 py-1 bg-card/95 backdrop-blur-sm border border-border/50 
-                              rounded-md shadow-lg text-xs font-medium whitespace-nowrap
-                              transition-all duration-200
-                              ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
+                              px-3 py-2 bg-card/95 backdrop-blur-sm border border-border/50 
+                              rounded-lg shadow-xl text-xs font-medium whitespace-nowrap
+                              transition-all duration-300 z-50
+                              ${isHovered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-2 scale-95 pointer-events-none'}
                             `}
+                              style={{ zIndex: 1000 }}
                             >
-                              {exp.name}
-                              <div className="text-xs text-muted-foreground">{exp.position}</div>
+                              <div className="font-semibold text-foreground">{exp.name}</div>
+                              <div className="text-xs text-muted-foreground mt-1">
+                                {exp.position}
+                              </div>
+                              {/* Tooltip arrow */}
+                              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-card/95 border-l border-t border-border/50 rotate-45"></div>
                             </div>
                           </div>
 
@@ -597,6 +618,55 @@ const CombinedTimeline = ({
                 ? '← Swipe to explore timeline →'
                 : '← Scroll horizontally to explore timeline →'}
             </p>
+          </div>
+
+          {/* Timeline Legend */}
+          <div className="mt-8 max-w-4xl mx-auto">
+            <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-6 shadow-lg">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <div className="p-2 bg-primary/10 rounded-lg border border-primary/20">
+                  <Users className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Timeline Legend</h3>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto">
+                {/* Work Experience Icon */}
+                <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg border border-primary/20 w-full max-w-xs">
+                  <div className="w-10 h-10 rounded-full border-2 border-primary bg-card shadow-md flex items-center justify-center">
+                    <Briefcase className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0 text-center sm:text-left">
+                    <div className="font-medium text-foreground text-sm">Work Experience</div>
+                    <div className="text-xs text-muted-foreground">Professional roles</div>
+                  </div>
+                </div>
+
+                {/* Volunteer Experience Icon */}
+                <div className="flex items-center gap-3 p-3 bg-secondary/5 rounded-lg border border-secondary/20 w-full max-w-xs">
+                  <div className="w-10 h-10 rounded-full border-2 border-secondary bg-card shadow-md flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-secondary" />
+                  </div>
+                  <div className="flex-1 min-w-0 text-center sm:text-left">
+                    <div className="font-medium text-foreground text-sm">Volunteer Work</div>
+                    <div className="text-xs text-muted-foreground">Community service</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-border/30">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="w-4 h-2 bg-gradient-to-r from-primary via-secondary to-accent rounded-full"></div>
+                    <span>Timeline flows from most recent to earliest</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="w-4 h-4" />
+                    <span>Scroll horizontally to explore full timeline</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

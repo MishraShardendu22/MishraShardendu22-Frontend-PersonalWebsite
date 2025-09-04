@@ -13,6 +13,8 @@ const fredoka = Fredoka({
   subsets: ['latin'],
   weight: ['600', '700'],
   display: 'swap',
+  fallback: ['system-ui', 'Arial', 'sans-serif'],
+  preload: true,
 })
 
 const poppins = Poppins({
@@ -20,6 +22,8 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500'],
   display: 'swap',
+  fallback: ['system-ui', 'Arial', 'sans-serif'],
+  preload: true,
 })
 
 const inter = Inter({
@@ -27,6 +31,8 @@ const inter = Inter({
   subsets: ['latin'],
   weight: ['400'],
   display: 'swap',
+  fallback: ['system-ui', 'Arial', 'sans-serif'],
+  preload: true,
 })
 
 export const metadata: Metadata = {
@@ -118,6 +124,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head />
       <body className={`${fredoka.variable} ${poppins.variable} ${inter.variable} antialiased `}>
         <ThemeProvider
           attribute="class"
@@ -131,7 +138,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             {children}
             <ToasterClient />
-            {/* <PWAInstallBanner /> */}
             <PWARegister />
             <Analytics />
             <SpeedInsights />
