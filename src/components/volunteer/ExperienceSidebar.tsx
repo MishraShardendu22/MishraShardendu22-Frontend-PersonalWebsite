@@ -3,7 +3,20 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { CanvasCard } from '@/components/certificate/canva'
 import { VolunteerExperience } from '@/data/types.data'
-import { Building2, Code2, Rocket, Star, Award, Clock, Share2, Copy, Check } from 'lucide-react'
+import {
+  Building2,
+  Code2,
+  Rocket,
+  Star,
+  Award,
+  Clock,
+  Share2,
+  Copy,
+  Check,
+  Users,
+  Briefcase,
+  Calendar,
+} from 'lucide-react'
 
 interface ExperienceSidebarProps {
   experience: VolunteerExperience
@@ -51,16 +64,17 @@ export function ExperienceSidebar({
                 </div>
               )}
               <h4 className="text-white font-semibold text-lg">{experience.organisation}</h4>
-              <p className="text-white/80 text-sm">{experience.volunteer_time_line?.[0]?.position ?? ''}</p>
+              <p className="text-white/80 text-sm">
+                {experience.volunteer_time_line?.[0]?.position ?? ''}
+              </p>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
               <Clock className="w-4 h-4" />
-                <span>
-                  {formatDate(experience.volunteer_time_line?.[0]?.start_date ?? '')} - {formatDate(
-                    experience.volunteer_time_line?.[0]?.end_date ?? ''
-                  )}
-                </span>
+              <span>
+                {formatDate(experience.volunteer_time_line?.[0]?.start_date ?? '')} -{' '}
+                {formatDate(experience.volunteer_time_line?.[0]?.end_date ?? '')}
+              </span>
             </div>
           </div>
         </CanvasCard>
@@ -185,6 +199,149 @@ export function ExperienceSidebar({
                   <Badge className="text-xs bg-white/20 text-white border-white/30">
                     ✓ Multi-tech
                   </Badge>
+                )}
+              </div>
+            </div>
+          </div>
+        </CanvasCard>
+
+        {/* Timeline Legend Card */}
+        <CanvasCard
+          animationSpeed={3}
+          title="Timeline Legend"
+          icon={<Users className="h-6 w-6 text-indigo-400" />}
+          containerClassName="bg-indigo-900"
+          colors={[
+            [99, 102, 241],
+            [139, 92, 246],
+          ]}
+          dotSize={2}
+        >
+          <div className="space-y-4">
+            <p className="text-white/90 text-sm">Timeline indicators guide</p>
+
+            <div className="space-y-3">
+              {/* Current Position */}
+              <div className="flex items-center gap-2 text-xs">
+                <div className="h-4 w-4 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 border border-white/30 flex items-center justify-center shadow-sm">
+                  <Award className="w-2 h-2 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-white font-medium">Current Position</div>
+                </div>
+              </div>
+
+              {/* Past Position */}
+              <div className="flex items-center gap-2 text-xs">
+                <div className="h-4 w-4 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 border border-white/30 flex items-center justify-center shadow-sm">
+                  <Briefcase className="w-2 h-2 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-white font-medium">Past Position</div>
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div className="space-y-2 pt-2 border-t border-white/20">
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="px-2 py-0.5 bg-green-500/30 text-green-200 text-[10px] font-semibold rounded-full border border-green-400/30">
+                    CURRENT
+                  </div>
+                  <span className="text-white/80 text-[11px]">Active role</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="px-2 py-0.5 bg-amber-500/30 text-amber-200 text-[10px] font-semibold rounded-full border border-amber-400/30">
+                    Latest
+                  </div>
+                  <span className="text-white/80 text-[11px]">Most recent</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-white/20">
+              <div className="flex items-center gap-2 text-xs text-white/70">
+                <div className="w-4 h-[2px] bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 rounded-full"></div>
+                <span className="text-[11px]">Recent → Earlier</span>
+              </div>
+            </div>
+          </div>
+        </CanvasCard>
+
+        {/* Compact Timeline Card */}
+        <CanvasCard
+          animationSpeed={2.5}
+          title="Position Timeline"
+          icon={<Calendar className="h-6 w-6 text-violet-400" />}
+          containerClassName="bg-violet-900"
+          colors={[
+            [139, 92, 246],
+            [168, 85, 247],
+          ]}
+          dotSize={2}
+        >
+          <div className="space-y-4">
+            <p className="text-white/90 text-sm">Role progression timeline</p>
+
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-violet-400 via-purple-400 to-violet-400"></div>
+
+              {/* Timeline items */}
+              <div className="space-y-4">
+                {experience.volunteer_time_line
+                  .slice()
+                  .reverse()
+                  .slice(0, 4)
+                  .map((timeline, index) => {
+                    const isCurrentPosition =
+                      !timeline.end_date || new Date(timeline.end_date) > new Date()
+
+                    return (
+                      <div key={index} className="flex items-start gap-3 relative">
+                        {/* Timeline dot */}
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 border-white/30 flex items-center justify-center shadow-sm z-10 ${
+                            isCurrentPosition
+                              ? 'bg-gradient-to-br from-green-400 to-emerald-500'
+                              : 'bg-gradient-to-br from-gray-400 to-gray-500'
+                          }`}
+                        >
+                          {isCurrentPosition ? (
+                            <Award className="w-3 h-3 text-white" />
+                          ) : (
+                            <Briefcase className="w-3 h-3 text-white" />
+                          )}
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0 pb-2">
+                          <div className="text-white font-medium text-sm leading-tight">
+                            {timeline.position}
+                          </div>
+                          <div className="text-white/70 text-xs mt-1">
+                            {formatDate(timeline.start_date)} -{' '}
+                            {timeline.end_date ? formatDate(timeline.end_date) : 'Present'}
+                          </div>
+                          {isCurrentPosition && (
+                            <div className="inline-block px-2 py-0.5 bg-green-500/30 text-green-200 text-[10px] font-semibold rounded-full border border-green-400/30 mt-1">
+                              CURRENT
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+
+                {experience.volunteer_time_line.length > 4 && (
+                  <div className="flex items-center gap-3 relative">
+                    <div className="w-6 h-6 rounded-full border-2 border-white/30 bg-white/10 flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">+</span>
+                    </div>
+                    <div className="text-white/70 text-xs">
+                      {experience.volunteer_time_line.length - 4} more positions
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
