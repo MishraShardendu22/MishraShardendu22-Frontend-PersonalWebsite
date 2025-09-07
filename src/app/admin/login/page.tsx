@@ -7,17 +7,17 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useAuth } from '../../../hooks/use-auth'
-import { Button } from '../../../components/ui/button'
-import { Input } from '../../../components/ui/input'
-import { Label } from '../../../components/ui/label'
+import { Button } from '../../../components/atoms/button'
+import { Input } from '../../../components/atoms/input'
+import { Label } from '../../../components/atoms/label'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card'
-import { Alert, AlertDescription } from '../../../components/ui/alert'
+} from '../../../components/molecules/card'
+import { Alert, AlertDescription } from '../../../components/molecules/alert'
 import { Eye, EyeOff, Lock, Mail, Shield, X } from 'lucide-react'
 
 const loginSchema = z.object({
@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
       console.log('Submitting login with data:', { email: data.email, admin_pass: data.admin_pass })
       const result = await login(data)
       console.log('Login result:', result)
-      
+
       if (result.success) {
         toast.success('Login successful! Redirecting...')
         // Small delay to show the toast before redirect
@@ -65,7 +65,9 @@ export default function AdminLoginPage() {
           router.push('/admin/dashboard')
         }, 500)
       } else {
-        const errorMessage = result.error || 'Invalid credentials. Please check your email, password, and admin password.'
+        const errorMessage =
+          result.error ||
+          'Invalid credentials. Please check your email, password, and admin password.'
         setError(errorMessage)
         toast.error(errorMessage)
       }
@@ -86,8 +88,12 @@ export default function AdminLoginPage() {
       <Card className="w-full max-w-md border-none bg-white/10 dark:bg-black/30 backdrop-blur-2xl rounded-3xl shadow-2xl z-10 px-2 py-2">
         <CardHeader className="text-center space-y-2 pb-2">
           <Shield className="mx-auto h-12 w-12 text-primary drop-shadow-lg" />
-          <CardTitle className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin Login</CardTitle>
-          <CardDescription className="text-base text-muted-foreground">Access restricted admin panel</CardDescription>
+          <CardTitle className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Admin Login
+          </CardTitle>
+          <CardDescription className="text-base text-muted-foreground">
+            Access restricted admin panel
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
@@ -101,7 +107,9 @@ export default function AdminLoginPage() {
             )}
 
             <div className="space-y-1">
-              <Label htmlFor="email" className="font-semibold">Email</Label>
+              <Label htmlFor="email" className="font-semibold">
+                Email
+              </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-primary" />
                 <Input
@@ -112,11 +120,15 @@ export default function AdminLoginPage() {
                   {...register('email')}
                 />
               </div>
-              {errors.email && <p className="text-xs text-destructive mt-1">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
+              )}
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="password" className="font-semibold">Password</Label>
+              <Label htmlFor="password" className="font-semibold">
+                Password
+              </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-primary" />
                 <Input
@@ -141,7 +153,9 @@ export default function AdminLoginPage() {
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="admin_pass" className="font-semibold">Admin Password</Label>
+              <Label htmlFor="admin_pass" className="font-semibold">
+                Admin Password
+              </Label>
               <div className="relative">
                 <Shield className="absolute left-3 top-3 h-4 w-4 text-primary" />
                 <Input
@@ -165,7 +179,11 @@ export default function AdminLoginPage() {
               )}
             </div>
 
-            <Button type="submit" className="w-full mt-2 py-3 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 bg-gradient-to-r from-primary to-secondary rounded-xl" disabled={isLoading}>
+            <Button
+              type="submit"
+              className="w-full mt-2 py-3 text-lg font-semibold shadow-md hover:shadow-xl transition-all duration-200 bg-gradient-to-r from-primary to-secondary rounded-xl"
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <span className="flex items-center justify-center">
                   <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none">

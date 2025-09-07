@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/molecules/card'
 import { GitHubData } from '@/data/types.data'
 import { Github, Users, Code, Star, User, MapPin, BookOpen } from 'lucide-react'
 import { StatsCard } from './helper'

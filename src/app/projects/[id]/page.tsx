@@ -16,11 +16,11 @@ import {
   Play,
   Link,
 } from 'lucide-react'
-import { Badge } from '../../../components/ui/badge'
-import { Button } from '../../../components/ui/button'
+import { Badge } from '../../../components/atoms/badge'
+import { Button } from '../../../components/atoms/button'
 import { SkillsLens } from '@/components/ui/skill-lens'
 import { CanvasCard } from '@/components/projects/canva'
-import { Separator } from '../../../components/ui/separator'
+import { Separator } from '../../../components/atoms/separator'
 import { ProjectHero } from '@/components/projects/ProjectHero'
 import { LoadingState } from '@/components/projects/Load-Error'
 import { useProject } from '@/components/projects/hooks/useProject'
@@ -30,7 +30,7 @@ import { ProjectNotFound } from '@/components/projects/ProjectNotFound'
 import { ProjectDescription } from '@/components/projects/ProjectDescription'
 import { useProjectShare } from '@/components/projects/hooks/useProjectShare.ts'
 import { ProjectNavigation } from '../../../components/projects/ProjectNavigation'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/molecules/card'
 
 export default function ProjectDetailPage({ params }: any) {
   const { project, loading, error } = useProject(params)

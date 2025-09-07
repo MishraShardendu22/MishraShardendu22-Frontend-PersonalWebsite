@@ -1,7 +1,8 @@
 'use client'
 import dynamic from 'next/dynamic'
 const TiptapModalEditor = dynamic(
-  () => import('../../../components/extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
+  () =>
+    import('../../../components/extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
   { ssr: false }
 )
 
@@ -13,9 +14,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card'
-import { Button } from '../../../components/ui/button'
-import { Badge } from '../../../components/ui/badge'
+} from '../../../components/molecules/card'
+import { Button } from '../../../components/atoms/button'
+import { Badge } from '../../../components/atoms/badge'
 import {
   Dialog,
   DialogContent,
@@ -23,20 +24,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../../components/ui/dialog'
-import { Input } from '../../../components/ui/input'
-import { Label } from '../../../components/ui/label'
-import { Alert, AlertDescription } from '../../../components/ui/alert'
+} from '../../../components/molecules/dialog'
+import { Input } from '../../../components/atoms/input'
+import { Label } from '../../../components/atoms/label'
+import { Alert, AlertDescription } from '../../../components/molecules/alert'
 import { projectsAPI } from '../../../util/apiResponse.util'
 import { Project, CreateProjectRequest } from '../../../data/types.data'
 import { Plus, Edit, Trash2, ExternalLink, Github, Play, Briefcase } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Checkbox } from '../../../components/ui/checkbox'
+import { Checkbox } from '../../../components/atoms/checkbox'
 import { skillsAPI } from '../../../util/apiResponse.util'
-import { Popover, PopoverTrigger, PopoverContent } from '../../../components/ui/popover'
-import { Tooltip, TooltipTrigger, TooltipContent } from '../../../components/ui/tooltip'
+import { Popover, PopoverTrigger, PopoverContent } from '../../../components/molecules/popover'
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../../components/molecules/tooltip'
 import toast from 'react-hot-toast'
 
 const projectSchema = z.object({

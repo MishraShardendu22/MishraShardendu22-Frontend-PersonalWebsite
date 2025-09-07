@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Card } from './card'
+import { Card } from '../molecules/card'
 import Image from 'next/image'
 import { Button } from './button'
 import React, { useState, useMemo } from 'react'

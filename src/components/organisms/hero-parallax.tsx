@@ -1,9 +1,9 @@
 'use client'
 import Link from 'next/link'
-import { Badge } from './badge'
-import { Button } from './button'
+import { Badge } from '../atoms/badge'
+import { Button } from '../atoms/button'
 import React, { useMemo } from 'react'
-import { Card, CardDescription, CardTitle } from './card'
+import { Card, CardDescription, CardTitle } from '../molecules/card'
 import { ExternalLink, Github, ArrowRight } from 'lucide-react'
 import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
 

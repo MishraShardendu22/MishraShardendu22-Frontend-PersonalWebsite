@@ -1,12 +1,12 @@
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Input } from '@/components/atoms/input'
+import { Button } from '@/components/atoms/button'
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select'
+} from '@/components/molecules/select'
 
 interface ExperienceFiltersProps {
   selectedTech: string

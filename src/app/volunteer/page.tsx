@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Input } from '@/components/atoms/input'
+import { Button } from '@/components/atoms/button'
 import { ArrowLeft, Building2 } from 'lucide-react'
 import { VolunteerExperience } from '@/data/types.data'
 import { experiencesAPI, volunteerExperiencesAPI } from '@/util/apiResponse.util'
@@ -18,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/molecules/select'
 
 export default function ExperiencePageContent() {
   const [experiences, setExperiences] = useState<VolunteerExperience[]>([])
@@ -36,7 +36,7 @@ export default function ExperiencePageContent() {
 
   const allTechs = Array.from(new Set(experiences.flatMap((e) => e.technologies)))
   const allCompanies = Array.from(new Set(experiences.map((e) => e.organisation)))
-  
+
   // Fixed: Get years from the LATEST position (last element in array)
   const allYears = Array.from(
     new Set(
@@ -55,26 +55,32 @@ export default function ExperiencePageContent() {
       selectedTech !== '__all__' ? experience.technologies.includes(selectedTech) : true
     const matchesCompany =
       selectedCompany !== '__all__' ? experience.organisation === selectedCompany : true
-    
+
     // Fixed: Check year from the LATEST position (last element in array)
     const matchesYear =
       selectedYear !== '__all__'
         ? (() => {
-            const latestPosition = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
-            return latestPosition?.start_date &&
+            const latestPosition =
+              experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+            return (
+              latestPosition?.start_date &&
               new Date(latestPosition.start_date).getFullYear().toString() === selectedYear
+            )
           })()
         : true
-    
+
     // Fixed: Search in the LATEST position title (last element in array)
     const matchesSearch =
       searchTerm === '' ||
       (() => {
-        const latestPosition = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+        const latestPosition =
+          experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
         const latestPositionTitle = latestPosition?.position ?? ''
-        return latestPositionTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        return (
+          latestPositionTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
           experience.organisation.toLowerCase().includes(searchTerm.toLowerCase()) ||
           experience.description.toLowerCase().includes(searchTerm.toLowerCase())
+        )
       })()
 
     return matchesTech && matchesCompany && matchesYear && matchesSearch
@@ -88,8 +94,9 @@ export default function ExperiencePageContent() {
   // Fixed: Transform using the LATEST position (last element in array)
   const transformedExperiences = currentExperiences.map((experience) => {
     // Get the latest position (last element in the array)
-    const latestPosition = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
-    
+    const latestPosition =
+      experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+
     return {
       title: latestPosition?.position ?? 'Volunteer', // Latest position title
       company: experience.organisation,
@@ -101,7 +108,9 @@ export default function ExperiencePageContent() {
       endDate: latestPosition?.end_date ?? '', // Latest position end date
       // Additional info about career progression
       totalPositions: experience.volunteer_time_line?.length || 0,
-      isCurrentPosition: latestPosition?.end_date ? new Date(latestPosition.end_date) > new Date() : false
+      isCurrentPosition: latestPosition?.end_date
+        ? new Date(latestPosition.end_date) > new Date()
+        : false,
     }
   })
 
@@ -257,11 +266,13 @@ export default function ExperiencePageContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__all__">All Years</SelectItem>
-                {allYears.sort((a, b) => b.localeCompare(a)).map((year) => (
-                  <SelectItem key={year} value={year}>
-                    {year} (Latest)
-                  </SelectItem>
-                ))}
+                {allYears
+                  .sort((a, b) => b.localeCompare(a))
+                  .map((year) => (
+                    <SelectItem key={year} value={year}>
+                      {year} (Latest)
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
 

@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/atoms/button'
+import { Badge } from '@/components/atoms/badge'
 import { CanvasCard } from '@/components/certificate/canva'
 import { Experience } from '@/data/types.data'
 import { Building2, Code2, Rocket, Star, Award, Clock, Share2, Copy, Check } from 'lucide-react'
@@ -51,16 +51,17 @@ export function ExperienceSidebar({
                 </div>
               )}
               <h4 className="text-white font-semibold text-lg">{experience.company_name}</h4>
-              <p className="text-white/80 text-sm">{experience.experience_time_line?.[0]?.position ?? ''}</p>
+              <p className="text-white/80 text-sm">
+                {experience.experience_time_line?.[0]?.position ?? ''}
+              </p>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
               <Clock className="w-4 h-4" />
-                <span>
-                  {formatDate(experience.experience_time_line?.[0]?.start_date ?? '')} - {formatDate(
-                    experience.experience_time_line?.[0]?.end_date ?? ''
-                  )}
-                </span>
+              <span>
+                {formatDate(experience.experience_time_line?.[0]?.start_date ?? '')} -{' '}
+                {formatDate(experience.experience_time_line?.[0]?.end_date ?? '')}
+              </span>
             </div>
 
             {experience.certificate_url && (

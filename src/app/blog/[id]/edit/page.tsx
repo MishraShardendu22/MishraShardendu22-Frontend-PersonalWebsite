@@ -3,11 +3,17 @@
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/atoms/button'
+import { Input } from '@/components/atoms/input'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
+import { Separator } from '@/components/atoms/separator'
 import {
   ArrowLeft,
   Save,

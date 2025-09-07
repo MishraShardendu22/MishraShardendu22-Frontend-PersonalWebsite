@@ -1,17 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/atoms/input'
+import { Button } from '@/components/atoms/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/molecules/select'
 import { Search, Filter, X, Calendar, TrendingUp, Clock, Star } from 'lucide-react'
 
 interface BlogSearchProps {

@@ -1,10 +1,16 @@
 'use client'
 
 import React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
+import { Button } from '@/components/atoms/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/atoms/avatar'
 import { Calendar, Eye, Heart, MessageCircle, ArrowRight, BookOpen } from 'lucide-react'
 import { Blog } from '@/services/types'
 

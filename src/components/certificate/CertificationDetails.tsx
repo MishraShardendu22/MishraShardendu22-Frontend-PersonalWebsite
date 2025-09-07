@@ -17,11 +17,17 @@ import remarkGfm from 'remark-gfm'
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { SkillsLens } from '../ui/skill-lens'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/atoms/button'
 import { Certification } from '@/data/types.data'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/molecules/card'
 
 interface CertificationDetailsProps {
   certification: Certification

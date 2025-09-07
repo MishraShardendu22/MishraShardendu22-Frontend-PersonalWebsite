@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { Input } from '@/components/atoms/input'
+import { Button } from '@/components/atoms/button'
 import { ProjectFiltersProps } from '@/data/static_link'
 import {
   Select,
@@ -7,7 +7,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select'
+} from '@/components/molecules/select'
 
 export default function ProjectFilters({
   selectedSkill,

@@ -8,8 +8,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Certification } from '@/data/types.data'
 import { certificationsAPI } from '@/util/apiResponse.util'
 import { EmptyState, ErrorState, LoadingState } from '@/components/certificate/load-error'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '@/components/atoms/button'
+import { Input } from '@/components/atoms/input'
 import CertificationPagination from '@/components/certificate/pagination'
 import {
   Select,
@@ -17,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/molecules/select'
 import CertificationGrid from '@/components/certificate/grid'
 
 export default function CertificationPageContent() {

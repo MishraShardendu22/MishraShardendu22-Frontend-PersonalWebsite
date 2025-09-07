@@ -2,9 +2,15 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/molecules/card'
+import { Button } from '@/components/atoms/button'
+import { Badge } from '@/components/atoms/badge'
 import { ExternalLink, FolderOpen, Code2, Rocket, Star } from 'lucide-react'
 import { Certification } from '@/data/types.data'
 import { CanvasCard } from './canva'

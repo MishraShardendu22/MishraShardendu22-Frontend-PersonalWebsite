@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/molecules/card'
 import { ScrollText } from 'lucide-react'
 import { Experience } from '@/data/types.data'
 

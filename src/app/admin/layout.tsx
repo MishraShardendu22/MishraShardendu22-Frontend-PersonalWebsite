@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '../../hooks/use-auth'
-import { Button } from '../../components/ui/button'
+import { Button } from '../../components/atoms/button'
 import {
   LayoutDashboard,
   Briefcase,

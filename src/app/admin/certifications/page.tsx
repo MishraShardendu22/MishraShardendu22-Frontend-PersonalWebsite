@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { Alert, AlertDescription } from '../../../components/ui/alert'
+import { Alert, AlertDescription } from '../../../components/molecules/alert'
 import { certificationsAPI, projectsAPI, skillsAPI } from '../../../util/apiResponse.util'
 import { Certification, CreateCertificationRequest } from '../../../data/types.data'
 import { useForm } from 'react-hook-form'
@@ -15,9 +15,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card'
-import { Badge } from '../../../components/ui/badge'
-import { Button } from '../../../components/ui/button'
+} from '../../../components/molecules/card'
+import { Badge } from '../../../components/atoms/badge'
+import { Button } from '../../../components/atoms/button'
 import { Edit, Trash2, Award, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const certificationSchema = z.object({

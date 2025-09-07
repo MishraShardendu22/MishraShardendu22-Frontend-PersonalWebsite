@@ -8,10 +8,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+} from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/atoms/avatar'
+import { Button } from '@/components/atoms/button'
 import { Heart, Bookmark, Eye, MessageCircle, Calendar, ArrowRight } from 'lucide-react'
 import { Blog } from '@/services/types'
 

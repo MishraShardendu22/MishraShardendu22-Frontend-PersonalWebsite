@@ -8,7 +8,7 @@ import { Button } from './button'
 import React, { useState, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Experience } from '@/data/types.data'
-import { Card, CardDescription, CardTitle } from './card'
+import { Card, CardDescription, CardTitle } from '../molecules/card'
 import {
   Award,
   ArrowRight,

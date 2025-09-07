@@ -3,12 +3,18 @@
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/components/atoms/button'
+import { Input } from '@/components/atoms/input'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
+import { Separator } from '@/components/atoms/separator'
+import { Alert, AlertDescription } from '@/components/molecules/alert'
 import {
   ArrowLeft,
   Save,
@@ -30,7 +36,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
-} from '@/components/ui/dialog'
+} from '@/components/molecules/dialog'
 import ReactMarkdown from 'react-markdown'
 
 const CreateBlogPage = () => {

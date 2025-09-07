@@ -1,6 +1,6 @@
 import React from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Skeleton } from '@/components/atoms/skeleton'
+import { Card, CardContent, CardHeader } from '@/components/molecules/card'
 
 // Blog Card Skeleton
 export const BlogCardSkeleton = () => {

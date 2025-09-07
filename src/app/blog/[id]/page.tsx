@@ -3,11 +3,11 @@
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
-import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/atoms/button'
+import { Badge } from '@/components/atoms/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/atoms/avatar'
+import { Separator } from '@/components/atoms/separator'
+import { Textarea } from '@/components/atoms/textarea'
 import {
   ArrowLeft,
   Heart,

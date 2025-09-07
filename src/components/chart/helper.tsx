@@ -1,4 +1,4 @@
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/atoms/badge'
 import { Repository } from '@/data/types.data'
 import { BookOpen, Star, ExternalLink } from 'lucide-react'
 

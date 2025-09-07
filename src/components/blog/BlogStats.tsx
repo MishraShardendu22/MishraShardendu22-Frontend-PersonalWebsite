@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
 import { PenTool, Eye, Heart, MessageCircle, TrendingUp, Users, BookOpen, Star } from 'lucide-react'
 
 interface BlogStatsProps {

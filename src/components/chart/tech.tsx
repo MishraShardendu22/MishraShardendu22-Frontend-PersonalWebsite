@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/molecules/card'
 import { getLanguageColor, getThemeColors } from '@/util/theme'
 import { ResponsivePie } from '@nivo/pie'
 import { Code } from 'lucide-react'

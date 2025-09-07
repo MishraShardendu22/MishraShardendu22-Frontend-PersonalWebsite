@@ -1,8 +1,14 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/atoms/button'
 import { FolderOpen, ExternalLink } from 'lucide-react'
 import { VolunteerExperience } from '@/data/types.data'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/molecules/card'
 
 interface ExperienceProjectsProps {
   experience: VolunteerExperience

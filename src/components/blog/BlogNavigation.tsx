@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { BookOpen, BarChart3, Plus, LogOut, Menu, X, Glasses, User2Icon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/atoms/button'
 import { authClient } from '@/lib/authClient'
 
 const navigationItems = [

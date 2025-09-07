@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/atoms/button'
+import { Input } from '@/components/atoms/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/atoms/avatar'
 import {
   BookOpen,
   Plus,

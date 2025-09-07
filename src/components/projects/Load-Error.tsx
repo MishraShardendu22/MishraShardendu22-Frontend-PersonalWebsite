@@ -1,5 +1,5 @@
 import { Code2, Zap } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/molecules/card'
 
 export function LoadingState() {
   return (

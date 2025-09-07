@@ -1,8 +1,14 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/molecules/card'
+import { Button } from '@/components/atoms/button'
 import { ExternalLink, ImageIcon, Play, Copy, Check } from 'lucide-react'
 import { Certification } from '@/data/types.data'
 import { getYouTubeEmbedUrl, isGitHubUrl, isYouTubeUrl } from './utils/urlHelpers'

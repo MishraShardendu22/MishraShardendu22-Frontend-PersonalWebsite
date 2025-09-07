@@ -6,7 +6,7 @@ import { Button } from './button'
 import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
 import { Project } from '@/data/types.data'
-import { Card, CardDescription, CardTitle } from './card'
+import { Card, CardDescription, CardTitle } from '../molecules/card'
 import { ExternalLink, Github, ArrowRight } from 'lucide-react'
 
 export const ProjectFocusCard = React.memo(

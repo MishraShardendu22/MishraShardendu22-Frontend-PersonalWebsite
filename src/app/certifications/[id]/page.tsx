@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Badge } from '../../../components/ui/badge'
-import { Button } from '../../../components/ui/button'
+import { Badge } from '../../../components/atoms/badge'
+import { Button } from '../../../components/atoms/button'
 import { Certification } from '../../../data/types.data'
 import { certificationsAPI } from '../../../util/apiResponse.util'
 import { Award, Calendar, Share2, Copy, Check, Star, Code2, Target } from 'lucide-react'

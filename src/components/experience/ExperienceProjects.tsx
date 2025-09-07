@@ -1,6 +1,12 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Button } from '@/components/atoms/button'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/molecules/card'
 import { FolderOpen, ExternalLink } from 'lucide-react'
 import { Experience } from '@/data/types.data'
 

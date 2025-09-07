@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/atoms/button'
 import { ProjectPaginationProps } from '@/data/static_link'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 

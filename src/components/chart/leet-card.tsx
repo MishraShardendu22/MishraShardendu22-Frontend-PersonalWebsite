@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/molecules/card'
 import { LeetCodeData } from '@/data/types.data'
 import { Trophy, User, Award } from 'lucide-react'
 import { DifficultyCard } from './helper'

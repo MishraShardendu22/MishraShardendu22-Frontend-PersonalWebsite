@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { Code2 } from 'lucide-react'
 import { Lens } from '@/components/ui/lens'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/atoms/badge'
 
 interface SkillsLensProps {
   skills: string[]

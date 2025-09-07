@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Project } from '@/data/types.data'
 import { projectsAPI } from '@/util/apiResponse.util'
-import { EmptyState, ErrorState, LoadingState } from './Load-Error'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'
-import ProjectGrid from './project-grid'
-import ProjectPagination from './project-pagination'
+import { EmptyState, ErrorState, LoadingState } from '../projects/Load-Error'
+import { Button } from '../atoms/button'
+import { Input } from '../atoms/input'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../molecules/select'
+import ProjectGrid from '../organisms/project-grid'
+import ProjectPagination from '../projects/project-pagination'
 
 export default function ProjectPageContent() {
   const [projects, setProjects] = useState<Project[]>([])

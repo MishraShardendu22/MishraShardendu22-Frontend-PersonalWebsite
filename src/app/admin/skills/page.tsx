@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
-import { Button } from '../../../components/ui/button'
-import { Alert, AlertDescription } from '../../../components/ui/alert'
+import { Button } from '../../../components/atoms/button'
+import { Alert, AlertDescription } from '../../../components/molecules/alert'
 import { skillsAPI } from '../../../util/apiResponse.util'
 import { Plus, Settings, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useForm } from 'react-hook-form'

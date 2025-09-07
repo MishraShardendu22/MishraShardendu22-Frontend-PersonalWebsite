@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card'
-import { Button } from './button'
-import { Badge } from './badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../molecules/card'
+import { Button } from '../atoms/button'
+import { Badge } from '../atoms/badge'
 import { Award, Clock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { Certification } from '@/data/types.data'

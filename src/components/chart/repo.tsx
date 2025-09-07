@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/molecules/card'
 import { Repository } from '@/data/types.data'
 import { TrendingUp } from 'lucide-react'
 import { RepoCard } from './helper'

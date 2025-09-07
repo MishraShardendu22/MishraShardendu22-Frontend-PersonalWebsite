@@ -1,12 +1,18 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/molecules/card'
+import { Badge } from '@/components/atoms/badge'
+import { Button } from '@/components/atoms/button'
+import { Input } from '@/components/atoms/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/atoms/avatar'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/molecules/tabs'
 import {
   BookOpen,
   Plus,
@@ -34,7 +40,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
+} from '@/components/molecules/alert-dialog'
 import toast from 'react-hot-toast'
 import ReactMarkdown from 'react-markdown'
 

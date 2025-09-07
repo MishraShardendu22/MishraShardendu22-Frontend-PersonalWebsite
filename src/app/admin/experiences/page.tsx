@@ -2,13 +2,13 @@
 
 import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
-import { Badge } from '../../../components/ui/badge'
-import { Input } from '../../../components/ui/input'
-import { Label } from '../../../components/ui/label'
-import { Button } from '../../../components/ui/button'
+import { Badge } from '../../../components/atoms/badge'
+import { Input } from '../../../components/atoms/input'
+import { Label } from '../../../components/atoms/label'
+import { Button } from '../../../components/atoms/button'
 import { useEffect, useState } from 'react'
 import { TiptapModalEditor } from '@/components/extra/TipTap'
-import { Alert, AlertDescription } from '../../../components/ui/alert'
+import { Alert, AlertDescription } from '../../../components/molecules/alert'
 import { Experience, CreateExperienceRequest } from '../../../data/types.data'
 import { experiencesAPI, projectsAPI, skillsAPI } from '../../../util/apiResponse.util'
 import {
@@ -17,7 +17,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../../../components/ui/card'
+} from '../../../components/molecules/card'
 import {
   Plus,
   Edit,
@@ -34,7 +34,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../../components/ui/dialog'
+} from '../../../components/molecules/dialog'
 
 // Define form data type
 interface ExperienceFormData {
@@ -134,7 +134,7 @@ export default function AdminExperiencesPage() {
 
   const onSubmit = async (data: ExperienceFormData) => {
     try {
-  const experienceData: CreateExperienceRequest = {
+      const experienceData: CreateExperienceRequest = {
         // form fields
         images: data.images.split(',').map((img) => img.trim()),
         projects: selectedProjects,
@@ -154,7 +154,7 @@ export default function AdminExperiencesPage() {
           },
         ],
       }
-  if (editingExperience) {
+      if (editingExperience) {
         await experiencesAPI.updateExperience(editingExperience.inline.id, experienceData)
         setSuccess('Experience updated successfully')
       } else {
@@ -433,9 +433,9 @@ export default function AdminExperiencesPage() {
                     {exp.experience_time_line?.[0]?.position ?? 'Position'}
                   </CardTitle>
                   <CardDescription className="text-foreground">
-                    {exp.company_name} &bull; {formatDate(
-                      exp.experience_time_line?.[0]?.start_date ?? ''
-                    )} to {formatDate(exp.experience_time_line?.[0]?.end_date ?? '')}
+                    {exp.company_name} &bull;{' '}
+                    {formatDate(exp.experience_time_line?.[0]?.start_date ?? '')} to{' '}
+                    {formatDate(exp.experience_time_line?.[0]?.end_date ?? '')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col gap-2 p-2">

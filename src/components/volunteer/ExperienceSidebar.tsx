@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/atoms/button'
+import { Badge } from '@/components/atoms/badge'
 import { CanvasCard } from '@/components/certificate/canva'
 import { VolunteerExperience } from '@/data/types.data'
 import {
