@@ -16,10 +16,10 @@ import { LazyProjectsSection } from '@/components/lazy/proj'
 import { LazyExperienceSection } from '@/components/lazy/exp'
 import { ShootingStars } from '@/components/ui/shooting-stars'
 import { MobileNavigation } from '@/components/extra/mobile-nav'
+import { LazyTimelineSection } from '@/components/lazy/timeline'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { LazyVExperienceSection } from '@/components/lazy/volunteer'
-import { LazyTimelineSection } from '@/components/lazy/timeline'
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
