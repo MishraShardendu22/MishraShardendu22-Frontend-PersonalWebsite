@@ -58,7 +58,11 @@ export default function ExperienceCards({
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 via-secondary/15 to-accent/15 flex items-center justify-center flex-shrink-0 group-hover:from-primary/25 group-hover:via-secondary/25 group-hover:to-accent/25 transition-all duration-300 group-hover:scale-105 border border-primary/20 group-hover:border-primary/40 overflow-hidden">
             {companyLogo ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={companyLogo} alt={`${company} logo`} className="w-full h-full object-contain p-2 bg-white/5" />
+              <img
+                src={companyLogo}
+                alt={`${company} logo`}
+                className="w-full h-full object-contain p-2 bg-white/5"
+              />
             ) : (
               <Building2 className="w-6 h-6 text-primary" />
             )}

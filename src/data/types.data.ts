@@ -1,147 +1,13 @@
-// Base Types
-export interface CommitData {
-  date: string
-  count: number
-}
+/**
+ * Legacy types file - maintained for backward compatibility
+ * @deprecated Prefer importing from @/models instead
+ * This file re-exports from the new consolidated models
+ */
 
-export interface GitHubData {
-  name?: string
-  location?: string
-  bio?: string
-  followers: number
-  public_repos: number
-}
+// Re-export all types from the new consolidated models
+export * from '@/models'
 
-export interface LeetCodeData {
-  profile: {
-    realName?: string
-    ranking: number
-  }
-  submitStats: {
-    acSubmissionNum: Array<{ count: number }>
-  }
-}
-
-export interface Repository {
-  name: string
-  url: string
-  stars: number
-}
-
-export interface DashboardData {
-  github?: GitHubData
-  leetcode?: LeetCodeData
-  commits?: CommitData[]
-  languages?: Record<string, number>
-  stars?: number
-  topRepos?: Repository[]
-}
-
-export interface ChartTheme {
-  text: string
-  grid: string
-  background: string
-  primary: string
-}
-
-// API Response Types
-export interface ApiResponse<T> {
-  message: string
-  data: T
-  error?: string
-  status?: number
-}
-
-// Authentication Types
-export interface AuthRequest {
-  email: string
-  password: string
-  admin_pass: string
-}
-
-export interface AuthResponse {
-  token: string
-  data: {
-    _id: string
-    email: string
-    skills: string[]
-    projects: string[]
-    experiences: string[]
-  }
-}
-
-// User Types
-export interface User {
-  email: string
-  skills: string[]
-  projects: string[]
-  experiences: string[]
-  certifications: string[]
-}
-
-// Skills Types
-export interface SkillsRequest {
-  skills: string[]
-}
-
-export interface SkillsResponse {
-  skills: string[]
-}
-
-export interface ProfileData {
-  inline: {
-    id: string
-    created_at: string
-    updated_at: string
-  }
-  email: string
-  password: string
-  admin_pass: string
-  skills: string[]
-  projects: string[]
-  experiences: string[]
-  certifications?: string[] | null
-}
-
-// Project Types
-export interface Project {
-  inline: {
-    id: string
-    created_at: string
-    updated_at: string
-  }
-  images: string[]
-  stats?: any
-  project_name: string
-  title?: string
-  small_description: string
-  description: string
-  skills: string[]
-  project_repository: string
-  project_live_link: string
-  project_video: string
-}
-
-export interface CreateProjectRequest {
-  project_name: string
-  small_description: string
-  description: string
-  skills: string[]
-  project_repository: string
-  project_live_link: string
-  project_video: string
-}
-
-export type UpdateProjectRequest = CreateProjectRequest
-
-// Experience Timeline Type
-export interface ExperienceTimeLine {
-  position: string
-  start_date: string
-  end_date: string
-}
-
-// Experience Types
+// Legacy experience types with backward compatibility
 export interface Experience {
   inline: {
     id: string
@@ -157,72 +23,6 @@ export interface Experience {
   company_logo: string
   certificate_url: string
   experience_time_line: ExperienceTimeLine[]
-}
-
-export interface CreateExperienceRequest {
-  images: string[]
-  projects: string[]
-  created_by: string
-  description: string
-  technologies: string[]
-  company_name: string
-  company_logo: string
-  certificate_url: string
-  experience_time_line: ExperienceTimeLine[]
-}
-
-export type UpdateExperienceRequest = CreateExperienceRequest
-
-// Experience API Response Types
-export interface ExperienceListResponse {
-  data: Experience[]
-  message: string
-  status: number
-}
-
-export interface ExperienceResponse {
-  data: Experience
-  message: string
-  status: number
-}
-
-// Certification Types
-export interface Certification {
-  inline: {
-    id: string
-    created_at: string
-    updated_at: string
-  }
-  title: string
-  description: string
-  projects: string[]
-  skills: string[]
-  certificate_url: string
-  images: string[]
-  issuer: string
-  issue_date: string
-  expiry_date: string
-}
-
-export interface CreateCertificationRequest {
-  title: string
-  description: string
-  issuer: string
-  skills: string[]
-  projects: string[]
-  certificate_url: string
-  images: string[]
-  issue_date: string
-  expiry_date: string
-}
-
-export type UpdateCertificationRequest = CreateCertificationRequest
-
-// Volunteer Experience Types
-export interface VolunteerExperienceTimeLine {
-  position: string
-  start_date: string
-  end_date: string
 }
 
 export interface VolunteerExperience {
@@ -241,20 +41,28 @@ export interface VolunteerExperience {
   volunteer_time_line: VolunteerExperienceTimeLine[]
 }
 
-export interface CreateVolunteerExperienceRequest {
-  images: string[]
-  projects: string[]
-  created_by: string
-  description: string
-  technologies: string[]
-  organisation: string
-  organisation_logo: string
-  volunteer_time_line: VolunteerExperienceTimeLine[]
+// Legacy timeline types
+export interface ExperienceTimeLine {
+  position: string
+  start_date: string
+  end_date: string
 }
 
-export type UpdateVolunteerExperienceRequest = CreateVolunteerExperienceRequest
+export interface VolunteerExperienceTimeLine {
+  position: string
+  start_date: string
+  end_date: string
+}
 
-// Achievement Types (alias for Certification)
-export type Achievement = Certification
-export type CreateAchievementRequest = CreateCertificationRequest
-export type UpdateAchievementRequest = UpdateCertificationRequest
+// Legacy API Response Types
+export interface ExperienceListResponse {
+  data: Experience[]
+  message: string
+  status: number
+}
+
+export interface ExperienceResponse {
+  data: Experience
+  message: string
+  status: number
+}

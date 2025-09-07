@@ -7,7 +7,7 @@ interface ExperienceGridProps {
   items: {
     title: string
     company: string
-  companyLogo?: string
+    companyLogo?: string
     description: string
     link: string
     technologies?: string[]
