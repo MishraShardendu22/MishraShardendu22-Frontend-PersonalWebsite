@@ -13,12 +13,12 @@ html {
 
 /* Mobile-first responsive font scaling */
 :root {
-  /* Enhanced font system with better mobile readability */
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Fredoka', system-ui, sans-serif;
-  --font-subheading: 'Poppins', system-ui, sans-serif;
-  --font-geist-sans: 'Geist Sans', system-ui, sans-serif;
-  --font-geist-mono: 'Geist Mono', 'SF Mono', Monaco, Consolas, monospace;
+  /* Enhanced font system with system fonts for better compatibility */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-subheading: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-geist-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-geist-mono: 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   /* Mobile-optimized sizing */
   --radius: 0.875rem; /* Increased for better touch targets */

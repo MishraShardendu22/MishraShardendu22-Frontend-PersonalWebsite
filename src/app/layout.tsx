@@ -3,37 +3,9 @@ import { ThemeProvider } from 'next-themes'
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import PWARegister from '@/components/extra/PWARegister'
-import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import ToasterClient from '@/components/extra/ToasterClient'
 import ThemeToggleClient from '@/components/extra/ThemeToggleClient'
-
-const fredoka = Fredoka({
-  variable: '--font-heading',
-  subsets: ['latin'],
-  weight: ['600', '700'],
-  display: 'swap',
-  fallback: ['system-ui', 'Arial', 'sans-serif'],
-  preload: true,
-})
-
-const poppins = Poppins({
-  variable: '--font-subheading',
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  display: 'swap',
-  fallback: ['system-ui', 'Arial', 'sans-serif'],
-  preload: true,
-})
-
-const inter = Inter({
-  variable: '--font-body',
-  subsets: ['latin'],
-  weight: ['400'],
-  display: 'swap',
-  fallback: ['system-ui', 'Arial', 'sans-serif'],
-  preload: true,
-})
 
 export const metadata: Metadata = {
   title: {
@@ -124,13 +96,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-      </head>
-      <body className={`${fredoka.variable} ${poppins.variable} ${inter.variable} antialiased `}>
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
