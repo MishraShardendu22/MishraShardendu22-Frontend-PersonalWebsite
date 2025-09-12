@@ -1,0 +1,43 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://mishrashardendu22.is-a.dev/sitemap.xml
+
+# Disallow admin pages (private areas)
+Disallow: /admin/
+Disallow: /api/auth/
+Disallow: /api/admin/
+
+# Disallow dynamic query parameters that don't add value
+Disallow: /*?*
+Disallow: /*&*
+
+# Allow important pages explicitly
+Allow: /projects/*
+Allow: /experience/*
+Allow: /volunteer/*
+Allow: /certifications/*
+Allow: /blog/*
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Specific rules for search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Block unwanted bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

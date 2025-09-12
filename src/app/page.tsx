@@ -20,6 +20,8 @@ import { LazyTimelineSection } from '@/components/lazy/timeline'
 import { LazyCertificationsSection } from '@/components/lazy/cert'
 import { StarsBackground } from '@/components/ui/stars-background'
 import { LazyVExperienceSection } from '@/components/lazy/volunteer'
+import { PersonJsonLd, WebsiteJsonLd, OrganizationJsonLd } from '@/components/seo/StructuredData'
+import { HomeBreadcrumb } from '@/components/seo/BreadcrumbJsonLd'
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
@@ -82,6 +84,12 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
+      {/* SEO Structured Data */}
+      <PersonJsonLd />
+      <WebsiteJsonLd />
+      <OrganizationJsonLd />
+      <HomeBreadcrumb />
+
       <DesktopSidebar activeSection={activeSection} />
       <MobileNavigation activeSection={activeSection} />
 
