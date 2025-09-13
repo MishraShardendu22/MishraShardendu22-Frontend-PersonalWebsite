@@ -43,7 +43,7 @@ export const ExperienceFocusCard = React.memo(
       const diffTime = Math.abs(end.getTime() - start.getTime())
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
       const months = Math.floor(diffDays / 30)
-      
+
       if (months < 1) return '< 1 month'
       if (months < 12) return `${months} month${months > 1 ? 's' : ''}`
       const years = Math.floor(months / 12)
@@ -61,7 +61,7 @@ export const ExperienceFocusCard = React.memo(
     const currentPosition = latestPosition?.position || earliestPosition?.position || 'Volunteer'
     const positionCount = exp.volunteer_time_line?.length || 0
     const techCount = exp.technologies?.length || 0
-    const projectCount = exp.projects?.length || 0
+    const projectCount = exp.projects?.length + exp.images?.length || 0
     const imageCount = exp.images?.length || 0
 
     const isCurrentlyActive = useMemo(() => {
@@ -88,7 +88,7 @@ export const ExperienceFocusCard = React.memo(
               </div>
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl blur-sm opacity-50 group-hover:opacity-70 transition-opacity"></div>
             </div>
-            
+
             {/* Active Status Badge */}
             {isCurrentlyActive && (
               <div className="px-2 py-1 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
@@ -114,7 +114,7 @@ export const ExperienceFocusCard = React.memo(
                     </div>
                   </div>
                 )}
-                
+
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-lg text-foreground mb-1 leading-tight">
                     {exp.organisation}
@@ -123,12 +123,14 @@ export const ExperienceFocusCard = React.memo(
                     <Award className="mr-1.5 h-4 w-4 flex-shrink-0" />
                     {currentPosition}
                   </div>
-                  
+
                   {/* Position Progression Indicator */}
                   {positionCount > 1 && (
                     <div className="flex items-center text-xs text-foreground/60">
                       <Users className="mr-1 h-3 w-3" />
-                      <span>{positionCount} position{positionCount > 1 ? 's' : ''} held</span>
+                      <span>
+                        {positionCount} position{positionCount > 1 ? 's' : ''} held
+                      </span>
                     </div>
                   )}
                 </div>
@@ -165,9 +167,7 @@ export const ExperienceFocusCard = React.memo(
             {/* Enhanced Description Section */}
             <div className="flex-1 min-h-0 mb-4">
               <div className="overflow-hidden">
-                <p className="text-foreground/85 leading-relaxed text-sm font-medium">
-                  {summary}
-                </p>
+                <p className="text-foreground/85 leading-relaxed text-sm font-medium">{summary}</p>
               </div>
             </div>
 
@@ -178,7 +178,9 @@ export const ExperienceFocusCard = React.memo(
                   <h4 className="text-xs font-semibold text-foreground/70 uppercase tracking-wide">
                     Technologies Used
                   </h4>
-                  <span className="text-xs text-foreground/50">{techCount} tech{techCount > 1 ? 's' : ''}</span>
+                  <span className="text-xs text-foreground/50">
+                    {techCount} tech{techCount > 1 ? 's' : ''}
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {exp.technologies.slice(0, isMobile ? 4 : 6).map((tech, idx) => (
@@ -241,25 +243,32 @@ export const ExperienceFocusCard = React.memo(
                 </h4>
                 <div className="space-y-2 max-h-20 overflow-y-auto">
                   {exp.volunteer_time_line.slice(0, 2).map((timeline, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs bg-muted/50 rounded-md px-2 py-1.5 border border-muted-foreground/10">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-xs bg-muted/50 rounded-md px-2 py-1.5 border border-muted-foreground/10"
+                    >
                       <span className="font-medium text-foreground/80 truncate flex-1">
                         {timeline.position}
                       </span>
                       <span className="text-foreground/60 text-[10px] ml-2 whitespace-nowrap">
-                        {new Date(timeline.start_date).toLocaleDateString('en-GB', { year: '2-digit', month: 'short' })}
+                        {new Date(timeline.start_date).toLocaleDateString('en-GB', {
+                          year: '2-digit',
+                          month: 'short',
+                        })}
                       </span>
                     </div>
                   ))}
                   {exp.volunteer_time_line.length > 2 && (
                     <div className="text-xs text-foreground/50 text-center py-1">
-                      +{exp.volunteer_time_line.length - 2} more position{exp.volunteer_time_line.length - 2 !== 1 ? 's' : ''}
+                      +{exp.volunteer_time_line.length - 2} more position
+                      {exp.volunteer_time_line.length - 2 !== 1 ? 's' : ''}
                     </div>
                   )}
                 </div>
               </div>
             )}
 
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-4"></div>
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-4"></div>
             <div className="flex-shrink-0 mt-auto">
               <Link href={`/volunteer/${exp.inline.id}`} className="w-full block">
                 <Button
@@ -292,13 +301,15 @@ export function ExperienceFocusCards({
   isMobile: boolean
 }) {
   const [hovered, setHovered] = useState<number | null>(null)
-  
+
   return (
     <div className="mx-auto mt-12 max-w-7xl">
       {/* Fixed height grid to ensure consistent card heights */}
       <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 auto-rows-fr">
         {experiences.map((exp, index) => (
-          <div key={exp.inline.id} className="min-h-[650px] flex"> {/* Fixed minimum height */}
+          <div key={exp.inline.id} className="min-h-[650px] flex">
+            {' '}
+            {/* Fixed minimum height */}
             <ExperienceFocusCard
               exp={exp}
               index={index}

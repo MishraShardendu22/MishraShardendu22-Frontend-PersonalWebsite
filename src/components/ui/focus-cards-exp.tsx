@@ -9,7 +9,17 @@ import React, { useState, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Experience } from '@/data/types.data'
 import { Card, CardDescription, CardTitle } from './card'
-import { Award, ArrowRight, Building2, Calendar, ExternalLink, Clock, Users, Trophy, Target } from 'lucide-react'
+import {
+  Award,
+  ArrowRight,
+  Building2,
+  Calendar,
+  ExternalLink,
+  Clock,
+  Users,
+  Trophy,
+  Target,
+} from 'lucide-react'
 
 export const ExperienceFocusCard = React.memo(
   ({
@@ -46,7 +56,7 @@ export const ExperienceFocusCard = React.memo(
       const diffTime = Math.abs(end.getTime() - start.getTime())
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
       const months = Math.floor(diffDays / 30)
-      
+
       if (months < 1) return '< 1 month'
       if (months < 12) return `${months} month${months > 1 ? 's' : ''}`
       const years = Math.floor(months / 12)
@@ -64,7 +74,7 @@ export const ExperienceFocusCard = React.memo(
     const currentPosition = latestPosition?.position || earliestPosition?.position || 'Professional'
     const positionCount = exp.experience_time_line?.length || 0
     const techCount = exp.technologies?.length || 0
-    const projectCount = exp.projects?.length || 0
+    const projectCount = exp.projects?.length + exp.images?.length || 0
     const imageCount = exp.images?.length || 0
 
     const isCurrentlyActive = useMemo(() => {
@@ -91,7 +101,7 @@ export const ExperienceFocusCard = React.memo(
               </div>
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl blur-sm opacity-50 group-hover:opacity-70 transition-opacity"></div>
             </div>
-            
+
             {/* Active Status Badge */}
             {isCurrentlyActive && (
               <div className="px-2 py-1 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
@@ -114,14 +124,14 @@ export const ExperienceFocusCard = React.memo(
                         alt={`${exp.company_name} logo`}
                         className="w-full h-full object-cover transition-transform group-hover/logo:scale-105"
                         onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
+                          const target = e.target as HTMLImageElement
+                          target.style.display = 'none'
                         }}
                       />
                     </div>
                   </div>
                 )}
-                
+
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-lg text-foreground mb-1 leading-tight">
                     {exp.company_name}
@@ -130,12 +140,14 @@ export const ExperienceFocusCard = React.memo(
                     <Award className="mr-1.5 h-4 w-4 flex-shrink-0" />
                     {currentPosition}
                   </div>
-                  
+
                   {/* Position Progression Indicator */}
                   {positionCount > 1 && (
                     <div className="flex items-center text-xs text-foreground/60">
                       <Users className="mr-1 h-3 w-3" />
-                      <span>{positionCount} position{positionCount > 1 ? 's' : ''} held</span>
+                      <span>
+                        {positionCount} position{positionCount > 1 ? 's' : ''} held
+                      </span>
                     </div>
                   )}
                 </div>
@@ -173,9 +185,7 @@ export const ExperienceFocusCard = React.memo(
             <div className="flex-1 min-h-0 mb-4">
               <div className="overflow-hidden">
                 <div className="text-foreground/85 leading-relaxed text-sm font-medium">
-                  <ReactMarkdown>
-                    {summary}
-                  </ReactMarkdown>
+                  <ReactMarkdown>{summary}</ReactMarkdown>
                 </div>
               </div>
             </div>
@@ -187,7 +197,9 @@ export const ExperienceFocusCard = React.memo(
                   <h4 className="text-xs font-semibold text-foreground/70 uppercase tracking-wide">
                     Technologies Used
                   </h4>
-                  <span className="text-xs text-foreground/50">{techCount} tech{techCount > 1 ? 's' : ''}</span>
+                  <span className="text-xs text-foreground/50">
+                    {techCount} tech{techCount > 1 ? 's' : ''}
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {exp.technologies.slice(0, isMobile ? 4 : 6).map((tech, idx) => (
@@ -250,18 +262,25 @@ export const ExperienceFocusCard = React.memo(
                 </h4>
                 <div className="space-y-2 max-h-20 overflow-y-auto">
                   {exp.experience_time_line.slice(0, 2).map((timeline, idx) => (
-                    <div key={idx} className="flex items-center justify-between text-xs bg-muted/50 rounded-md px-2 py-1.5 border border-muted-foreground/10">
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-xs bg-muted/50 rounded-md px-2 py-1.5 border border-muted-foreground/10"
+                    >
                       <span className="font-medium text-foreground/80 truncate flex-1">
                         {timeline.position}
                       </span>
                       <span className="text-foreground/60 text-[10px] ml-2 whitespace-nowrap">
-                        {new Date(timeline.start_date).toLocaleDateString('en-GB', { year: '2-digit', month: 'short' })}
+                        {new Date(timeline.start_date).toLocaleDateString('en-GB', {
+                          year: '2-digit',
+                          month: 'short',
+                        })}
                       </span>
                     </div>
                   ))}
                   {exp.experience_time_line.length > 2 && (
                     <div className="text-xs text-foreground/50 text-center py-1">
-                      +{exp.experience_time_line.length - 2} more position{exp.experience_time_line.length - 2 !== 1 ? 's' : ''}
+                      +{exp.experience_time_line.length - 2} more position
+                      {exp.experience_time_line.length - 2 !== 1 ? 's' : ''}
                     </div>
                   )}
                 </div>
@@ -273,7 +292,10 @@ export const ExperienceFocusCard = React.memo(
 
             {/* Enhanced Action Buttons */}
             <div className="flex-shrink-0 mt-auto space-y-2">
-              <Link href={`/experiences/${exp.inline?.id || exp.inline.id}`} className="w-full block">
+              <Link
+                href={`/experiences/${exp.inline?.id || exp.inline.id}`}
+                className="w-full block"
+              >
                 <Button
                   size="sm"
                   className="w-full h-10 bg-gradient-to-r from-primary via-primary/95 to-secondary hover:from-primary/90 hover:via-primary/85 hover:to-secondary/90 text-primary-foreground border-0 shadow-lg hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 font-semibold group/btn relative overflow-hidden"
