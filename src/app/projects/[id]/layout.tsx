@@ -1,31 +1,56 @@
 import { projectsAPI } from '../../../util/apiResponse.util'
+import { Metadata } from 'next'
+import { ReactNode } from 'react'
 
-export async function generateMetadata({ params }: { params: any }) {
-  const { id } = await params
-  const response = await projectsAPI.getProjectById(id)
+interface Props {
+  params: Promise<{ id: string }>
+  children: ReactNode
+}
 
-  const project = response.data
-  if (!project) return {}
-  return {
-    title: `${project.project_name} | Project | Mishra Shardendu Portfolio`,
-    description: project.small_description,
-    openGraph: {
-      title: `${project.project_name} | Project | Mishra Shardendu Portfolio`,
-      description: project.small_description,
-      url: `https://mishrashardendu22.is-a.dev/projects/${id}`,
-      type: 'article',
-      siteName: 'Shardendu Mishra Portfolio',
-      images: project.images ? project.images.map((img) => ({ url: img })) : [],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${project.project_name} | Project | Mishra Shardendu Portfolio`,
-      description: project.small_description,
-      images: project.images || [],
-    },
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  try {
+    const { id } = await params
+    const response = await projectsAPI.getProjectById(id)
+    const project = response.data
+
+    if (!project) {
+      return {
+        title: 'Project Not Found | Shardendu Mishra',
+        description: 'The requested project could not be found.',
+      }
+    }
+
+    return {
+      title: `${project.project_name} | Project | Shardendu Mishra Portfolio`,
+      description: project.small_description || 'View this project by Shardendu Mishra',
+      openGraph: {
+        title: `${project.project_name} | Project | Shardendu Mishra Portfolio`,
+        description: project.small_description || 'View this project by Shardendu Mishra',
+        url: `https://mishrashardendu22.is-a.dev/projects/${id}`,
+        type: 'article',
+        siteName: 'Shardendu Mishra Portfolio',
+        images: project.images ? project.images.map((img) => ({ url: img })) : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${project.project_name} | Project | Shardendu Mishra Portfolio`,
+        description: project.small_description || 'View this project by Shardendu Mishra',
+        images: project.images || [],
+      },
+    }
+  } catch (error) {
+    console.error('Error generating metadata for project:', error)
+    return {
+      title: 'Project | Shardendu Mishra',
+      description: 'View projects by Shardendu Mishra',
+    }
   }
 }
 
-export default function ProjectDetailLayout({ children }: { children: React.ReactNode }) {
+export default function ProjectDetailLayout({ children }: Props) {
   return <>{children}</>
 }
