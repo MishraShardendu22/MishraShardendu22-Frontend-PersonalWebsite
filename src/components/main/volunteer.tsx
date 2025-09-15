@@ -11,7 +11,9 @@ interface VolunteerExperienceSectionProps {
   experiences: VolunteerExperience[]
 }
 
-export default function VolunteerExperienceSection({ experiences }: VolunteerExperienceSectionProps) {
+export default function VolunteerExperienceSection({
+  experiences,
+}: VolunteerExperienceSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [windowWidth, setWindowWidth] = useState(0)
 
@@ -22,8 +24,13 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  const getItemsPerPage = () => {
+    if (windowWidth < 640) return 1 // Mobile: 1 experience
+    return 2 // Tablet and Desktop: 2 experiences
+  }
+
   // Fixed: Always show 2 experiences per page as designed
-  const itemsPerPage = 2
+  const itemsPerPage = getItemsPerPage()
   const totalPages = Math.ceil(experiences.length / itemsPerPage)
 
   const { currentPageExperiences, startIndex, endIndex } = useMemo(() => {
@@ -33,6 +40,11 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
 
     return { currentPageExperiences, startIndex, endIndex }
   }, [experiences, currentPage, itemsPerPage])
+
+  // Reset to first page when screen size changes
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [itemsPerPage])
 
   const nextPage = useCallback(() => {
     if (currentPage < totalPages - 1) setCurrentPage((prev) => prev + 1)
@@ -87,18 +99,19 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
 
   // Calculate total volunteer statistics
   const volunteerStats = useMemo(() => {
-    const totalOrganizations = new Set(experiences.map(exp => exp.organisation)).size
+    const totalOrganizations = new Set(experiences.map((exp) => exp.organisation)).size
     const totalProjects = experiences.reduce((sum, exp) => sum + (exp.projects?.length || 0), 0)
-    const totalTechnologies = new Set(
-      experiences.flatMap(exp => exp.technologies || [])
-    ).size
-    const totalPositions = experiences.reduce((sum, exp) => sum + (exp.volunteer_time_line?.length || 0), 0)
+    const totalTechnologies = new Set(experiences.flatMap((exp) => exp.technologies || [])).size
+    const totalPositions = experiences.reduce(
+      (sum, exp) => sum + (exp.volunteer_time_line?.length || 0),
+      0
+    )
 
     return {
       organizations: totalOrganizations,
       projects: totalProjects,
       technologies: totalTechnologies,
-      positions: totalPositions
+      positions: totalPositions,
     }
   }, [experiences])
 
@@ -107,8 +120,12 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
       <section className="relative overflow-hidden min-h-[500px] flex items-center justify-center">
         <div className="text-center">
           <HandHeart className="mx-auto h-16 w-16 text-foreground/30 mb-4" />
-          <h3 className="text-lg font-semibold text-foreground/70 mb-2">No Volunteer Experiences</h3>
-          <p className="text-foreground/60">Check back later for community contributions and volunteer work.</p>
+          <h3 className="text-lg font-semibold text-foreground/70 mb-2">
+            No Volunteer Experiences
+          </h3>
+          <p className="text-foreground/60">
+            Check back later for community contributions and volunteer work.
+          </p>
         </div>
       </section>
     )
@@ -140,7 +157,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
               variant="outline"
               className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-sm"
             >
-              <Heart className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" aria-hidden="true" />
+              <Heart
+                className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary"
+                aria-hidden="true"
+              />
               Community Impact & Service
             </Badge>
           </div>
@@ -154,12 +174,16 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
           </h1>
 
           {/* Decorative line */}
-          <div className="mx-auto w-16 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg mb-6 sm:mb-8" aria-hidden="true" />
+          <div
+            className="mx-auto w-16 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg mb-6 sm:mb-8"
+            aria-hidden="true"
+          />
 
           {/* Description */}
           <div className="max-w-2xl lg:max-w-3xl mx-auto mb-6 sm:mb-8">
             <p className="text-base sm:text-lg lg:text-xl leading-7 sm:leading-8 text-foreground/80 font-medium">
-              My journey of giving back to the community through volunteer work and leadership roles across various organizations, fostering growth and making meaningful impact.
+              My journey of giving back to the community through volunteer work and leadership roles
+              across various organizations, fostering growth and making meaningful impact.
             </p>
           </div>
 
@@ -228,7 +252,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                   disabled={currentPage === 0}
                   aria-label="Go to previous page"
                 >
-                  <ChevronLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+                  <ChevronLeft
+                    className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+                    aria-hidden="true"
+                  />
                   <span className="text-sm font-medium">Previous</span>
                 </Button>
 
@@ -253,10 +280,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                           key={pageNum}
                           onClick={() => setCurrentPage(pageNum as number)}
                           className={cn(
-                            "w-10 h-10 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2",
+                            'w-10 h-10 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2',
                             currentPage === pageNum
-                              ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg shadow-primary/25 scale-105"
-                              : "bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary hover:scale-105 backdrop-blur-sm"
+                              ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg shadow-primary/25 scale-105'
+                              : 'bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary hover:scale-105 backdrop-blur-sm'
                           )}
                           aria-label={`Go to page ${(pageNum as number) + 1}`}
                           aria-current={currentPage === pageNum ? 'page' : undefined}
@@ -278,7 +305,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                   aria-label="Go to next page"
                 >
                   <span className="text-sm font-medium">Next</span>
-                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  <ChevronRight
+                    className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
                 </Button>
               </div>
 
@@ -301,7 +331,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                     disabled={currentPage === 0}
                     aria-label="Go to previous page"
                   >
-                    <ChevronLeft className="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+                    <ChevronLeft
+                      className="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+                      aria-hidden="true"
+                    />
                     <span className="text-sm font-medium">Previous</span>
                   </Button>
 
@@ -314,7 +347,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                     aria-label="Go to next page"
                   >
                     <span className="text-sm font-medium">Next</span>
-                    <ChevronRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                    <ChevronRight
+                      className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
                   </Button>
                 </div>
 
@@ -326,10 +362,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                         key={i}
                         onClick={() => setCurrentPage(i)}
                         className={cn(
-                          "w-9 h-9 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center",
+                          'w-9 h-9 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center',
                           currentPage === i
-                            ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105"
-                            : "bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm"
+                            ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105'
+                            : 'bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm'
                         )}
                         aria-label={`Go to page ${i + 1}`}
                         aria-current={currentPage === i ? 'page' : undefined}
@@ -361,7 +397,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                   Explore All My Volunteer Work
                 </h3>
                 <p className="text-sm sm:text-base text-foreground/70">
-                  Discover detailed stories and impact from all {experiences.length} volunteer experience{experiences.length !== 1 ? 's' : ''} across {volunteerStats.organizations} organization{volunteerStats.organizations !== 1 ? 's' : ''}
+                  Discover detailed stories and impact from all {experiences.length} volunteer
+                  experience{experiences.length !== 1 ? 's' : ''} across{' '}
+                  {volunteerStats.organizations} organization
+                  {volunteerStats.organizations !== 1 ? 's' : ''}
                 </p>
               </div>
               <div className="flex-shrink-0">
@@ -372,7 +411,10 @@ export default function VolunteerExperienceSection({ experiences }: VolunteerExp
                   >
                     <Users className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                     <span className="text-sm sm:text-base font-semibold">View All</span>
-                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    <ArrowRight
+                      className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </Button>
                 </Link>
               </div>

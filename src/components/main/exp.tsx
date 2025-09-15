@@ -3,10 +3,9 @@ import { cn } from '@/lib/utils'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Experience } from '@/data/types.data'
-
+import { ExperienceFocusCards } from '../ui/focus-cards-exp'
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { ArrowRight, ChevronLeft, ChevronRight, Briefcase } from 'lucide-react'
-import { ExperienceFocusCards } from '../ui/focus-cards-exp'
 
 interface ExperienceSectionProps {
   experiences: Experience[]
@@ -22,7 +21,13 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-  const itemsPerPage = 2
+
+  const getItemsPerPage = () => {
+    if (windowWidth < 640) return 1
+    return 2
+  }
+
+  const itemsPerPage = getItemsPerPage()
   const totalPages = Math.ceil(experiences.length / itemsPerPage)
 
   const { currentPageExperiences, startIndex, endIndex } = useMemo(() => {
@@ -32,6 +37,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
 
     return { currentPageExperiences, startIndex, endIndex }
   }, [experiences, currentPage, itemsPerPage])
+
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [itemsPerPage])
 
   const nextPage = useCallback(() => {
     if (currentPage < totalPages - 1) setCurrentPage((prev) => prev + 1)
@@ -87,16 +96,13 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
   if (!experiences.length) {
     return (
       <section className="relative overflow-hidden min-h-[500px] flex items-center justify-center">
-        <div className="text-center text-foreground/60">
-          No experiences available
-        </div>
+        <div className="text-center text-foreground/60">No experiences available</div>
       </section>
     )
   }
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
@@ -106,7 +112,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
               variant="outline"
               className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium border-primary/30 bg-primary/5 hover:bg-primary/10 transition-all duration-300 shadow-lg backdrop-blur-sm"
             >
-              <Briefcase className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary" aria-hidden="true" />
+              <Briefcase
+                className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-primary"
+                aria-hidden="true"
+              />
               Professional Journey
             </Badge>
           </div>
@@ -120,13 +129,16 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
           </h1>
 
           {/* Decorative line */}
-          <div className="mx-auto w-16 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg mb-6 sm:mb-8" aria-hidden="true" />
+          <div
+            className="mx-auto w-16 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg mb-6 sm:mb-8"
+            aria-hidden="true"
+          />
 
           {/* Description */}
           <div className="max-w-2xl lg:max-w-3xl mx-auto mb-6 sm:mb-8">
             <p className="text-base sm:text-lg lg:text-xl leading-7 sm:leading-8 text-foreground/80 font-medium">
-              My professional journey and contributions across different organizations,
-              showcasing growth and expertise in various domains
+              My professional journey and contributions across different organizations, showcasing
+              growth and expertise in various domains
             </p>
           </div>
 
@@ -154,7 +166,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                   disabled={currentPage === 0}
                   aria-label="Go to previous page"
                 >
-                  <ChevronLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+                  <ChevronLeft
+                    className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+                    aria-hidden="true"
+                  />
                   <span className="text-sm font-medium">Previous</span>
                 </Button>
 
@@ -179,10 +194,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                           key={pageNum}
                           onClick={() => setCurrentPage(pageNum as number)}
                           className={cn(
-                            "w-10 h-10 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2",
+                            'w-10 h-10 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-2',
                             currentPage === pageNum
-                              ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg shadow-primary/25 scale-105"
-                              : "bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary hover:scale-105 backdrop-blur-sm"
+                              ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg shadow-primary/25 scale-105'
+                              : 'bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary hover:scale-105 backdrop-blur-sm'
                           )}
                           aria-label={`Go to page ${(pageNum as number) + 1}`}
                           aria-current={currentPage === pageNum ? 'page' : undefined}
@@ -204,7 +219,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                   aria-label="Go to next page"
                 >
                   <span className="text-sm font-medium">Next</span>
-                  <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                  <ChevronRight
+                    className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
                 </Button>
               </div>
 
@@ -227,7 +245,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                     disabled={currentPage === 0}
                     aria-label="Go to previous page"
                   >
-                    <ChevronLeft className="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+                    <ChevronLeft
+                      className="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+                      aria-hidden="true"
+                    />
                     <span className="text-sm font-medium">Previous</span>
                   </Button>
 
@@ -240,7 +261,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                     aria-label="Go to next page"
                   >
                     <span className="text-sm font-medium">Next</span>
-                    <ChevronRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                    <ChevronRight
+                      className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
                   </Button>
                 </div>
 
@@ -252,10 +276,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                         key={i}
                         onClick={() => setCurrentPage(i)}
                         className={cn(
-                          "w-9 h-9 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center",
+                          'w-9 h-9 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center',
                           currentPage === i
-                            ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105"
-                            : "bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm"
+                            ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105'
+                            : 'bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm'
                         )}
                         aria-label={`Go to page ${i + 1}`}
                         aria-current={currentPage === i ? 'page' : undefined}
@@ -297,7 +321,10 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                     className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 min-w-[140px] sm:min-w-[160px]"
                   >
                     <span className="text-sm sm:text-base font-semibold">View All</span>
-                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    <ArrowRight
+                      className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </Button>
                 </Link>
               </div>

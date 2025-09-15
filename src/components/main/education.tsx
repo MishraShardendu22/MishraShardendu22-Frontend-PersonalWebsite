@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'
 import {
-  GraduationCap,
+  Award,
   MapPin,
   Calendar,
-  Award,
-  Languages,
-  ExternalLink,
   Download,
   BookOpen,
-  Star,
+  Languages,
   ArrowRight,
+  ExternalLink,
+  GraduationCap,
 } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
 
 const educationData = {
   resumeLink: 'https://drive.google.com/file/d/1AiCHH7NoA5BqaigPzavo2zBaq6KphSvT/preview',
@@ -85,13 +84,12 @@ const EducationSection = () => {
           <div
             className={`min-h-[320px] bg-card/50 border border-border/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col ${
               hoveredCard === 'college' && !isMobile ? 'scale-[1.02]' : ''
-            } ${isMobile ? 'text-center' : ''}`}
+            }`}
             onMouseEnter={() => !isMobile && setHoveredCard('college')}
             onMouseLeave={() => !isMobile && setHoveredCard(null)}
           >
-            {/* Header Section - Fixed Space */}
             <div
-              className={`flex items-start justify-between mb-6 ${isMobile ? 'flex-col items-center space-y-4' : ''}`}
+              className={`flex items-start justify-between mb-6 ${isMobile ? 'flex-col items-center space-y-4 text-center' : ''}`}
             >
               <div
                 className={`flex items-center space-x-4 ${isMobile ? 'flex-col items-center space-x-0 space-y-3' : ''}`}
@@ -100,7 +98,7 @@ const EducationSection = () => {
                   <GraduationCap className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                 </div>
 
-                <div className={`min-w-0 ${isMobile && 'text-center'}`}>
+                <div className={`min-w-0 ${isMobile ? 'text-center' : ''}`}>
                   <h3 className="text-lg sm:text-xl font-bold text-primary mb-2">
                     Higher Education
                   </h3>
@@ -130,7 +128,9 @@ const EducationSection = () => {
             <div className={`flex-1 space-y-4 ${isMobile ? 'text-center' : ''}`}>
               {/* College Name - Constrained Height */}
               <div className="min-h-[3rem]">
-                <h4 className="text-base sm:text-lg font-semibold leading-tight">
+                <h4
+                  className={`text-base sm:text-lg font-semibold leading-tight ${isMobile ? 'text-center' : ''}`}
+                >
                   {isMobile
                     ? educationData.CollegeName.length > 40
                       ? `${educationData.CollegeName.substring(0, 40)}...`
@@ -155,7 +155,9 @@ const EducationSection = () => {
 
               {/* Description */}
               <div className="bg-muted/20 rounded-xl p-4 border border-border/30">
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p
+                  className={`text-sm text-muted-foreground leading-relaxed ${isMobile ? 'text-center' : ''}`}
+                >
                   Computer Science and Engineering - Focusing on software development and emerging
                   technologies
                 </p>
