@@ -38,11 +38,13 @@ export default function ExperiencePageContent() {
   const allCompanies = Array.from(new Set(experiences.map((e) => e.company_name)))
   const allYears = Array.from(
     new Set(
-      experiences.map((e) =>
-        e.experience_time_line?.[0]?.start_date
-          ? new Date(e.experience_time_line[0].start_date).getFullYear().toString()
+      experiences.map((e) => {
+        // Use the latest timeline entry for year filtering
+        const latestTimeline = e.experience_time_line?.[e.experience_time_line.length - 1]
+        return latestTimeline?.start_date
+          ? new Date(latestTimeline.start_date).getFullYear().toString()
           : ''
-      )
+      })
     )
   ).filter(Boolean)
 
@@ -53,16 +55,29 @@ export default function ExperiencePageContent() {
       selectedCompany !== '__all__' ? experience.company_name === selectedCompany : true
     const matchesYear =
       selectedYear !== '__all__'
-        ? experience.experience_time_line?.[0]?.start_date &&
-          new Date(experience.experience_time_line[0].start_date).getFullYear().toString() === selectedYear
+        ? (() => {
+            // Use the latest timeline entry for year filtering
+            const latestTimeline =
+              experience.experience_time_line?.[experience.experience_time_line.length - 1]
+            return (
+              latestTimeline?.start_date &&
+              new Date(latestTimeline.start_date).getFullYear().toString() === selectedYear
+            )
+          })()
         : true
     const matchesSearch =
       searchTerm === '' ||
-      (experience.experience_time_line?.[0]?.position ?? '')
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      experience.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      experience.description.toLowerCase().includes(searchTerm.toLowerCase())
+      (() => {
+        // Use the latest timeline entry for position search
+        const latestTimeline =
+          experience.experience_time_line?.[experience.experience_time_line.length - 1]
+        const latestPosition = latestTimeline?.position ?? ''
+        return (
+          latestPosition.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          experience.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          experience.description.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      })()
 
     return matchesTech && matchesCompany && matchesYear && matchesSearch
   })
@@ -72,17 +87,23 @@ export default function ExperiencePageContent() {
   const endIndex = startIndex + experiencesPerPage
   const currentExperiences = filteredExperiences.slice(startIndex, endIndex)
 
-  const transformedExperiences = currentExperiences.map((experience) => ({
-    title: experience.experience_time_line?.[0]?.position ?? '',
-    company: experience.company_name,
-    companyLogo: experience.company_logo,
-    description: experience.description,
-    link: `/experiences/${experience.inline?.id || experience.inline.id}`,
-    technologies: experience.technologies,
-    certificateUrl: experience.certificate_url,
-    startDate: experience.experience_time_line?.[0]?.start_date ?? '',
-    endDate: experience.experience_time_line?.[0]?.end_date ?? '',
-  }))
+  const transformedExperiences = currentExperiences.map((experience) => {
+    // Get the latest (most recent) timeline entry instead of the first one
+    const latestTimeline =
+      experience.experience_time_line?.[experience.experience_time_line.length - 1]
+
+    return {
+      title: latestTimeline?.position ?? '',
+      company: experience.company_name,
+      companyLogo: experience.company_logo,
+      description: experience.description,
+      link: `/experiences/${experience.inline?.id || experience.inline.id}`,
+      technologies: experience.technologies,
+      certificateUrl: experience.certificate_url,
+      startDate: latestTimeline?.start_date ?? '',
+      endDate: latestTimeline?.end_date ?? '',
+    }
+  })
 
   useEffect(() => {
     const fetchExperiences = async () => {

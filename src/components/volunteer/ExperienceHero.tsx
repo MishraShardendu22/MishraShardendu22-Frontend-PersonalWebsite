@@ -10,18 +10,18 @@ export function ExperienceHero({ experience }: ExperienceHeroProps) {
   const formatDate = (date: string) =>
     new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
 
-  const position = experience.volunteer_time_line?.[0]?.position ?? ''
-  const startDate = experience.volunteer_time_line?.[0]?.start_date ?? ''
-  const endDate = experience.volunteer_time_line?.[0]?.end_date ?? ''
+  // Get the latest (most recent) timeline entry instead of the first one
+  const latestTimeline = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+  const position = latestTimeline?.position ?? ''
+  const startDate = latestTimeline?.start_date ?? ''
+  const endDate = latestTimeline?.end_date ?? ''
 
   return (
     <section className="mb-8 w-full">
       <div className="text-center space-y-6">
         <div className="relative">
           <div className="absolute -top-4 -left-4 w-72 h-72 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl -z-10" />
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            {position}
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{position}</h1>
           <div className="flex items-center justify-center gap-4 mb-4">
             {experience.organisation_logo && (
               <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-border/20">

@@ -64,7 +64,9 @@ export default function AdminDashboardPage() {
           <span className="text-5xl">😢</span>
         </div>
         <div className="text-center space-y-3 max-w-md">
-          <h2 className="text-3xl font-heading font-bold text-foreground">Oops! Something went wrong</h2>
+          <h2 className="text-3xl font-heading font-bold text-foreground">
+            Oops! Something went wrong
+          </h2>
           <p className="text-foreground/70 text-lg">{error}</p>
           <Button onClick={() => window.location.reload()} className="mt-4">
             Try Again
@@ -94,25 +96,25 @@ export default function AdminDashboardPage() {
           <div className="text-4xl font-bold text-foreground mb-2">{projects.length}</div>
           <div className="text-base font-medium text-foreground/80">Projects</div>
         </div>
-        
+
         <div className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
           <GraduationCap className="h-10 w-10 text-secondary mb-4" />
           <div className="text-4xl font-bold text-foreground mb-2">{experiences.length}</div>
           <div className="text-base font-medium text-foreground/80">Experiences</div>
         </div>
-        
+
         <div className="group relative overflow-hidden border-2 border-border/50 hover:border-accent/50 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
           <Settings className="h-10 w-10 text-accent mb-4" />
           <div className="text-4xl font-bold text-foreground mb-2">{skills.length}</div>
           <div className="text-base font-medium text-foreground/80">Skills</div>
         </div>
-        
+
         <div className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
           <Medal className="h-10 w-10 text-primary mb-4" />
           <div className="text-4xl font-bold text-foreground mb-2">{certifications.length}</div>
           <div className="text-base font-medium text-foreground/80">Certifications</div>
         </div>
-        
+
         <div className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in sm:col-span-2 lg:col-span-3 xl:col-span-1">
           <span className="h-10 w-10 flex items-center justify-center text-secondary mb-4 text-3xl">
             🌐
@@ -137,7 +139,7 @@ export default function AdminDashboardPage() {
               <span>Manage Projects</span>
             </Button>
           </Link>
-          
+
           <Link href="/admin/experiences" className="group">
             <Button
               variant="outline"
@@ -147,7 +149,7 @@ export default function AdminDashboardPage() {
               <span>Manage Experiences</span>
             </Button>
           </Link>
-          
+
           <Link href="/admin/skills" className="group">
             <Button
               variant="outline"
@@ -157,7 +159,7 @@ export default function AdminDashboardPage() {
               <span>Manage Skills</span>
             </Button>
           </Link>
-          
+
           <Link href="/" className="group">
             <Button
               variant="outline"
@@ -182,7 +184,7 @@ export default function AdminDashboardPage() {
               <Briefcase className="h-6 w-6 text-primary" />
               <h3 className="text-2xl font-bold text-primary">Recent Projects</h3>
             </div>
-            
+
             <div className="space-y-6">
               {projects.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -191,9 +193,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <div className="text-center space-y-2">
                     <h4 className="text-xl font-semibold text-foreground">No projects yet</h4>
-                    <p className="text-foreground/70">
-                      Get started by creating your first project
-                    </p>
+                    <p className="text-foreground/70">Get started by creating your first project</p>
                   </div>
                   <Link href="/admin/projects">
                     <Button className="mt-4">
@@ -251,7 +251,7 @@ export default function AdminDashboardPage() {
               <GraduationCap className="h-6 w-6 text-secondary" />
               <h3 className="text-2xl font-bold text-secondary">Recent Experiences</h3>
             </div>
-            
+
             <div className="space-y-6">
               {experiences.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 space-y-4">
@@ -260,9 +260,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <div className="text-center space-y-2">
                     <h4 className="text-xl font-semibold text-foreground">No experiences yet</h4>
-                    <p className="text-foreground/70">
-                      Get started by adding your work experience
-                    </p>
+                    <p className="text-foreground/70">Get started by adding your work experience</p>
                   </div>
                   <Link href="/admin/experiences">
                     <Button className="mt-4">
@@ -289,7 +287,11 @@ export default function AdminDashboardPage() {
                       <div className="flex items-center space-x-3 flex-shrink-0">
                         <Badge variant="secondary" className="text-sm px-3 py-1">
                           {new Date(experience.experience_time_line[0].start_date).getFullYear()} -{' '}
-                          {new Date(experience.experience_time_line[0].end_date).getFullYear()}
+                          {new Date(
+                            experience.experience_time_line[
+                              experience.experience_time_line.length - 1
+                            ].end_date
+                          ).getFullYear()}
                         </Badge>
                       </div>
                     </div>
