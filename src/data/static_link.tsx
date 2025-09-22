@@ -9,7 +9,7 @@ export const CodeChefProfile = 'https://www.codechef.com/users/clutchgod22'
 export const LinkedInProfile = 'https://www.linkedin.com/in/shardendumishra22/'
 export const CodeforcesProfile = 'https://codeforces.com/profile/ShardenduMishra_22'
 export const resumeLink =
-  'https://drive.google.com/file/d/1AiCHH7NoA5BqaigPzavo2zBaq6KphSvT/preview'
+  'https://drive.google.com/file/d/1F-ORaZyX8iMmBFhX2i-rtn21rdDMnsew/view?usp=sharing'
 
 import {
   Home,
