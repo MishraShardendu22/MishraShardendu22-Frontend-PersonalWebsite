@@ -1,3 +1,4 @@
+import { resumeLink } from '@/data/static_link'
 import {
   Award,
   MapPin,
@@ -9,11 +10,10 @@ import {
   ExternalLink,
   GraduationCap,
 } from 'lucide-react'
+import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 
 const educationData = {
-  resumeLink: 'https://drive.google.com/file/d/1AiCHH7NoA5BqaigPzavo2zBaq6KphSvT/preview',
-
   // Education Information
   CollegeBatch: '2023-2027',
   CollegeWebsite: 'https://iiitdwd.ac.in/',
@@ -341,8 +341,8 @@ const EducationSection = () => {
               <div
                 className={`flex gap-3 sm:gap-4 ${isMobile ? 'flex-col w-full' : 'flex-col flex-shrink-0'}`}
               >
-                <a
-                  href={educationData.resumeLink}
+                <Link
+                  href={resumeLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
@@ -350,17 +350,17 @@ const EducationSection = () => {
                   <ExternalLink className="w-4 h-4" />
                   <span>View Resume</span>
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
 
-                <a
-                  href={educationData.resumeLink.replace('/preview', '/export?format=pdf')}
+                <Link
+                  href={resumeLink.replace('/preview', '/export?format=pdf')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download PDF</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
