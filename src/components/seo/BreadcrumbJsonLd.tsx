@@ -1,3 +1,5 @@
+import { BASE_URL } from '@/constants/url'
+
 interface BreadcrumbItem {
   name: string
   url: string
@@ -32,7 +34,7 @@ export const HomeBreadcrumb = () => (
     items={[
       {
         name: 'Home',
-        url: 'https://mishrashardendu22.is-a.dev',
+        url: BASE_URL,
       },
     ]}
   />
@@ -43,11 +45,11 @@ export const ProjectsBreadcrumb = () => (
     items={[
       {
         name: 'Home',
-        url: 'https://mishrashardendu22.is-a.dev',
+        url: BASE_URL,
       },
       {
         name: 'Projects',
-        url: 'https://mishrashardendu22.is-a.dev/projects',
+        url: `${BASE_URL}/projects`,
       },
     ]}
   />
@@ -58,11 +60,11 @@ export const ExperienceBreadcrumb = () => (
     items={[
       {
         name: 'Home',
-        url: 'https://mishrashardendu22.is-a.dev',
+        url: BASE_URL,
       },
       {
         name: 'Experience',
-        url: 'https://mishrashardendu22.is-a.dev/experiences',
+        url: `${BASE_URL}/experiences`,
       },
     ]}
   />
@@ -73,11 +75,11 @@ export const BlogBreadcrumb = () => (
     items={[
       {
         name: 'Home',
-        url: 'https://mishrashardendu22.is-a.dev',
+        url: BASE_URL,
       },
       {
         name: 'Blog',
-        url: 'https://mishrashardendu22.is-a.dev/blog',
+        url: `${BASE_URL}/blog`,
       },
     ]}
   />

@@ -1,6 +1,7 @@
 import { projectsAPI } from '../../../util/apiResponse.util'
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
+import { BASE_URL } from '@/constants/url'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -30,7 +31,7 @@ export async function generateMetadata({
       openGraph: {
         title: `${project.project_name} | Project | Shardendu Mishra Portfolio`,
         description: project.small_description || 'View this project by Shardendu Mishra',
-        url: `https://mishrashardendu22.is-a.dev/projects/${id}`,
+        url: `${BASE_URL}/projects/${id}`,
         type: 'article',
         siteName: 'Shardendu Mishra Portfolio',
         images: project.images ? project.images.map((img) => ({ url: img })) : [],

@@ -1,4 +1,5 @@
 import './globals.css'
+import { BASE_URL } from '@/constants/url'
 import { ThemeProvider } from 'next-themes'
 import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
@@ -36,7 +37,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://mishrashardendu22.is-a.dev'),
+  metadataBase: new URL(BASE_URL),
   title: {
     template: '%s | Shardendu Mishra',
     default: 'Shardendu Mishra | Software Developer and Engineer',
@@ -99,7 +100,7 @@ export const metadata: Metadata = {
     'Version Control',
     'Agile Development',
   ],
-  authors: [{ name: 'Shardendu Mishra', url: 'https://mishrashardendu22.is-a.dev' }],
+  authors: [{ name: 'Shardendu Mishra', url: BASE_URL }],
   creator: 'Shardendu Mishra',
   publisher: 'Shardendu Mishra',
   manifest: '/manifest.json',
@@ -118,7 +119,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://mishrashardendu22.is-a.dev',
+    url: BASE_URL,
     title: 'Shardendu Mishra - Software Developer and Engineer',
     description:
       'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',
@@ -180,9 +181,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   alternates: {
-    canonical: 'https://mishrashardendu22.is-a.dev',
+    canonical: BASE_URL,
     languages: {
-      'en-US': 'https://mishrashardendu22.is-a.dev',
+      'en-US': BASE_URL,
     },
   },
   other: {

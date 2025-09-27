@@ -1,5 +1,7 @@
+import { BASE_URL } from '@/constants/url'
+
 export const seoConfig = {
-  baseUrl: 'https://mishrashardendu22.is-a.dev',
+  baseUrl: BASE_URL,
   siteName: 'Shardendu Mishra Portfolio',
   siteDescription:
     'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',

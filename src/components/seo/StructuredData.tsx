@@ -7,22 +7,23 @@ import {
   CodeChefProfile,
   CodeforcesProfile,
 } from '@/data/static_link'
+import { BASE_URL } from '@/constants/url'
 
 export function PersonJsonLd() {
-  const jsonLd = {
+  const personData = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': 'https://mishrashardendu22.is-a.dev/#person',
+    '@id': `${BASE_URL}/#person`,
     name: 'Shardendu Mishra',
     givenName: 'Shardendu',
     familyName: 'Mishra',
     alternateName: ['ShardenduMishra22', 'MishraShardendu22'],
     description:
       'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',
-    url: 'https://mishrashardendu22.is-a.dev',
+    url: BASE_URL,
     image: {
       '@type': 'ImageObject',
-      url: 'https://mishrashardendu22.is-a.dev/Professional.webp',
+      url: `${BASE_URL}/Professional.webp`,
       width: 512,
       height: 512,
     },
@@ -37,101 +38,213 @@ export function PersonJsonLd() {
     ],
     jobTitle: 'Software Developer',
     worksFor: {
-      '@type': 'EducationalOrganization',
-      name: 'Indian Institute of Information Technology, Dharwad',
-      alternateName: 'IIIT Dharwad',
-      url: 'https://www.iiitdwd.ac.in',
-    },
-    alumniOf: {
-      '@type': 'EducationalOrganization',
-      name: 'Indian Institute of Information Technology, Dharwad',
-      alternateName: 'IIIT Dharwad',
-      url: 'https://www.iiitdwd.ac.in',
+      '@type': 'Organization',
+      name: 'Self-employed',
     },
     knowsAbout: [
-      'Go Programming',
-      'Golang',
-      'React',
-      'Next.js',
-      'TypeScript',
-      'JavaScript',
       'Software Development',
       'Web Development',
-      'Full Stack Development',
+      'Go Programming',
+      'React',
+      'TypeScript',
+      'Next.js',
+      'Node.js',
       'Cloud Computing',
-      'Docker',
-      'Kubernetes',
-      'MongoDB',
-      'PostgreSQL',
-      'Git',
-      'Linux',
-      'Competitive Programming',
-      'Data Structures and Algorithms',
       'System Design',
-      'Open Source',
     ],
-    knowsLanguage: [
+    alumniOf: [
       {
-        '@type': 'Language',
-        name: 'English',
+        '@type': 'EducationalOrganization',
+        name: 'Indian Institute of Information Technology, Dharwad',
+        url: 'https://www.iiitdwd.ac.in/',
       },
       {
-        '@type': 'Language',
-        name: 'Hindi',
+        '@type': 'EducationalOrganization',
+        name: 'Delhi Public School, Kalyanpur',
+        url: 'https://dpskalyanpur.com/',
       },
     ],
-    nationality: {
-      '@type': 'Country',
-      name: 'India',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Kanpur',
+      addressRegion: 'Uttar Pradesh',
+      addressCountry: 'IN',
     },
-    homeLocation: {
+    email: 'shardendumishra01@gmail.com',
+    telephone: '+91-XXXXXXXXXX',
+    birthPlace: {
       '@type': 'Place',
-      name: 'India',
+      name: 'Kanpur, India',
     },
-    email: 'mailto:shardendumishra01@gmail.com',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      email: 'shardendumishra01@gmail.com',
-      contactType: 'professional',
+    nationality: 'Indian',
+    gender: 'Male',
+    birthDate: '2004-06-22',
+    hasOccupation: {
+      '@type': 'Occupation',
+      name: 'Software Developer',
+      occupationLocation: {
+        '@type': 'Country',
+        name: 'India',
+      },
     },
   }
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(personData) }}
     />
   )
 }
 
 export function WebsiteJsonLd() {
-  const jsonLd = {
+  const websiteData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': 'https://mishrashardendu22.is-a.dev/#website',
+    '@id': `${BASE_URL}/#website`,
     name: 'Shardendu Mishra - Portfolio',
     alternateName: 'ShardenduMishra22 Portfolio',
     description:
       'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
-    url: 'https://mishrashardendu22.is-a.dev',
+    url: BASE_URL,
     inLanguage: 'en-US',
     author: {
-      '@id': 'https://mishrashardendu22.is-a.dev/#person',
+      '@id': `${BASE_URL}/#person`,
     },
     creator: {
-      '@id': 'https://mishrashardendu22.is-a.dev/#person',
+      '@id': `${BASE_URL}/#person`,
     },
     copyrightHolder: {
-      '@id': 'https://mishrashardendu22.is-a.dev/#person',
+      '@id': `${BASE_URL}/#person`,
     },
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://mishrashardendu22.is-a.dev/search?q={search_term_string}',
+        urlTemplate: `${BASE_URL}/search?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
+    />
+  )
+}
+
+export const StructuredData = () => {
+  const personData = {
+    '@type': 'Person',
+    '@id': `${BASE_URL}/#person`,
+    name: 'Shardendu Mishra',
+    givenName: 'Shardendu',
+    familyName: 'Mishra',
+    alternateName: ['ShardenduMishra22', 'MishraShardendu22'],
+    description:
+      'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',
+    url: BASE_URL,
+    image: {
+      '@type': 'ImageObject',
+      url: `${BASE_URL}/Professional.webp`,
+      width: 512,
+      height: 512,
+    },
+    sameAs: [
+      LinkedInProfile,
+      GitHubProject,
+      XProfile,
+      YouTubeChannel,
+      LeetCodeProfile,
+      CodeChefProfile,
+      CodeforcesProfile,
+    ],
+    jobTitle: 'Software Developer',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Self-employed',
+    },
+    knowsAbout: [
+      'Software Development',
+      'Web Development',
+      'Go Programming',
+      'React',
+      'TypeScript',
+      'Next.js',
+      'Node.js',
+      'Cloud Computing',
+      'System Design',
+    ],
+    alumniOf: [
+      {
+        '@type': 'EducationalOrganization',
+        name: 'Indian Institute of Information Technology, Dharwad',
+        url: 'https://www.iiitdwd.ac.in/',
+      },
+      {
+        '@type': 'EducationalOrganization',
+        name: 'Delhi Public School, Kalyanpur',
+        url: 'https://dpskalyanpur.com/',
+      },
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Kanpur',
+      addressRegion: 'Uttar Pradesh',
+      addressCountry: 'IN',
+    },
+    email: 'shardendumishra01@gmail.com',
+    telephone: '+91-XXXXXXXXXX',
+    birthPlace: {
+      '@type': 'Place',
+      name: 'Kanpur, India',
+    },
+    nationality: 'Indian',
+    gender: 'Male',
+    birthDate: '2004-06-22',
+    hasOccupation: {
+      '@type': 'Occupation',
+      name: 'Software Developer',
+      occupationLocation: {
+        '@type': 'Country',
+        name: 'India',
+      },
+    },
+  }
+
+  const websiteData = {
+    '@type': 'WebSite',
+    '@id': `${BASE_URL}/#website`,
+    name: 'Shardendu Mishra - Portfolio',
+    alternateName: 'ShardenduMishra22 Portfolio',
+    description:
+      'Software Developer and Engineer passionate about building impactful applications with modern technologies.',
+    url: BASE_URL,
+    inLanguage: 'en-US',
+    author: {
+      '@id': `${BASE_URL}/#person`,
+    },
+    creator: {
+      '@id': `${BASE_URL}/#person`,
+    },
+    copyrightHolder: {
+      '@id': `${BASE_URL}/#person`,
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${BASE_URL}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  }
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [personData, websiteData],
   }
 
   return (
@@ -146,42 +259,61 @@ export function OrganizationJsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    '@id': 'https://mishrashardendu22.is-a.dev/#organization',
+    '@id': `${BASE_URL}/#organization`,
     name: 'Shardendu Mishra - Software Development Services',
     alternateName: 'ShardenduMishra22',
     description:
       'Professional software development services specializing in Go, React, and modern web technologies.',
-    url: 'https://mishrashardendu22.is-a.dev',
+    url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: 'https://mishrashardendu22.is-a.dev/Professional.webp',
+      url: `${BASE_URL}/Professional.webp`,
     },
     image: {
       '@type': 'ImageObject',
-      url: 'https://mishrashardendu22.is-a.dev/Professional.webp',
+      url: `${BASE_URL}/Professional.webp`,
     },
     sameAs: [LinkedInProfile, GitHubProject, XProfile, YouTubeChannel],
     founder: {
-      '@id': 'https://mishrashardendu22.is-a.dev/#person',
+      '@id': `${BASE_URL}/#person`,
     },
     contactPoint: {
       '@type': 'ContactPoint',
       email: 'shardendumishra01@gmail.com',
-      contactType: 'customer service',
+      contactType: 'Customer Service',
       availableLanguage: ['English', 'Hindi'],
     },
-    areaServed: {
-      '@type': 'Country',
-      name: 'India',
+    areaServed: 'Worldwide',
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Software Development Services',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Web Development',
+            description: 'Custom web application development using modern technologies',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Backend Development',
+            description: 'Scalable backend systems using Go, Node.js, and cloud technologies',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Frontend Development',
+            description: 'Modern frontend applications using React, Next.js, and TypeScript',
+          },
+        },
+      ],
     },
-    serviceType: [
-      'Web Development',
-      'Software Development',
-      'Full Stack Development',
-      'Go Programming',
-      'React Development',
-      'Technical Consulting',
-    ],
   }
 
   return (

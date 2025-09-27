@@ -1,15 +1,16 @@
 import { LoadingState } from '@/components/certificate/load-error'
 import { Suspense } from 'react'
+import { BASE_URL } from '@/constants/url'
 
 export const metadata = {
   title: 'Certifications | Mishra Shardendu Portfolio',
   description:
-    'Browse all professional certifications earned by Mishra Shardendu, including details and achievements.',
+    'View the certifications and achievements earned by Mishra Shardendu in various domains.',
   openGraph: {
     title: 'Certifications | Mishra Shardendu Portfolio',
     description:
-      'Browse all professional certifications earned by Mishra Shardendu, including details and achievements.',
-    url: 'https://mishrashardendu22.is-a.dev/certifications',
+      'View the certifications and achievements earned by Mishra Shardendu in various domains.',
+    url: `${BASE_URL}/certifications`,
     type: 'website',
     siteName: 'Shardendu Mishra Portfolio',
   },
@@ -17,7 +18,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Certifications | Mishra Shardendu Portfolio',
     description:
-      'Browse all professional certifications earned by Mishra Shardendu, including details and achievements.',
+      'View the certifications and achievements earned by Mishra Shardendu in various domains.',
   },
 }
 

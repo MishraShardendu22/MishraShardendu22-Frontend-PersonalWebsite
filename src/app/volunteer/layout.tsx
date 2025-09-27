@@ -1,5 +1,6 @@
 import { LoadingState } from '@/components/experience/load-error'
 import { Suspense } from 'react'
+import { BASE_URL } from '@/constants/url'
 
 export const metadata = {
   title: 'Volunteer | Mishra Shardendu Portfolio',
@@ -9,7 +10,7 @@ export const metadata = {
     title: 'Experiences | Mishra Shardendu Portfolio',
     description:
       'Explore the professional experiences and roles held by Mishra Shardendu, including responsibilities and accomplishments.',
-    url: 'https://mishrashardendu22.is-a.dev/volunteer',
+    url: `${BASE_URL}/volunteer`,
     type: 'website',
     siteName: 'Shardendu Mishra Portfolio',
   },

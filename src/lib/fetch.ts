@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { API_BASE_URL } from '@/constants/url'
 
-const BASE_URL = 'https://api.mishrashardendu22.is-a.dev'
+const BASE_URL = API_BASE_URL
 const withTimeout = (url: string, ms = 8000) => axios.get(url, { timeout: ms }).catch(() => null)
 
 export async function fetchAllStats() {

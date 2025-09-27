@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { experiencesAPI } from '../../../util/apiResponse.util'
 import { Metadata } from 'next'
+import { BASE_URL } from '@/constants/url'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -34,7 +35,7 @@ export async function generateMetadata({
       openGraph: {
         title: `${position} at ${exp.company_name} | Experience | Shardendu Mishra Portfolio`,
         description: exp.description || 'View this experience by Shardendu Mishra',
-        url: `https://mishrashardendu22.is-a.dev/experiences/${id}`,
+        url: `${BASE_URL}/experiences/${id}`,
         type: 'article',
         siteName: 'Shardendu Mishra Portfolio',
         images: exp.images ? exp.images.map((img) => ({ url: img })) : [],

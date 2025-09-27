@@ -1,3 +1,5 @@
+import { BASE_URL } from '@/constants/url'
+
 export const metadata = {
   title: 'Projects | Mishra Shardendu Portfolio',
   description:
@@ -6,7 +8,7 @@ export const metadata = {
     title: 'Projects | Mishra Shardendu Portfolio',
     description:
       'Discover projects completed by Mishra Shardendu, featuring technologies used, goals, and outcomes.',
-    url: 'https://mishrashardendu22.is-a.dev/projects',
+    url: `${BASE_URL}/projects`,
     type: 'website',
     siteName: 'Shardendu Mishra Portfolio',
   },

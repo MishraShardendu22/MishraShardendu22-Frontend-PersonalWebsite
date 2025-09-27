@@ -1,4 +1,5 @@
 import { Project } from '../../data/types.data'
+import { BASE_URL } from '@/constants/url'
 
 interface ProjectJsonLdProps {
   project: Project
@@ -10,7 +11,7 @@ export function ProjectJsonLd({ project }: ProjectJsonLdProps) {
     '@type': 'CreativeWork',
     name: project.project_name,
     description: project.small_description,
-    url: `https://mishrashardendu22.is-a.dev/projects/${project.project_name}`,
+    url: `${BASE_URL}/projects/${project.project_name}`,
     creator: {
       '@type': 'Person',
       name: 'Shardendu Mishra',

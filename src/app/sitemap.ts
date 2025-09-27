@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { BASE_URL } from '@/constants/url'
 
 async function getProjects() {
   return []
@@ -8,8 +9,10 @@ async function getBlogPosts() {
   return []
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://mishrashardendu22.is-a.dev'
+  const baseUrl = BASE_URL
   const currentDate = new Date()
 
   const staticRoutes: MetadataRoute.Sitemap = [

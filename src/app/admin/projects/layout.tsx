@@ -1,8 +1,9 @@
 import { ReactNode } from 'react'
+import { BASE_URL } from '@/constants/url'
 
 export const metadata = {
   title: 'Admin | Projects | Mishra Shardendu Portfolio',
-  description: 'Admin panel for managing projects in the Mishra Shardendu portfolio.',
+  description: 'Admin panel for managing projects in the portfolio.',
   robots: {
     index: false,
     follow: false,
@@ -13,15 +14,15 @@ export const metadata = {
   },
   openGraph: {
     title: 'Admin | Projects | Mishra Shardendu Portfolio',
-    description: 'Admin panel for managing projects in the Mishra Shardendu portfolio.',
-    url: 'https://mishrashardendu22.is-a.dev/admin/projects',
+    description: 'Admin panel for managing projects in the portfolio.',
+    url: `${BASE_URL}/admin/projects`,
     type: 'website',
     siteName: 'Shardendu Mishra Portfolio',
   },
   twitter: {
     card: 'summary',
     title: 'Admin | Projects | Mishra Shardendu Portfolio',
-    description: 'Admin panel for managing projects in the Mishra Shardendu portfolio.',
+    description: 'Admin panel for managing projects in the portfolio.',
   },
 }
 

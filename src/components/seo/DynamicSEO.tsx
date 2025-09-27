@@ -1,14 +1,12 @@
 import { Project } from '@/data/types.data'
+import { BASE_URL } from '@/constants/url'
 
 interface ProjectSEOProps {
   project: Project
   baseUrl?: string
 }
 
-export function generateProjectMetadata(
-  project: Project,
-  baseUrl = 'https://mishrashardendu22.is-a.dev'
-) {
+export function generateProjectMetadata(project: Project, baseUrl = BASE_URL) {
   const projectUrl = `${baseUrl}/projects/${project.inline?.id || ''}`
 
   return {
@@ -50,10 +48,7 @@ export function generateProjectMetadata(
   }
 }
 
-export function ProjectPageJsonLd({
-  project,
-  baseUrl = 'https://mishrashardendu22.is-a.dev',
-}: ProjectSEOProps) {
+export function ProjectPageJsonLd({ project, baseUrl = BASE_URL }: ProjectSEOProps) {
   const projectUrl = `${baseUrl}/projects/${project.inline?.id || ''}`
 
   const jsonLd = {
@@ -114,7 +109,7 @@ export function BlogPostJsonLd({
   publishedDate,
   modifiedDate,
   tags = [],
-  baseUrl = 'https://mishrashardendu22.is-a.dev',
+  baseUrl = BASE_URL,
 }: {
   title: string
   description: string

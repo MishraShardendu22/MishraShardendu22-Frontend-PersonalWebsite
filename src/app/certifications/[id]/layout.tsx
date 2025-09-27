@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { certificationsAPI } from '../../../util/apiResponse.util'
 import { Metadata } from 'next'
+import { BASE_URL } from '@/constants/url'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -30,7 +31,7 @@ export async function generateMetadata({
       openGraph: {
         title: `${cert.title} | Certification | Shardendu Mishra Portfolio`,
         description: cert.description || 'View this certification by Shardendu Mishra',
-        url: `https://mishrashardendu22.is-a.dev/certifications/${id}`,
+        url: `${BASE_URL}/certifications/${id}`,
         type: 'article',
         siteName: 'Shardendu Mishra Portfolio',
         images: cert.images ? cert.images.map((img) => ({ url: img })) : [],

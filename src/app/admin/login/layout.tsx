@@ -1,3 +1,6 @@
+import { ReactNode } from 'react'
+import { BASE_URL } from '@/constants/url'
+
 export const metadata = {
   title: 'Admin Login | Mishra Shardendu Portfolio',
   description: 'Login to the admin panel of the Mishra Shardendu portfolio.',
@@ -12,7 +15,7 @@ export const metadata = {
   openGraph: {
     title: 'Admin Login | Mishra Shardendu Portfolio',
     description: 'Login to the admin panel of the Mishra Shardendu portfolio.',
-    url: 'https://mishrashardendu22.is-a.dev/admin/login',
+    url: `${BASE_URL}/admin/login`,
     type: 'website',
     siteName: 'Shardendu Mishra Portfolio',
   },
@@ -22,8 +25,6 @@ export const metadata = {
     description: 'Login to the admin panel of the Mishra Shardendu portfolio.',
   },
 }
-
-import { ReactNode } from 'react'
 
 export default function AdminLoginLayout({ children }: { children: ReactNode }) {
   return <>{children}</>
