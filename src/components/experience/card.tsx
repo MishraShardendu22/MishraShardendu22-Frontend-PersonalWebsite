@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ExternalLink, Building2, Calendar } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import Image from 'next/image'
 
 interface ExperienceCardProps {
   title: string
@@ -55,7 +56,7 @@ export default function ExperienceCards({
 
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 via-secondary/15 to-accent/15 flex items-center justify-center flex-shrink-0 group-hover:from-primary/25 group-hover:via-secondary/25 group-hover:to-accent/25 transition-all duration-300 group-hover:scale-105 border border-primary/20 group-hover:border-primary/40 overflow-hidden">
             {companyLogo ? (
-              <img
+              <Image
                 src={companyLogo}
                 alt={`${company} logo`}
                 className="w-full h-full object-contain p-2 bg-white/5"
