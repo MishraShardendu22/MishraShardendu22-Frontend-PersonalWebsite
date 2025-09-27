@@ -32,11 +32,9 @@ export default function CertificationCards({
 
   return (
     <div className="rounded-2xl h-full w-full overflow-hidden bg-gradient-to-br from-card/90 via-card to-card/80 border border-border/60 hover:border-primary/40 relative z-20 transition-all duration-500 hover:shadow-xl hover:shadow-primary/15 backdrop-blur-sm group hover:scale-[1.02]">
-      {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/[0.02] to-secondary/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="relative z-50 h-full flex flex-col p-6">
-        {/* Header Section */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2">
@@ -54,7 +52,6 @@ export default function CertificationCards({
           </div>
         </div>
 
-        {/* Description Section */}
         <div className="mb-6 flex-1">
           <div className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
             <ReactMarkdown>
@@ -63,7 +60,6 @@ export default function CertificationCards({
           </div>
         </div>
 
-        {/* Skills Section */}
         {skills && skills.length > 0 && (
           <div className="mb-6">
             <div className="flex flex-wrap gap-2">
@@ -88,13 +84,10 @@ export default function CertificationCards({
           </div>
         )}
 
-        {/* Divider */}
         <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-6 group-hover:via-primary/30 transition-colors duration-300" />
 
-        {/* Action Buttons Section */}
         <div className="mt-auto">
           <div className="flex items-center justify-between gap-3">
-            {/* Certificate Button */}
             <div className="flex items-center gap-2">
               {certificateUrl && (
                 <Button
@@ -116,7 +109,6 @@ export default function CertificationCards({
               )}
             </div>
 
-            {/* Main CTA */}
             <Button
               variant="default"
               size="sm"

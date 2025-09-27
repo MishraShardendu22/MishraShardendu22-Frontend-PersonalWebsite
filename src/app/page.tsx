@@ -55,7 +55,6 @@ export default function HomePage() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        // Only fetch skills immediately since they're needed early
         const skillsRes = await skillsAPI.getSkills()
         setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : [])
         setLoading((prev) => ({ ...prev, skills: false }))
@@ -84,7 +83,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
-      {/* SEO Structured Data */}
       <PersonJsonLd />
       <WebsiteJsonLd />
       <OrganizationJsonLd />

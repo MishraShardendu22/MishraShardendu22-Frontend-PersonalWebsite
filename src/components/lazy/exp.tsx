@@ -1,4 +1,3 @@
-// components/sections/LazyExperienceSection.tsx
 import toast from 'react-hot-toast'
 import ExperienceSection from '../main/exp'
 import { Experience } from '@/data/types.data'
@@ -25,12 +24,10 @@ export const LazyExperienceSection = () => {
     setLoading(true)
     try {
       const experiencesRes = await experiencesAPI.getAllExperiences()
-      console.log('Raw experiences data:', experiencesRes.data) // Debug log
+      console.log('Raw experiences data:', experiencesRes.data)
 
-      // Validate and filter the data
       const validExperiences = Array.isArray(experiencesRes.data)
         ? experiencesRes.data.filter((exp: Experience) => {
-            // Check if this is actually work experience data, not education
             const isValidExperience =
               exp.company_name &&
               !exp.company_name.toLowerCase().includes('institute') &&

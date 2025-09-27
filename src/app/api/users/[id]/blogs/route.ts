@@ -16,7 +16,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid user ID' }, { status: 400 })
     }
 
-    // Check if user exists
     const user = await db
       .select()
       .from(usersTable)

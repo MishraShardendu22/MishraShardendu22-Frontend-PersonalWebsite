@@ -27,7 +27,6 @@ export function BreadcrumbJsonLd({ items }: BreadcrumbJsonLdProps) {
   )
 }
 
-// Usage examples for different pages:
 export const HomeBreadcrumb = () => (
   <BreadcrumbJsonLd
     items={[
@@ -63,7 +62,7 @@ export const ExperienceBreadcrumb = () => (
       },
       {
         name: 'Experience',
-        url: 'https://mishrashardendu22.is-a.dev/experience',
+        url: 'https://mishrashardendu22.is-a.dev/experiences',
       },
     ]}
   />

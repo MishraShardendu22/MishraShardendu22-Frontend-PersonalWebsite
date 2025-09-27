@@ -9,27 +9,21 @@ import {
 } from '../types'
 
 export const reportsService = {
-  // Get all reports with pagination
-  getReports: async (
-    params?: PaginationParams
-  ): Promise<ApiResponse<PaginatedResponse<Report>>> => {
+  getReports: async (params: PaginationParams = {}): Promise<ApiResponse> => {
     const response = await backendAPI.get('/reports', { params })
     return response.data
   },
 
-  // Get report by ID
-  getReportById: async (id: string): Promise<ApiResponse<Report>> => {
-    const response = await backendAPI.get(`/reports/${id}`)
+  getReport: async (reportId: string): Promise<ApiResponse> => {
+    const response = await backendAPI.get(`/reports/${reportId}`)
     return response.data
   },
 
-  // Create new report
   createReport: async (reportData: CreateReportRequest): Promise<ApiResponse<Report>> => {
     const response = await backendAPI.post('/reports', reportData)
     return response.data
   },
 
-  // Update report status
   updateReportStatus: async (
     id: string,
     statusData: UpdateReportStatusRequest

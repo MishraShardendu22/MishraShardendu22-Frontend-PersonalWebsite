@@ -79,12 +79,9 @@ export default function ProjectPageContent() {
     router.push(`?${params.toString()}`)
   }
 
-  // Loading state
   if (loading) {
     return <LoadingState />
   }
-
-  // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
@@ -94,11 +91,9 @@ export default function ProjectPageContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 max-w-full">
           <div className="flex items-center justify-between gap-8">
-            {/* Left Side: Back Button + Title + Stats */}
             <div className="flex items-center gap-6 flex-shrink-0">
               <Link href="/">
                 <Button
@@ -119,7 +114,6 @@ export default function ProjectPageContent() {
                   </h1>
                 </div>
 
-                {/* Compact Stats */}
                 <div className="hidden lg:flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1">
                     <span className="font-semibold text-primary">{projects.length}</span>
@@ -135,8 +129,7 @@ export default function ProjectPageContent() {
               </div>
             </div>
 
-            {/* Center: Search Bar */}
-            <div className="flex-1 max-w-md mx-8">
+            <div className="flex-1 flex justify-center">
               <Input
                 type="text"
                 placeholder="Search projects..."
@@ -146,7 +139,6 @@ export default function ProjectPageContent() {
               />
             </div>
 
-            {/* Right Side: Pagination */}
             <div className="flex-shrink-0">
               {totalPages > 1 && (
                 <ProjectPagination
@@ -163,7 +155,6 @@ export default function ProjectPageContent() {
         </div>
       </div>
 
-      {/* Secondary Filter Bar */}
       <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-3 max-w-full">
           <div className="flex items-center justify-center gap-4">
@@ -192,7 +183,6 @@ export default function ProjectPageContent() {
               </Button>
             )}
 
-            {/* Mobile Stats */}
             <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
               <div className="flex items-center gap-1">
                 <span className="font-semibold text-primary">{projects.length}</span>
@@ -209,7 +199,6 @@ export default function ProjectPageContent() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1">
         <div className="container mx-auto px-6 py-8 max-w-full">
           {projects.length === 0 ? (
@@ -225,7 +214,6 @@ export default function ProjectPageContent() {
             </div>
           )}
 
-          {/* Bottom Info Bar */}
           <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
             <p>
               Showing {filteredProjects.length === 0 ? 0 : startIndex + 1}-

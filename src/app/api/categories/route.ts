@@ -3,7 +3,6 @@ import { db } from '@/index'
 import { categoriesTable } from '@/db/schema'
 import { desc, eq, or } from 'drizzle-orm'
 
-// GET /api/categories - List categories
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -45,7 +44,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/categories - Create a new category
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -58,7 +56,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if category with same name or slug already exists
     const existingCategory = await db
       .select()
       .from(categoriesTable)
@@ -72,7 +69,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create new category
     const [newCategory] = await db
       .insert(categoriesTable)
       .values({

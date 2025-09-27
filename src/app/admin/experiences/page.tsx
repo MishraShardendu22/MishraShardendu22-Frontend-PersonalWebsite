@@ -36,7 +36,6 @@ import {
   DialogTrigger,
 } from '../../../components/ui/dialog'
 
-// Define form data type
 interface ExperienceFormData {
   company_name: string
   position: string
@@ -134,18 +133,15 @@ export default function AdminExperiencesPage() {
 
   const onSubmit = async (data: ExperienceFormData) => {
     try {
-  const experienceData: CreateExperienceRequest = {
-        // form fields
+      const experienceData: CreateExperienceRequest = {
         images: data.images.split(',').map((img) => img.trim()),
         projects: selectedProjects,
-        // created_by is required by the API/type; if you have an auth/user id, replace '' with it
         created_by: '',
         description: data.description,
         technologies: selectedTechnologies,
         company_name: data.company_name,
         company_logo: data.company_logo,
         certificate_url: data.certificate_url,
-        // experience_time_line expects an array; use the position/start/end from the form
         experience_time_line: [
           {
             position: data.position,
@@ -154,7 +150,7 @@ export default function AdminExperiencesPage() {
           },
         ],
       }
-  if (editingExperience) {
+      if (editingExperience) {
         await experiencesAPI.updateExperience(editingExperience.inline.id, experienceData)
         setSuccess('Experience updated successfully')
       } else {
@@ -178,7 +174,6 @@ export default function AdminExperiencesPage() {
     setSelectedProjects(exp.projects || [])
     reset({
       company_name: exp.company_name,
-      // read position/start/end from the first timeline entry if available
       position: exp.experience_time_line?.[0]?.position ?? '',
       start_date: exp.experience_time_line?.[0]?.start_date ?? '',
       end_date: exp.experience_time_line?.[0]?.end_date ?? '',
@@ -238,7 +233,6 @@ export default function AdminExperiencesPage() {
   const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
 
-  // Pagination logic
   const totalPages = Math.ceil(experiences.length / limit)
   const currentData = experiences.slice((page - 1) * limit, page * limit)
 
@@ -433,9 +427,9 @@ export default function AdminExperiencesPage() {
                     {exp.experience_time_line?.[0]?.position ?? 'Position'}
                   </CardTitle>
                   <CardDescription className="text-foreground">
-                    {exp.company_name} &bull; {formatDate(
-                      exp.experience_time_line?.[0]?.start_date ?? ''
-                    )} to {formatDate(exp.experience_time_line?.[0]?.end_date ?? '')}
+                    {exp.company_name} &bull;{' '}
+                    {formatDate(exp.experience_time_line?.[0]?.start_date ?? '')} to{' '}
+                    {formatDate(exp.experience_time_line?.[0]?.end_date ?? '')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col gap-2 p-2">

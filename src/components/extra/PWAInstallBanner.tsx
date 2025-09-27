@@ -14,16 +14,14 @@ export default function PWAInstallBanner() {
   const [isInstalled, setIsInstalled] = useState(false)
 
   useEffect(() => {
-    // Check if already installed
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches
     const isIOSStandalone = (window.navigator as any).standalone === true
-    
+
     if (isStandalone || isIOSStandalone) {
       setIsInstalled(true)
       return
     }
 
-    // Check if user has previously dismissed the banner
     const dismissed = localStorage.getItem('pwa-install-dismissed')
     if (dismissed) return
 
@@ -55,13 +53,13 @@ export default function PWAInstallBanner() {
     try {
       await deferredPrompt.prompt()
       const { outcome } = await deferredPrompt.userChoice
-      
+
       if (outcome === 'accepted') {
         console.log('PWA install accepted')
       } else {
         console.log('PWA install dismissed')
       }
-      
+
       setDeferredPrompt(null)
       setShowBanner(false)
     } catch (error) {
@@ -103,7 +101,7 @@ export default function PWAInstallBanner() {
             <X className="w-4 h-4" />
           </button>
         </div>
-        
+
         <div className="flex space-x-2">
           <button
             onClick={handleInstallClick}

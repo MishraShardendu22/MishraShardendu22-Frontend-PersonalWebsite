@@ -75,8 +75,4 @@ function Button({
   )
 }
 
-// Add ripple animation to global styles if not present
-// .animate-ripple { animation: ripple 0.5s linear; }
-// @keyframes ripple { to { opacity: 0; transform: scale(2); } }
-
 export { Button, buttonVariants }

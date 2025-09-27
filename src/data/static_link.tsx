@@ -1,15 +1,13 @@
-// Social Media Links
-export const XProfile = 'https://x.com/Shardendu_M'
+export const XProfile = 'https://x.com/mishrashardendu'
 export const GitHubProject = 'https://github.com/MishraShardendu22'
-export const GitHubLearning = 'https://github.com/ShardenduMishra22'
-export const GitHubOrganistaion = 'https://github.com/Team-Parashuram'
-export const LeetCodeProfile = 'https://leetcode.com/u/ShardenduMishra22/'
-export const YouTubeChannel = 'https://www.youtube.com/@Shardendu_Mishra'
-export const CodeChefProfile = 'https://www.codechef.com/users/clutchgod22'
-export const LinkedInProfile = 'https://www.linkedin.com/in/shardendumishra22/'
-export const CodeforcesProfile = 'https://codeforces.com/profile/ShardenduMishra_22'
-export const resumeLink =
-  'https://drive.google.com/file/d/1F-ORaZyX8iMmBFhX2i-rtn21rdDMnsew/view?usp=sharing'
+export const GitHubLearning = 'https://github.com/MishraShardendu22/Learning'
+export const GitHubOrganistaion = 'https://github.com/MishraShardendu22'
+export const LeetCodeProfile = 'https://leetcode.com/u/MishraShardendu22/'
+export const YouTubeChannel = 'https://www.youtube.com/@mishrashardendu22'
+export const CodeChefProfile = 'https://www.codechef.com/users/mishrashardendu'
+export const LinkedInProfile = 'https://www.linkedin.com/in/mishrashardendu22/'
+export const CodeforcesProfile = 'https://codeforces.com/profile/mishrashardendu22'
+export const resumeLink = 'https://drive.google.com/file/d/1_your_resume_id/view?usp=sharing'
 
 import {
   Home,

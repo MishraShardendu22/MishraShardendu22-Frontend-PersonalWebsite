@@ -34,10 +34,8 @@ export const ProjectFocusCard = React.memo(
       )}
     >
       <Card className="group relative overflow-hidden border border-border/30 hover:border-primary/40 transition-all duration-500 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-primary/10 bg-card/95 backdrop-blur-sm hover:bg-card/100 min-h-[380px] sm:min-h-[420px]">
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/[0.02] to-secondary/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-        {/* Responsive number badge */}
         <div className="absolute top-4 sm:top-6 right-4 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary via-primary/90 to-secondary flex items-center justify-center text-primary-foreground text-xs sm:text-sm font-bold shadow-lg sm:shadow-xl border border-primary/20 sm:border-2">
           {String(startIndex + index + 1).padStart(2, '0')}
         </div>
@@ -53,7 +51,6 @@ export const ProjectFocusCard = React.memo(
               </CardDescription>
             </div>
 
-            {/* Responsive skills badges */}
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {project.skills.slice(0, windowWidth < 640 ? 3 : 4).map((skill, idx) => (
                 <Badge
@@ -75,7 +72,6 @@ export const ProjectFocusCard = React.memo(
             </div>
           </div>
 
-          {/* Action buttons - responsive layout */}
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
             <div className="flex gap-2 sm:gap-3">
               {project.project_live_link && (

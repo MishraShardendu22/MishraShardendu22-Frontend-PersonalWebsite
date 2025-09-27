@@ -17,7 +17,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid user ID' }, { status: 400 })
     }
 
-    // Check if user exists
     const user = await db
       .select()
       .from(usersTable)
@@ -28,13 +27,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Build where conditions
     let whereCondition = eq(notificationsTable.userId, userId.toString())
     if (unreadOnly) {
       whereCondition = eq(notificationsTable.isRead, 0)
     }
 
-    // Get notifications
     const notifications = await db
       .select({
         id: notificationsTable.id,
@@ -52,7 +49,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: notificationsTable.id })
       .from(notificationsTable)

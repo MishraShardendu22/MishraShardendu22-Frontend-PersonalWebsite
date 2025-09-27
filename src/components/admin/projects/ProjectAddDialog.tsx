@@ -140,7 +140,7 @@ export function ProjectAddDialog({
             <Input
               id="project_repository"
               {...register('project_repository')}
-              placeholder="https://github.com/username/repo"
+              placeholder="https://github.com/username/repository"
             />
             {errors.project_repository && (
               <p className="text-sm text-red-500">{errors.project_repository.message}</p>
@@ -151,7 +151,7 @@ export function ProjectAddDialog({
             <Input
               id="project_live_link"
               {...register('project_live_link')}
-              placeholder="https://project-live.com"
+              placeholder="https://project-demo.com"
             />
             {errors.project_live_link && (
               <p className="text-sm text-red-500">{errors.project_live_link.message}</p>
@@ -162,7 +162,7 @@ export function ProjectAddDialog({
             <Input
               id="project_video"
               {...register('project_video')}
-              placeholder="https://youtube.com/video"
+              placeholder="https://youtube.com/watch?v=example"
             />
             {errors.project_video && (
               <p className="text-sm text-red-500">{errors.project_video.message}</p>

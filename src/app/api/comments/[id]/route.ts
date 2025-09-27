@@ -36,7 +36,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   }
 }
 
-// DELETE /api/comments/:id - Delete comment
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -48,7 +47,6 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Invalid comment ID' }, { status: 400 })
     }
 
-    // Check if comment exists
     const existingComment = await db
       .select()
       .from(commentsTable)
@@ -59,7 +57,6 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Comment not found' }, { status: 404 })
     }
 
-    // Delete comment
     await db.delete(commentsTable).where(eq(commentsTable.id, commentId))
 
     return NextResponse.json({

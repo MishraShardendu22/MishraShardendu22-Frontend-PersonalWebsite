@@ -23,10 +23,8 @@ export function DesktopSidebar({ activeSection }: { activeSection: string }) {
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
       >
-        {/* Animated gradient border */}
         <div className="absolute inset-0 bg-gradient-to-b from-sidebar-primary/10 via-transparent to-sidebar-accent/10 opacity-50 pointer-events-none" />
 
-        {/* Header */}
         <div className="p-6 border-b border-sidebar-border/50">
           <div className="flex items-center gap-3">
             <div className="relative group">
@@ -36,7 +34,6 @@ export function DesktopSidebar({ activeSection }: { activeSection: string }) {
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full border-2 border-sidebar animate-pulse" />
             </div>
 
-            {/* Profile info when expanded */}
             {isExpanded && (
               <div
                 className="flex-1 animate-in slide-in-from-left duration-300"
@@ -52,7 +49,6 @@ export function DesktopSidebar({ activeSection }: { activeSection: string }) {
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="p-4 space-y-2">
           {navItems.map((item, index) => (
             <div
@@ -71,10 +67,8 @@ export function DesktopSidebar({ activeSection }: { activeSection: string }) {
           ))}
         </nav>
 
-        {/* Bottom decoration */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-sidebar/50 to-transparent pointer-events-none" />
 
-        {/* Expand indicator */}
         <div className="absolute bottom-6 left-4 right-4">
           <div
             className={cn(

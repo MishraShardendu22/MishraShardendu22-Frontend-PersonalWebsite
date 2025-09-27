@@ -39,7 +39,6 @@ export function ExperienceSidebar({
   return (
     <div className="lg:col-span-1 space-y-6">
       <div className="sticky top-24 space-y-6">
-        {/* Company Info Card */}
         <CanvasCard
           animationSpeed={4}
           title="Company Info"
@@ -79,7 +78,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Tech Stack Card */}
         <CanvasCard
           title="Tech Stack"
           icon={<Code2 className="h-6 w-6 text-purple-400" />}
@@ -108,7 +106,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Quick Actions Card */}
         <CanvasCard
           title="Quick Actions"
           icon={<Rocket className="h-6 w-6 text-emerald-400" />}
@@ -157,7 +154,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Experience Highlights */}
         <CanvasCard
           animationSpeed={4}
           title="Experience Highlights"
@@ -205,7 +201,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Timeline Legend Card */}
         <CanvasCard
           animationSpeed={3}
           title="Timeline Legend"
@@ -221,7 +216,6 @@ export function ExperienceSidebar({
             <p className="text-white/90 text-sm">Timeline indicators guide</p>
 
             <div className="space-y-3">
-              {/* Current Position */}
               <div className="flex items-center gap-2 text-xs">
                 <div className="h-4 w-4 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 border border-white/30 flex items-center justify-center shadow-sm">
                   <Award className="w-2 h-2 text-white" />
@@ -231,7 +225,6 @@ export function ExperienceSidebar({
                 </div>
               </div>
 
-              {/* Past Position */}
               <div className="flex items-center gap-2 text-xs">
                 <div className="h-4 w-4 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 border border-white/30 flex items-center justify-center shadow-sm">
                   <Briefcase className="w-2 h-2 text-white" />
@@ -241,7 +234,6 @@ export function ExperienceSidebar({
                 </div>
               </div>
 
-              {/* Badges */}
               <div className="space-y-2 pt-2 border-t border-white/20">
                 <div className="flex items-center gap-2 text-xs">
                   <div className="px-2 py-0.5 bg-green-500/30 text-green-200 text-[10px] font-semibold rounded-full border border-green-400/30">
@@ -268,7 +260,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Compact Timeline Card */}
         <CanvasCard
           animationSpeed={2.5}
           title="Position Timeline"
@@ -284,10 +275,8 @@ export function ExperienceSidebar({
             <p className="text-white/90 text-sm">Role progression timeline</p>
 
             <div className="relative">
-              {/* Timeline line */}
               <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-violet-400 via-purple-400 to-violet-400"></div>
 
-              {/* Timeline items */}
               <div className="space-y-4">
                 {experience.volunteer_time_line
                   .slice()
@@ -299,7 +288,6 @@ export function ExperienceSidebar({
 
                     return (
                       <div key={index} className="flex items-start gap-3 relative">
-                        {/* Timeline dot */}
                         <div
                           className={`w-6 h-6 rounded-full border-2 border-white/30 flex items-center justify-center shadow-sm z-10 ${
                             isCurrentPosition
@@ -314,7 +302,6 @@ export function ExperienceSidebar({
                           )}
                         </div>
 
-                        {/* Content */}
                         <div className="flex-1 min-w-0 pb-2">
                           <div className="text-white font-medium text-sm leading-tight">
                             {timeline.position}

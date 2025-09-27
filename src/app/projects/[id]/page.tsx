@@ -38,10 +38,8 @@ export default function ProjectDetailPage({ params }: any) {
   const skills = project?.skills || []
   const [copyClicked, setCopyClicked] = useState(false)
 
-  // Check if description is short (less than 500 characters as example)
   const isShortDescription = (project?.description?.length || 0) < 500
 
-  // Handle copying project info as markdown
   const handleCopyMarkdown = async () => {
     if (!project) return
 
@@ -114,15 +112,12 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                 <CardContent
                   className={`${isShortDescription ? 'min-h-[400px]' : 'min-h-[600px]'} flex flex-col`}
                 >
-                  {/* Main Description Content */}
                   <div className="flex-grow">
                     <ProjectDescription description={project.description} showCard={false} />
                   </div>
 
-                  {/* Filler Content for Short Descriptions */}
                   {isShortDescription && (
                     <div className="mt-auto pt-8 space-y-6">
-                      {/* Decorative Separator */}
                       <div className="flex items-center justify-center">
                         <div className="flex items-center gap-4 text-muted-foreground">
                           <div className="h-px bg-border flex-1 max-w-20" />
@@ -131,7 +126,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                         </div>
                       </div>
 
-                      {/* Project Quick Facts */}
                       <div className="bg-muted/30 rounded-lg p-6 space-y-4">
                         <h3 className="text-lg font-semibold text-foreground mb-4 text-center">
                           Project Quick Facts
@@ -156,7 +150,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                         </div>
                       </div>
 
-                      {/* Scroll Hint */}
                       <div className="flex items-center justify-center text-muted-foreground">
                         <div className="flex items-center gap-2 text-sm">
                           <span>More details below</span>
@@ -168,7 +161,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                 </CardContent>
               </Card>
 
-              {/* Technologies Section - Full width under description */}
               <Card className="border border-border/50 bg-card/50">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-xl flex items-center gap-3">
@@ -182,7 +174,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
               </Card>
             </div>
 
-            {/* Sidebar - Right Side (1/3 width) with Canvas Effects */}
             <div className="lg:col-span-1 space-y-6">
               <div className="sticky top-24 space-y-6">
                 <CanvasCard
@@ -216,7 +207,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                         {shareClicked ? 'Copied!' : 'Share'}
                       </Button>
 
-                      {/* Copy Markdown Button - Right */}
                       <Button
                         variant="outline"
                         onClick={handleCopyMarkdown}
@@ -264,7 +254,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   </div>
                 </CanvasCard>
 
-                {/* Project Highlights with Canvas Effect */}
                 <CanvasCard
                   title="Project Highlights"
                   icon={<Code2 className="h-6 w-6" />}
@@ -280,13 +269,11 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                 >
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
-                      {/* Tech Stack Count */}
                       <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
                         <div className="text-2xl font-bold text-white">{skills.length}</div>
                         <div className="text-xs text-white/70">Technologies</div>
                       </div>
 
-                      {/* Available Links Count */}
                       <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
                         <div className="text-2xl font-bold text-white">
                           {
@@ -301,7 +288,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                       </div>
                     </div>
 
-                    {/* Key Features */}
                     <div className="space-y-2">
                       <div className="text-sm font-medium text-white">Features:</div>
                       <div className="flex flex-wrap gap-2">
@@ -349,7 +335,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                       solutions.
                     </p>
 
-                    {/* Only 2 buttons - no repetition */}
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
@@ -374,7 +359,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   </div>
                 </CanvasCard>
 
-                {/* Project Stats (if available) */}
                 {project.stats && (
                   <Card className="border border-border/50 bg-card/50">
                     <CardHeader className="pb-3">
@@ -402,7 +386,6 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
           </div>
         </main>
 
-        {/* Mobile Share Button */}
         <div className="fixed bottom-6 right-6 z-40 lg:hidden">
           <Button
             size="lg"

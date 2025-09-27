@@ -10,7 +10,6 @@ import {
 import { eq, desc, like, and, or, count } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 
-// GET /api/blogs - List blogs with filtering and pagination
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -22,7 +21,6 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search')
     const offset = (page - 1) * limit
 
-    // Build where conditions
     const conditions = []
 
     if (tag) {
@@ -36,14 +34,11 @@ export async function GET(request: NextRequest) {
     }
 
     if (author) {
-      // Join with users and profiles to search by author name
-      // This is a simplified version - you might want to add a proper join
       conditions.push(eq(blogTable.authorId, author))
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
 
-    // Get blogs with author information
     const blogs = await db
       .select({
         id: blogTable.id,
@@ -73,7 +68,6 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .offset(offset)
 
-    // Get counts for each blog
     const blogsWithCounts = await Promise.all(
       blogs.map(async (blog) => {
         const [likesCount, commentsCount, viewsCount] = await Promise.all([
@@ -97,7 +91,6 @@ export async function GET(request: NextRequest) {
       })
     )
 
-    // Get total count for pagination
     const totalCount = await db.select({ count: count() }).from(blogTable).where(whereClause)
 
     return NextResponse.json({
@@ -116,7 +109,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/blogs - Create a new blog
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -129,14 +121,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if author exists
     const author = await db.select().from(usersTable).where(eq(usersTable.id, authorId)).limit(1)
 
     if (author.length === 0) {
       return NextResponse.json({ success: false, error: 'Author not found' }, { status: 404 })
     }
 
-    // Create new blog
     const [newBlog] = await db
       .insert(blogTable)
       .values({

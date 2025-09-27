@@ -15,12 +15,6 @@ interface AuthState {
   initializeAuth: () => void
 }
 
-// Helper to normalize user object
-
-/**
- * Zustand store for authentication state and actions.
- * Handles login, logout, and loading state, and persists auth info.
- */
 export const useAuth = create<AuthState>()(
   persist(
     (set) => ({
@@ -28,29 +22,22 @@ export const useAuth = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
 
-      /**
-       * Attempts to log in with the provided credentials.
-       * On success, saves user and token, sets isAuthenticated.
-       * On failure, returns a detailed error message.
-       */
       login: async (credentials: AuthRequest) => {
         set({ isLoading: true })
         try {
           const response = await authAPI.login(credentials)
           console.log('Login response:', response)
 
-          // Defensive checks for backend response shape
           if (!response || typeof response !== 'object') {
             console.error('Login failed: No response or invalid response object')
             set({ isLoading: false })
             return { success: false, error: 'No response from server.' }
           }
 
-          // Accept status 202 (User already exists) or 201 (created) as success
           const status = response.status
           const token = response.token
           console.log('Status:', status, 'Token:', token ? 'present' : 'missing')
-          
+
           if ((status === 202 || status === 201) && token) {
             console.log('Login successful, setting auth state')
             if (typeof window !== 'undefined') {
@@ -64,7 +51,6 @@ export const useAuth = create<AuthState>()(
             return { success: true }
           }
 
-          // If backend returns error or missing token
           if (response.error) {
             console.error('Login failed:', response.error)
             set({ isLoading: false })
@@ -91,13 +77,9 @@ export const useAuth = create<AuthState>()(
         }
       },
 
-      /**
-       * Logs out the user, clears all auth state and localStorage.
-       */
       logout: () => {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('jwt_token')
-          // Redirect to home page after logout
           window.location.href = '/'
         }
         set({
@@ -107,16 +89,10 @@ export const useAuth = create<AuthState>()(
         })
       },
 
-      /**
-       * Sets the loading state for auth actions.
-       */
       setLoading: (loading: boolean) => {
         set({ isLoading: loading })
       },
 
-      /**
-       * Initialize auth state from localStorage on app start
-       */
       initializeAuth: () => {
         if (typeof window !== 'undefined') {
           const token = localStorage.getItem('jwt_token')

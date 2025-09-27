@@ -21,7 +21,6 @@ export default function ProjectHeader({
         A curated collection of my latest work, experiments, and contributions to the world of code
       </p>
 
-      {/* Stats Bar */}
       <div className="flex justify-center gap-6 pt-2">
         <div className="text-center">
           <div className="text-xl font-bold text-primary">{totalProjects}</div>

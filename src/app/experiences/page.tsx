@@ -39,7 +39,6 @@ export default function ExperiencePageContent() {
   const allYears = Array.from(
     new Set(
       experiences.map((e) => {
-        // Use the latest timeline entry for year filtering
         const latestTimeline = e.experience_time_line?.[e.experience_time_line.length - 1]
         return latestTimeline?.start_date
           ? new Date(latestTimeline.start_date).getFullYear().toString()
@@ -56,7 +55,6 @@ export default function ExperiencePageContent() {
     const matchesYear =
       selectedYear !== '__all__'
         ? (() => {
-            // Use the latest timeline entry for year filtering
             const latestTimeline =
               experience.experience_time_line?.[experience.experience_time_line.length - 1]
             return (
@@ -68,7 +66,6 @@ export default function ExperiencePageContent() {
     const matchesSearch =
       searchTerm === '' ||
       (() => {
-        // Use the latest timeline entry for position search
         const latestTimeline =
           experience.experience_time_line?.[experience.experience_time_line.length - 1]
         const latestPosition = latestTimeline?.position ?? ''
@@ -88,7 +85,6 @@ export default function ExperiencePageContent() {
   const currentExperiences = filteredExperiences.slice(startIndex, endIndex)
 
   const transformedExperiences = currentExperiences.map((experience) => {
-    // Get the latest (most recent) timeline entry instead of the first one
     const latestTimeline =
       experience.experience_time_line?.[experience.experience_time_line.length - 1]
 
@@ -135,12 +131,9 @@ export default function ExperiencePageContent() {
     router.push(`?${params.toString()}`)
   }
 
-  // Loading state
   if (loading) {
     return <LoadingState />
   }
-
-  // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
@@ -150,11 +143,9 @@ export default function ExperiencePageContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 max-w-full">
           <div className="flex items-center justify-between gap-8">
-            {/* Left Side: Back Button + Title + Stats */}
             <div className="flex items-center gap-6 flex-shrink-0">
               <Link href="/">
                 <Button
@@ -175,7 +166,6 @@ export default function ExperiencePageContent() {
                   </h1>
                 </div>
 
-                {/* Compact Stats */}
                 <div className="hidden lg:flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1">
                     <span className="font-semibold text-primary">{experiences.length}</span>
@@ -191,7 +181,6 @@ export default function ExperiencePageContent() {
               </div>
             </div>
 
-            {/* Center: Search Bar */}
             <div className="flex-1 max-w-md mx-8">
               <Input
                 type="text"
@@ -202,7 +191,6 @@ export default function ExperiencePageContent() {
               />
             </div>
 
-            {/* Right Side: Pagination */}
             <div className="flex-shrink-0">
               {totalPages > 1 && (
                 <ExperiencePagination
@@ -219,7 +207,6 @@ export default function ExperiencePageContent() {
         </div>
       </div>
 
-      {/* Secondary Filter Bar */}
       <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-3 max-w-full">
           <div className="flex items-center justify-center gap-4">
@@ -282,7 +269,6 @@ export default function ExperiencePageContent() {
               </Button>
             )}
 
-            {/* Mobile Stats */}
             <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
               <div className="flex items-center gap-1">
                 <span className="font-semibold text-primary">{experiences.length}</span>
@@ -299,7 +285,6 @@ export default function ExperiencePageContent() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1">
         <div className="container mx-auto px-6 py-8 max-w-full">
           {experiences.length === 0 ? (
@@ -317,7 +302,6 @@ export default function ExperiencePageContent() {
             </div>
           )}
 
-          {/* Bottom Info Bar */}
           <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
             <p>
               Showing {filteredExperiences.length === 0 ? 0 : startIndex + 1}-

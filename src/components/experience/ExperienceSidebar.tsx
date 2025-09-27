@@ -26,7 +26,6 @@ export function ExperienceSidebar({
   return (
     <div className="lg:col-span-1 space-y-6">
       <div className="sticky top-24 space-y-6">
-        {/* Company Info Card */}
         <CanvasCard
           animationSpeed={4}
           title="Company Info"
@@ -51,16 +50,17 @@ export function ExperienceSidebar({
                 </div>
               )}
               <h4 className="text-white font-semibold text-lg">{experience.company_name}</h4>
-              <p className="text-white/80 text-sm">{experience.experience_time_line?.[0]?.position ?? ''}</p>
+              <p className="text-white/80 text-sm">
+                {experience.experience_time_line?.[0]?.position ?? ''}
+              </p>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
               <Clock className="w-4 h-4" />
-                <span>
-                  {formatDate(experience.experience_time_line?.[0]?.start_date ?? '')} - {formatDate(
-                    experience.experience_time_line?.[0]?.end_date ?? ''
-                  )}
-                </span>
+              <span>
+                {formatDate(experience.experience_time_line?.[0]?.start_date ?? '')} -{' '}
+                {formatDate(experience.experience_time_line?.[0]?.end_date ?? '')}
+              </span>
             </div>
 
             {experience.certificate_url && (
@@ -83,7 +83,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Tech Stack Card */}
         <CanvasCard
           title="Tech Stack"
           icon={<Code2 className="h-6 w-6 text-purple-400" />}
@@ -112,7 +111,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Quick Actions Card */}
         <CanvasCard
           title="Quick Actions"
           icon={<Rocket className="h-6 w-6 text-emerald-400" />}
@@ -161,7 +159,6 @@ export function ExperienceSidebar({
           </div>
         </CanvasCard>
 
-        {/* Experience Highlights */}
         <CanvasCard
           animationSpeed={4}
           title="Experience Highlights"

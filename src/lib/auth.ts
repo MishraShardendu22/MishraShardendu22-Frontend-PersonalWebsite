@@ -19,13 +19,13 @@ export const auth = betterAuth({
   },
   emailAndPassword: { enabled: false },
   session: {
-    expiresIn: 60 * 60 * 24 * 7, // 7 days
-    updateAge: 60 * 60 * 24, // refresh expiry 1/day
-    freshAge: 60 * 5, // fresh session window: 5 min
-    disableSessionRefresh: false, // allow auto-refresh
+    expiresIn: 60 * 60 * 24 * 7,
+    updateAge: 60 * 60 * 24,
+    freshAge: 60 * 5,
+    disableSessionRefresh: false,
     cookieCache: {
       enabled: true,
-      maxAge: 5 * 60, // cache session in cookie for 5 min
+      maxAge: 5 * 60,
     },
   },
   callbacks: {

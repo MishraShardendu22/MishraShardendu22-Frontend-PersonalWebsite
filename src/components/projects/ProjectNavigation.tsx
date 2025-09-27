@@ -24,7 +24,6 @@ export function ProjectNavigation({ onShare, shareClicked, title }: ProjectNavig
     <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          {/* Left side - Back button */}
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
@@ -40,7 +39,6 @@ export function ProjectNavigation({ onShare, shareClicked, title }: ProjectNavig
               <span className="font-medium">Back</span>
             </Button>
 
-            {/* Optional breadcrumb */}
             {title && (
               <>
                 <div className="w-px h-4 bg-border" />
@@ -51,7 +49,6 @@ export function ProjectNavigation({ onShare, shareClicked, title }: ProjectNavig
             )}
           </div>
 
-          {/* Right side - Share button */}
           <Button
             variant="outline"
             size="sm"

@@ -14,9 +14,8 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 
 const educationData = {
-  // Education Information
   CollegeBatch: '2023-2027',
-  CollegeWebsite: 'https://iiitdwd.ac.in/',
+  CollegeWebsite: 'https://www.iiitdwd.ac.in/',
   CollegeLocation: 'Dharwad, Karnataka, India',
   CollegeName: 'Indian Institute of Information Technology, Dharwad',
 
@@ -29,7 +28,6 @@ const educationData = {
 
   Class10thPercentage: '84%',
 
-  // Languages
   Languages: ['Hindi', 'French', 'English'],
 }
 
@@ -53,13 +51,11 @@ const EducationSection = () => {
 
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-b from-background to-background/50">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/3 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header - Mobile Center Aligned */}
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center px-4 py-2 bg-primary/5 rounded-full border border-primary/10 mb-4">
             <GraduationCap className="w-4 h-4 mr-2 text-primary" />
@@ -78,9 +74,7 @@ const EducationSection = () => {
           </p>
         </div>
 
-        {/* Education Grid - Responsive Height Cards */}
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
-          {/* College Education - Dynamic Height */}
           <div
             className={`min-h-[320px] bg-card/50 border border-border/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col ${
               hoveredCard === 'college' && !isMobile ? 'scale-[1.02]' : ''
@@ -124,9 +118,7 @@ const EducationSection = () => {
               )}
             </div>
 
-            {/* Content Section - Flexible Space */}
             <div className={`flex-1 space-y-4 ${isMobile ? 'text-center' : ''}`}>
-              {/* College Name - Constrained Height */}
               <div className="min-h-[3rem]">
                 <h4
                   className={`text-base sm:text-lg font-semibold leading-tight ${isMobile ? 'text-center' : ''}`}
@@ -139,7 +131,6 @@ const EducationSection = () => {
                 </h4>
               </div>
 
-              {/* Location */}
               <div
                 className={`flex items-start space-x-2 text-muted-foreground ${isMobile ? 'justify-center' : ''}`}
               >
@@ -153,7 +144,6 @@ const EducationSection = () => {
                 </span>
               </div>
 
-              {/* Description */}
               <div className="bg-muted/20 rounded-xl p-4 border border-border/30">
                 <p
                   className={`text-sm text-muted-foreground leading-relaxed ${isMobile ? 'text-center' : ''}`}
@@ -163,7 +153,6 @@ const EducationSection = () => {
                 </p>
               </div>
 
-              {/* Mobile Website Link */}
               {isMobile && (
                 <div className="pt-2">
                   <a
@@ -180,7 +169,6 @@ const EducationSection = () => {
             </div>
           </div>
 
-          {/* School Education - Dynamic Height */}
           <div
             className={`min-h-[320px] bg-card/50 border border-border/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl hover:border-secondary/20 transition-all duration-300 flex flex-col ${
               hoveredCard === 'school' && !isMobile ? 'scale-[1.02]' : ''
@@ -188,7 +176,6 @@ const EducationSection = () => {
             onMouseEnter={() => !isMobile && setHoveredCard('school')}
             onMouseLeave={() => !isMobile && setHoveredCard(null)}
           >
-            {/* Header Section */}
             <div
               className={`flex items-center space-x-4 mb-6 ${isMobile ? 'flex-col items-center space-x-0 space-y-3' : ''}`}
             >
@@ -208,9 +195,7 @@ const EducationSection = () => {
               </div>
             </div>
 
-            {/* Content Section */}
             <div className={`flex-1 space-y-4 ${isMobile ? 'text-center' : ''}`}>
-              {/* School Name - Constrained Height */}
               <div className="min-h-[3rem]">
                 <h4 className="text-base sm:text-lg font-semibold leading-tight">
                   {isMobile
@@ -221,7 +206,6 @@ const EducationSection = () => {
                 </h4>
               </div>
 
-              {/* Location */}
               <div
                 className={`flex items-start space-x-2 text-muted-foreground ${isMobile ? 'justify-center' : ''}`}
               >
@@ -235,7 +219,6 @@ const EducationSection = () => {
                 </span>
               </div>
 
-              {/* Grades Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="bg-primary/5 rounded-xl p-3 sm:p-4 border border-primary/10">
                   <div
@@ -271,9 +254,7 @@ const EducationSection = () => {
           </div>
         </div>
 
-        {/* Bottom Section - Responsive Heights */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Languages - Dynamic Height */}
           <div
             className={`min-h-[240px] bg-card/50 border border-border/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl hover:border-accent/20 transition-all duration-300 flex flex-col ${
               hoveredCard === 'languages' && !isMobile ? 'scale-[1.02]' : ''
@@ -281,7 +262,6 @@ const EducationSection = () => {
             onMouseEnter={() => !isMobile && setHoveredCard('languages')}
             onMouseLeave={() => !isMobile && setHoveredCard(null)}
           >
-            {/* Header */}
             <div
               className={`flex items-center space-x-4 mb-6 ${isMobile ? 'flex-col items-center space-x-0 space-y-3' : ''}`}
             >
@@ -294,7 +274,6 @@ const EducationSection = () => {
               </div>
             </div>
 
-            {/* Languages List */}
             <div className={`flex-1 flex items-start ${isMobile ? 'justify-center' : ''}`}>
               <div className="flex flex-wrap gap-3">
                 {educationData.Languages.map((language, index) => (
@@ -309,7 +288,6 @@ const EducationSection = () => {
             </div>
           </div>
 
-          {/* Resume Section - Dynamic Height */}
           <div
             className={`lg:col-span-2 min-h-[240px] bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 sm:p-8 border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col ${
               hoveredCard === 'resume' && !isMobile ? 'scale-[1.02]' : ''
@@ -320,7 +298,6 @@ const EducationSection = () => {
             <div
               className={`flex-1 flex items-center ${isMobile ? 'flex-col justify-center space-y-6' : 'justify-between'}`}
             >
-              {/* Content */}
               <div className={`flex-1 ${isMobile ? 'text-center' : ''}`}>
                 <div
                   className={`flex items-center space-x-4 mb-4 ${isMobile ? 'justify-center flex-col space-x-0 space-y-3' : ''}`}
@@ -337,7 +314,6 @@ const EducationSection = () => {
                 </div>
               </div>
 
-              {/* Buttons */}
               <div
                 className={`flex gap-3 sm:gap-4 ${isMobile ? 'flex-col w-full' : 'flex-col flex-shrink-0'}`}
               >
@@ -366,7 +342,6 @@ const EducationSection = () => {
           </div>
         </div>
 
-        {/* Professional accent line */}
         <div className="mt-16 flex justify-center">
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full" />
         </div>

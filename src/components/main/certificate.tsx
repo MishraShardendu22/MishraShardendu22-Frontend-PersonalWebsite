@@ -23,11 +23,10 @@ export default function CertificationsSection({ certifications }: Certifications
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Responsive items per page
   const getItemsPerPage = () => {
-    if (windowWidth < 640) return 1 // Mobile: 1 certification
-    if (windowWidth < 1024) return 2 // Tablet: 2 certifications
-    return 2 // Desktop: 2 certifications
+    if (windowWidth < 640) return 1
+    if (windowWidth < 1024) return 2
+    return 2
   }
 
   const itemsPerPage = getItemsPerPage()
@@ -41,7 +40,6 @@ export default function CertificationsSection({ certifications }: Certifications
     return { currentPageCertifications, startIndex, endIndex }
   }, [certifications, currentPage, itemsPerPage])
 
-  // Reset to first page when screen size changes
   useEffect(() => {
     setCurrentPage(0)
   }, [itemsPerPage])
@@ -54,10 +52,8 @@ export default function CertificationsSection({ certifications }: Certifications
     if (currentPage > 0) setCurrentPage((prev) => prev - 1)
   }
 
-  // Smart pagination for mobile
   const getVisiblePageNumbers = () => {
     if (windowWidth < 640) {
-      // Mobile: Show current and adjacent pages only
       const pages = []
       if (currentPage > 0) pages.push(currentPage - 1)
       pages.push(currentPage)
@@ -65,7 +61,6 @@ export default function CertificationsSection({ certifications }: Certifications
       return pages
     }
 
-    // Desktop: Show all pages if reasonable, otherwise use ellipsis
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i)
     }
@@ -113,7 +108,6 @@ export default function CertificationsSection({ certifications }: Certifications
       />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
 
-      {/* Responsive floating elements */}
       <div className="absolute top-16 sm:top-32 right-1/4 w-12 h-12 sm:w-20 sm:h-20 bg-primary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse" />
       <div className="absolute bottom-20 sm:bottom-40 left-1/4 w-10 h-10 sm:w-16 sm:h-16 bg-secondary/5 rounded-full blur-2xl sm:blur-3xl animate-pulse delay-1000" />
 
@@ -139,7 +133,6 @@ export default function CertificationsSection({ certifications }: Certifications
             Professional certifications and credentials that validate my expertise
           </p>
 
-          {/* Summary info */}
           {certifications.length > 0 && (
             <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground/70">
               Showing {startIndex + 1}-{Math.min(endIndex, certifications.length)} of{' '}
@@ -150,7 +143,6 @@ export default function CertificationsSection({ certifications }: Certifications
 
         {totalPages > 1 && (
           <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            {/* Navigation buttons */}
             <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-none">
               <Button
                 onClick={prevPage}
@@ -175,7 +167,6 @@ export default function CertificationsSection({ certifications }: Certifications
               </Button>
             </div>
 
-            {/* Page numbers */}
             <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 order-1 sm:order-none">
               {getVisiblePageNumbers().map((pageNum, index) => {
                 if (pageNum === '...') {
@@ -207,14 +198,12 @@ export default function CertificationsSection({ certifications }: Certifications
               })}
             </div>
 
-            {/* Mobile page indicator */}
             <div className="text-xs text-foreground/70 sm:hidden order-3">
               Page {currentPage + 1} of {totalPages}
             </div>
           </div>
         )}
 
-        {/* Replace the existing grid with CertificationFocusCards */}
         {certifications.length === 0 ? (
           <div className="mx-auto mt-8 sm:mt-16 lg:mt-20 grid max-w-2xl grid-cols-1 gap-4 sm:gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-2">
             <Card className="col-span-full bg-gradient-to-br from-muted/20 to-muted/10 border-dashed border-2 border-muted/40 hover:border-primary/30 transition-all duration-300">
@@ -272,7 +261,6 @@ export default function CertificationsSection({ certifications }: Certifications
           </div>
         )}
 
-        {/* Professional accent line */}
         <div className="mt-12 sm:mt-20 flex justify-center">
           <div className="w-20 sm:w-32 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-full opacity-60" />
         </div>

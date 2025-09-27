@@ -19,7 +19,7 @@ import {
   Send,
   BookOpen,
   Clock,
-  Check, // Added for success feedback
+  Check,
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
@@ -55,7 +55,7 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [likesCount, setLikesCount] = useState(0)
   const [viewsCount, setViewsCount] = useState(0)
   const [commentsCount, setCommentsCount] = useState(0)
-  const [shareSuccess, setShareSuccess] = useState(false) // Added for share feedback
+  const [shareSuccess, setShareSuccess] = useState(false)
 
   const fetchBlogPost = useCallback(async () => {
     try {
@@ -139,18 +139,15 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }
   }
 
-  // Added share functionality
   const handleShare = async () => {
     try {
       const currentUrl = window.location.href
       await navigator.clipboard.writeText(currentUrl)
 
-      // Show success feedback
       setShareSuccess(true)
       setTimeout(() => setShareSuccess(false), 2000)
     } catch (error) {
       console.error('Failed to copy URL:', error)
-      // Fallback for browsers that don't support clipboard API
       const textArea = document.createElement('textarea')
       textArea.value = window.location.href
       document.body.appendChild(textArea)
@@ -210,7 +207,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     return (
       <div className="min-h-screen bg-background">
         <div className="w-full space-y-8 px-6 py-8">
-          {/* Header Skeleton */}
           <div className="space-y-6">
             <div className="h-16 w-2/3 bg-muted/50 rounded animate-pulse" />
             <div className="flex items-center space-x-6">
@@ -222,14 +218,12 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
           </div>
 
-          {/* Content Skeleton */}
           <div className="space-y-4">
             {Array.from({ length: 12 }).map((_, i) => (
               <div key={i} className="h-5 w-full bg-muted/50 rounded animate-pulse" />
             ))}
           </div>
 
-          {/* Actions Skeleton */}
           <div className="flex items-center space-x-6 pt-8 border-t">
             <div className="h-12 w-24 bg-muted/50 rounded-lg animate-pulse" />
             <div className="h-12 w-24 bg-muted/50 rounded-lg animate-pulse" />
@@ -262,7 +256,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-10">
         <div className="w-full px-6 py-4">
           <div className="flex items-center justify-between">
@@ -304,10 +297,8 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="w-full px-6 py-8">
         <div className="max-w-5xl mx-auto">
-          {/* Blog Header */}
           <div className="mb-12">
             <h1 className="text-5xl font-bold text-foreground font-heading mb-8 leading-tight">
               {blog.title}
@@ -352,14 +343,12 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             )}
           </div>
 
-          {/* Blog Content with ReactMarkdown */}
           <div className="mb-8">
             <div className="prose prose-xl max-w-none dark:prose-invert prose-headings:font-heading prose-headings:text-foreground prose-p:text-foreground prose-p:leading-relaxed prose-li:text-foreground prose-strong:text-foreground prose-em:text-foreground">
               <ReactMarkdown>{blog.content}</ReactMarkdown>
             </div>
           </div>
 
-          {/* Interaction Bar */}
           <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-border/50">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-6">
@@ -395,7 +384,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
           </div>
 
-          {/* Comments Section */}
           <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50">
             <div className="p-6 pb-4 border-b border-border/50">
               <div className="flex items-center space-x-3">
@@ -407,7 +395,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
 
             <div className="p-6 space-y-6">
-              {/* Add Comment */}
               {session?.data?.user && (
                 <div className="space-y-4">
                   <div className="flex items-start space-x-4">
@@ -445,7 +432,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
               <Separator />
 
-              {/* Comments List */}
               <div className="space-y-6">
                 {comments.map((comment) => (
                   <div key={comment.id} className="flex items-start space-x-4">

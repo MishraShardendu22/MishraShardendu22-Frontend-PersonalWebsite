@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://portfolio-backend-2iw4.onrender.com/api'
+const BASE_URL = 'https://api.mishrashardendu22.is-a.dev'
 const withTimeout = (url: string, ms = 8000) => axios.get(url, { timeout: ms }).catch(() => null)
 
 export async function fetchAllStats() {

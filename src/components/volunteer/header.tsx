@@ -27,7 +27,6 @@ export default function ExperienceHeader({
         companies
       </p>
 
-      {/* Stats Bar */}
       <div className="flex justify-center gap-6 pt-2">
         <div className="text-center">
           <div className="text-xl font-bold text-primary">{totalExperiences}</div>

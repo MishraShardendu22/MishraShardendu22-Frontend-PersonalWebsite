@@ -18,7 +18,6 @@ export function ProjectDescription({
 }: ProjectDescriptionProps) {
   const markdownComponents = useMemo(
     () => ({
-      // Simple, clean headings
       h1: ({ children, className: _className, ...props }: any) => (
         <h1 className={cn('text-3xl font-bold mb-4 text-foreground', _className)} {...props}>
           {children}
@@ -41,14 +40,12 @@ export function ProjectDescription({
         </h3>
       ),
 
-      // Clean paragraphs
       p: ({ children, className: _className, ...props }: any) => (
         <p className={cn('mb-4 text-foreground/90 leading-relaxed', _className)} {...props}>
           {children}
         </p>
       ),
 
-      // Simple lists
       ul: ({ children, className: _className, ...props }: any) => (
         <ul className={cn('list-disc pl-6 mb-4 space-y-1', _className)} {...props}>
           {children}
@@ -65,7 +62,6 @@ export function ProjectDescription({
         </li>
       ),
 
-      // Code styling
       code: ({ children, className: _className, inline, ...props }: any) => {
         if (inline) {
           return (
@@ -89,7 +85,6 @@ export function ProjectDescription({
         </pre>
       ),
 
-      // Simple blockquotes
       blockquote: ({ children, className: _className, ...props }: any) => (
         <blockquote
           className={cn('border-l-4 border-border pl-4 italic mb-4', _className)}
@@ -99,7 +94,6 @@ export function ProjectDescription({
         </blockquote>
       ),
 
-      // Clean images
       img: ({ src, alt, className: _className, ...props }: any) => {
         const imgSrc = typeof src === 'string' ? src : ''
         if (!imgSrc) return null
@@ -119,16 +113,13 @@ export function ProjectDescription({
     []
   )
 
-  // Smart content splitting that ensures right half starts with a heading
   const splitDescription = () => {
     const lines = description.split('\n')
     const totalLines = lines.length
     const halfIndex = Math.floor(totalLines / 2)
 
-    // Look for the next heading starting from halfway point
     for (let i = halfIndex; i < totalLines; i++) {
       const line = lines[i].trim()
-      // Check if line starts with # (any level heading)
       if (line.startsWith('#')) {
         const leftContent = lines.slice(0, i).join('\n')
         const rightContent = lines.slice(i).join('\n')
@@ -136,7 +127,6 @@ export function ProjectDescription({
       }
     }
 
-    // If no heading found after halfway, fallback to original split
     const leftContent = lines.slice(0, halfIndex).join('\n')
     const rightContent = lines.slice(halfIndex).join('\n')
     return { leftContent, rightContent }
@@ -146,7 +136,6 @@ export function ProjectDescription({
 
   const content = (
     <div className="grid md:grid-cols-2 gap-8 h-full">
-      {/* Left Half */}
       <div className="space-y-4">
         <div className={cn('prose max-w-none dark:prose-invert', className)}>
           <ReactMarkdown components={markdownComponents}>
@@ -155,7 +144,6 @@ export function ProjectDescription({
         </div>
       </div>
 
-      {/* Right Half - Always starts with a heading */}
       <div className="space-y-4">
         <div className={cn('prose max-w-none dark:prose-invert', className)}>
           <ReactMarkdown components={markdownComponents}>{rightContent || ''}</ReactMarkdown>

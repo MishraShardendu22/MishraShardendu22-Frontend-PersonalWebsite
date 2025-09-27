@@ -48,7 +48,6 @@ export const ProjectFocusCard = ({
             </CardDescription>
           </div>
 
-          {/* Responsive skills badges */}
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {project.skills.slice(0, windowWidth < 640 ? 3 : 4).map((skill, idx) => (
               <Badge

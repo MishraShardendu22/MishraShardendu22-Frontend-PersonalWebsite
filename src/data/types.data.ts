@@ -1,4 +1,3 @@
-// Base Types
 export interface CommitData {
   date: string
   count: number
@@ -44,7 +43,6 @@ export interface ChartTheme {
   primary: string
 }
 
-// API Response Types
 export interface ApiResponse<T> {
   message: string
   data: T
@@ -52,7 +50,6 @@ export interface ApiResponse<T> {
   status?: number
 }
 
-// Authentication Types
 export interface AuthRequest {
   email: string
   password: string
@@ -70,7 +67,6 @@ export interface AuthResponse {
   }
 }
 
-// User Types
 export interface User {
   email: string
   skills: string[]
@@ -79,7 +75,6 @@ export interface User {
   certifications: string[]
 }
 
-// Skills Types
 export interface SkillsRequest {
   skills: string[]
 }
@@ -103,7 +98,6 @@ export interface ProfileData {
   certifications?: string[] | null
 }
 
-// Project Types
 export interface Project {
   inline: {
     id: string
@@ -134,14 +128,12 @@ export interface CreateProjectRequest {
 
 export type UpdateProjectRequest = CreateProjectRequest
 
-// Experience Timeline Type
 export interface ExperienceTimeLine {
   position: string
   start_date: string
   end_date: string
 }
 
-// Experience Types
 export interface Experience {
   inline: {
     id: string
@@ -173,7 +165,6 @@ export interface CreateExperienceRequest {
 
 export type UpdateExperienceRequest = CreateExperienceRequest
 
-// Experience API Response Types
 export interface ExperienceListResponse {
   data: Experience[]
   message: string
@@ -186,7 +177,6 @@ export interface ExperienceResponse {
   status: number
 }
 
-// Certification Types
 export interface Certification {
   inline: {
     id: string
@@ -218,7 +208,6 @@ export interface CreateCertificationRequest {
 
 export type UpdateCertificationRequest = CreateCertificationRequest
 
-// Volunteer Experience Types
 export interface VolunteerExperienceTimeLine {
   position: string
   start_date: string
@@ -254,7 +243,6 @@ export interface CreateVolunteerExperienceRequest {
 
 export type UpdateVolunteerExperienceRequest = CreateVolunteerExperienceRequest
 
-// Achievement Types (alias for Certification)
 export type Achievement = Certification
 export type CreateAchievementRequest = CreateCertificationRequest
 export type UpdateAchievementRequest = UpdateCertificationRequest

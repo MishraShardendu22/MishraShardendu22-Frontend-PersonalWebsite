@@ -164,7 +164,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -207,7 +206,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       </header>
 
-      {/* Error Message */}
       {error && (
         <div className="container mx-auto px-4 py-3">
           <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
@@ -219,12 +217,9 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       )}
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Editor Section */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Title Input */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading">
@@ -245,7 +240,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               </CardContent>
             </Card>
 
-            {/* Content Editor */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading">
@@ -264,9 +258,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
             </Card>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Tags */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading">
@@ -320,7 +312,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               </CardContent>
             </Card>
 
-            {/* Preview */}
             {isPreview && (
               <Card className="bg-card border-border">
                 <CardHeader className="pb-3">
@@ -358,7 +349,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               </Card>
             )}
 
-            {/* Original Post Info */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-heading">Post Stats</CardTitle>
@@ -397,7 +387,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               </CardContent>
             </Card>
 
-            {/* Editing Tips */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading">

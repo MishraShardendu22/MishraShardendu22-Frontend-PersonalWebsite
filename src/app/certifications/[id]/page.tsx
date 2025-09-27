@@ -36,7 +36,6 @@ export default function CertificationDetailPage({ params }: any) {
     fetchCertification()
   }, [params.id])
 
-  // Handle copying certification info as markdown
   const handleCopyMarkdown = async () => {
     if (!certification) return
 
@@ -164,7 +163,6 @@ ${
                 </div>
               </CanvasCard>
 
-              {/* Skills Overview Card */}
               <CanvasCard
                 title="Skills Overview"
                 icon={<Code2 className="h-6 w-6 text-purple-400" />}
@@ -191,7 +189,6 @@ ${
                 </div>
               </CanvasCard>
 
-              {/* Quick Actions Card */}
               <CanvasCard
                 title="Quick Actions"
                 icon={<Target className="h-6 w-6 text-emerald-400" />}
@@ -238,7 +235,6 @@ ${
                 </div>
               </CanvasCard>
 
-              {/* Achievement Highlights */}
               <CanvasCard
                 title="Achievement Highlights"
                 icon={<Star className="h-6 w-6 text-amber-400" />}
@@ -295,7 +291,6 @@ ${
             </div>
           </div>
 
-          {/* Main Content - Right Side (2/3 width) */}
           <div className="lg:col-span-2 space-y-8">
             <CertificationDetails certification={certification} />
             <MediaSection certification={certification} />

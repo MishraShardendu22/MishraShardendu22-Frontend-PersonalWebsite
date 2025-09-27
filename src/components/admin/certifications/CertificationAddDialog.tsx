@@ -172,7 +172,7 @@ export function CertificationAddDialog({
             <Input
               id="certificate_url"
               {...register('certificate_url')}
-              placeholder="https://example.com/cert.pdf"
+              placeholder="https://example.com/certificate"
             />
             {errors.certificate_url && (
               <p className="text-sm text-red-500">{errors.certificate_url.message}</p>
@@ -183,7 +183,7 @@ export function CertificationAddDialog({
             <Input
               id="images"
               {...register('images')}
-              placeholder="https://example.com/img1.jpg, https://example.com/img2.jpg"
+              placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">

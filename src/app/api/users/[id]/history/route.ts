@@ -16,7 +16,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid user ID' }, { status: 400 })
     }
 
-    // Check if user exists
     const user = await db
       .select()
       .from(usersTable)
@@ -27,7 +26,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Get history with blog and author information
     const history = await db
       .select({
         id: historyTable.id,
@@ -62,7 +60,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: historyTable.id })
       .from(historyTable)

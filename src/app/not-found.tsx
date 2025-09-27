@@ -27,17 +27,15 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Subtle background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-background/50 via-background/80 to-background"></div>
 
-      {/* Floating background elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000" />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/5 rounded-full blur-3xl animate-pulse delay-500" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/5 rounded-full blur-3xl animate-pulse delay-500" />
+      </div>
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="max-w-lg w-full text-center space-y-8">
-          {/* 404 Header with enhanced animations */}
           <div
             className={`space-y-6 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
@@ -55,7 +53,6 @@ export default function NotFound() {
             </p>
           </div>
 
-          {/* Enhanced illustration with hover effects */}
           <div
             className={`flex justify-center transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
@@ -75,12 +72,10 @@ export default function NotFound() {
                   />
                 </svg>
               </div>
-              {/* Subtle pulsing ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-primary/30 animate-ping" />
+              <div className="absolute inset-0 border-4 border-primary/20 rounded-full animate-ping"></div>
             </div>
           </div>
 
-          {/* Enhanced action buttons */}
           <div
             className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
@@ -131,7 +126,6 @@ export default function NotFound() {
             </button>
           </div>
 
-          {/* Additional help section with enhanced styling */}
           <div
             className={`text-sm text-foreground space-y-3 transition-all duration-1000 delay-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
@@ -145,7 +139,6 @@ export default function NotFound() {
             </p>
           </div>
 
-          {/* Subtle footer */}
           <div
             className={`text-xs text-foreground/70 transition-all duration-1000 delay-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >

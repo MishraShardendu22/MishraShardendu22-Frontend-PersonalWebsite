@@ -40,13 +40,13 @@ export function PersonJsonLd() {
       '@type': 'EducationalOrganization',
       name: 'Indian Institute of Information Technology, Dharwad',
       alternateName: 'IIIT Dharwad',
-      url: 'https://www.iiitdwd.ac.in/',
+      url: 'https://www.iiitdwd.ac.in',
     },
     alumniOf: {
       '@type': 'EducationalOrganization',
       name: 'Indian Institute of Information Technology, Dharwad',
       alternateName: 'IIIT Dharwad',
-      url: 'https://www.iiitdwd.ac.in/',
+      url: 'https://www.iiitdwd.ac.in',
     },
     knowsAbout: [
       'Go Programming',
@@ -128,7 +128,7 @@ export function WebsiteJsonLd() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://mishrashardendu22.is-a.dev/?search={search_term_string}',
+        urlTemplate: 'https://mishrashardendu22.is-a.dev/search?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },

@@ -41,11 +41,9 @@ const CombinedTimeline = ({
   const isMobile = useIsMobile()
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
-  // Combine and process all experiences
   const processedData = useMemo(() => {
     const allExperiences: ProcessedExperience[] = []
 
-    // Process work experiences
     experiences.forEach((exp) => {
       exp.experience_time_line.forEach((timeline) => {
         const startDate = new Date(timeline.start_date)
@@ -66,7 +64,6 @@ const CombinedTimeline = ({
       })
     })
 
-    // Process volunteer experiences
     volunteerExpProps.forEach((exp) => {
       exp.volunteer_time_line.forEach((timeline) => {
         const startDate = new Date(timeline.start_date)
@@ -87,10 +84,8 @@ const CombinedTimeline = ({
       })
     })
 
-    // Sort by start date (most recent first for better visibility)
     allExperiences.sort((a, b) => b.startMonth.getTime() - a.startMonth.getTime())
 
-    // Calculate timeline range
     const earliestStart =
       allExperiences.length > 0
         ? new Date(Math.min(...allExperiences.map((exp) => exp.startMonth.getTime())))
@@ -98,7 +93,6 @@ const CombinedTimeline = ({
 
     const latestEnd = new Date()
 
-    // Generate months array
     const months: Array<{
       date: Date
       year: number
@@ -140,7 +134,7 @@ const CombinedTimeline = ({
     const monthIndex = processedData.months.findIndex(
       (m) => m.date.getFullYear() === date.getFullYear() && m.date.getMonth() === date.getMonth()
     )
-    return monthIndex >= 0 ? monthIndex * (isMobile ? 80 : 120) + 24 : 24 // Add padding offset
+    return monthIndex >= 0 ? monthIndex * (isMobile ? 80 : 120) + 24 : 24
   }
 
   const getExperiencePosition = (exp: ProcessedExperience) => {
@@ -154,7 +148,6 @@ const CombinedTimeline = ({
     }
   }
 
-  // Auto-scroll to show recent timeline on mount
   useEffect(() => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current
@@ -163,7 +156,6 @@ const CombinedTimeline = ({
     }
   }, [])
 
-  // Group experiences by rows to avoid overlap - now separate by type
   const arrangeExperiences = () => {
     const workExperiences: ProcessedExperience[] = []
     const volunteerExperiences: ProcessedExperience[] = []
@@ -181,7 +173,6 @@ const CombinedTimeline = ({
 
   const { workExperiences, volunteerExperiences } = arrangeExperiences()
 
-  // Generate unique colors for each company
   const getCompanyColor = (companyName: string, type: 'work' | 'volunteer') => {
     const colors =
       type === 'work'
@@ -229,13 +220,11 @@ const CombinedTimeline = ({
 
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-b from-background to-background/50">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary/3 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/3 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center px-4 py-2 bg-primary/5 rounded-full border border-primary/10 mb-4">
             <Clock className="w-4 h-4 mr-2 text-primary" />
@@ -254,9 +243,7 @@ const CombinedTimeline = ({
           </p>
         </div>
 
-        {/* Timeline Container */}
         <div className="relative max-w-full overflow-hidden">
-          {/* Navigation Buttons */}
           {!isMobile && (
             <>
               <button
@@ -276,7 +263,6 @@ const CombinedTimeline = ({
             </>
           )}
 
-          {/* Scrollable timeline container */}
           <div
             ref={scrollContainerRef}
             className="overflow-x-auto overflow-y-visible pb-4 pt-4 mx-4 lg:mx-8 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted/20 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70"
@@ -295,10 +281,8 @@ const CombinedTimeline = ({
                 maxHeight: 'none',
               }}
             >
-              {/* Main timeline line */}
               <div className="absolute top-20 left-6 right-6 h-1 bg-gradient-to-r from-primary via-secondary to-primary rounded-full shadow-sm" />
 
-              {/* Month markers */}
               <div className="relative h-16 mb-8 overflow-visible">
                 {processedData.months.map((month, index) => (
                   <div
@@ -309,14 +293,12 @@ const CombinedTimeline = ({
                       width: `${isMobile ? 80 : 120}px`,
                     }}
                   >
-                    {/* Month dot */}
                     <div
                       className={`w-3 h-3 rounded-full border-2 border-card shadow-sm z-10 ${
                         month.isYearStart ? 'bg-secondary' : 'bg-primary'
                       }`}
                     />
 
-                    {/* Month label */}
                     <div className="mt-2 text-center">
                       <div
                         className={`text-xs sm:text-sm font-medium ${
@@ -335,7 +317,6 @@ const CombinedTimeline = ({
                 ))}
               </div>
 
-              {/* Work Experience Track */}
               {workExperiences.length > 0 && (
                 <div className="mb-12">
                   <div className="flex items-center mb-6">
@@ -346,7 +327,6 @@ const CombinedTimeline = ({
                   </div>
 
                   <div className="relative">
-                    {/* Base timeline line for work */}
                     <div className="absolute top-8 left-6 right-6 h-0.5 bg-primary/20 rounded-full" />
 
                     {workExperiences.map((exp, index) => {
@@ -363,7 +343,6 @@ const CombinedTimeline = ({
                             marginBottom: index < workExperiences.length - 1 ? '2rem' : '0',
                           }}
                         >
-                          {/* Company logo/icon above timeline */}
                           <div
                             className="absolute transition-all duration-300"
                             style={{
@@ -396,7 +375,6 @@ const CombinedTimeline = ({
                               )}
                             </div>
 
-                            {/* Company name label */}
                             <div
                               className={`
                               absolute top-14 left-1/2 -translate-x-1/2 
@@ -411,12 +389,11 @@ const CombinedTimeline = ({
                               <div className="text-xs text-muted-foreground mt-1">
                                 {exp.position}
                               </div>
-                              {/* Tooltip arrow */}
+
                               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-card/95 border-l border-t border-border/50 rotate-45"></div>
                             </div>
                           </div>
 
-                          {/* Experience line */}
                           <div
                             className="absolute top-8 h-1 rounded-full transition-all duration-300 cursor-pointer"
                             style={{
@@ -429,13 +406,11 @@ const CombinedTimeline = ({
                             onMouseEnter={() => !isMobile && setHoveredCard(expId)}
                             onMouseLeave={() => !isMobile && setHoveredCard(null)}
                           >
-                            {/* Start marker */}
                             <div
                               className="absolute -left-1 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-card shadow-sm"
                               style={{ backgroundColor: companyColor }}
                             />
 
-                            {/* End marker */}
                             <div
                               className={`
                                 absolute -right-1 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-card shadow-sm
@@ -445,7 +420,6 @@ const CombinedTimeline = ({
                             />
                           </div>
 
-                          {/* Duration label below */}
                           <div
                             className="absolute top-12 text-xs text-muted-foreground text-center"
                             style={{
@@ -472,7 +446,6 @@ const CombinedTimeline = ({
                 </div>
               )}
 
-              {/* Volunteer Experience Track */}
               {volunteerExperiences.length > 0 && (
                 <div className="mb-8">
                   <div className="flex items-center mb-6">
@@ -483,7 +456,6 @@ const CombinedTimeline = ({
                   </div>
 
                   <div className="relative">
-                    {/* Base timeline line for volunteer */}
                     <div className="absolute top-8 left-6 right-6 h-0.5 bg-secondary/20 rounded-full" />
 
                     {volunteerExperiences.map((exp, index) => {
@@ -500,7 +472,6 @@ const CombinedTimeline = ({
                             marginBottom: index < volunteerExperiences.length - 1 ? '2rem' : '0',
                           }}
                         >
-                          {/* Organization logo/icon above timeline */}
                           <div
                             className="absolute transition-all duration-300"
                             style={{
@@ -533,7 +504,6 @@ const CombinedTimeline = ({
                               )}
                             </div>
 
-                            {/* Organization name label */}
                             <div
                               className={`
                               absolute top-14 left-1/2 -translate-x-1/2 
@@ -548,12 +518,11 @@ const CombinedTimeline = ({
                               <div className="text-xs text-muted-foreground mt-1">
                                 {exp.position}
                               </div>
-                              {/* Tooltip arrow */}
+
                               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-card/95 border-l border-t border-border/50 rotate-45"></div>
                             </div>
                           </div>
 
-                          {/* Experience line */}
                           <div
                             className="absolute top-8 h-1 rounded-full transition-all duration-300 cursor-pointer"
                             style={{
@@ -566,13 +535,11 @@ const CombinedTimeline = ({
                             onMouseEnter={() => !isMobile && setHoveredCard(expId)}
                             onMouseLeave={() => !isMobile && setHoveredCard(null)}
                           >
-                            {/* Start marker */}
                             <div
                               className="absolute -left-1 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-card shadow-sm"
                               style={{ backgroundColor: companyColor }}
                             />
 
-                            {/* End marker */}
                             <div
                               className={`
                                 absolute -right-1 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-card shadow-sm
@@ -582,7 +549,6 @@ const CombinedTimeline = ({
                             />
                           </div>
 
-                          {/* Duration label below */}
                           <div
                             className="absolute top-12 text-xs text-muted-foreground text-center"
                             style={{
@@ -611,7 +577,6 @@ const CombinedTimeline = ({
             </div>
           </div>
 
-          {/* Scroll indicator */}
           <div className="text-center mt-6">
             <p className="text-xs text-muted-foreground">
               {isMobile
@@ -620,7 +585,6 @@ const CombinedTimeline = ({
             </p>
           </div>
 
-          {/* Timeline Legend */}
           <div className="mt-8 max-w-4xl mx-auto">
             <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-6 shadow-lg">
               <div className="flex items-center justify-center gap-2 mb-4">
@@ -631,7 +595,6 @@ const CombinedTimeline = ({
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto">
-                {/* Work Experience Icon */}
                 <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg border border-primary/20 w-full max-w-xs">
                   <div className="w-10 h-10 rounded-full border-2 border-primary bg-card shadow-md flex items-center justify-center">
                     <Briefcase className="w-5 h-5 text-primary" />
@@ -642,7 +605,6 @@ const CombinedTimeline = ({
                   </div>
                 </div>
 
-                {/* Volunteer Experience Icon */}
                 <div className="flex items-center gap-3 p-3 bg-secondary/5 rounded-lg border border-secondary/20 w-full max-w-xs">
                   <div className="w-10 h-10 rounded-full border-2 border-secondary bg-card shadow-md flex items-center justify-center">
                     <Heart className="w-5 h-5 text-secondary" />

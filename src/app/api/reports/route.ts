@@ -4,7 +4,6 @@ import { reportsTable } from '@/db/schema'
 import { user as usersTable } from '@/db/authSchema'
 import { NextRequest, NextResponse } from 'next/server'
 
-// GET /api/reports - List reports (admin only)
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -13,7 +12,6 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status')
     const offset = (page - 1) * limit
 
-    // Build where conditions
     let whereCondition = undefined
     if (status) {
       whereCondition = eq(reportsTable.status, status)
@@ -63,7 +61,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/reports - Create a new report
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -76,7 +73,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if reporter exists
     const reporter = await db
       .select()
       .from(usersTable)
@@ -87,7 +83,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Reporter not found' }, { status: 404 })
     }
 
-    // Create new report
     const [newReport] = await db
       .insert(reportsTable)
       .values({

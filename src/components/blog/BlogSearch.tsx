@@ -79,7 +79,6 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
 
   return (
     <div className="space-y-3">
-      {/* Main Search Bar */}
       <div className="flex flex-col md:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground w-4 h-4" />
@@ -145,7 +144,6 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
         </div>
       </div>
 
-      {/* Advanced Filters */}
       {isExpanded && (
         <Card className="bg-card border-border">
           <CardHeader className="pb-3">
@@ -165,7 +163,6 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
             </div>
           </CardHeader>
           <CardContent className="pt-0 space-y-4">
-            {/* Tags Filter */}
             <div>
               <h4 className="font-medium text-foreground mb-2 text-sm">Tags</h4>
               <div className="flex flex-wrap gap-1">
@@ -186,7 +183,6 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
               </div>
             </div>
 
-            {/* Active Filters Display */}
             {hasActiveFilters && (
               <div className="pt-3 border-t border-border">
                 <h4 className="font-medium text-foreground mb-2 text-sm">Active Filters</h4>
@@ -253,7 +249,6 @@ const BlogSearch: React.FC<BlogSearchProps> = ({
         </Card>
       )}
 
-      {/* Quick Filter Pills */}
       {!isExpanded && hasActiveFilters && (
         <div className="flex flex-wrap gap-2">
           {searchTerm && (

@@ -9,11 +9,9 @@ interface ProjectActionsProps {
 }
 
 export function ProjectActions({ project, size = 'default' }: ProjectActionsProps) {
-  // icon sizes keyed by our size prop
   const iconSizes = { sm: 16, default: 20, lg: 24 }
   const iconSize = iconSizes[size]
 
-  // describe each possible action
   const actions = [
     {
       key: 'live',

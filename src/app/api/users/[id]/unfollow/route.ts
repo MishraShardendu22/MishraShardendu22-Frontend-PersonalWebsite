@@ -24,7 +24,6 @@ export async function DELETE(
       )
     }
 
-    // Check if user to unfollow exists
     const userToUnfollow = await db
       .select()
       .from(usersTable)
@@ -38,7 +37,6 @@ export async function DELETE(
       )
     }
 
-    // Check if follower exists
     const follower = await db
       .select()
       .from(usersTable)
@@ -49,7 +47,6 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Follower not found' }, { status: 404 })
     }
 
-    // Check if follow relationship exists
     const existingFollow = await db
       .select()
       .from(followersTable)
@@ -68,7 +65,6 @@ export async function DELETE(
       )
     }
 
-    // Remove follow relationship
     await db
       .delete(followersTable)
       .where(

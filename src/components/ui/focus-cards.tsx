@@ -35,10 +35,8 @@ export const CertificationFocusCard = React.memo(
       )}
     >
       <Card className="group relative overflow-hidden min-h-[20rem] hover:shadow-xl sm:hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-border/50 hover:border-primary/30 bg-card/80 backdrop-blur-sm">
-        {/* Gradient overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Certificate number badge */}
         <div className="absolute top-3 sm:top-4 right-3 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground text-xs sm:text-sm font-bold shadow-lg border border-primary/20">
           {String(startIndex + index + 1).padStart(2, '0')}
         </div>
@@ -122,7 +120,6 @@ export const CertificationFocusCard = React.memo(
           </div>
         </CardContent>
 
-        {/* Hover border effect */}
         <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-xl" />
       </Card>
     </div>

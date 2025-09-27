@@ -3,7 +3,6 @@ import { db } from '@/index'
 import { blogViewsTable, blogTable } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 
-// POST /api/blogs/:id/views - Add view to blog
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -14,14 +13,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Create view entry
     const [newView] = await db
       .insert(blogViewsTable)
       .values({
@@ -46,7 +43,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   }
 }
 
-// GET /api/blogs/:id/views - Get views for a blog
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -59,14 +55,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Get views for the blog
     const views = await db
       .select({
         id: blogViewsTable.id,
@@ -82,7 +76,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: blogViewsTable.id })
       .from(blogViewsTable)

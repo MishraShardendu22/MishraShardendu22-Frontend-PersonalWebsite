@@ -1,7 +1,8 @@
 'use client'
 import dynamic from 'next/dynamic'
 const TiptapModalEditor = dynamic(
-  () => import('../../../components/extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
+  () =>
+    import('../../../components/extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
   { ssr: false }
 )
 
@@ -60,7 +61,6 @@ export default function AdminProjectsPage() {
   const [editingProject, setEditingProject] = useState<Project | null>(null)
   const [allSkills, setAllSkills] = useState<string[]>([])
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1)
   const projectsPerPage = 4
 
@@ -99,7 +99,6 @@ export default function AdminProjectsPage() {
     fetchSkills()
   }, [])
 
-  // Pagination calculation
   const totalPages = Math.ceil(projects.length / projectsPerPage)
   const paginatedProjects = projects.slice(
     (currentPage - 1) * projectsPerPage,
@@ -301,7 +300,7 @@ export default function AdminProjectsPage() {
                 <Input
                   id="project_repository"
                   {...register('project_repository')}
-                  placeholder="https://github.com/username/project"
+                  placeholder="https://github.com/username/repository"
                 />
                 {errors.project_repository && (
                   <p className="text-sm text-red-500">{errors.project_repository.message}</p>
@@ -325,7 +324,7 @@ export default function AdminProjectsPage() {
                 <Input
                   id="project_video"
                   {...register('project_video')}
-                  placeholder="https://youtube.com/watch?v=..."
+                  placeholder="https://youtube.com/watch?v=example"
                 />
                 {errors.project_video && (
                   <p className="text-sm text-red-500">{errors.project_video.message}</p>
@@ -480,7 +479,6 @@ export default function AdminProjectsPage() {
             ))}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center space-x-3 mt-10">
               <Button

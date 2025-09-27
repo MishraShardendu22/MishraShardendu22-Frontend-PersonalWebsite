@@ -98,7 +98,6 @@ const BlogStatsPage = () => {
       }
     }
 
-    // Convert API stats to the expected format
     const postsByTag: Record<string, number> = {}
     if (apiStats.tagStats) {
       apiStats.tagStats.forEach((tagStat: any) => {
@@ -235,7 +234,6 @@ const BlogStatsPage = () => {
         </header>
 
         <div className="container mx-auto px-4 py-6">
-          {/* Stats Cards Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="bg-card border border-border rounded-lg p-6">
@@ -246,14 +244,12 @@ const BlogStatsPage = () => {
             ))}
           </div>
 
-          {/* Tabs Skeleton */}
           <div className="flex space-x-1 mb-6">
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className="h-10 w-24 bg-muted/50 rounded-lg animate-pulse" />
             ))}
           </div>
 
-          {/* Blog Grid Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-card border border-border rounded-lg">
@@ -537,7 +533,6 @@ const BlogStatsPage = () => {
 
           <TabsContent value="overview" className="mt-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {/* Recent Posts */}
               <Card className="bg-card border-border">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base font-heading">Recent Posts</CardTitle>
@@ -611,9 +606,7 @@ const BlogStatsPage = () => {
             </div>
           </TabsContent>
 
-          {/* All Posts Tab */}
           <TabsContent value="posts" className="mt-4">
-            {/* Search and Filter */}
             <div className="mb-6">
               <div className="bg-card border border-border rounded-lg p-4">
                 <div className="flex flex-col lg:flex-row gap-4">
@@ -648,7 +641,6 @@ const BlogStatsPage = () => {
               </div>
             </div>
 
-            {/* Posts Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {filteredAndSortedBlogs.map((blog) => (
                 <Card
@@ -761,7 +753,6 @@ const BlogStatsPage = () => {
             )}
           </TabsContent>
 
-          {/* Authors Tab */}
           <TabsContent value="authors" className="mt-4">
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">

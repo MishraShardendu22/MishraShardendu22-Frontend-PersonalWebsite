@@ -1,12 +1,9 @@
-// SEO Configuration for Shardendu Mishra Portfolio
 export const seoConfig = {
-  // Base configuration
   baseUrl: 'https://mishrashardendu22.is-a.dev',
   siteName: 'Shardendu Mishra Portfolio',
   siteDescription:
     'Software Developer and Engineer passionate about building impactful applications with modern technologies. Specializing in Go, React, and cloud-native solutions.',
 
-  // Personal Information
   author: {
     name: 'Shardendu Mishra',
     email: 'shardendumishra01@gmail.com',
@@ -16,7 +13,6 @@ export const seoConfig = {
     image: '/Professional.webp',
   },
 
-  // Default Images
   images: {
     ogImage: '/og-image.png',
     fallbackImage: '/Professional.webp',
@@ -24,7 +20,6 @@ export const seoConfig = {
     appleIcon: '/icons/icon-192.png',
   },
 
-  // Keywords for different sections
   keywords: {
     general: [
       'Shardendu Mishra',
@@ -69,18 +64,16 @@ export const seoConfig = {
     platforms: ['LeetCode', 'GitHub', 'LinkedIn', 'CodeChef', 'Codeforces'],
   },
 
-  // Social Media Links
   social: {
-    twitter: 'https://x.com/Shardendu_M',
-    linkedin: 'https://www.linkedin.com/in/shardendumishra22/',
+    twitter: 'https://x.com/mishrashardendu',
+    linkedin: 'https://www.linkedin.com/in/mishrashardendu22/',
     github: 'https://github.com/MishraShardendu22',
-    youtube: 'https://www.youtube.com/@Shardendu_Mishra',
-    leetcode: 'https://leetcode.com/u/ShardenduMishra22/',
-    codechef: 'https://www.codechef.com/users/clutchgod22',
-    codeforces: 'https://codeforces.com/profile/ShardenduMishra_22',
+    youtube: 'https://www.youtube.com/@mishrashardendu22',
+    leetcode: 'https://leetcode.com/u/MishraShardendu22/',
+    codechef: 'https://www.codechef.com/users/mishrashardendu',
+    codeforces: 'https://codeforces.com/profile/mishrashardendu22',
   },
 
-  // Page-specific configurations
   pages: {
     home: {
       title: 'Shardendu Mishra | Software Developer and Engineer',
@@ -114,14 +107,12 @@ export const seoConfig = {
     },
   },
 
-  // Verification codes (to be filled when available)
   verification: {
-    google: null, // Add Google Search Console verification code
-    bing: null, // Add Bing Webmaster verification code
-    yandex: null, // Add Yandex verification code
+    google: null,
+    bing: null,
+    yandex: null,
   },
 
-  // Organization schema
   organization: {
     name: 'Shardendu Mishra - Software Development Services',
     type: 'ProfessionalService',
@@ -139,7 +130,6 @@ export const seoConfig = {
   },
 }
 
-// Utility functions
 export function getAllKeywords(): string[] {
   const { keywords } = seoConfig
   return [

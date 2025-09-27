@@ -23,7 +23,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       )
     }
 
-    // Check if report exists
     const existingReport = await db
       .select()
       .from(reportsTable)
@@ -34,7 +33,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       return NextResponse.json({ success: false, error: 'Report not found' }, { status: 404 })
     }
 
-    // Update report status
     const [updatedReport] = await db
       .update(reportsTable)
       .set({

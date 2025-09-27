@@ -77,7 +77,6 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-      {/* Enhanced Header with better spacing */}
       <div className="text-center space-y-6 pb-8">
         <div className="space-y-4">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
@@ -89,7 +88,6 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Stats Cards with improved spacing */}
       <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <div className="group relative overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl p-6 lg:p-8 flex flex-col items-center animate-fade-in">
           <Briefcase className="h-10 w-10 text-primary mb-4" />
@@ -124,7 +122,6 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Quick Actions with better spacing */}
       <div className="space-y-6">
         <h2 className="text-2xl md:text-3xl font-heading font-bold text-center text-foreground">
           Quick Actions
@@ -172,13 +169,11 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Recent Projects & Experiences with improved layout */}
       <div className="space-y-6">
         <h2 className="text-2xl md:text-3xl font-heading font-bold text-center text-foreground">
           Recent Activity
         </h2>
         <div className="grid gap-8 lg:gap-12 grid-cols-1 lg:grid-cols-2">
-          {/* Recent Projects */}
           <div className="rounded-2xl border-2 border-border bg-card/80 shadow-xl p-6 lg:p-8 animate-fade-in hover:shadow-2xl transition-shadow duration-300">
             <div className="flex items-center gap-3 mb-6">
               <Briefcase className="h-6 w-6 text-primary" />
@@ -245,7 +240,6 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Recent Experiences */}
           <div className="rounded-2xl border-2 border-border bg-card/80 shadow-xl p-6 lg:p-8 animate-fade-in hover:shadow-2xl transition-shadow duration-300">
             <div className="flex items-center gap-3 mb-6">
               <GraduationCap className="h-6 w-6 text-secondary" />

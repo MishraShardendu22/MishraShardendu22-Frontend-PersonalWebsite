@@ -61,10 +61,8 @@ const Loader = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
-      {/* Animated Background Elements */}
       {particles.length > 0 && <div className="absolute inset-0 overflow-hidden">{particles}</div>}
 
-      {/* Floating Geometric Shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute top-1/4 left-1/4 w-4 h-4 bg-secondary/30 rounded-full animate-bounce"
@@ -81,9 +79,7 @@ const Loader = () => {
       </div>
 
       <div className="text-center space-y-8 relative z-10">
-        {/* Main Loader */}
         <div className="relative">
-          {/* Outer Ring */}
           <div className="w-24 h-24 rounded-full border-4 border-primary/20 animate-spin mx-auto relative">
             <div
               className="absolute inset-0 rounded-full border-t-4 border-primary animate-spin"
@@ -94,7 +90,6 @@ const Loader = () => {
               style={{ animationDuration: '2s', animationDirection: 'reverse' }}
             />
 
-            {/* Center Icon */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center animate-pulse">
                 <CurrentIcon className="w-5 h-5 text-primary animate-bounce" />
@@ -102,7 +97,6 @@ const Loader = () => {
             </div>
           </div>
 
-          {/* Orbiting Dots */}
           <div className="absolute inset-0 animate-spin" style={{ animationDuration: '3s' }}>
             <div className="w-2 h-2 bg-primary rounded-full absolute -top-1 left-1/2 transform -translate-x-1/2" />
             <div className="w-2 h-2 bg-secondary rounded-full absolute -bottom-1 left-1/2 transform -translate-x-1/2" />
@@ -111,7 +105,6 @@ const Loader = () => {
           </div>
         </div>
 
-        {/* Progress Bar */}
         <div className="w-64 h-2 bg-muted rounded-full overflow-hidden mx-auto">
           <div
             className="h-full bg-gradient-to-r from-primary via-secondary to-accent rounded-full animate-pulse"
@@ -124,7 +117,6 @@ const Loader = () => {
           />
         </div>
 
-        {/* Dynamic Message */}
         <div className="space-y-2">
           <p className="text-lg font-medium text-foreground animate-pulse">
             {messages[currentMessage]}
@@ -133,7 +125,6 @@ const Loader = () => {
           <p className="text-sm text-foreground">Hold tight, greatness is loading! ✨</p>
         </div>
 
-        {/* Fun Stats */}
         <div className="flex justify-center space-x-8 text-xs text-foreground">
           <div className="text-center">
             <div className="font-mono text-primary">99.9%</div>
@@ -150,7 +141,6 @@ const Loader = () => {
         </div>
       </div>
 
-      {/* CSS for shimmer effect */}
       <style jsx>{`
         @keyframes shimmer {
           0% {

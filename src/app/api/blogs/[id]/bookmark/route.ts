@@ -19,21 +19,18 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ success: false, error: 'UserId is required' }, { status: 400 })
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Check if user exists
     const user = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1)
 
     if (user.length === 0) {
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Check if already bookmarked
     const existingBookmark = await db
       .select()
       .from(bookmarksTable)
@@ -46,8 +43,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         { status: 409 }
       )
     }
-
-    // Create bookmark
     const [newBookmark] = await db
       .insert(bookmarksTable)
       .values({

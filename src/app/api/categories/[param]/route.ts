@@ -3,7 +3,6 @@ import { db } from '@/index'
 import { categoriesTable } from '@/db/schema'
 import { eq, or } from 'drizzle-orm'
 
-// GET /api/categories/:param - Get category by ID or slug
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ param: string }> }
@@ -15,12 +14,10 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'Parameter is required' }, { status: 400 })
     }
 
-    // Check if param is a number (ID) or string (slug)
     const isId = !isNaN(parseInt(param))
 
     let category
     if (isId) {
-      // Search by ID
       category = await db
         .select({
           id: categoriesTable.id,
@@ -33,7 +30,6 @@ export async function GET(
         .where(eq(categoriesTable.id, parseInt(param)))
         .limit(1)
     } else {
-      // Search by slug
       category = await db
         .select({
           id: categoriesTable.id,
@@ -61,7 +57,6 @@ export async function GET(
   }
 }
 
-// PATCH /api/categories/:param - Update category by ID
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ param: string }> }
@@ -76,7 +71,6 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: 'Invalid category ID' }, { status: 400 })
     }
 
-    // Check if category exists
     const existingCategory = await db
       .select()
       .from(categoriesTable)
@@ -87,7 +81,6 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: 'Category not found' }, { status: 404 })
     }
 
-    // Check for duplicate name or slug if being updated
     if (name || slug) {
       const duplicateCategory = await db
         .select()
@@ -108,7 +101,6 @@ export async function PATCH(
       }
     }
 
-    // Update category
     const [updatedCategory] = await db
       .update(categoriesTable)
       .set({
@@ -138,7 +130,6 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/categories/:param - Delete category by ID
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ param: string }> }
@@ -151,7 +142,6 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Invalid category ID' }, { status: 400 })
     }
 
-    // Check if category exists
     const existingCategory = await db
       .select()
       .from(categoriesTable)
@@ -162,7 +152,6 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Category not found' }, { status: 404 })
     }
 
-    // Delete category
     await db.delete(categoriesTable).where(eq(categoriesTable.id, categoryId))
 
     return NextResponse.json({

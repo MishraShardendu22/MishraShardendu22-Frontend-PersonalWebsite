@@ -61,7 +61,6 @@ export default function BlogNavigation() {
 
   return (
     <>
-      {/* Mobile Toggle */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <Button
           variant="ghost"
@@ -73,7 +72,6 @@ export default function BlogNavigation() {
         </Button>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-40 bg-background/95 backdrop-blur-sm">
           <div className="flex flex-col justify-center items-center h-full space-y-4 p-6">
@@ -152,10 +150,8 @@ export default function BlogNavigation() {
         </div>
       )}
 
-      {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:z-50">
         <div className="flex flex-col flex-grow bg-background border-r border-border">
-          {/* Header */}
           <div className="flex items-center p-6 border-b border-border">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
@@ -168,7 +164,6 @@ export default function BlogNavigation() {
             </div>
           </div>
 
-          {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
             {navigationItems.map((item) => {
               const isActive = pathname === item.href
@@ -212,7 +207,6 @@ export default function BlogNavigation() {
             })}
           </nav>
 
-          {/* Footer */}
           <div className="p-4 border-t border-border">
             {session.data ? (
               <Button

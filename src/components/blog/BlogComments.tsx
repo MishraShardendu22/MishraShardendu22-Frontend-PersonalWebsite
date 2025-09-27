@@ -276,7 +276,6 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
         </div>
       </div>
 
-      {/* Render replies */}
       {comment.replies && comment.replies.length > 0 && (
         <div className="space-y-2">
           {comment.replies.map((reply) => renderComment(reply, true))}
@@ -297,7 +296,6 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
       </CardHeader>
 
       <CardContent className="pt-0 space-y-4">
-        {/* Add Comment */}
         {currentUserId && (
           <div className="space-y-3">
             <div className="flex items-start space-x-2">
@@ -333,7 +331,6 @@ const BlogComments: React.FC<BlogCommentsProps> = ({
 
         <Separator />
 
-        {/* Comments List */}
         <div className="space-y-4">
           {loading ? (
             <div className="space-y-4">

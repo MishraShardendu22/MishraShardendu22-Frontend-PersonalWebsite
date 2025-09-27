@@ -167,15 +167,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    // Add your verification codes here when you get them
-    // google: 'your-google-verification-code',
-    // yandex: 'your-yandex-verification-code',
-    // yahoo: 'your-yahoo-verification-code',
-    // other: {
-    //   'msvalidate.01': 'your-bing-verification-code',
-    // },
-  },
+  verification: {},
   category: 'technology',
   classification: 'Portfolio Website',
   appleWebApp: {
@@ -201,7 +193,7 @@ export const metadata: Metadata = {
     'application-name': 'Shardendu Portfolio',
     'msapplication-TileColor': '#000000',
     'msapplication-config': '/browserconfig.xml',
-    'google-site-verification': 'pending', // Add your verification code here
+    'google-site-verification': 'pending',
   },
 }
 

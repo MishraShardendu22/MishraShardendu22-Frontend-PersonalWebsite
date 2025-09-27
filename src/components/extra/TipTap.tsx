@@ -95,7 +95,6 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ icon: Icon, label, onClick,
   </button>
 )
 
-// Compact Tiptap Editor for Modals
 export const TiptapModalEditor = ({
   value,
   onChange,
@@ -153,10 +152,8 @@ export const TiptapModalEditor = ({
 
   return (
     <div className="border border-border rounded-md overflow-hidden">
-      {/* Compact Toolbar */}
       <div className="bg-card border-b border-border p-2">
         <div className="flex items-center gap-1 flex-wrap">
-          {/* Basic formatting */}
           <Button
             variant="ghost"
             size="sm"
@@ -184,7 +181,6 @@ export const TiptapModalEditor = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          {/* Headings */}
           <Button
             variant="ghost"
             size="sm"
@@ -204,7 +200,6 @@ export const TiptapModalEditor = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          {/* Lists */}
           <Button
             variant="ghost"
             size="sm"
@@ -224,7 +219,6 @@ export const TiptapModalEditor = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          {/* Code */}
           <Button
             variant="ghost"
             size="sm"
@@ -244,7 +238,6 @@ export const TiptapModalEditor = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          {/* Quote */}
           <Button
             variant="ghost"
             size="sm"
@@ -256,7 +249,6 @@ export const TiptapModalEditor = ({
 
           <div className="w-px h-6 bg-border mx-1" />
 
-          {/* Undo/Redo */}
           <Button
             variant="ghost"
             size="sm"
@@ -276,14 +268,12 @@ export const TiptapModalEditor = ({
             <Redo className="h-4 w-4" />
           </Button>
 
-          {/* Character count */}
           <div className="ml-auto text-xs text-black dark:text-white">
             {characterCount}/{characterLimit}
           </div>
         </div>
       </div>
 
-      {/* Editor Content */}
       <div className="p-4 min-h-[300px] max-h-[500px] overflow-y-auto">
         <EditorContent editor={editor} className="prose prose-sm max-w-none focus:outline-none" />
       </div>
@@ -291,7 +281,6 @@ export const TiptapModalEditor = ({
   )
 }
 
-// Original full Tiptap Editor (keeping for backward compatibility)
 const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: string) => void }) => {
   const lowlight = createLowlight(common)
   const [preview, setPreview] = useState(false)
@@ -340,11 +329,9 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
-      {/* Toolbar */}
       <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="flex items-center justify-between p-4 border-b border-gray-100">
           <div className="flex items-center gap-3">
-            {/* Format Dropdown */}
             <DropdownMenu
               trigger={
                 <>
@@ -387,7 +374,6 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
               />
             </DropdownMenu>
 
-            {/* Headings Dropdown */}
             <DropdownMenu
               trigger={
                 <>
@@ -418,7 +404,6 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
               />
             </DropdownMenu>
 
-            {/* Insert Dropdown */}
             <DropdownMenu
               trigger={
                 <>
@@ -485,7 +470,6 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
               />
             </DropdownMenu>
 
-            {/* Undo/Redo buttons */}
             <div className="flex items-center gap-1 border-l border-gray-200 pl-3 ml-3">
               <Button
                 variant="ghost"
@@ -508,7 +492,6 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
             </div>
           </div>
 
-          {/* Preview toggle */}
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -522,7 +505,6 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
           </div>
         </div>
 
-        {/* Editor Content */}
         <div className="p-6">
           {preview ? (
             <div className="prose prose-lg max-w-none">
@@ -533,7 +515,6 @@ const TiptapEditor = ({ value, onChange }: { value: string; onChange: (val: stri
           )}
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-between p-4 border-t border-gray-100 bg-gray-50">
           <div className="flex items-center gap-4 text-sm text-gray-600">
             <span>{characterCount} characters</span>

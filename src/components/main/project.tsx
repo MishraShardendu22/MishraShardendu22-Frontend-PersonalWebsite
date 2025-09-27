@@ -37,9 +37,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   }, [projects])
 
   const getProjectsPerPage = () => {
-    if (windowWidth < 640) return 1 // Mobile: 1 project
-    if (windowWidth < 1024) return 2 // Tablet: 2 projects
-    return 4 // Desktop: 4 projects
+    if (windowWidth < 640) return 1
+    if (windowWidth < 1024) return 2
+    return 4
   }
 
   const projectsPerPage = getProjectsPerPage()
@@ -53,7 +53,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     return { currentPageProjects, startIndex, endIndex }
   }, [projects, currentPage, projectsPerPage])
 
-  // Reset to first page when screen size changes
   useEffect(() => {
     setCurrentPage(0)
   }, [projectsPerPage])
@@ -70,10 +69,8 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     }
   }
 
-  // Smart pagination for mobile
   const getVisiblePageNumbers = () => {
     if (windowWidth < 640) {
-      // Mobile: Show current and adjacent pages only
       const pages = []
       if (currentPage > 0) pages.push(currentPage - 1)
       pages.push(currentPage)
@@ -81,7 +78,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       return pages
     }
 
-    // Desktop: Show all pages if reasonable, otherwise use ellipsis
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i)
     }
@@ -117,12 +113,10 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
   return (
     <>
-      {/* Hero Parallax Section with Full Project Cards */}
       <section className="relative">
         <HeroParallax projects={heroParallaxProjects} />
       </section>
 
-      {/* Detailed Projects Section */}
       <section className="py-8 sm:py-12 lg:py-16 relative overflow-hidden">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
@@ -150,7 +144,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             </p>
           </div>
 
-          {/* Responsive projects grid with Focus Cards */}
           <div className="mx-auto mt-8 sm:mt-16 lg:mt-20 max-w-7xl">
             <ProjectFocusCards
               projects={currentPageProjects}
@@ -158,10 +151,8 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
               windowWidth={windowWidth}
             />
 
-            {/* Rest of your pagination code remains the same */}
             {totalPages > 1 && (
               <div className="mt-8 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
-                {/* Navigation buttons */}
                 <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-none">
                   <Button
                     onClick={prevPage}
@@ -188,7 +179,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </Button>
                 </div>
 
-                {/* Page numbers */}
                 <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 order-1 sm:order-none">
                   {getVisiblePageNumbers().map((pageNum, index) => {
                     if (pageNum === '...') {
@@ -220,21 +210,18 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   })}
                 </div>
 
-                {/* Mobile page indicator */}
                 <div className="text-xs text-foreground/70 sm:hidden order-3">
                   Page {currentPage + 1} of {totalPages}
                 </div>
               </div>
             )}
 
-            {/* Summary info */}
             <div className="mt-8 sm:mt-12 text-center">
               <p className="text-foreground/60 text-xs sm:text-sm">
                 Showing {currentPageProjects.length} of {projects.length} projects
               </p>
             </div>
 
-            {/* More projects CTA - responsive */}
             {projects.length > projectsPerPage && (
               <div className="mt-12 sm:mt-20 text-center px-4 sm:px-0">
                 <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gradient-to-r from-card via-card/90 to-card rounded-xl sm:rounded-2xl border border-border/50 backdrop-blur-sm shadow-lg max-w-sm sm:max-w-none mx-auto">

@@ -28,7 +28,6 @@ export const CanvasCard = ({
       onMouseLeave={() => setHovered(false)}
       className="border border-border/50 group/canvas-card flex flex-col justify-between dark:border-white/[0.2] w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300"
     >
-      {/* Corner decorations */}
       <div className="absolute h-4 w-4 -top-2 -left-2 dark:text-white text-primary opacity-30">
         <Sparkles className="h-full w-full" />
       </div>
@@ -50,7 +49,6 @@ export const CanvasCard = ({
       </AnimatePresence>
 
       <div className="relative z-20 p-6 flex flex-col justify-between h-full">
-        {/* Header */}
         <div className="mb-4">
           <div className="flex items-center gap-3 mb-3">
             <div className="text-primary group-hover/canvas-card:text-white transition-colors duration-200">
@@ -62,7 +60,6 @@ export const CanvasCard = ({
           </div>
         </div>
 
-        {/* Content */}
         <div className="group-hover/canvas-card:text-white transition-colors duration-200">
           {children}
         </div>

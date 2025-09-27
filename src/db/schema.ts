@@ -1,5 +1,5 @@
 import { pgTable, integer, varchar, text, timestamp } from 'drizzle-orm/pg-core'
-import { user } from './authSchema' // adjust path as per your structure
+import { user } from './authSchema'
 
 export const blogTable = pgTable('blog', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

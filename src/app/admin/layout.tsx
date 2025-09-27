@@ -35,12 +35,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [error, setError] = useState('')
 
-  // Initialize auth state on mount
   useEffect(() => {
     initializeAuth()
   }, [initializeAuth])
 
-  // Check authentication and redirect if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated && pathname !== '/admin/login') {
       router.push('/admin/login')
@@ -63,7 +61,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   const isActive = (href: string) => pathname === href
 
-  // Show loading while checking authentication
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -72,19 +69,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     )
   }
 
-  // Don't render admin layout for login page
   if (pathname === '/admin/login') {
     return <>{children}</>
   }
 
-  // Don't render admin layout if not authenticated
   if (!isAuthenticated) {
     return null
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground font-sans">
-      {/* Navbar */}
       <header className="sticky top-0 z-50 flex items-center justify-between bg-card/90 backdrop-blur-md border-b border-border px-4 sm:px-8 h-16 shadow-md">
         <div className="flex items-center gap-4">
           <button
@@ -134,7 +128,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      {/* Mobile menu dropdown */}
       {mobileMenuOpen && (
         <nav className="lg:hidden bg-card/90 backdrop-blur-md border-b border-border shadow-md flex flex-col px-4 py-2 gap-2">
           {navigation.map(({ name, href, icon: Icon }) => (
@@ -157,7 +150,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </nav>
       )}
 
-      {/* Main content */}
       <main className="flex-1 max-w-17xl  p-6 sm:p-10">{children}</main>
     </div>
   )

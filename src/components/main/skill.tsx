@@ -10,12 +10,11 @@ interface SkillsSectionProps {
 export default function SkillsSection({ skills }: SkillsSectionProps) {
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Responsive items per page based on screen size
   const getItemsPerPage = () => {
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 640) return 8 // Mobile
-      if (window.innerWidth < 1024) return 12 // Tablet
-      return 18 // Desktop
+      if (window.innerWidth < 640) return 8
+      if (window.innerWidth < 1024) return 12
+      return 18
     }
     return 12
   }
@@ -43,7 +42,6 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
     }
   }
 
-  // Generate visible page numbers for mobile-friendly pagination
   const getVisiblePages = () => {
     const delta = 1
     const range = []
@@ -106,13 +104,11 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
               Technologies and tools I work with to bring ideas to life
             </p>
 
-            {/* Skills counter - more compact on mobile */}
             <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground/70">
               Showing {startIndex + 1}-{Math.min(endIndex, skills.length)} of {skills.length} skills
             </div>
           </div>
 
-          {/* Responsive grid - improved mobile layout */}
           <div className="mx-auto mt-8 sm:mt-16 lg:mt-20 max-w-6xl">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 lg:gap-4">
               {currentSkills.map((skill, index) => (
@@ -126,17 +122,14 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                     </span>
                   </Badge>
 
-                  {/* Hover indicator */}
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Enhanced mobile-friendly pagination */}
           {totalPages > 1 && (
             <div className="mt-8 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              {/* Mobile: Stack buttons vertically for better touch targets */}
               <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-none">
                 <button
                   onClick={goToPreviousPage}
@@ -161,7 +154,6 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                 </button>
               </div>
 
-              {/* Page numbers - responsive design */}
               <div className="flex items-center gap-1 sm:gap-2 order-1 sm:order-none">
                 {getVisiblePages().map((pageNumber, index) => {
                   if (pageNumber === '...') {
@@ -193,14 +185,12 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
                 })}
               </div>
 
-              {/* Page indicator for mobile */}
               <div className="text-xs text-foreground/70 sm:hidden order-3">
                 Page {currentPage} of {totalPages}
               </div>
             </div>
           )}
 
-          {/* Professional accent line */}
           <div className="mt-12 sm:mt-20 flex justify-center">
             <div className="w-16 sm:w-24 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full opacity-60" />
           </div>

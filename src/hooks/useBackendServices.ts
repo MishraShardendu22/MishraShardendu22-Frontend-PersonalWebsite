@@ -58,7 +58,6 @@ export const useBackendServices = () => {
     executeService,
     clearState,
 
-    // Auth services
     login: (credentials: { email: string; password: string }) =>
       executeService(() => authService.login(credentials)),
 
@@ -69,7 +68,6 @@ export const useBackendServices = () => {
 
     getCurrentUser: () => executeService(() => authService.getCurrentUser()),
 
-    // User services
     getUsers: (params?: { page?: number; limit?: number; search?: string }) =>
       executeService(() => usersService.getUsers(params)),
 
@@ -90,7 +88,6 @@ export const useBackendServices = () => {
       profileData: { bio?: string; avatar?: string; website?: string; location?: string }
     ) => executeService(() => usersService.updateUserProfile(id, profileData)),
 
-    // Blog services
     getBlogs: (params?: { page?: number; limit?: number; search?: string }) =>
       executeService(() => blogsService.getBlogs(params)),
 
@@ -133,7 +130,6 @@ export const useBackendServices = () => {
     addToHistory: (id: string, userId: string) =>
       executeService(() => blogsService.addToHistory(id, { userId })),
 
-    // Category services
     getCategories: (params?: { page?: number; limit?: number; search?: string }) =>
       executeService(() => categoriesService.getCategories(params)),
 
@@ -150,7 +146,6 @@ export const useBackendServices = () => {
 
     deleteCategory: (id: string) => executeService(() => categoriesService.deleteCategory(id)),
 
-    // Notification services
     getNotificationById: (id: string) =>
       executeService(() => notificationsService.getNotificationById(id)),
 
@@ -160,11 +155,10 @@ export const useBackendServices = () => {
     deleteNotification: (id: string) =>
       executeService(() => notificationsService.deleteNotification(id)),
 
-    // Report services
     getReports: (params?: { page?: number; limit?: number; search?: string }) =>
       executeService(() => reportsService.getReports(params)),
 
-    getReportById: (id: string) => executeService(() => reportsService.getReportById(id)),
+    getReportById: (id: string) => executeService(() => reportsService.getReport(id)),
 
     createReport: (reportData: {
       type: 'blog' | 'comment' | 'user'

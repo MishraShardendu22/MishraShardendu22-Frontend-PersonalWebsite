@@ -3,7 +3,6 @@ import { db } from '@/index'
 import { blogRevisionsTable, blogTable } from '@/db/schema'
 import { eq, desc } from 'drizzle-orm'
 
-// GET /api/blogs/:id/revisions - Get revisions for a blog
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -16,14 +15,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
-
-    // Get revisions for the blog
     const revisions = await db
       .select({
         id: blogRevisionsTable.id,
@@ -40,7 +36,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: blogRevisionsTable.id })
       .from(blogRevisionsTable)
@@ -65,7 +60,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
 }
 
-// POST /api/blogs/:id/revisions - Create a new revision
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -83,14 +77,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       )
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Get the latest version number
     const latestRevision = await db
       .select({ version: blogRevisionsTable.version })
       .from(blogRevisionsTable)
@@ -100,7 +92,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     const nextVersion = latestRevision.length > 0 ? latestRevision[0].version + 1 : 1
 
-    // Create new revision
     const [newRevision] = await db
       .insert(blogRevisionsTable)
       .values({

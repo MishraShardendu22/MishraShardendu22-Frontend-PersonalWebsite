@@ -18,12 +18,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ success: false, error: 'FollowerId is required' }, { status: 400 })
     }
 
-    // Prevent self-following
     if (followerId === followingId) {
       return NextResponse.json({ success: false, error: 'Cannot follow yourself' }, { status: 400 })
     }
 
-    // Check if user to follow exists
     const userToFollow = await db
       .select()
       .from(usersTable)
@@ -37,7 +35,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       )
     }
 
-    // Check if follower exists
     const follower = await db
       .select()
       .from(usersTable)
@@ -48,7 +45,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ success: false, error: 'Follower not found' }, { status: 404 })
     }
 
-    // Check if already following
     const existingFollow = await db
       .select()
       .from(followersTable)
@@ -67,7 +63,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       )
     }
 
-    // Create follow relationship
     const [newFollow] = await db
       .insert(followersTable)
       .values({

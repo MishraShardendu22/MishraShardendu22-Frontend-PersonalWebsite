@@ -1,4 +1,3 @@
-// Common API Response type
 export interface ApiResponse<T = any> {
   success: boolean
   data?: T
@@ -6,12 +5,11 @@ export interface ApiResponse<T = any> {
   message?: string
 }
 
-// User types
 export interface User {
-  id: string // Changed from number to string to match API
+  id: string
   email: string
-  username?: string // Made optional since API doesn't always return it
-  name?: string // Added name field that API returns
+  username?: string
+  name?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -27,7 +25,6 @@ export interface UpdateUserRequest {
   username?: string
 }
 
-// Profile types
 export interface Profile {
   id: number
   userId: number
@@ -46,21 +43,20 @@ export interface UpdateProfileRequest {
   location?: string
 }
 
-// Blog types
 export interface Blog {
   id: number
   title: string
   content: string
   excerpt?: string
   published?: boolean
-  authorId: string // Changed from number to string to match API
+  authorId: string
   author: {
     id: string
     email: string
     name: string
     avatar: string
   }
-  tags?: string[] // Added tags field
+  tags?: string[]
   categories?: Category[]
   likes?: Like[]
   comments?: Comment[]
@@ -88,12 +84,11 @@ export interface UpdateBlogRequest {
   categoryIds?: number[]
 }
 
-// Comment types
 export interface Comment {
   id: number
   content: string
   blogId: number
-  userId: string // Changed from number to string to match API
+  userId: string
   user?: {
     id: string
     email: string
@@ -109,15 +104,14 @@ export interface Comment {
 
 export interface CreateCommentRequest {
   content: string
-  userId: string // Added userId to match API requirements
-  blogId?: number // Made optional since it's passed in URL
+  userId: string
+  blogId?: number
 }
 
 export interface UpdateCommentRequest {
   content: string
 }
 
-// Like types
 export interface Like {
   id: number
   blogId: number
@@ -125,7 +119,6 @@ export interface Like {
   createdAt: string
 }
 
-// Bookmark types
 export interface Bookmark {
   id: number
   blogId: number
@@ -133,7 +126,6 @@ export interface Bookmark {
   createdAt: string
 }
 
-// History types
 export interface History {
   id: number
   blogId: number
@@ -141,7 +133,6 @@ export interface History {
   createdAt: string
 }
 
-// Category types
 export interface Category {
   id: number
   name: string
@@ -163,7 +154,6 @@ export interface UpdateCategoryRequest {
   description?: string
 }
 
-// Follower types
 export interface Follower {
   id: number
   followerId: number
@@ -173,7 +163,6 @@ export interface Follower {
   createdAt: string
 }
 
-// Blog View types
 export interface BlogView {
   id: number
   blogId: number
@@ -183,7 +172,6 @@ export interface BlogView {
   createdAt: string
 }
 
-// Notification types
 export interface Notification {
   id: number
   userId: number
@@ -203,7 +191,6 @@ export interface CreateNotificationRequest {
   relatedId?: number
 }
 
-// Report types
 export interface Report {
   id: number
   reporterId: number
@@ -226,7 +213,6 @@ export interface UpdateReportStatusRequest {
   status: 'pending' | 'resolved' | 'dismissed'
 }
 
-// Pagination types
 export interface PaginationParams {
   page?: number
   limit?: number

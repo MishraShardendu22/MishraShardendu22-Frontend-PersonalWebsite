@@ -44,7 +44,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height])
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1])
 
-  // Helper functions
   const calculateDuration = (startDate: string, endDate?: string) => {
     const start = new Date(startDate)
     const end = endDate ? new Date(endDate) : new Date()
@@ -70,7 +69,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
     })
   }
 
-  // **REVERSED TIMELINE** - Create timeline data from volunteer experience (newest first)
   const timelineData: TimelineEntry[] = React.useMemo(() => {
     return [...experience.volunteer_time_line]
       .reverse()
@@ -84,7 +82,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
           title: timeline.position,
           content: (
             <div className="space-y-6 pb-8">
-              {/* Position Header Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -96,7 +93,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                     : 'bg-gradient-to-br from-card/90 via-card to-card/80 border-border/40 shadow-md'
                 )}
               >
-                {/* Status Badge */}
                 {isCurrent && (
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
@@ -115,7 +111,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                   </motion.div>
                 )}
 
-                {/* Organization Info */}
                 <div className="flex items-start gap-4 mb-4">
                   <div
                     className={cn(
@@ -159,7 +154,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                   </div>
                 </div>
 
-                {/* Role Description */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <Award className="w-5 h-5 text-primary flex-shrink-0" />
@@ -174,7 +168,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                 </div>
               </motion.div>
 
-              {/* Skills & Technologies */}
               {experience.technologies && experience.technologies.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -208,7 +201,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                 </motion.div>
               )}
 
-              {/* Projects & Impact */}
               {experience.projects && experience.projects.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -260,7 +252,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
   return (
     <div className="w-full bg-background font-sans" ref={containerRef}>
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -307,7 +298,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
           </div>
         </motion.div>
 
-        {/* Timeline Legend */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -372,12 +362,10 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
         </motion.div>
       </div>
 
-      {/* Timeline Content */}
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20 px-4 md:px-8 lg:px-10">
         {timelineData.map((item, index) => (
           <div key={index} className="flex justify-start pt-10 md:pt-40 md:gap-10">
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-              {/* Timeline dot with hover effect */}
               <div className="h-12 absolute left-3 md:left-3 w-12 rounded-full bg-background border-4 border-primary/20 flex items-center justify-center shadow-xl group">
                 <motion.div
                   initial={{ scale: 0 }}
@@ -413,7 +401,7 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                   ) : (
                     <Briefcase className="w-3 h-3 text-white" />
                   )}
-                  {/* Tooltip on hover */}
+
                   <span className="absolute left-10 top-1/2 -translate-y-1/2 px-2 py-1 text-xs rounded bg-black/80 text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
                     {isCurrentPosition(
                       experience.volunteer_time_line[
@@ -426,7 +414,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
                 </motion.div>
               </div>
 
-              {/* Position title */}
               <motion.h3
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -451,7 +438,6 @@ export const VolunteerTimeline = ({ experience }: VolunteerTimelineProps) => {
           </div>
         ))}
 
-        {/* Animated timeline line */}
         <div
           style={{ height: height + 'px' }}
           className="absolute md:left-8 left-8 top-0 overflow-hidden w-[3px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-border to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"

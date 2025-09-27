@@ -26,7 +26,6 @@ export default function CertificationHeader({
         Verified certifications and achievements across platforms and professional domains
       </p>
 
-      {/* Stats Bar */}
       <div className="flex justify-center gap-6 pt-2">
         <div className="text-center">
           <div className="text-xl font-bold text-primary">{totalCertifications}</div>

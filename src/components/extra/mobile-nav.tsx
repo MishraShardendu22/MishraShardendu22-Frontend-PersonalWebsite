@@ -11,7 +11,6 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
     setIsOpen(false)
   }
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
@@ -35,7 +34,6 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
 
   return (
     <div className="md:hidden mobile-nav">
-      {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
@@ -53,7 +51,6 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
         )}
       </button>
 
-      {/* Backdrop */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 animate-in fade-in"
@@ -61,7 +58,6 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
         />
       )}
 
-      {/* Mobile Menu Panel */}
       <div
         className={cn(
           'fixed top-0 right-0 h-full w-80 max-w-[85vw] z-40 transition-transform duration-300 ease-out',
@@ -69,10 +65,8 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
-        {/* Animated gradient border */}
         <div className="absolute inset-0 bg-gradient-to-b from-sidebar-primary/10 via-transparent to-sidebar-accent/10 opacity-50 pointer-events-none" />
 
-        {/* Header */}
         <div className="p-6 pt-20 border-b border-sidebar-border/50">
           <div className="flex items-center gap-3">
             <div className="relative group">
@@ -91,7 +85,6 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
           {navItems.map((item, index) => (
             <div
@@ -112,7 +105,6 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
           ))}
         </nav>
 
-        {/* Bottom decoration */}
         <div className="p-4 border-t border-sidebar-border/50">
           <div className="text-xs text-sidebar-foreground/70 text-center flex items-center justify-center gap-2">
             <div className="w-1 h-1 bg-sidebar-primary rounded-full animate-pulse" />

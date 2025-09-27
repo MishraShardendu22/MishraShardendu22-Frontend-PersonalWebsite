@@ -4,7 +4,6 @@ import { commentsTable, blogTable, userProfilesTable } from '@/db/schema'
 import { eq, desc } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 
-// GET /api/blogs/:id/comments - Get comments for a blog
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -17,14 +16,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Get comments with user information
     const comments = await db
       .select({
         id: commentsTable.id,
@@ -52,7 +49,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: commentsTable.id })
       .from(commentsTable)
@@ -74,7 +70,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   }
 }
 
-// POST /api/blogs/:id/comments - Create a new comment
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -92,21 +87,18 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       )
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Check if user exists
     const user = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1)
 
     if (user.length === 0) {
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Create new comment
     const [newComment] = await db
       .insert(commentsTable)
       .values({

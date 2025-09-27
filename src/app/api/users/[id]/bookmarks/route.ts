@@ -3,7 +3,6 @@ import { eq, desc } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 import { NextRequest, NextResponse } from 'next/server'
 import { bookmarksTable, blogTable, userProfilesTable } from '@/db/schema'
-// GET /api/users/:id/bookmarks - Get bookmarks for a user
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = (await params).id
@@ -56,7 +55,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: bookmarksTable.id })
       .from(bookmarksTable)

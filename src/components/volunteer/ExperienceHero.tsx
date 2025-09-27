@@ -10,7 +10,6 @@ export function ExperienceHero({ experience }: ExperienceHeroProps) {
   const formatDate = (date: string) =>
     new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })
 
-  // Get the latest (most recent) timeline entry instead of the first one
   const latestTimeline = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
   const position = latestTimeline?.position ?? ''
   const startDate = latestTimeline?.start_date ?? ''

@@ -25,11 +25,10 @@ export default function VolunteerExperienceSection({
   }, [])
 
   const getItemsPerPage = () => {
-    if (windowWidth < 640) return 1 // Mobile: 1 experience
-    return 2 // Tablet and Desktop: 2 experiences
+    if (windowWidth < 640) return 1
+    return 2
   }
 
-  // Fixed: Always show 2 experiences per page as designed
   const itemsPerPage = getItemsPerPage()
   const totalPages = Math.ceil(experiences.length / itemsPerPage)
 
@@ -41,7 +40,6 @@ export default function VolunteerExperienceSection({
     return { currentPageExperiences, startIndex, endIndex }
   }, [experiences, currentPage, itemsPerPage])
 
-  // Reset to first page when screen size changes
   useEffect(() => {
     setCurrentPage(0)
   }, [itemsPerPage])
@@ -54,7 +52,6 @@ export default function VolunteerExperienceSection({
     if (currentPage > 0) setCurrentPage((prev) => prev - 1)
   }, [currentPage])
 
-  // Simplified pagination for consistent 2-cards-per-page layout
   const getVisiblePageNumbers = useCallback(() => {
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i)
@@ -63,31 +60,25 @@ export default function VolunteerExperienceSection({
     const pages = []
     const delta = 1
 
-    // Always show first page
     pages.push(0)
 
-    // Calculate range around current page
     const start = Math.max(1, currentPage - delta)
     const end = Math.min(totalPages - 2, currentPage + delta)
 
-    // Add ellipsis if there's a gap
     if (start > 1) {
       pages.push('...')
     }
 
-    // Add pages around current
     for (let i = start; i <= end; i++) {
       if (i !== 0 && i !== totalPages - 1) {
         pages.push(i)
       }
     }
 
-    // Add ellipsis if there's a gap
     if (end < totalPages - 2) {
       pages.push('...')
     }
 
-    // Always show last page if more than one page
     if (totalPages > 1) {
       pages.push(totalPages - 1)
     }
@@ -97,7 +88,6 @@ export default function VolunteerExperienceSection({
 
   const isMobile = windowWidth < 640
 
-  // Calculate total volunteer statistics
   const volunteerStats = useMemo(() => {
     const totalOrganizations = new Set(experiences.map((exp) => exp.organisation)).size
     const totalProjects = experiences.reduce((sum, exp) => sum + (exp.projects?.length || 0), 0)
@@ -133,7 +123,6 @@ export default function VolunteerExperienceSection({
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-      {/* Background Pattern */}
       <div
         className={cn(
           'absolute inset-0',
@@ -149,9 +138,7 @@ export default function VolunteerExperienceSection({
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-          {/* Badge */}
           <div className="flex justify-center mb-4 sm:mb-6">
             <Badge
               variant="outline"
@@ -165,7 +152,6 @@ export default function VolunteerExperienceSection({
             </Badge>
           </div>
 
-          {/* Main heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6 sm:mb-8">
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Volunteer
@@ -173,13 +159,11 @@ export default function VolunteerExperienceSection({
             <span className="text-foreground">Experience</span>
           </h1>
 
-          {/* Decorative line */}
           <div
             className="mx-auto w-16 sm:w-24 lg:w-32 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full shadow-lg mb-6 sm:mb-8"
             aria-hidden="true"
           />
 
-          {/* Description */}
           <div className="max-w-2xl lg:max-w-3xl mx-auto mb-6 sm:mb-8">
             <p className="text-base sm:text-lg lg:text-xl leading-7 sm:leading-8 text-foreground/80 font-medium">
               My journey of giving back to the community through volunteer work and leadership roles
@@ -187,7 +171,6 @@ export default function VolunteerExperienceSection({
             </p>
           </div>
 
-          {/* Volunteer Statistics */}
           <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 rounded-xl p-4 border border-blue-200/50 dark:border-blue-800/30">
@@ -228,7 +211,6 @@ export default function VolunteerExperienceSection({
             </div>
           </div>
 
-          {/* Summary info */}
           {experiences.length > 0 && (
             <div className="text-sm sm:text-base text-foreground/70 font-medium">
               Showing {startIndex + 1}-{Math.min(endIndex, experiences.length)} of{' '}
@@ -237,13 +219,10 @@ export default function VolunteerExperienceSection({
           )}
         </div>
 
-        {/* Navigation Section */}
         {totalPages > 1 && (
           <div className="mb-8 sm:mb-12 lg:mb-16">
             <div className="max-w-4xl mx-auto">
-              {/* Desktop Navigation */}
               <div className="hidden sm:flex items-center justify-center gap-4 lg:gap-6">
-                {/* Previous Button */}
                 <Button
                   onClick={prevPage}
                   variant="outline"
@@ -259,7 +238,6 @@ export default function VolunteerExperienceSection({
                   <span className="text-sm font-medium">Previous</span>
                 </Button>
 
-                {/* Page Numbers */}
                 {totalPages <= 10 && (
                   <div className="flex items-center gap-2">
                     {getVisiblePageNumbers().map((pageNum, index) => {
@@ -295,7 +273,6 @@ export default function VolunteerExperienceSection({
                   </div>
                 )}
 
-                {/* Next Button */}
                 <Button
                   onClick={nextPage}
                   variant="outline"
@@ -312,16 +289,13 @@ export default function VolunteerExperienceSection({
                 </Button>
               </div>
 
-              {/* Mobile Navigation */}
               <div className="sm:hidden space-y-4">
-                {/* Page indicator */}
                 <div className="text-center">
                   <span className="text-sm text-foreground/70 font-medium">
                     Page {currentPage + 1} of {totalPages}
                   </span>
                 </div>
 
-                {/* Navigation buttons */}
                 <div className="flex items-center justify-center gap-3">
                   <Button
                     onClick={prevPage}
@@ -354,7 +328,6 @@ export default function VolunteerExperienceSection({
                   </Button>
                 </div>
 
-                {/* Page numbers for mobile - compact version */}
                 {totalPages <= 7 && (
                   <div className="flex items-center justify-center gap-1">
                     {Array.from({ length: totalPages }, (_, i) => (
@@ -380,7 +353,6 @@ export default function VolunteerExperienceSection({
           </div>
         )}
 
-        {/* Experience Cards */}
         <div className="mb-16 sm:mb-20 lg:mb-24">
           <ExperienceFocusCards
             experiences={currentPageExperiences}

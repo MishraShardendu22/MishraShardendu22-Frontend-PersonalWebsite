@@ -47,7 +47,6 @@ const CreateBlogPage = () => {
   const [previewOpen, setPreviewOpen] = useState(false)
 
   const handleAddTag = () => {
-    // Split by comma, trim, filter out empty, and avoid duplicates
     const newTags = newTag
       .split(',')
       .map((t) => t.trim())
@@ -117,13 +116,11 @@ const CreateBlogPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <div className="max-w-4xl mx-auto space-y-6 p-4">
-          {/* Header Skeleton */}
           <div className="space-y-4">
             <div className="h-8 w-48 bg-muted/50 rounded animate-pulse" />
             <div className="h-4 w-64 bg-muted/50 rounded animate-pulse" />
           </div>
 
-          {/* Form Skeleton */}
           <div className="space-y-6">
             <div>
               <div className="h-4 w-16 bg-muted/50 rounded animate-pulse mb-2" />
@@ -185,7 +182,6 @@ const CreateBlogPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -226,9 +222,7 @@ const CreateBlogPage = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
-        {/* Alert Messages */}
         {error && (
           <Alert className="mb-4 bg-destructive/10 border-destructive/20">
             <AlertCircle className="h-4 w-4 text-destructive" />
@@ -244,9 +238,7 @@ const CreateBlogPage = () => {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Editor Section */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Title Input */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
@@ -269,7 +261,6 @@ const CreateBlogPage = () => {
               </CardContent>
             </Card>
 
-            {/* Content Editor */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
@@ -290,9 +281,7 @@ const CreateBlogPage = () => {
             </Card>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Tags */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
@@ -389,7 +378,6 @@ const CreateBlogPage = () => {
               </DialogContent>
             </Dialog>
 
-            {/* Publishing Tips */}
             <Card className="bg-card border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">

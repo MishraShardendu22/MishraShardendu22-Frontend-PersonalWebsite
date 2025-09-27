@@ -4,7 +4,6 @@ import { user as usersTable } from '@/db/authSchema'
 import { NextRequest, NextResponse } from 'next/server'
 import { followersTable, userProfilesTable } from '@/db/schema'
 
-// GET /api/users/:id/following - Get users that a user is following
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const userId = parseInt((await params).id)
@@ -17,7 +16,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Invalid user ID' }, { status: 400 })
     }
 
-    // Check if user exists
     const user = await db
       .select()
       .from(usersTable)
@@ -28,7 +26,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Get following users with user information
     const following = await db
       .select({
         id: followersTable.id,
@@ -53,7 +50,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .limit(limit)
       .offset(offset)
 
-    // Get total count for pagination
     const totalCount = await db
       .select({ count: followersTable.id })
       .from(followersTable)

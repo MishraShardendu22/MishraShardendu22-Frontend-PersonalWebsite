@@ -10,10 +10,8 @@ import {
 import { eq, count, desc, sql } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 
-// GET /api/blogs/stats - Get aggregated blog statistics
 export async function GET(request: NextRequest) {
   try {
-    // Get total counts
     const [totalPosts, totalLikes, totalComments, totalViews] = await Promise.all([
       db.select({ count: count() }).from(blogTable),
       db.select({ count: count() }).from(likesTable),
@@ -21,7 +19,6 @@ export async function GET(request: NextRequest) {
       db.select({ count: count() }).from(blogViewsTable),
     ])
 
-    // Get top performing blog
     const topBlog = await db
       .select({
         id: blogTable.id,
@@ -56,7 +53,6 @@ export async function GET(request: NextRequest) {
       )
       .limit(1)
 
-    // Get recent posts (last 5)
     const recentPosts = await db
       .select({
         id: blogTable.id,
@@ -82,7 +78,6 @@ export async function GET(request: NextRequest) {
       .orderBy(desc(blogTable.createdAt))
       .limit(5)
 
-    // Get author statistics
     const authorStats = await db
       .select({
         authorId: blogTable.authorId,
@@ -123,7 +118,6 @@ export async function GET(request: NextRequest) {
       )`)
       )
 
-    // Get tag statistics
     const tagStats = await db
       .select({
         tag: sql<string>`unnest(${blogTable.tags})`,

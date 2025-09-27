@@ -1,6 +1,5 @@
-// @/components/Projects/hooks/useProjectShare.ts
 import { useState } from 'react'
-import { Project } from '@/data/types.data' // Import your actual Project type
+import { Project } from '@/data/types.data'
 
 export function useProjectShare(project: Project | null) {
   const [shareClicked, setShareClicked] = useState(false)
@@ -16,7 +15,7 @@ export function useProjectShare(project: Project | null) {
     console.log(project)
     if (!project) return
 
-    const projectUrl = window.location.href;
+    const projectUrl = window.location.href
     const shareText = getShareText()
 
     const shareData = {
@@ -26,13 +25,11 @@ export function useProjectShare(project: Project | null) {
     }
 
     try {
-      // Try native Web Share API first
       if (navigator.share && navigator.canShare?.(shareData)) {
         await navigator.share(shareData)
         return
       }
 
-      // Fallback to clipboard
       await copyToClipboard(projectUrl)
     } catch (error) {
       console.error('Error sharing:', error)
@@ -45,7 +42,6 @@ export function useProjectShare(project: Project | null) {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text)
       } else {
-        // Fallback for older browsers
         const textArea = document.createElement('textarea')
         textArea.value = text
         textArea.style.position = 'fixed'

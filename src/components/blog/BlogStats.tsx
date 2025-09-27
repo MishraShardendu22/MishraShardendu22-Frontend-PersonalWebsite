@@ -76,7 +76,6 @@ const BlogStats: React.FC<BlogStatsProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Main Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
@@ -137,7 +136,6 @@ const BlogStats: React.FC<BlogStatsProps> = ({
         </Card>
       </div>
 
-      {/* Secondary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <Card className="bg-card border-border">
           <CardContent className="p-4">
@@ -177,7 +175,6 @@ const BlogStats: React.FC<BlogStatsProps> = ({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Top Performing Post */}
         {topPerformingPost && (
           <Card className="bg-card border-border">
             <CardHeader className="pb-2">
@@ -205,7 +202,6 @@ const BlogStats: React.FC<BlogStatsProps> = ({
           </Card>
         )}
 
-        {/* Engagement Metrics */}
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-heading">Engagement</CardTitle>
@@ -235,7 +231,6 @@ const BlogStats: React.FC<BlogStatsProps> = ({
         </Card>
       </div>
 
-      {/* Recent Activity */}
       {recentActivity.length > 0 && (
         <Card className="bg-card border-border">
           <CardHeader className="pb-2">

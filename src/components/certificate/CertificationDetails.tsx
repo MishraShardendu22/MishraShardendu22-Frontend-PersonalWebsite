@@ -27,7 +27,6 @@ interface CertificationDetailsProps {
   certification: Certification
 }
 
-// Enhanced Code Block Component
 const CodeBlock = ({ language, children }: { language: string; children: string }) => {
   const [copied, setCopied] = useState(false)
 
@@ -84,7 +83,6 @@ const CodeBlock = ({ language, children }: { language: string; children: string 
   )
 }
 
-// Enhanced Blockquote Component
 const CustomBlockquote = ({ children }: { children: React.ReactNode }) => (
   <div>
     <Quote className="absolute top-4 left-4 w-5 h-5 text-primary/60" />
@@ -92,7 +90,6 @@ const CustomBlockquote = ({ children }: { children: React.ReactNode }) => (
   </div>
 )
 
-// Enhanced Link Component
 const CustomLink = ({ href, children }: { href?: string; children: React.ReactNode }) => (
   <NextLink
     href={href ?? '#'}
@@ -105,7 +102,6 @@ const CustomLink = ({ href, children }: { href?: string; children: React.ReactNo
   </NextLink>
 )
 
-// Enhanced Image Component
 const CustomImage = ({ src, alt }: { src?: string; alt?: string }) => (
   <div className="my-6 rounded-lg overflow-hidden border border-border/50 bg-card/50">
     {src ? (
@@ -127,7 +123,6 @@ const CustomImage = ({ src, alt }: { src?: string; alt?: string }) => (
   </div>
 )
 
-// Enhanced List Component
 const CustomList = ({ ordered, children }: { ordered?: boolean; children: React.ReactNode }) => {
   const Tag = ordered ? 'ol' : 'ul'
   return (
@@ -144,14 +139,12 @@ const CustomListItem = ({ children }: { children: React.ReactNode }) => (
   </li>
 )
 
-// Reading Time Calculator
 const calculateReadingTime = (text: string): number => {
   const wordsPerMinute = 200
   const words = text.trim().split(/\s+/).length
   return Math.ceil(words / wordsPerMinute)
 }
 
-// Custom Heading Component
 const CustomHeading = ({ level, children }: { level: number; children: React.ReactNode }) => {
   const sizes = {
     1: 'text-3xl font-bold mb-6 mt-8',
@@ -223,14 +216,11 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
           {certification.certificate_url && (
             <div className="mt-8">
               <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-50/50 via-purple-50/30 to-emerald-50/50 dark:from-blue-950/30 dark:via-purple-950/20 dark:to-emerald-950/30 p-6 border border-border/40">
-                {/* Background Pattern */}
                 <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:20px_20px]" />
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl" />
 
                 <div className="relative z-10">
-                  {/* Footer with Left-Center-Right Distribution */}
                   <div className="flex items-center justify-between gap-4">
-                    {/* Left Section - Certificate Status */}
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                       <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
@@ -238,7 +228,6 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                       </span>
                     </div>
 
-                    {/* Center Section - Title and Description */}
                     <div className="flex-1 text-center">
                       <h4 className="text-lg font-semibold text-foreground mb-1">
                         Official Certification
@@ -248,7 +237,6 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                       </p>
                     </div>
 
-                    {/* Right Section - Action Buttons */}
                     <div className="flex gap-3">
                       <a
                         href={certification.certificate_url}
@@ -270,7 +258,6 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                           try {
                             await navigator.clipboard.writeText(certification.certificate_url)
                             setCopied(true)
-                            // Reset after 2 seconds
                             setTimeout(() => setCopied(false), 2000)
                           } catch (err) {
                             console.error('Failed to copy URL:', err)
@@ -336,7 +323,6 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
         </CardContent>
       </Card>
 
-      {/* Skills Section with Enhanced Display */}
       <div>
         <Card className="border border-border/50 bg-card/50 backdrop-blur-sm">
           <CardHeader className="pb-4">

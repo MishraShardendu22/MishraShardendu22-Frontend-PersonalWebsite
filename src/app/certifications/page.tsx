@@ -31,7 +31,6 @@ export default function CertificationPageContent() {
   const [selectedYear, setSelectedYear] = useState<string>('__all__')
   const router = useRouter()
   const searchParams = useSearchParams()
-  // useSearchParams can return null in some environments; guard access
   const initialSearch = (searchParams?.get('search') ?? '').toLowerCase() || ''
   const [searchTerm, setSearchTerm] = useState(initialSearch)
 
@@ -110,12 +109,9 @@ export default function CertificationPageContent() {
     router.push(`?${params.toString()}`)
   }
 
-  // Loading state
   if (loading) {
     return <LoadingState />
   }
-
-  // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
@@ -126,11 +122,9 @@ export default function CertificationPageContent() {
   return (
     <Suspense fallback={<LoadingState />}>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
         <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
           <div className="container mx-auto px-6 py-4 max-w-full">
             <div className="flex items-center justify-between gap-8">
-              {/* Left Side: Back Button + Title + Stats */}
               <div className="flex items-center gap-6 flex-shrink-0">
                 <Link href="/">
                   <Button
@@ -151,7 +145,6 @@ export default function CertificationPageContent() {
                     </h1>
                   </div>
 
-                  {/* Compact Stats */}
                   <div className="hidden lg:flex items-center gap-3 text-sm">
                     <div className="flex items-center gap-1">
                       <span className="font-semibold text-primary">{certifications.length}</span>
@@ -167,7 +160,6 @@ export default function CertificationPageContent() {
                 </div>
               </div>
 
-              {/* Center: Search Bar */}
               <div className="flex-1 max-w-md mx-8">
                 <Input
                   type="text"
@@ -178,7 +170,6 @@ export default function CertificationPageContent() {
                 />
               </div>
 
-              {/* Right Side: Pagination */}
               <div className="flex-shrink-0">
                 {totalPages > 1 && (
                   <CertificationPagination
@@ -195,7 +186,6 @@ export default function CertificationPageContent() {
           </div>
         </div>
 
-        {/* Secondary Filter Bar */}
         <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
           <div className="container mx-auto px-6 py-3 max-w-full">
             <div className="flex items-center justify-center gap-4">
@@ -258,7 +248,6 @@ export default function CertificationPageContent() {
                 </Button>
               )}
 
-              {/* Mobile Stats */}
               <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
                 <div className="flex items-center gap-1">
                   <span className="font-semibold text-primary">{certifications.length}</span>
@@ -275,7 +264,6 @@ export default function CertificationPageContent() {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="flex-1">
           <div className="container mx-auto px-6 py-8 max-w-full">
             {certifications.length === 0 ? (
@@ -291,7 +279,6 @@ export default function CertificationPageContent() {
               </div>
             )}
 
-            {/* Bottom Info Bar */}
             <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
               <p>
                 Showing {filteredCertifications.length === 0 ? 0 : startIndex + 1}-

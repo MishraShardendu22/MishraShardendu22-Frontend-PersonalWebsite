@@ -11,7 +11,6 @@ const api = axios.create({
   },
 })
 
-// Request interceptor to add JWT token
 api.interceptors.request.use(
   (config) => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('jwt_token') : null
@@ -25,17 +24,14 @@ api.interceptors.request.use(
   }
 )
 
-// Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => {
     return response
   },
   (error) => {
     if (error.response?.status === 401) {
-      // Clear token and redirect to home page for non-admin users
       if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt_token')
-        // Check if we're on an admin page (except login)
         const isAdminPage =
           window.location.pathname.startsWith('/admin') &&
           window.location.pathname !== '/admin/login'

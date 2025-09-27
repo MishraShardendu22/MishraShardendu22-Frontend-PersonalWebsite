@@ -39,9 +39,8 @@ const BlogPage = () => {
       setLoading(true)
       setError('')
 
-      // Add a minimum loading time to prevent flickering
       const startTime = Date.now()
-      const minLoadingTime = 800 // 800ms minimum loading time
+      const minLoadingTime = 800
 
       const response = await blogsService.getBlogs()
 
@@ -52,7 +51,6 @@ const BlogPage = () => {
         console.error('Blog fetch failed:', response.error)
       }
 
-      // Ensure minimum loading time
       const elapsedTime = Date.now() - startTime
       if (elapsedTime < minLoadingTime) {
         await new Promise((resolve) => setTimeout(resolve, minLoadingTime - elapsedTime))
@@ -129,7 +127,6 @@ const BlogPage = () => {
       blog.content.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  // Show loading indicator only for initial load and when no blogs are available
   const showLoadingSkeleton = initialLoad && loading && blogs.length === 0
 
   return (
@@ -162,9 +159,7 @@ const BlogPage = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
-        {/* Search */}
         <div className="mb-8">
           <div className="relative max-w-2xl mx-auto">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-foreground w-5 h-5" />
@@ -189,14 +184,12 @@ const BlogPage = () => {
           </div>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg max-w-xl mx-auto">
             <p className="text-destructive text-sm text-center">{error}</p>
           </div>
         )}
 
-        {/* Blog Count */}
         <div className="mb-8 text-center">
           {showLoadingSkeleton ? (
             <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 px-6 py-3 rounded-full border border-primary/30">
@@ -214,7 +207,6 @@ const BlogPage = () => {
           )}
         </div>
 
-        {/* Loading Indicator */}
         {loading && !showLoadingSkeleton && (
           <div className="mb-6 text-center">
             <div className="inline-flex items-center space-x-2 text-sm text-foreground">
@@ -224,13 +216,10 @@ const BlogPage = () => {
           </div>
         )}
 
-        {/* Blogs Grid */}
         {showLoadingSkeleton ? (
-          // Skeleton Loading
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-card border border-border rounded-xl overflow-hidden">
-                {/* Featured Image Placeholder */}
                 <div className="aspect-[16/9] bg-gradient-to-br from-primary/10 via-primary/5 to-muted/30 relative overflow-hidden" />
 
                 <div className="p-6">
@@ -310,9 +299,7 @@ const BlogPage = () => {
                   key={blog.id}
                   className={`group relative bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 ${isUpdating ? 'opacity-75 pointer-events-none' : ''}`}
                 >
-                  {/* Content */}
                   <div className="p-6">
-                    {/* Author and Date */}
                     <div className="flex items-center space-x-3 mb-4">
                       <Avatar className="w-10 h-10 ring-2 ring-primary/10">
                         <AvatarImage src={blog?.author?.avatar || ''} />
@@ -335,7 +322,6 @@ const BlogPage = () => {
                       </div>
                     </div>
 
-                    {/* Title and Content */}
                     <div className="mb-4">
                       <h3 className="text-xl font-bold font-heading text-black dark:text-white line-clamp-2 group-hover:text-primary transition-colors duration-300 mb-3 leading-tight">
                         {blog.title}
@@ -345,7 +331,6 @@ const BlogPage = () => {
                       </p>
                     </div>
 
-                    {/* Tags */}
                     {blog.tags && blog.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {blog.tags.slice(0, 3).map((tag, index) => (
@@ -364,7 +349,6 @@ const BlogPage = () => {
                       </div>
                     )}
 
-                    {/* Stats and Actions */}
                     <div className="flex items-center justify-between pt-4 border-t border-border">
                       <div className="flex items-center space-x-4 text-xs text-black dark:text-white">
                         <div className="flex items-center space-x-1 hover:text-foreground transition-colors">
@@ -421,7 +405,6 @@ const BlogPage = () => {
                     </div>
                   </div>
 
-                  {/* Hover effect overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </article>
               )

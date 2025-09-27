@@ -80,7 +80,6 @@ export const ExperienceFocusCard = React.memo(
         }`}
       >
         <Card className="group relative overflow-hidden border border-border/40 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/15 bg-gradient-to-br from-card/95 via-card to-card/90 backdrop-blur-md hover:bg-gradient-to-br hover:from-card hover:via-card hover:to-card/95 h-full flex flex-col">
-          {/* Enhanced Header with Status Badge */}
           <div className="absolute top-4 right-4 z-20 flex flex-col items-end gap-2">
             <div className="relative">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 via-primary/30 to-secondary/20 flex items-center justify-center text-primary text-sm font-bold shadow-xl border border-primary/30 backdrop-blur-sm">
@@ -89,7 +88,6 @@ export const ExperienceFocusCard = React.memo(
               <div className="absolute -inset-1 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl blur-sm opacity-50 group-hover:opacity-70 transition-opacity"></div>
             </div>
 
-            {/* Active Status Badge */}
             {isCurrentlyActive && (
               <div className="px-2 py-1 bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
                 Active
@@ -98,7 +96,6 @@ export const ExperienceFocusCard = React.memo(
           </div>
 
           <div className="relative z-10 p-6 flex flex-col h-full">
-            {/* Enhanced Organization Header */}
             <div className="flex-shrink-0 mb-5">
               <div className="flex items-start space-x-4 mb-4">
                 {exp.organisation_logo && (
@@ -124,7 +121,6 @@ export const ExperienceFocusCard = React.memo(
                     {currentPosition}
                   </div>
 
-                  {/* Position Progression Indicator */}
                   {positionCount > 1 && (
                     <div className="flex items-center text-xs text-foreground/60">
                       <Users className="mr-1 h-3 w-3" />
@@ -136,7 +132,6 @@ export const ExperienceFocusCard = React.memo(
                 </div>
               </div>
 
-              {/* Enhanced Date and Duration Info */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center text-sm text-foreground/70 bg-secondary/10 px-3 py-2 rounded-lg border border-secondary/30 flex-1">
@@ -151,7 +146,6 @@ export const ExperienceFocusCard = React.memo(
                   )}
                 </div>
 
-                {/* Creator Info */}
                 {exp.created_by && (
                   <div className="flex items-center text-xs text-foreground/60 bg-accent/5 px-3 py-2 rounded-lg border border-accent/20">
                     <div className="w-2 h-2 rounded-full bg-accent/60 mr-2 flex-shrink-0"></div>
@@ -161,17 +155,14 @@ export const ExperienceFocusCard = React.memo(
               </div>
             </div>
 
-            {/* Enhanced Divider */}
             <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-4"></div>
 
-            {/* Enhanced Description Section */}
             <div className="flex-1 min-h-0 mb-4">
               <div className="overflow-hidden">
                 <p className="text-foreground/85 leading-relaxed text-sm font-medium">{summary}</p>
               </div>
             </div>
 
-            {/* Enhanced Technologies Section */}
             {exp.technologies && exp.technologies.length > 0 && (
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
@@ -200,10 +191,8 @@ export const ExperienceFocusCard = React.memo(
               </div>
             )}
 
-            {/* Enhanced Stats Section */}
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-2 text-center">
-                {/* Projects Count */}
                 <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/50 rounded-lg p-2">
                   <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
                     {projectCount}
@@ -213,7 +202,6 @@ export const ExperienceFocusCard = React.memo(
                   </div>
                 </div>
 
-                {/* Technologies Count */}
                 <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800/50 rounded-lg p-2">
                   <div className="text-lg font-bold text-green-600 dark:text-green-400">
                     {techCount}
@@ -223,7 +211,6 @@ export const ExperienceFocusCard = React.memo(
                   </div>
                 </div>
 
-                {/* Images Count */}
                 <div className="bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/50 rounded-lg p-2">
                   <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
                     {imageCount}
@@ -235,7 +222,6 @@ export const ExperienceFocusCard = React.memo(
               </div>
             </div>
 
-            {/* Timeline Preview */}
             {exp.volunteer_time_line && exp.volunteer_time_line.length > 0 && (
               <div className="mb-4">
                 <h4 className="text-xs font-semibold text-foreground/70 uppercase tracking-wide mb-2">
@@ -304,12 +290,10 @@ export function ExperienceFocusCards({
 
   return (
     <div className="mx-auto mt-12 max-w-7xl">
-      {/* Fixed height grid to ensure consistent card heights */}
       <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 auto-rows-fr">
         {experiences.map((exp, index) => (
           <div key={exp.inline.id} className="min-h-[650px] flex">
             {' '}
-            {/* Fixed minimum height */}
             <ExperienceFocusCard
               exp={exp}
               index={index}

@@ -53,7 +53,6 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
   starHeight = 1,
   className,
 }) => {
-  // Changed from single star to array of stars
   const [stars, setStars] = useState<ShootingStar[]>([])
   const svgRef = useRef<SVGSVGElement>(null)
 
@@ -61,7 +60,7 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
     const createStar = () => {
       const { x, y, angle } = getRandomStartPoint()
       const newStar: ShootingStar = {
-        id: Date.now() + Math.random(), // More unique ID
+        id: Date.now() + Math.random(),
         x,
         y,
         angle,
@@ -70,7 +69,6 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
         distance: 0,
       }
 
-      // Add new star to the array instead of replacing
       setStars((prevStars) => [...prevStars, newStar])
 
       const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay
@@ -100,7 +98,6 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
               scale: newScale,
             }
           })
-          // Filter out stars that are off-screen
           .filter(
             (star) =>
               star.x >= -20 &&
@@ -117,7 +114,6 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
 
   return (
     <svg ref={svgRef} className={cn('w-full h-full absolute inset-0', className)}>
-      {/* Render all stars from the array */}
       {stars.map((star) => (
         <rect
           key={star.id}

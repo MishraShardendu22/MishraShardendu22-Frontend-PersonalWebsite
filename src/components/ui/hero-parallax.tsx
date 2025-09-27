@@ -17,12 +17,10 @@ export interface HeroProject {
 }
 
 export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
-  // 🚀 PERFORMANCE OPTIMIZATION: Better card distribution
   const optimizedProjects = useMemo(() => {
-    return projects.slice(0, 12) // Increased to 12 for better balance
+    return projects.slice(0, 12)
   }, [projects])
 
-  // 🚀 LAYOUT FIX: Redistributed cards for balanced rows
   const firstRow = useMemo(() => optimizedProjects.slice(0, 4), [optimizedProjects])
   const secondRow = useMemo(() => optimizedProjects.slice(4, 8), [optimizedProjects])
   const thirdRow = useMemo(() => optimizedProjects.slice(8, 12), [optimizedProjects])
@@ -42,11 +40,7 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
     []
   )
 
-  // Create individual spring animations at the top level
-  const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 600]), // Reduced for better performance
-    springConfig
-  )
+  const translateX = useSpring(useTransform(scrollYProgress, [0, 1], [0, 600]), springConfig)
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, -600]),
     springConfig
@@ -88,7 +82,6 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
         }}
         className=""
       >
-        {/* 🚀 LAYOUT FIX: Balanced first row */}
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-6 mb-20 justify-center">
           {firstRow.map((project, index) => (
             <ProjectCard
@@ -100,7 +93,6 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
           ))}
         </motion.div>
 
-        {/* 🚀 LAYOUT FIX: Balanced second row */}
         <motion.div className="flex flex-row mb-20 space-x-6 justify-center">
           {secondRow.map((project, index) => (
             <ProjectCard
@@ -112,7 +104,6 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
           ))}
         </motion.div>
 
-        {/* 🚀 LAYOUT FIX: Balanced third row */}
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-6 justify-center">
           {thirdRow.map((project, index) => (
             <ProjectCard
@@ -128,13 +119,11 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
   )
 }
 
-// Alternative approach with responsive card sizing
 export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }) => {
   const optimizedProjects = useMemo(() => {
-    return projects.slice(0, 9) // Keep 9 but distribute better
+    return projects.slice(0, 9)
   }, [projects])
 
-  // 🚀 LAYOUT FIX: Even distribution with 3-3-3 pattern
   const firstRow = useMemo(() => optimizedProjects.slice(0, 3), [optimizedProjects])
   const secondRow = useMemo(() => optimizedProjects.slice(3, 6), [optimizedProjects])
   const thirdRow = useMemo(() => optimizedProjects.slice(6, 9), [optimizedProjects])
@@ -154,11 +143,7 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
     []
   )
 
-  // Create individual spring animations at the top level
-  const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 400]), // Even more reduced
-    springConfig
-  )
+  const translateX = useSpring(useTransform(scrollYProgress, [0, 1], [0, 400]), springConfig)
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, -400]),
     springConfig
@@ -166,10 +151,7 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
   const rotateX = useSpring(useTransform(scrollYProgress, [0, 0.2], [15, 0]), springConfig)
   const opacity = useSpring(useTransform(scrollYProgress, [0, 0.2], [0.2, 1]), springConfig)
   const rotateZ = useSpring(useTransform(scrollYProgress, [0, 0.2], [20, 0]), springConfig)
-  const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-400, 200]), // Further reduced
-    springConfig
-  )
+  const translateY = useSpring(useTransform(scrollYProgress, [0, 0.2], [-400, 200]), springConfig)
 
   const transforms = useMemo(
     () => ({
@@ -203,7 +185,6 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
         }}
         className=""
       >
-        {/* 🚀 LAYOUT FIX: Perfectly balanced rows with wider cards */}
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-8 mb-20 justify-center">
           {firstRow.map((project, index) => (
             <ProjectCard
@@ -211,7 +192,7 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
               translate={transforms.translateX}
               key={project.inline.id}
               index={index + 1}
-              className="w-[450px]" // Slightly wider cards
+              className="w-[450px]"
             />
           ))}
         </motion.div>
@@ -244,7 +225,6 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
   )
 }
 
-// Updated ProjectCard with optional className prop
 export const ProjectCard = React.memo(
   ({
     project,
@@ -277,7 +257,6 @@ export const ProjectCard = React.memo(
         key={project.inline.id}
         className={`group/product h-[500px] ${className} relative shrink-0`}
       >
-        {/* Rest of the ProjectCard implementation stays the same */}
         <Card className="h-full w-full relative overflow-hidden border border-border/30 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 bg-card/95 backdrop-blur-sm hover:bg-card/100">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/[0.01] to-secondary/[0.01] opacity-0 group-hover/product:opacity-100 transition-opacity duration-300"></div>
 

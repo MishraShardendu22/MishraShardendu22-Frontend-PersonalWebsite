@@ -4,7 +4,6 @@ import { likesTable, blogTable } from '@/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 
-// POST /api/blogs/:id/unlike - Unlike a blog
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -19,21 +18,18 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       return NextResponse.json({ success: false, error: 'UserId is required' }, { status: 400 })
     }
 
-    // Check if blog exists
     const blog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (blog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    // Check if user exists
     const user = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1)
 
     if (user.length === 0) {
       return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
     }
 
-    // Check if like exists
     const existingLike = await db
       .select()
       .from(likesTable)
@@ -47,7 +43,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       )
     }
 
-    // Remove like
     await db
       .delete(likesTable)
       .where(and(eq(likesTable.blogId, blogId), eq(likesTable.userId, userId)))

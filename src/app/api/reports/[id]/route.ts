@@ -4,7 +4,6 @@ import { reportsTable } from '@/db/schema'
 import { user as usersTable } from '@/db/authSchema'
 import { NextRequest, NextResponse } from 'next/server'
 
-// GET /api/reports/:id - Get report by ID
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const reportId = parseInt((await params).id)

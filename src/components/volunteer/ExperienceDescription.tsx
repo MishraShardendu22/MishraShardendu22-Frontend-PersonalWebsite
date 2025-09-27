@@ -15,14 +15,12 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
       <CardContent
         className={`${isShortDescription ? 'min-h-[400px]' : 'min-h-[600px]'} flex flex-col relative overflow-hidden`}
       >
-        {/* Background Pattern */}
         <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_50%_50%,_theme(colors.primary)_1px,_transparent_1px)] bg-[length:32px_32px]" />
 
         <div className="flex-grow relative z-10">
           <div className="prose prose-lg max-w-none dark:prose-invert">
             <ReactMarkdown
               components={{
-                // Enhanced Headings
                 h1: ({ children }) => (
                   <div className="mb-8 mt-0">
                     <h1 className="text-3xl font-bold text-foreground mb-4 tracking-tight leading-tight">
@@ -52,11 +50,9 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     {children}
                   </h4>
                 ),
-                // Enhanced Paragraphs
                 p: ({ children }) => (
                   <p className="mb-5 text-lg text-foreground/90 leading-relaxed">{children}</p>
                 ),
-                // Custom Lists with Better Styling
                 ul: ({ children }) => <ul className="mb-6 space-y-3 list-none pl-0">{children}</ul>,
                 ol: ({ children }) => (
                   <ol
@@ -72,7 +68,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     <div className="flex-1 min-w-0">{children}</div>
                   </li>
                 ),
-                // Enhanced Code Blocks
                 code: ({ children, className, ...props }) => {
                   const isInline = !className || !className.startsWith('language-')
                   if (isInline) {
@@ -101,7 +96,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     </pre>
                   </div>
                 ),
-                // Enhanced Blockquotes
                 blockquote: ({ children }) => (
                   <div className="mb-6 relative">
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-primary/70 to-primary/30 rounded-full" />
@@ -115,7 +109,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     </blockquote>
                   </div>
                 ),
-                // Enhanced Links
                 a: ({ children, href, ...props }) => (
                   <a
                     href={href}
@@ -128,7 +121,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/30 to-primary/60 scale-x-0 hover:scale-x-100 transition-transform duration-300 origin-left" />
                   </a>
                 ),
-                // Enhanced Strong and Emphasis
                 strong: ({ children }) => (
                   <strong className="font-bold text-foreground bg-primary/10 px-1.5 py-0.5 rounded-md border border-primary/20">
                     {children}
@@ -139,7 +131,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     {children}
                   </em>
                 ),
-                // Enhanced Horizontal Rules
                 hr: () => (
                   <div className="my-8 flex items-center justify-center">
                     <div className="flex items-center gap-4">
@@ -149,7 +140,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     </div>
                   </div>
                 ),
-                // Enhanced Tables
                 table: ({ children }) => (
                   <div className="overflow-x-auto my-6 rounded-lg border border-border/50 shadow-sm">
                     <table className="w-full border-collapse bg-card/50">{children}</table>
@@ -172,10 +162,8 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
           </div>
         </div>
 
-        {/* Enhanced Short Description Section */}
         {isShortDescription && (
           <div className="mt-auto pt-8 space-y-6 relative z-10">
-            {/* Professional Separator */}
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-6">
                 <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent w-20" />
@@ -189,7 +177,6 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
               </div>
             </div>
 
-            {/* Enhanced Quick Facts */}
             <div className="relative">
               <div className="bg-gradient-to-br from-muted/40 to-muted/20 backdrop-blur-sm rounded-xl p-6 border border-border/30 shadow-sm">
                 <div className="text-center mb-4">

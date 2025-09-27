@@ -172,7 +172,6 @@ const BlogDashboardPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <div className="space-y-6">
-          {/* Header Skeleton */}
           <div className="flex items-center justify-between">
             <div>
               <div className="h-8 w-48 bg-muted/50 rounded animate-pulse mb-2" />
@@ -181,19 +180,16 @@ const BlogDashboardPage = () => {
             <div className="h-10 w-32 bg-muted/50 rounded-lg animate-pulse" />
           </div>
 
-          {/* Tabs Skeleton */}
           <div className="flex space-x-1">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="h-10 w-20 bg-muted/50 rounded-lg animate-pulse" />
             ))}
           </div>
 
-          {/* Search Skeleton */}
           <div className="max-w-2xl">
             <div className="h-10 w-full bg-muted/50 rounded-lg animate-pulse" />
           </div>
 
-          {/* Blog Grid Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 9 }).map((_, i) => (
               <div key={i} className="bg-card border border-border rounded-lg">
@@ -244,7 +240,6 @@ const BlogDashboardPage = () => {
     )
   }
 
-  // Redirect if not authenticated
   if (!session.data?.user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -271,7 +266,6 @@ const BlogDashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -293,9 +287,7 @@ const BlogDashboardPage = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
-        {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           <Card className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -350,7 +342,6 @@ const BlogDashboardPage = () => {
           </Card>
         </div>
 
-        {/* Search and Filter */}
         <div className="mb-6">
           <div className="bg-card border border-border rounded-lg p-4">
             <div className="flex flex-col lg:flex-row gap-4">
@@ -384,14 +375,12 @@ const BlogDashboardPage = () => {
           </div>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="mb-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
             <p className="text-destructive text-sm">{error}</p>
           </div>
         )}
 
-        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="inline-flex h-10 items-center justify-center rounded-lg bg-muted/50 p-1 text-foreground shadow-sm">
             <TabsTrigger

@@ -36,12 +36,10 @@ export default function ExperiencePageContent() {
 
   const allTechs = Array.from(new Set(experiences.flatMap((e) => e.technologies)))
   const allCompanies = Array.from(new Set(experiences.map((e) => e.organisation)))
-  
-  // Fixed: Get years from the LATEST position (last element in array)
+
   const allYears = Array.from(
     new Set(
       experiences.map((e) => {
-        // Get the latest position (last element in the array)
         const latestPosition = e.volunteer_time_line?.[e.volunteer_time_line.length - 1]
         return latestPosition?.start_date
           ? new Date(latestPosition.start_date).getFullYear().toString()
@@ -55,26 +53,30 @@ export default function ExperiencePageContent() {
       selectedTech !== '__all__' ? experience.technologies.includes(selectedTech) : true
     const matchesCompany =
       selectedCompany !== '__all__' ? experience.organisation === selectedCompany : true
-    
-    // Fixed: Check year from the LATEST position (last element in array)
+
     const matchesYear =
       selectedYear !== '__all__'
         ? (() => {
-            const latestPosition = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
-            return latestPosition?.start_date &&
+            const latestPosition =
+              experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+            return (
+              latestPosition?.start_date &&
               new Date(latestPosition.start_date).getFullYear().toString() === selectedYear
+            )
           })()
         : true
-    
-    // Fixed: Search in the LATEST position title (last element in array)
+
     const matchesSearch =
       searchTerm === '' ||
       (() => {
-        const latestPosition = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+        const latestPosition =
+          experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
         const latestPositionTitle = latestPosition?.position ?? ''
-        return latestPositionTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        return (
+          latestPositionTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
           experience.organisation.toLowerCase().includes(searchTerm.toLowerCase()) ||
           experience.description.toLowerCase().includes(searchTerm.toLowerCase())
+        )
       })()
 
     return matchesTech && matchesCompany && matchesYear && matchesSearch
@@ -85,23 +87,23 @@ export default function ExperiencePageContent() {
   const endIndex = startIndex + experiencesPerPage
   const currentExperiences = filteredExperiences.slice(startIndex, endIndex)
 
-  // Fixed: Transform using the LATEST position (last element in array)
   const transformedExperiences = currentExperiences.map((experience) => {
-    // Get the latest position (last element in the array)
-    const latestPosition = experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
-    
+    const latestPosition =
+      experience.volunteer_time_line?.[experience.volunteer_time_line.length - 1]
+
     return {
-      title: latestPosition?.position ?? 'Volunteer', // Latest position title
+      title: latestPosition?.position ?? 'Volunteer',
       company: experience.organisation,
       companyLogo: experience.organisation_logo,
       description: experience.description,
       link: `/volunteer/${experience.inline?.id || experience.inline.id}`,
       technologies: experience.technologies,
-      startDate: latestPosition?.start_date ?? '', // Latest position start date
-      endDate: latestPosition?.end_date ?? '', // Latest position end date
-      // Additional info about career progression
+      startDate: latestPosition?.start_date ?? '',
+      endDate: latestPosition?.end_date ?? '',
       totalPositions: experience.volunteer_time_line?.length || 0,
-      isCurrentPosition: latestPosition?.end_date ? new Date(latestPosition.end_date) > new Date() : false
+      isCurrentPosition: latestPosition?.end_date
+        ? new Date(latestPosition.end_date) > new Date()
+        : false,
     }
   })
 
@@ -135,12 +137,9 @@ export default function ExperiencePageContent() {
     router.push(`?${params.toString()}`)
   }
 
-  // Loading state
   if (loading) {
     return <LoadingState />
   }
-
-  // Error state
   if (error) {
     toast.error(error, {
       style: { zIndex: 30 },
@@ -150,11 +149,9 @@ export default function ExperiencePageContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      {/* Top Header Bar - Left: Title, Middle: Search, Right: Navigation */}
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-6 py-4 max-w-full">
           <div className="flex items-center justify-between gap-8">
-            {/* Left Side: Back Button + Title + Stats */}
             <div className="flex items-center gap-6 flex-shrink-0">
               <Link href="/">
                 <Button
@@ -175,7 +172,6 @@ export default function ExperiencePageContent() {
                   </h1>
                 </div>
 
-                {/* Compact Stats */}
                 <div className="hidden lg:flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1">
                     <span className="font-semibold text-primary">{experiences.length}</span>
@@ -191,18 +187,16 @@ export default function ExperiencePageContent() {
               </div>
             </div>
 
-            {/* Center: Search Bar */}
-            <div className="flex-1 max-w-md mx-8">
+            <div className="flex-1 flex justify-center">
               <Input
                 type="text"
-                placeholder="Search by latest position, organization, or description..."
+                placeholder="Search experiences..."
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="h-10 w-full border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50"
+                className="h-10 w-full max-w-md border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50"
               />
             </div>
 
-            {/* Right Side: Pagination */}
             <div className="flex-shrink-0">
               {totalPages > 1 && (
                 <ExperiencePagination
@@ -219,7 +213,6 @@ export default function ExperiencePageContent() {
         </div>
       </div>
 
-      {/* Secondary Filter Bar */}
       <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-3 max-w-full">
           <div className="flex items-center justify-center gap-4">
@@ -257,11 +250,13 @@ export default function ExperiencePageContent() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__all__">All Years</SelectItem>
-                {allYears.sort((a, b) => b.localeCompare(a)).map((year) => (
-                  <SelectItem key={year} value={year}>
-                    {year} (Latest)
-                  </SelectItem>
-                ))}
+                {allYears
+                  .sort((a, b) => b.localeCompare(a))
+                  .map((year) => (
+                    <SelectItem key={year} value={year}>
+                      {year} (Latest)
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
 
@@ -282,7 +277,6 @@ export default function ExperiencePageContent() {
               </Button>
             )}
 
-            {/* Mobile Stats */}
             <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
               <div className="flex items-center gap-1">
                 <span className="font-semibold text-primary">{experiences.length}</span>
@@ -299,7 +293,6 @@ export default function ExperiencePageContent() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1">
         <div className="container mx-auto px-6 py-8 max-w-full">
           {experiences.length === 0 ? (
@@ -317,7 +310,6 @@ export default function ExperiencePageContent() {
             </div>
           )}
 
-          {/* Bottom Info Bar */}
           <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
             <p>
               Showing {filteredExperiences.length === 0 ? 0 : startIndex + 1}-

@@ -3,7 +3,6 @@ import { eq } from 'drizzle-orm'
 import { notificationsTable } from '@/db/schema'
 import { NextRequest, NextResponse } from 'next/server'
 
-// DELETE /api/notifications/:id - Delete notification
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -18,7 +17,6 @@ export async function DELETE(
       )
     }
 
-    // Check if notification exists
     const existingNotification = await db
       .select()
       .from(notificationsTable)
@@ -29,7 +27,6 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Notification not found' }, { status: 404 })
     }
 
-    // Delete notification
     await db.delete(notificationsTable).where(eq(notificationsTable.id, notificationId))
 
     return NextResponse.json({

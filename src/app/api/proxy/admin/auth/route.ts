@@ -25,20 +25,37 @@ async function proxy(req: NextRequest) {
   index = (index + 1) % targets.length
 
   const url = new URL(req.url)
-  const fullUrl = target + url.pathname.replace('/api/proxy/admin/auth', '/api/admin/auth') + url.search
+  const fullUrl =
+    target + url.pathname.replace('/api/proxy/admin/auth', '/api/admin/auth') + url.search
 
   const method = req.method || 'POST'
   const headers: Record<string, string> = {}
   for (const [k, v] of req.headers.entries()) {
-    if (![
-      'host','connection','cookie','pragma','referer','x-forwarded-for','x-forwarded-host','x-forwarded-port','x-forwarded-proto','sec-fetch-site','sec-fetch-mode','sec-fetch-dest','sec-ch-ua','sec-ch-ua-mobile','sec-ch-ua-platform','user-agent',
-    ].includes(k.toLowerCase())) {
+    if (
+      ![
+        'host',
+        'connection',
+        'cookie',
+        'pragma',
+        'referer',
+        'x-forwarded-for',
+        'x-forwarded-host',
+        'x-forwarded-port',
+        'x-forwarded-proto',
+        'sec-fetch-site',
+        'sec-fetch-mode',
+        'sec-fetch-dest',
+        'sec-ch-ua',
+        'sec-ch-ua-mobile',
+        'sec-ch-ua-platform',
+        'user-agent',
+      ].includes(k.toLowerCase())
+    ) {
       headers[k] = v
     }
   }
   const body = await req.text()
 
-  // Debug logging
   console.log('[Admin Auth Proxy] Forwarding request:', {
     method,
     fullUrl,
@@ -56,7 +73,6 @@ async function proxy(req: NextRequest) {
       validateStatus: () => true,
     })
 
-    // Debug response
     console.log('[Admin Auth Proxy] Backend response:', {
       status: axiosRes.status,
       data: axiosRes.data,
@@ -72,10 +88,10 @@ async function proxy(req: NextRequest) {
   } catch (err: any) {
     console.error('[Admin Auth Proxy error]', err)
     return new Response(
-      JSON.stringify({ 
-        error: 'Backend unreachable', 
-        detail: err?.message || String(err) 
-      }), 
+      JSON.stringify({
+        error: 'Backend unreachable',
+        detail: err?.message || String(err),
+      }),
       {
         status: 502,
         headers: { 'Content-Type': 'application/json' },
