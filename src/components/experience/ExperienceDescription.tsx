@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollText } from 'lucide-react'
@@ -110,8 +111,8 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                   </div>
                 ),
                 a: ({ children, href, ...props }) => (
-                  <a
-                    href={href}
+                  <Link
+                    href={href || '#'}
                     className="text-primary hover:text-primary/80 font-medium relative inline-block transition-all duration-200 hover:scale-105"
                     target={href?.startsWith('http') ? '_blank' : undefined}
                     rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -119,7 +120,7 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                   >
                     <span className="relative z-10">{children}</span>
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary/30 to-primary/60 scale-x-0 hover:scale-x-100 transition-transform duration-300 origin-left" />
-                  </a>
+                  </Link>
                 ),
                 strong: ({ children }) => (
                   <strong className="font-bold text-foreground bg-primary/10 px-1.5 py-0.5 rounded-md border border-primary/20">

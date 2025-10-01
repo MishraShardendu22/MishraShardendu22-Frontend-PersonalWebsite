@@ -107,7 +107,7 @@ export const CertificationFocusCard = React.memo(
             </Link>
 
             {cert.certificate_url && (
-              <a
+              <Link
                 href={cert.certificate_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -115,7 +115,7 @@ export const CertificationFocusCard = React.memo(
               >
                 <Award className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
                 Certificate
-              </a>
+              </Link>
             )}
           </div>
         </CardContent>

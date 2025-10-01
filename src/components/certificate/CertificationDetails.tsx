@@ -238,7 +238,7 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                     </div>
 
                     <div className="flex gap-3">
-                      <a
+                      <NextLink
                         href={certification.certificate_url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -249,7 +249,7 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                         <div className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           →
                         </div>
-                      </a>
+                      </NextLink>
 
                       <Button
                         variant="outline"

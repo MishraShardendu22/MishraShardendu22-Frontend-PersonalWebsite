@@ -299,7 +299,7 @@ export const ProjectCard = React.memo(
             <div className="flex flex-col gap-2 mt-6">
               <div className="flex gap-2">
                 {project.project_live_link && (
-                  <a
+                  <Link
                     href={project.project_live_link}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -312,11 +312,11 @@ export const ProjectCard = React.memo(
                       <ExternalLink className="mr-1.5 h-3 w-3" />
                       <span className="text-xs">Live Demo</span>
                     </Button>
-                  </a>
+                  </Link>
                 )}
 
                 {project.project_repository && (
-                  <a
+                  <Link
                     href={project.project_repository}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -330,7 +330,7 @@ export const ProjectCard = React.memo(
                       <Github className="mr-1.5 h-3 w-3" />
                       <span className="text-xs">Code</span>
                     </Button>
-                  </a>
+                  </Link>
                 )}
               </div>
 

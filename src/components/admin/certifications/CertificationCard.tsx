@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../ui/card'
 import { Button } from '../../ui/button'
 import { Badge } from '../../ui/badge'
@@ -44,14 +45,14 @@ export function CertificationCard({ cert, onEdit, onDelete }: CertificationCardP
         <p className="text-sm text-gray-600 line-clamp-3">{cert.description}</p>
         <div className="flex space-x-2">
           {cert.certificate_url && (
-            <a
+            <Link
               href={cert.certificate_url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
               <ExternalLink className="h-4 w-4" />
-            </a>
+            </Link>
           )}
           {cert.images && cert.images.length > 0 && cert.images[0] && (
             <div className="relative h-8 w-8">

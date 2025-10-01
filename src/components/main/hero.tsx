@@ -83,12 +83,12 @@ export default function HeroSection() {
               <div className="flex items-center justify-center lg:justify-start px-4 sm:px-0">
                 <div className="flex items-center space-x-2 bg-card/80 backdrop-blur-sm rounded-full px-3 py-2 sm:px-4 sm:py-2 border border-border/50 hover:border-primary/30 transition-all duration-300 group max-w-full overflow-hidden">
                   <Mail className="h-3 w-3 sm:h-4 sm:w-4 text-primary group-hover:scale-110 transition-transform flex-shrink-0" />
-                  <a
+                  <Link
                     href="mailto:mishrashardendu22@gmail.com"
                     className="text-foreground hover:text-primary transition-colors duration-300 font-medium text-xs sm:text-sm lg:text-base truncate"
                   >
                     {'mishrashardendu22@gmail.com'}
-                  </a>
+                  </Link>
                 </div>
               </div>
 

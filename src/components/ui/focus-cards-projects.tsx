@@ -75,7 +75,7 @@ export const ProjectFocusCard = React.memo(
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6">
             <div className="flex gap-2 sm:gap-3">
               {project.project_live_link && (
-                <a
+                <Link
                   href={project.project_live_link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -88,11 +88,11 @@ export const ProjectFocusCard = React.memo(
                     <ExternalLink className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     <span className="text-xs sm:text-sm">Live Demo</span>
                   </Button>
-                </a>
+                </Link>
               )}
 
               {project.project_repository && (
-                <a
+                <Link
                   href={project.project_repository}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -106,7 +106,7 @@ export const ProjectFocusCard = React.memo(
                     <Github className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     <span className="text-xs sm:text-sm">Code</span>
                   </Button>
-                </a>
+                </Link>
               )}
             </div>
 

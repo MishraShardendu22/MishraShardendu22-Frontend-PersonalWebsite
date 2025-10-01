@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Badge } from '../../../components/ui/badge'
 import { Button } from '../../../components/ui/button'
 import { Certification } from '../../../data/types.data'
@@ -144,7 +145,7 @@ ${
                   </div>
 
                   {certification.certificate_url && (
-                    <a
+                    <Link
                       href={certification.certificate_url}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -158,7 +159,7 @@ ${
                         <Award className="w-4 h-4 mr-2" />
                         View Certificate
                       </Button>
-                    </a>
+                    </Link>
                   )}
                 </div>
               </CanvasCard>

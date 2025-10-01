@@ -1,28 +1,30 @@
 'use client'
 
-import { ReactNode, useEffect, useState } from 'react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useAuth } from '../../hooks/use-auth'
-import { Button } from '../../components/ui/button'
 import {
-  LayoutDashboard,
-  Briefcase,
-  GraduationCap,
-  Settings,
-  LogOut,
   Menu,
   User,
   Award,
+  LogOut,
+  Settings,
+  Briefcase,
+  CassetteTape,
+  GraduationCap,
+  LayoutDashboard,
 } from 'lucide-react'
+import Link from 'next/link'
+import { useAuth } from '../../hooks/use-auth'
+import { Button } from '../../components/ui/button'
+import { ReactNode, useEffect, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'Projects', href: '/admin/projects', icon: Briefcase },
-  { name: 'Experiences', href: '/admin/experiences', icon: GraduationCap },
-  { name: 'Skills', href: '/admin/skills', icon: Settings },
-  { name: 'Certifications & Achievements', href: '/admin/certifications', icon: Award },
   { name: 'Profile', href: '/admin/profile', icon: User },
+  { name: 'Skills', href: '/admin/skills', icon: Settings },
+  { name: 'Projects', href: '/admin/projects', icon: Briefcase },
+  { name: 'Kanban Board', href: '/admin/kanban', icon: CassetteTape },
+  { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { name: 'Experiences', href: '/admin/experiences', icon: GraduationCap },
+  { name: 'Certifications & Achievements', href: '/admin/certifications', icon: Award },
 ]
 
 export default function AdminLayout({ children }: { children: ReactNode }) {

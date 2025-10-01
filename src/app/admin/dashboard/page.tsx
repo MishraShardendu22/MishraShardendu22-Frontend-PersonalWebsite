@@ -214,14 +214,14 @@ export default function AdminDashboardPage() {
                       </div>
                       <div className="flex items-center space-x-3 flex-shrink-0">
                         {project.project_live_link && (
-                          <a
+                          <Link
                             href={project.project_live_link}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 rounded-lg text-primary hover:text-accent hover:bg-accent/10 transition-all duration-200"
                           >
                             <ExternalLink className="h-5 w-5" />
-                          </a>
+                          </Link>
                         )}
                       </div>
                     </div>

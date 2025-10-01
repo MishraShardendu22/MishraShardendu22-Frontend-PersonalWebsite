@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Repository } from '@/data/types.data'
 import { BookOpen, Star, ExternalLink } from 'lucide-react'
@@ -104,7 +105,7 @@ interface RepoCardProps {
 }
 
 export const RepoCard = ({ repo, index }: RepoCardProps) => (
-  <a
+  <Link
     href={repo.url}
     target="_blank"
     rel="noopener noreferrer"
@@ -130,5 +131,5 @@ export const RepoCard = ({ repo, index }: RepoCardProps) => (
         <ExternalLink className="w-4 h-4 text-muted-foreground group-hover/repo:text-primary transition-colors" />
       </div>
     </div>
-  </a>
+  </Link>
 )

@@ -6,7 +6,7 @@
 
 ```
 Error Type: Console AggregateError
-Error Message: Error at StreamingMetadataOutletImpl (<anonymous>:null:null)
+Error Message: Error at StreamingMetadataOutletImpl (<Linknonymous>:null:null)
 Next.js version: 15.5.3 (Webpack)
 ```
 

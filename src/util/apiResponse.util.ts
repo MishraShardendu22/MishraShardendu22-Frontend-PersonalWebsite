@@ -16,6 +16,7 @@ import {
   UpdateCertificationRequest,
   CreateVolunteerExperienceRequest,
   UpdateVolunteerExperienceRequest,
+  ProjectDetail,
 } from '../data/types.data'
 
 export const authAPI = {
@@ -38,6 +39,11 @@ export const skillsAPI = {
 }
 
 export const projectsAPI = {
+  getAllProjectsKanban: async (): Promise<ApiResponse<ProjectDetail[]>> => {
+    const response = await api.get('/projects/kanban')
+    return response.data
+  },
+
   getAllProjects: async (): Promise<ApiResponse<Project[]>> => {
     const response = await api.get('/projects')
     return response.data

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { ImageIcon, ExternalLink } from 'lucide-react'
 import { Experience, VolunteerExperience } from '@/data/types.data'
@@ -46,7 +47,7 @@ export function ExperienceMedia({ experience }: ExperienceMediaProps) {
                   />
                 </div>
                 <div className="mt-2">
-                  <a
+                  <Link
                     href={src}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -54,7 +55,7 @@ export function ExperienceMedia({ experience }: ExperienceMediaProps) {
                   >
                     <ExternalLink className="w-3 h-3" />
                     View Full Content
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

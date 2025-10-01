@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -64,7 +65,7 @@ export function ExperienceSidebar({
             </div>
 
             {experience.certificate_url && (
-              <a
+              <Link
                 href={experience.certificate_url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -78,7 +79,7 @@ export function ExperienceSidebar({
                   <Award className="w-4 h-4 mr-2" />
                   View Certificate
                 </Button>
-              </a>
+              </Link>
             )}
           </div>
         </CanvasCard>

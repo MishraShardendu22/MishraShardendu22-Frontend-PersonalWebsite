@@ -106,7 +106,7 @@ const EducationSection = () => {
               </div>
 
               {!isMobile && (
-                <a
+                <Link
                   href={educationData.CollegeWebsite}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -114,7 +114,7 @@ const EducationSection = () => {
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Visit</span>
-                </a>
+                </Link>
               )}
             </div>
 
@@ -155,7 +155,7 @@ const EducationSection = () => {
 
               {isMobile && (
                 <div className="pt-2">
-                  <a
+                  <Link
                     href={educationData.CollegeWebsite}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -163,7 +163,7 @@ const EducationSection = () => {
                   >
                     <ExternalLink className="w-4 h-4" />
                     <span>Visit Website</span>
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ExternalLink, ImageIcon, Play, Copy, Check } from 'lucide-react'
@@ -98,7 +99,7 @@ export const MediaSection: React.FC<MediaSectionProps> = ({ certification }) => 
                 </div>
 
                 <div className="flex justify-between items-center gap-2">
-                  <a
+                  <Link
                     href={src}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -112,7 +113,7 @@ export const MediaSection: React.FC<MediaSectionProps> = ({ certification }) => 
                       <ExternalLink className="w-3 h-3 mr-1" />
                       View Full
                     </Button>
-                  </a>
+                  </Link>
 
                   <Button
                     variant="outline"

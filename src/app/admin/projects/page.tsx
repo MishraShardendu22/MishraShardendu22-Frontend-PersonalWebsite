@@ -1,12 +1,11 @@
 'use client'
+
 import dynamic from 'next/dynamic'
 const TiptapModalEditor = dynamic(
   () =>
     import('../../../components/extra/TipTap').then((mod) => ({ default: mod.TiptapModalEditor })),
   { ssr: false }
 )
-
-import { useEffect, useState } from 'react'
 
 import {
   Card,
@@ -15,8 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../../../components/ui/card'
-import { Button } from '../../../components/ui/button'
-import { Badge } from '../../../components/ui/badge'
+
 import {
   Dialog,
   DialogContent,
@@ -25,29 +23,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../../../components/ui/dialog'
+
+import * as z from 'zod'
+import Link from 'next/link'
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
-import { Alert, AlertDescription } from '../../../components/ui/alert'
-import { projectsAPI } from '../../../util/apiResponse.util'
-import { Project, CreateProjectRequest } from '../../../data/types.data'
-import { Plus, Edit, Trash2, ExternalLink, Github, Play, Briefcase } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { Badge } from '../../../components/ui/badge'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
+import { Button } from '../../../components/ui/button'
 import { Checkbox } from '../../../components/ui/checkbox'
 import { skillsAPI } from '../../../util/apiResponse.util'
+import { projectsAPI } from '../../../util/apiResponse.util'
+import { Alert, AlertDescription } from '../../../components/ui/alert'
+import { Project, CreateProjectRequest } from '../../../data/types.data'
 import { Popover, PopoverTrigger, PopoverContent } from '../../../components/ui/popover'
 import { Tooltip, TooltipTrigger, TooltipContent } from '../../../components/ui/tooltip'
-import toast from 'react-hot-toast'
+import { Plus, Edit, Trash2, ExternalLink, Github, Play, Briefcase } from 'lucide-react'
 
 const projectSchema = z.object({
+  project_video: z.string().url('Must be a valid URL'),
+  project_live_link: z.string().url('Must be a valid URL'),
+  description: z.string().min(1, 'Description is required'),
+  project_repository: z.string().url('Must be a valid URL'),
   project_name: z.string().min(1, 'Project name is required'),
   small_description: z.string().min(1, 'Small description is required'),
-  description: z.string().min(1, 'Description is required'),
   skills: z.array(z.string()).min(1, 'At least one skill is required'),
-  project_repository: z.string().url('Must be a valid URL'),
-  project_live_link: z.string().url('Must be a valid URL'),
-  project_video: z.string().url('Must be a valid URL'),
 })
 
 type ProjectFormData = z.infer<typeof projectSchema>
@@ -416,34 +419,34 @@ export default function AdminProjectsPage() {
                   </div>
                   <div className="flex gap-2 mt-auto">
                     {project.project_repository && (
-                      <a
+                      <Link
                         href={project.project_repository}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-foreground hover:text-primary"
                       >
                         <Github className="h-5 w-5" />
-                      </a>
+                      </Link>
                     )}
                     {project.project_live_link && (
-                      <a
+                      <Link
                         href={project.project_live_link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary hover:text-accent"
                       >
                         <ExternalLink className="h-5 w-5" />
-                      </a>
+                      </Link>
                     )}
                     {project.project_video && (
-                      <a
+                      <Link
                         href={project.project_video}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-accent hover:text-primary"
                       >
                         <Play className="h-5 w-5" />
-                      </a>
+                      </Link>
                     )}
                   </div>
                   <div className="flex gap-2 mt-4">

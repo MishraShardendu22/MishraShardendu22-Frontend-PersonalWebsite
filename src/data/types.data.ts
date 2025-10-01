@@ -104,6 +104,7 @@ export interface Project {
     created_at: string
     updated_at: string
   }
+  order: number
   images: string[]
   stats?: any
   project_name: string
@@ -125,8 +126,6 @@ export interface CreateProjectRequest {
   project_live_link: string
   project_video: string
 }
-
-export type UpdateProjectRequest = CreateProjectRequest
 
 export interface ExperienceTimeLine {
   position: string
@@ -162,8 +161,6 @@ export interface CreateExperienceRequest {
   certificate_url: string
   experience_time_line: ExperienceTimeLine[]
 }
-
-export type UpdateExperienceRequest = CreateExperienceRequest
 
 export interface ExperienceListResponse {
   data: Experience[]
@@ -206,8 +203,6 @@ export interface CreateCertificationRequest {
   expiry_date: string
 }
 
-export type UpdateCertificationRequest = CreateCertificationRequest
-
 export interface VolunteerExperienceTimeLine {
   position: string
   start_date: string
@@ -241,8 +236,16 @@ export interface CreateVolunteerExperienceRequest {
   volunteer_time_line: VolunteerExperienceTimeLine[]
 }
 
-export type UpdateVolunteerExperienceRequest = CreateVolunteerExperienceRequest
+export interface ProjectDetail {
+  order: number
+  project_id: string
+  project_title: string
+}
 
 export type Achievement = Certification
+export type UpdateProjectRequest = CreateProjectRequest
+export type UpdateExperienceRequest = CreateExperienceRequest
 export type CreateAchievementRequest = CreateCertificationRequest
 export type UpdateAchievementRequest = UpdateCertificationRequest
+export type UpdateCertificationRequest = CreateCertificationRequest
+export type UpdateVolunteerExperienceRequest = CreateVolunteerExperienceRequest
