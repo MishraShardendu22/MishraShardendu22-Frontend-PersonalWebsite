@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { checkAllBackendsHealth } from '@/lib/health-check'
+import { checkAllBackendsHealth } from '@/lib/health-check-server'
 
 export async function GET(req: NextRequest) {
   try {

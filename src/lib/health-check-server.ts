@@ -1,5 +1,4 @@
-// Health check utilities for monitoring proxy routes and backend connectivity
-import { useState } from 'react'
+// Server-side health check utilities for monitoring proxy routes and backend connectivity
 
 interface HealthCheckResult {
   service: string
@@ -142,39 +141,6 @@ export const performHealthCheck = async (): Promise<HealthCheckResult[]> => {
   return results
 }
 
-// Client-side health monitoring hook
-export const useHealthCheck = () => {
-  const [health, setHealth] = useState<HealthCheckResult[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [lastCheck, setLastCheck] = useState<Date | null>(null)
-
-  const checkHealth = async () => {
-    setIsLoading(true)
-    try {
-      const results = await performHealthCheck()
-      setHealth(results)
-      setLastCheck(new Date())
-    } catch (error) {
-      console.error('Health check failed:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  return {
-    health,
-    isLoading,
-    lastCheck,
-    checkHealth,
-    overallHealth:
-      health.length > 0
-        ? health.every((h: HealthCheckResult) => h.status === 'healthy')
-          ? 'healthy'
-          : 'unhealthy'
-        : 'unknown',
-  }
-}
-
 // Utility to log performance metrics
 export const logPerformanceMetrics = (
   endpoint: string,
@@ -202,10 +168,4 @@ export const logPerformanceMetrics = (
   // sendToMonitoringService(metrics)
 }
 
-export default {
-  checkBackendHealth,
-  checkAllBackendsHealth,
-  performHealthCheck,
-  useHealthCheck,
-  logPerformanceMetrics,
-}
+export type { HealthCheckResult, BackendHealth }
