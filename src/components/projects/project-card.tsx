@@ -1,7 +1,7 @@
 import Link from 'next/link'
+import { ProjectCardProps } from '@/services'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ProjectCardProps } from '@/data/static_link'
 import { Github, ExternalLink, Play, Code2, Sparkles } from 'lucide-react'
 
 export default function ProjectCards({
