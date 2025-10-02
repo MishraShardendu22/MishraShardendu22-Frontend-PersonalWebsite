@@ -50,16 +50,35 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch('/api/admin/profile')
-        if (!res.ok) throw new Error('Failed to load profile')
+        const token = localStorage.getItem('jwt_token')
+        if (!token) {
+          setError('No authentication token')
+          return
+        }
+
+        const res = await fetch('/api/proxy/admin/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+
+        if (!res.ok) {
+          throw new Error(`Failed to load profile: ${res.status} ${res.statusText}`)
+        }
+
         const data = await res.json()
         setProfile(data)
-      } catch {
+      } catch (error) {
+        console.error('Profile fetch error:', error)
         setError('Failed to load profile')
       }
     }
-    fetchProfile()
-  }, [])
+
+    if (isAuthenticated) {
+      fetchProfile()
+    }
+  }, [isAuthenticated])
 
   const isActive = (href: string) => pathname === href
 

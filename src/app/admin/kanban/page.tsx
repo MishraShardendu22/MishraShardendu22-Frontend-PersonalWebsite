@@ -137,16 +137,31 @@ const KanbanPage = () => {
     } catch (error: any) {
       console.error('Error updating order:', error)
 
-      // More specific error messages
-      if (error.code === 'ECONNABORTED') {
-        setError('Request timed out. Try updating fewer items at once.')
+      // Enhanced error handling with specific messages
+      let errorMessage = 'Failed to save changes. Please try again.'
+
+      if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
+        errorMessage = 'Connection error. Check your internet connection and try again.'
       } else if (error.response?.status === 408) {
-        setError('The update is taking longer than expected. Please try again.')
+        errorMessage =
+          'Request timed out. The update is taking longer than expected. Please try with fewer items or try again later.'
+      } else if (error.response?.status === 502) {
+        errorMessage = 'Backend service is temporarily unavailable. Please try again in a moment.'
+      } else if (error.response?.status === 503) {
+        errorMessage = 'Backend service is currently down. Please try again later.'
       } else if (error.response?.status >= 500) {
-        setError('Server error. Please try again later.')
-      } else {
-        setError('Failed to save changes. Please try again.')
+        errorMessage = 'Server error. Our team has been notified. Please try again later.'
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Authentication expired. Please log in again.'
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Permission denied. You may not have access to this operation.'
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}`
       }
+
+      setError(errorMessage)
     } finally {
       setSaving(false)
     }
