@@ -16,7 +16,6 @@ import CharacterCount from '@tiptap/extension-character-count'
 import Placeholder from '@tiptap/extension-placeholder'
 import { common, createLowlight } from 'lowlight'
 import { Markdown } from 'tiptap-markdown'
-import 'highlight.js/styles/github.css'
 import { Button } from '../ui/button'
 import {
   Bold,
