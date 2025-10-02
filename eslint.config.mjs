@@ -1,13 +1,12 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
 import { FlatCompat } from '@eslint/eslintrc'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __dirname = path.dirname(__filename)
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  resolvePluginsRelativeTo: __dirname,
 })
 
 const eslintConfig = [
@@ -26,15 +25,8 @@ const eslintConfig = [
       'coverage/**',
     ],
   },
-  {
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-    },
-  },
-  ...compat.extends('next/core-web-vitals'),
-  ...compat.extends('next/typescript'),
-  {
+  ...compat.config({
+    extends: ['next/core-web-vitals', 'next/typescript'],
     rules: {
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
@@ -44,14 +36,9 @@ const eslintConfig = [
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
-    },
-  },
-  {
-    files: ['next-env.d.ts'],
-    rules: {
       '@typescript-eslint/triple-slash-reference': 'off',
     },
-  },
+  }),
 ]
 
 export default eslintConfig
