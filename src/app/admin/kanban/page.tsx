@@ -101,16 +101,15 @@ const KanbanPage = () => {
         setLoading(true)
         const projectsRes = await projectsAPI.getAllProjectsKanban()
         const projects = Array.isArray(projectsRes.data) ? projectsRes.data : []
-        setAllProjects(projects)
-
+        const sortedProjects = projects.sort((a, b) => (a.order || 0) - (b.order || 0))
+        setAllProjects(sortedProjects)
         const orderMap = new Map<string, number>()
-        projects.forEach((project, index) => {
-          orderMap.set(project.project_id, index)
+        sortedProjects.forEach((project) => {
+          orderMap.set(project.project_id, project.order || 0)
         })
         setOriginalOrder(orderMap)
         setError('')
       } catch (error) {
-        console.error('Error fetching projects:', error)
         setError('Failed to load projects. Please try again later.')
       } finally {
         setLoading(false)
@@ -129,9 +128,19 @@ const KanbanPage = () => {
         order: item.newOrder,
       }))
 
-      console.log(`Updating order for ${updateData.length} projects...`)
+      console.log(`Updating order for ${updateData.length} projects...`, updateData)
       await projectsAPI.updateOrder(updateData)
       console.log('Order update successful')
+
+      // Update the original order map with new values
+      const newOrderMap = new Map(originalOrder)
+      changedItems.forEach((item) => {
+        newOrderMap.set(item.id, item.newOrder)
+      })
+      setOriginalOrder(newOrderMap)
+
+      // Clear changed items since they've been saved
+      setChangedItems([])
 
       router.refresh()
     } catch (error: any) {
@@ -178,15 +187,22 @@ const KanbanPage = () => {
 
       const newItems = arrayMove(items, oldIndex, newIndex)
 
+      // Update the order field for each project and track changes
+      const updatedItems = newItems.map((item, index) => ({
+        ...item,
+        order: index + 1, // Start from 1 instead of 0
+      }))
+
+      // Calculate what actually changed compared to original order
       const changes: Array<{ id: string; title: string; oldOrder: number; newOrder: number }> = []
-      newItems.forEach((item, newIdx) => {
-        const originalIdx = originalOrder.get(item.project_id)
-        if (originalIdx !== undefined && originalIdx !== newIdx) {
+      updatedItems.forEach((item) => {
+        const originalOrderValue = originalOrder.get(item.project_id)
+        if (originalOrderValue !== undefined && originalOrderValue !== item.order) {
           changes.push({
             id: item.project_id,
             title: item.project_title,
-            oldOrder: originalIdx,
-            newOrder: newIdx,
+            oldOrder: originalOrderValue,
+            newOrder: item.order,
           })
         }
       })
@@ -194,7 +210,7 @@ const KanbanPage = () => {
       setChangedItems(changes)
       console.log('Changed items:', changes)
 
-      return newItems
+      return updatedItems
     })
   }
 
