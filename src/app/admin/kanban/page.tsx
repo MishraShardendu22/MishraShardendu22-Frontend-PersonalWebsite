@@ -1,24 +1,113 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { ProjectDetail } from '@/data/types.data'
 import { projectsAPI } from '@/util/apiResponse.util'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { FolderKanban, Loader2, AlertCircle } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { FolderKanban, Loader2, AlertCircle, GripVertical, Save } from 'lucide-react'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
+interface SortableCardProps {
+  project: ProjectDetail
+}
+
+const SortableCard = ({ project }: SortableCardProps) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: project.project_id,
+  })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <Card
+      ref={setNodeRef}
+      style={style}
+      className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl"
+    >
+      <CardHeader className="bg-gradient-to-r from-secondary/10 to-card pb-4">
+        <div className="flex items-start justify-between gap-2">
+          <div
+            {...attributes}
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing p-1 hover:bg-secondary/20 rounded"
+          >
+            <GripVertical className="h-5 w-5 text-secondary" />
+          </div>
+          <CardTitle className="text-xl font-semibold text-secondary line-clamp-2 flex-1">
+            {project.project_title}
+          </CardTitle>
+          <Badge
+            variant="outline"
+            className="shrink-0 bg-secondary/10 text-secondary border-secondary/20"
+          >
+            #{project.order}
+          </Badge>
+        </div>
+      </CardHeader>
+    </Card>
+  )
+}
 
 const KanbanPage = () => {
+  const router = useRouter()
   const [allprojects, setAllProjects] = useState<ProjectDetail[]>([])
+  const [originalOrder, setOriginalOrder] = useState<Map<string, number>>(new Map())
+  const [changedItems, setChangedItems] = useState<
+    Array<{
+      id: string
+      title: string
+      oldOrder: number
+      newOrder: number
+    }>
+  >([])
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true)
         const projectsRes = await projectsAPI.getAllProjectsKanban()
-        setAllProjects(Array.isArray(projectsRes.data) ? projectsRes.data : [])
+        const projects = Array.isArray(projectsRes.data) ? projectsRes.data : []
+        setAllProjects(projects)
+
+        const orderMap = new Map<string, number>()
+        projects.forEach((project, index) => {
+          orderMap.set(project.project_id, index)
+        })
+        setOriginalOrder(orderMap)
         setError('')
       } catch (error) {
         console.error('Error fetching projects:', error)
@@ -29,6 +118,70 @@ const KanbanPage = () => {
     }
     fetchProjects()
   }, [])
+
+  const handleSave = async () => {
+    if (changedItems.length === 0) return
+
+    try {
+      setSaving(true)
+      const updateData = changedItems.map((item) => ({
+        project_id: item.id,
+        order: item.newOrder,
+      }))
+
+      console.log(`Updating order for ${updateData.length} projects...`)
+      await projectsAPI.updateOrder(updateData)
+      console.log('Order update successful')
+
+      router.refresh()
+    } catch (error: any) {
+      console.error('Error updating order:', error)
+
+      // More specific error messages
+      if (error.code === 'ECONNABORTED') {
+        setError('Request timed out. Try updating fewer items at once.')
+      } else if (error.response?.status === 408) {
+        setError('The update is taking longer than expected. Please try again.')
+      } else if (error.response?.status >= 500) {
+        setError('Server error. Please try again later.')
+      } else {
+        setError('Failed to save changes. Please try again.')
+      }
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!over || active.id === over.id) return
+
+    setAllProjects((items) => {
+      const oldIndex = items.findIndex((item) => item.project_id === active.id)
+      const newIndex = items.findIndex((item) => item.project_id === over.id)
+
+      const newItems = arrayMove(items, oldIndex, newIndex)
+
+      const changes: Array<{ id: string; title: string; oldOrder: number; newOrder: number }> = []
+      newItems.forEach((item, newIdx) => {
+        const originalIdx = originalOrder.get(item.project_id)
+        if (originalIdx !== undefined && originalIdx !== newIdx) {
+          changes.push({
+            id: item.project_id,
+            title: item.project_title,
+            oldOrder: originalIdx,
+            newOrder: newIdx,
+          })
+        }
+      })
+
+      setChangedItems(changes)
+      console.log('Changed items:', changes)
+
+      return newItems
+    })
+  }
 
   if (loading) {
     return (
@@ -67,17 +220,27 @@ const KanbanPage = () => {
         <p className="text-base text-foreground">Organize and manage your project workflow</p>
       </div>
 
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 pb-4 border-b border-border">
-        <div>
-          <h2 className="text-3xl font-bold text-secondary mb-1">Project Overview</h2>
-          <p className="text-foreground">
-            Total Projects:{' '}
-            <Badge variant="secondary" className="ml-2">
-              {allprojects.length}
-            </Badge>
-          </p>
+      {changedItems.length > 0 && (
+        <div className="flex justify-center">
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-secondary hover:bg-secondary/90 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+          >
+            {saving ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Save Changes ({changedItems.length})
+              </>
+            )}
+          </Button>
         </div>
-      </div>
+      )}
 
       {allprojects.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 animate-fade-in">
@@ -88,28 +251,91 @@ const KanbanPage = () => {
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 animate-fade-in">
-          {allprojects.map((project) => (
-            <Card
-              key={project.project_id}
-              className="group relative overflow-hidden border-2 border-border/50 hover:border-secondary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-secondary/10 hover:-translate-y-2 bg-gradient-to-br from-card/50 to-card backdrop-blur-sm rounded-2xl"
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsTrigger value="all">All Projects ({allprojects.length})</TabsTrigger>
+            <TabsTrigger value="changed">Changed ({changedItems.length})</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="all" className="mt-6">
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
             >
-              <CardHeader className="bg-gradient-to-r from-secondary/10 to-card pb-4">
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-xl font-semibold text-secondary line-clamp-2">
-                    {project.project_title}
-                  </CardTitle>
-                  <Badge
-                    variant="outline"
-                    className="shrink-0 bg-secondary/10 text-secondary border-secondary/20"
-                  >
-                    #{project.order}
-                  </Badge>
+              <SortableContext
+                items={allprojects.map((p) => p.project_id)}
+                strategy={rectSortingStrategy}
+              >
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 animate-fade-in">
+                  {allprojects.map((project) => (
+                    <SortableCard key={project.project_id} project={project} />
+                  ))}
                 </div>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
+              </SortableContext>
+            </DndContext>
+          </TabsContent>
+
+          <TabsContent value="changed" className="mt-6">
+            {changedItems.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 animate-fade-in">
+                <AlertCircle className="mx-auto h-16 w-16 text-foreground mb-4" />
+                <h3 className="text-2xl font-semibold text-foreground mb-2">No changes yet</h3>
+                <p className="text-lg text-foreground">Drag and drop projects to reorder them</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto rounded-lg border border-border">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-secondary/10 border-b border-border">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-secondary">
+                        Project ID
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-secondary">
+                        Title
+                      </th>
+                      <th className="px-6 py-4 text-center text-sm font-semibold text-secondary">
+                        Old Order
+                      </th>
+                      <th className="px-6 py-4 text-center text-sm font-semibold text-secondary">
+                        New Order
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {changedItems.map((item, index) => (
+                      <tr
+                        key={item.id}
+                        className={`border-b border-border hover:bg-secondary/5 transition-colors ${
+                          index % 2 === 0 ? 'bg-card/50' : 'bg-card'
+                        }`}
+                      >
+                        <td className="px-6 py-4 text-sm text-foreground font-mono">{item.id}</td>
+                        <td className="px-6 py-4 text-sm text-foreground">{item.title}</td>
+                        <td className="px-6 py-4 text-center">
+                          <Badge
+                            variant="outline"
+                            className="bg-destructive/10 text-destructive border-destructive/20"
+                          >
+                            #{item.oldOrder}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <Badge
+                            variant="outline"
+                            className="bg-secondary/10 text-secondary border-secondary/20"
+                          >
+                            #{item.newOrder}
+                          </Badge>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
       )}
     </div>
   )

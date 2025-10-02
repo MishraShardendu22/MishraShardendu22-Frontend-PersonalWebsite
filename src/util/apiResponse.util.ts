@@ -3,20 +3,21 @@ import {
   Project,
   Experience,
   ApiResponse,
-  AuthRequest,
   Certification,
+  UpdateProjectRequest,
+  CreateProjectRequest,
+  UpdateExperienceRequest,
+  CreateExperienceRequest,
+  UpdateCertificationRequest,
+  CreateCertificationRequest,
+  UpdateVolunteerExperienceRequest,
+  CreateVolunteerExperienceRequest,
   SkillsRequest,
   SkillsResponse,
-  VolunteerExperience,
-  CreateProjectRequest,
-  UpdateProjectRequest,
-  CreateExperienceRequest,
-  UpdateExperienceRequest,
-  CreateCertificationRequest,
-  UpdateCertificationRequest,
-  CreateVolunteerExperienceRequest,
-  UpdateVolunteerExperienceRequest,
   ProjectDetail,
+  ProjectDetailKanban,
+  VolunteerExperience,
+  AuthRequest,
 } from '../data/types.data'
 
 export const authAPI = {
@@ -42,6 +43,32 @@ export const projectsAPI = {
   getAllProjectsKanban: async (): Promise<ApiResponse<ProjectDetail[]>> => {
     const response = await api.get('/projects/kanban')
     return response.data
+  },
+
+  updateOrder: async (
+    details: ProjectDetailKanban[]
+  ): Promise<ApiResponse<ProjectDetailKanban[]>> => {
+    // For very large updates (>50 items), consider batch processing
+    if (details.length > 50) {
+      console.warn(`Large update detected: ${details.length} items. This may take longer.`)
+    }
+
+    try {
+      // Use extended timeout for bulk operations
+      const response = await api.post('/projects/updateOrder', details, {
+        timeout: 30000, // 30 seconds for bulk updates
+      })
+      return response.data
+    } catch (error: any) {
+      // If timeout occurs with large batches, suggest batch processing
+      if (error.code === 'ECONNABORTED' && details.length > 20) {
+        console.warn('Large batch update timed out, consider implementing batch processing')
+        throw new Error(
+          `Update timed out. Try updating fewer items at once (current: ${details.length} items).`
+        )
+      }
+      throw error
+    }
   },
 
   getAllProjects: async (): Promise<ApiResponse<Project[]>> => {

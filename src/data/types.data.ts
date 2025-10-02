@@ -242,6 +242,11 @@ export interface ProjectDetail {
   project_title: string
 }
 
+export interface ProjectDetailKanban {
+  order: number
+  project_id: string
+}
+
 export type Achievement = Certification
 export type UpdateProjectRequest = CreateProjectRequest
 export type UpdateExperienceRequest = CreateExperienceRequest
