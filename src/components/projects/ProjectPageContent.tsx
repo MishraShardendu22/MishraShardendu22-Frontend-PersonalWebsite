@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Sparkles } from 'lucide-react'
+import { ArrowLeft, Dribbble } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Project } from '@/data/types.data'
@@ -110,7 +110,7 @@ export default function ProjectPageContent() {
 
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-primary" />
+                  <Dribbble className="w-5 h-5 text-primary" />
                   <h1 className="text-2xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent whitespace-nowrap">
                     Projects
                   </h1>

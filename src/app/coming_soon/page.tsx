@@ -1,4 +1,4 @@
-import { Clock, Rocket, Sparkles, Users } from 'lucide-react'
+import { Clock, Rocket, Dribbble, Users } from 'lucide-react'
 
 const page = () => {
   return (
@@ -17,7 +17,7 @@ const page = () => {
         </div>
 
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-full mb-8">
-          <Sparkles className="w-4 h-4 text-violet-400" />
+          <Dribbble className="w-4 h-4 text-violet-400" />
           <span className="text-violet-300 text-sm font-medium">Under Construction</span>
         </div>
 
@@ -61,7 +61,7 @@ const page = () => {
 
           <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:border-fuchsia-500/50 transition-colors">
             <div className="bg-fuchsia-500/10 w-14 h-14 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Sparkles className="w-7 h-7 text-fuchsia-400" />
+              <Dribbble className="w-7 h-7 text-fuchsia-400" />
             </div>
             <h3 className="text-white font-semibold text-lg mb-2">Features</h3>
             <p className="text-slate-400 text-sm leading-relaxed">Packed with exciting new tools</p>

@@ -17,7 +17,7 @@ import {
   Plus,
   X,
   BookOpen,
-  Sparkles,
+  Dribbble,
   CheckCircle,
   AlertCircle,
 } from 'lucide-react'
@@ -167,7 +167,7 @@ const CreateBlogPage = () => {
               onClick={() => authClient.signIn.social({ provider: 'google' })}
               className="w-full h-10"
             >
-              <Sparkles className="w-4 h-4 mr-2" />
+              <Dribbble className="w-4 h-4 mr-2" />
               Login with Google
             </Button>
             <Button variant="outline" onClick={() => router.push('/blog')} className="w-full h-10">
@@ -243,7 +243,7 @@ const CreateBlogPage = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
                   <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-primary" />
+                    <Dribbble className="w-3 h-3 text-primary" />
                   </div>
                   Post Title
                 </CardTitle>
@@ -382,7 +382,7 @@ const CreateBlogPage = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
                   <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-primary" />
+                    <Dribbble className="w-3 h-3 text-primary" />
                   </div>
                   Publishing Tips
                 </CardTitle>

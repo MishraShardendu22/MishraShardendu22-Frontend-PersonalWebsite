@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, JSX } from 'react'
-import { Code, Coffee, Zap, Star, Sparkles, Rocket, Heart } from 'lucide-react'
+import { Code, Coffee, Zap, Star, Dribbble, Rocket, Heart } from 'lucide-react'
 
 const Loader = () => {
   const [currentMessage, setCurrentMessage] = useState(0)
@@ -18,7 +18,7 @@ const Loader = () => {
     'Assembling digital masterpiece...',
   ]
 
-  const icons = [Code, Coffee, Zap, Star, Sparkles, Rocket, Heart]
+  const icons = [Code, Coffee, Zap, Star, Dribbble, Rocket, Heart]
 
   useEffect(() => {
     const messageInterval = setInterval(() => {

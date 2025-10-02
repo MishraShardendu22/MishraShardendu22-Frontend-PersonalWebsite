@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ProjectCardProps } from '@/services'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Github, ExternalLink, Play, Code2, Sparkles } from 'lucide-react'
+import { Github, ExternalLink, Play, Code2, Dribbble } from 'lucide-react'
 
 export default function ProjectCards({
   title,
@@ -24,7 +24,7 @@ export default function ProjectCards({
               <h4 className="text-xl font-heading font-bold text-foreground group-hover:text-primary transition-colors duration-300 leading-tight">
                 {title}
               </h4>
-              <Sparkles className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors duration-300" />
+              <Dribbble className="w-4 h-4 text-primary/60 group-hover:text-primary transition-colors duration-300" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 group-hover:text-foreground/80 transition-colors duration-300">
               {description}

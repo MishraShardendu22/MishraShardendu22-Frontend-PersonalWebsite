@@ -1,6 +1,6 @@
 import { NavLink } from './nav'
 import { cn } from '@/lib/utils'
-import { Sparkles } from 'lucide-react'
+import { Dribbble } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { navItems } from '@/data/static_link'
 
@@ -29,7 +29,7 @@ export function DesktopSidebar({ activeSection }: { activeSection: string }) {
           <div className="flex items-center gap-3">
             <div className="relative group">
               <div className="w-10 h-10 bg-gradient-to-br from-sidebar-primary to-sidebar-accent rounded-xl flex items-center justify-center shadow-lg shadow-sidebar-primary/25 transition-all duration-300 hover:scale-105">
-                <Sparkles className="h-5 w-5 text-sidebar-primary-foreground" />
+                <Dribbble className="h-5 w-5 text-sidebar-primary-foreground" />
               </div>
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full border-2 border-sidebar animate-pulse" />
             </div>

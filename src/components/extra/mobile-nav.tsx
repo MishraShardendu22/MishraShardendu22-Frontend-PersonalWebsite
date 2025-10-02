@@ -2,7 +2,7 @@ import { NavLink } from './nav'
 import { cn } from '@/lib/utils'
 import { useState, useEffect } from 'react'
 import { navItems } from '@/data/static_link'
-import { Menu, Sparkles, X } from 'lucide-react'
+import { Menu, Dribbble, X } from 'lucide-react'
 
 export function MobileNavigation({ activeSection }: { activeSection: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -71,7 +71,7 @@ export function MobileNavigation({ activeSection }: { activeSection: string }) {
           <div className="flex items-center gap-3">
             <div className="relative group">
               <div className="w-12 h-12 bg-gradient-to-br from-sidebar-primary to-sidebar-accent rounded-xl flex items-center justify-center shadow-lg shadow-sidebar-primary/25">
-                <Sparkles className="h-6 w-6 text-sidebar-primary-foreground" />
+                <Dribbble className="h-6 w-6 text-sidebar-primary-foreground" />
               </div>
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-secondary rounded-full border-2 border-sidebar animate-pulse" />
             </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
+import { Dribbble } from 'lucide-react'
 import CanvasRevealEffect from './CanvasRevealEffect'
 
 interface CanvasCardProps {
@@ -34,10 +34,10 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
       className="border border-border/50 group/canvas-card w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-500"
     >
       <div className="absolute h-4 w-4 -top-2 -left-2 text-primary opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
-        <Sparkles className="h-full w-full" />
+        <Dribbble className="h-full w-full" />
       </div>
       <div className="absolute h-4 w-4 -bottom-2 -right-2 text-primary opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
-        <Sparkles className="h-full w-full" />
+        <Dribbble className="h-full w-full" />
       </div>
 
       <AnimatePresence>

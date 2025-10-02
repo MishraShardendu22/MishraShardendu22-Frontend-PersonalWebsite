@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { Sparkles } from 'lucide-react'
+import { Dribbble } from 'lucide-react'
 import { AnimatePresence } from 'framer-motion'
 import { CanvasRevealEffect } from '../ui/canvas-reveal-effect'
 
@@ -29,10 +29,10 @@ export const CanvasCard = ({
       className="border border-border/50 group/canvas-card flex flex-col justify-between dark:border-white/[0.2] w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300"
     >
       <div className="absolute h-4 w-4 -top-2 -left-2 dark:text-white text-primary opacity-30">
-        <Sparkles className="h-full w-full" />
+        <Dribbble className="h-full w-full" />
       </div>
       <div className="absolute h-4 w-4 -bottom-2 -right-2 dark:text-white text-primary opacity-30">
-        <Sparkles className="h-full w-full" />
+        <Dribbble className="h-full w-full" />
       </div>
 
       <AnimatePresence>

@@ -17,7 +17,7 @@ import {
   Plus,
   X,
   BookOpen,
-  Sparkles,
+  Dribbble,
   AlertCircle,
 } from 'lucide-react'
 import { blogsService } from '@/services/blogs'
@@ -224,7 +224,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading">
                   <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-primary" />
+                    <Dribbble className="w-3 h-3 text-primary" />
                   </div>
                   Post Title
                 </CardTitle>
@@ -391,7 +391,7 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center space-x-2 text-base font-heading">
                   <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-primary" />
+                    <Dribbble className="w-3 h-3 text-primary" />
                   </div>
                   Editing Tips
                 </CardTitle>

@@ -8,7 +8,7 @@ import {
   Check,
   ScrollText,
   ArrowDown,
-  Sparkles,
+  Dribbble,
   Code2,
   Rocket,
   Star,
