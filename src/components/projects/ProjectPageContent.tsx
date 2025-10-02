@@ -53,7 +53,10 @@ export default function ProjectPageContent() {
     const fetchProjects = async () => {
       try {
         const response = await projectsAPI.getAllProjects()
-        setProjects(Array.isArray(response.data) ? response.data : [])
+        const projectsData = Array.isArray(response.data) ? response.data : []
+        // Sort projects by order (largest first)
+        const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
+        setProjects(sortedProjects)
       } catch (err) {
         setError('Failed to load projects')
       } finally {

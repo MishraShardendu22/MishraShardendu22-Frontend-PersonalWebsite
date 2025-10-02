@@ -22,7 +22,10 @@ export const LazyProjectsSection = () => {
     setLoading(true)
     try {
       const projectsRes = await projectsAPI.getAllProjects()
-      setProjects(Array.isArray(projectsRes.data) ? projectsRes.data : [])
+      const projectsData = Array.isArray(projectsRes.data) ? projectsRes.data : []
+      // Sort projects by order (largest first)
+      const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
+      setProjects(sortedProjects)
       setLoaded(true)
       toast.success('Projects loaded!')
     } catch (err) {

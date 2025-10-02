@@ -84,7 +84,10 @@ export default function AdminProjectsPage() {
   const fetchProjects = async () => {
     try {
       const response = await projectsAPI.getAllProjects()
-      setProjects(Array.isArray(response.data) ? response.data : [])
+      const projectsData = Array.isArray(response.data) ? response.data : []
+      // Sort projects by order (largest first)
+      const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
+      setProjects(sortedProjects)
     } catch {
       setError('Failed to fetch projects')
       setProjects([])

@@ -31,7 +31,10 @@ export default function AdminDashboardPage() {
           await skillsAPI.getSkills(),
           certificationsAPI.getAllCertifications(),
         ])
-        setProjects(Array.isArray(projectsRes.data) ? projectsRes.data : [])
+        const projectsData = Array.isArray(projectsRes.data) ? projectsRes.data : []
+        // Sort projects by order (largest first)
+        const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
+        setProjects(sortedProjects)
         setExperiences(Array.isArray(experiencesRes.data) ? experiencesRes.data : [])
         setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : [])
         setCertifications(Array.isArray(certificationsRes.data) ? certificationsRes.data : [])
