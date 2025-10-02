@@ -13,15 +13,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Increase timeouts for API routes
   experimental: {
-    // Increase the timeout for serverless functions
-    proxyTimeout: 120000, // 2 minutes
+    proxyTimeout: 120000,
   },
-  // Configure HTTP server settings
   serverRuntimeConfig: {
-    // Increase timeout for server requests
-    maxDuration: 120, // 2 minutes
+    maxDuration: 120,
   },
 }
 

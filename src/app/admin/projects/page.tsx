@@ -85,7 +85,6 @@ export default function AdminProjectsPage() {
     try {
       const response = await projectsAPI.getAllProjects()
       const projectsData = Array.isArray(response.data) ? response.data : []
-      // Sort projects by order (largest first)
       const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
       setProjects(sortedProjects)
     } catch {

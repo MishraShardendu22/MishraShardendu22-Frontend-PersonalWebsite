@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     req,
     (pathname) => pathname.replace('/api/proxy/projects/updateOrder', '/api/projects/updateOrder'),
     {
-      timeout: 90000, // Extended timeout for bulk updates (90 seconds)
+      timeout: 90000,
       customHeaders: {
         'Content-Type': 'application/json',
       },

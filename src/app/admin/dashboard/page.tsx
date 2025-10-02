@@ -32,7 +32,6 @@ export default function AdminDashboardPage() {
           certificationsAPI.getAllCertifications(),
         ])
         const projectsData = Array.isArray(projectsRes.data) ? projectsRes.data : []
-        // Sort projects by order (largest first)
         const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
         setProjects(sortedProjects)
         setExperiences(Array.isArray(experiencesRes.data) ? experiencesRes.data : [])

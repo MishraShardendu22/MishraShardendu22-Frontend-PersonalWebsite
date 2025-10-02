@@ -54,7 +54,6 @@ export default function ProjectPageContent() {
       try {
         const response = await projectsAPI.getAllProjects()
         const projectsData = Array.isArray(response.data) ? response.data : []
-        // Sort projects by order (largest first)
         const sortedProjects = projectsData.sort((a, b) => a.order - b.order)
         setProjects(sortedProjects)
       } catch (err) {

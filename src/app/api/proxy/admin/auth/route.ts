@@ -4,7 +4,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
 
-    // Get backend targets
     const targets = [process.env.BACKEND_1, process.env.BACKEND_2, process.env.BACKEND_3].filter(
       Boolean
     ) as string[]

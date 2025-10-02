@@ -5,6 +5,53 @@ export interface ApiResponse<T = any> {
   message?: string
 }
 
+export interface ProjectHeaderProps {
+  totalProjects: number
+  totalPages: number
+  currentPage: number
+}
+
+export interface ProjectFiltersProps {
+  selectedSkill: string
+  setSelectedSkill: (skill: string) => void
+  searchTerm: string
+  onSearchChange: (value: string) => void
+  allSkills: string[]
+}
+
+export interface ProjectCardProps {
+  title: string
+  description: string
+  link: string
+  skills?: string[]
+  repository?: string
+  liveLink?: string
+  video?: string
+  isHovered: boolean
+}
+
+export interface ProjectGridProps {
+  items: {
+    title: string
+    description: string
+    link: string
+    skills?: string[]
+    repository?: string
+    liveLink?: string
+    video?: string
+  }[]
+  className?: string
+}
+
+export interface ProjectPaginationProps {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+  startIndex: number
+  endIndex: number
+  totalItems: number
+}
+
 export interface User {
   id: string
   email: string

@@ -17,7 +17,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [windowWidth, setWindowWidth] = useState(0)
 
-  // Sort projects by order (largest first) to show newest first
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.order - b.order), [projects])
 
   useEffect(() => {

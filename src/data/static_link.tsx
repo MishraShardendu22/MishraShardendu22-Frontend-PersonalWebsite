@@ -1,25 +1,27 @@
-export const XProfile = 'https://x.com/mishrashardendu'
+export const XProfile = 'https://x.com/Shardendu_M'
 export const GitHubProject = 'https://github.com/MishraShardendu22'
-export const GitHubLearning = 'https://github.com/MishraShardendu22/Learning'
-export const GitHubOrganistaion = 'https://github.com/MishraShardendu22'
-export const LeetCodeProfile = 'https://leetcode.com/u/MishraShardendu22/'
-export const YouTubeChannel = 'https://www.youtube.com/@mishrashardendu22'
-export const CodeChefProfile = 'https://www.codechef.com/users/mishrashardendu'
-export const LinkedInProfile = 'https://www.linkedin.com/in/mishrashardendu22/'
-export const CodeforcesProfile = 'https://codeforces.com/profile/mishrashardendu22'
-export const resumeLink = 'https://drive.google.com/file/d/1_your_resume_id/view?usp=sharing'
+export const GitHubLearning = 'https://github.com/ShardenduMishra22'
+export const GitHubOrganistaion = 'https://github.com/Team-Parashuram'
+export const LeetCodeProfile = 'https://leetcode.com/u/ShardenduMishra22'
+export const YouTubeChannel = 'https://www.youtube.com/@Shardendu_Mishra'
+export const LinkedInProfile = 'https://www.linkedin.com/in/shardendumishra22'
+export const resumeLink =
+  'https://drive.google.com/file/d/1F-ORaZyX8iMmBFhX2i-rtn21rdDMnsew/view?usp=sharing'
+
+export const CodeChefProfile = process.env.NEXT_PUBLIC_BASE_URL + '/coming_soon'
+export const CodeforcesProfile = process.env.NEXT_PUBLIC_BASE_URL + '/coming_soon'
 
 import {
   Home,
-  GraduationCap,
   Code,
-  Briefcase,
-  Award,
   Mail,
   User,
-  Glasses,
   Heart,
+  Award,
   Clock,
+  Glasses,
+  Briefcase,
+  GraduationCap,
 } from 'lucide-react'
 
 export const navItems = [
@@ -34,53 +36,6 @@ export const navItems = [
   { href: '#contact', label: 'Contact', icon: Mail },
   { href: '/blog', label: 'Blog', icon: Glasses },
 ]
-
-export interface ProjectHeaderProps {
-  totalProjects: number
-  totalPages: number
-  currentPage: number
-}
-
-export interface ProjectFiltersProps {
-  selectedSkill: string
-  setSelectedSkill: (skill: string) => void
-  searchTerm: string
-  onSearchChange: (value: string) => void
-  allSkills: string[]
-}
-
-export interface ProjectCardProps {
-  title: string
-  description: string
-  link: string
-  skills?: string[]
-  repository?: string
-  liveLink?: string
-  video?: string
-  isHovered: boolean
-}
-
-export interface ProjectGridProps {
-  items: {
-    title: string
-    description: string
-    link: string
-    skills?: string[]
-    repository?: string
-    liveLink?: string
-    video?: string
-  }[]
-  className?: string
-}
-
-export interface ProjectPaginationProps {
-  currentPage: number
-  totalPages: number
-  onPageChange: (page: number) => void
-  startIndex: number
-  endIndex: number
-  totalItems: number
-}
 
 export const GoLangIcon = ({ className = 'h-16 w-16 text-blue-500 m-2' }) => (
   <svg

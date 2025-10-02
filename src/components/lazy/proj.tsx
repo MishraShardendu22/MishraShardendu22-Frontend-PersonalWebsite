@@ -23,7 +23,6 @@ export const LazyProjectsSection = () => {
     try {
       const projectsRes = await projectsAPI.getAllProjects()
       const projectsData = Array.isArray(projectsRes.data) ? projectsRes.data : []
-      // Sort projects by order (largest first)
       const sortedProjects = projectsData.sort((a, b) => b.order - a.order)
       setProjects(sortedProjects)
       setLoaded(true)
