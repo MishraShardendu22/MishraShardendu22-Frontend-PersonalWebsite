@@ -17,6 +17,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [windowWidth, setWindowWidth] = useState(0)
 
+  // Reverse the projects array to show newest first
+  const reversedProjects = useMemo(() => [...projects].reverse(), [projects])
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
     handleResize()
@@ -26,7 +29,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   }, [])
 
   const heroParallaxProjects = useMemo(() => {
-    return projects.slice(0, 15).map((project) => ({
+    return reversedProjects.slice(0, 15).map((project) => ({
       inline: project.inline,
       project_name: project.project_name,
       small_description: project.small_description,
@@ -34,7 +37,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       project_live_link: project.project_live_link,
       project_repository: project.project_repository,
     }))
-  }, [projects])
+  }, [reversedProjects])
 
   const getProjectsPerPage = () => {
     if (windowWidth < 640) return 1
@@ -43,15 +46,15 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   }
 
   const projectsPerPage = getProjectsPerPage()
-  const totalPages = Math.ceil(projects.length / projectsPerPage)
+  const totalPages = Math.ceil(reversedProjects.length / projectsPerPage)
 
   const { currentPageProjects, startIndex, endIndex } = useMemo(() => {
     const startIndex = currentPage * projectsPerPage
-    const endIndex = Math.min(startIndex + projectsPerPage, projects.length)
-    const currentPageProjects = projects.slice(startIndex, endIndex)
+    const endIndex = Math.min(startIndex + projectsPerPage, reversedProjects.length)
+    const currentPageProjects = reversedProjects.slice(startIndex, endIndex)
 
     return { currentPageProjects, startIndex, endIndex }
-  }, [projects, currentPage, projectsPerPage])
+  }, [reversedProjects, currentPage, projectsPerPage])
 
   useEffect(() => {
     setCurrentPage(0)
@@ -218,11 +221,11 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
             <div className="mt-8 sm:mt-12 text-center">
               <p className="text-foreground/60 text-xs sm:text-sm">
-                Showing {currentPageProjects.length} of {projects.length} projects
+                Showing {currentPageProjects.length} of {reversedProjects.length} projects
               </p>
             </div>
 
-            {projects.length > projectsPerPage && (
+            {reversedProjects.length > projectsPerPage && (
               <div className="mt-12 sm:mt-20 text-center px-4 sm:px-0">
                 <div className="inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-4 sm:p-6 bg-gradient-to-r from-card via-card/90 to-card rounded-xl sm:rounded-2xl border border-border/50 backdrop-blur-sm shadow-lg max-w-sm sm:max-w-none mx-auto">
                   <div className="text-center sm:text-left">
@@ -230,7 +233,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                       More Projects
                     </h3>
                     <p className="text-xs sm:text-sm text-foreground/70 mt-1">
-                      Explore {projects.length - projectsPerPage} additional projects
+                      Explore {reversedProjects.length - projectsPerPage} additional projects
                     </p>
                   </div>
                   <Link href="/projects">
