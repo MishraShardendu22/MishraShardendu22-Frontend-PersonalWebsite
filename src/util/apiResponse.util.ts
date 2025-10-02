@@ -22,9 +22,7 @@ import {
 
 export const authAPI = {
   login: async (credentials: AuthRequest): Promise<any> => {
-    console.log('authAPI.login called with:', { email: credentials.email })
     try {
-      console.log('Making direct request to backend')
       // Temporarily connect directly to backend to bypass proxy issues
       const response = await fetch(
         'https://mishrashardendu22-backend-personalwebsite.onrender.com/api/admin/auth',
@@ -37,14 +35,7 @@ export const authAPI = {
         }
       )
 
-      console.log('Direct backend response received:', {
-        status: response.status,
-        statusText: response.statusText,
-        ok: response.ok,
-      })
-
       const data = await response.json()
-      console.log('Response data:', data)
 
       return data
     } catch (error: any) {

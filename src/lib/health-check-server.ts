@@ -158,12 +158,6 @@ export const logPerformanceMetrics = (
     failed: status >= 400,
   }
 
-  if (metrics.slow || metrics.failed) {
-    console.warn('Performance Issue:', metrics)
-  } else {
-    console.log('Request Success:', metrics)
-  }
-
   // In production, you might want to send these metrics to a monitoring service
   // sendToMonitoringService(metrics)
 }

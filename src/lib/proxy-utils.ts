@@ -140,13 +140,6 @@ export const proxyRequest = async (
     Object.assign(headers, options.customHeaders)
   }
 
-  console.log(`[Proxy] ${method} ${fullUrl}`, {
-    target,
-    originalPath: url.pathname,
-    backendPath,
-    bodySize: body?.length || 0,
-  })
-
   try {
     const config: AxiosRequestConfig = {
       method,
@@ -160,12 +153,6 @@ export const proxyRequest = async (
 
     const axiosRes = await retryRequest(config)
     const requestTime = Date.now() - startTime
-
-    console.log(`[Proxy] Response: ${axiosRes.status} in ${requestTime}ms`, {
-      url: fullUrl,
-      contentType: axiosRes.headers['content-type'],
-      contentLength: axiosRes.headers['content-length'],
-    })
 
     // Forward response headers
     const responseHeaders = new Headers()

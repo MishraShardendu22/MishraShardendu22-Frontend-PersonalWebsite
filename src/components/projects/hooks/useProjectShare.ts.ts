@@ -12,7 +12,6 @@ export function useProjectShare(project: Project | null) {
   }
 
   const handleShare = async () => {
-    console.log(project)
     if (!project) return
 
     const projectUrl = window.location.href

@@ -25,11 +25,7 @@ export const useAuth = create<AuthState>()(
       login: async (credentials: AuthRequest) => {
         set({ isLoading: true })
         try {
-          console.log('Making login request with credentials:', { email: credentials.email })
           const response = await authAPI.login(credentials)
-          console.log('Login response received:', response)
-          console.log('Response type:', typeof response)
-          console.log('Response keys:', Object.keys(response || {}))
 
           if (!response || typeof response !== 'object') {
             console.error('Login failed: No response or invalid response object')
@@ -39,10 +35,8 @@ export const useAuth = create<AuthState>()(
 
           const status = response.status
           const token = response.token
-          console.log('Status:', status, 'Token:', token ? 'present' : 'missing')
 
           if ((status === 202 || status === 201 || status === 200) && token) {
-            console.log('Login successful, setting auth state')
             if (typeof window !== 'undefined') {
               localStorage.setItem('jwt_token', token)
             }

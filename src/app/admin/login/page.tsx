@@ -53,9 +53,7 @@ export default function AdminLoginPage() {
     e?.preventDefault()
     setError('')
     try {
-      console.log('Submitting login with data:', { email: data.email, admin_pass: data.admin_pass })
       const result = await login(data)
-      console.log('Login result:', result)
 
       if (result.success) {
         toast.success('Login successful! Redirecting...')

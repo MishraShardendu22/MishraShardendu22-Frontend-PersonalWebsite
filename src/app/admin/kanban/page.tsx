@@ -127,26 +127,18 @@ const KanbanPage = () => {
         project_id: item.id,
         order: item.newOrder,
       }))
-
-      console.log(`Updating order for ${updateData.length} projects...`, updateData)
       await projectsAPI.updateOrder(updateData)
-      console.log('Order update successful')
 
-      // Update the original order map with new values
       const newOrderMap = new Map(originalOrder)
       changedItems.forEach((item) => {
         newOrderMap.set(item.id, item.newOrder)
       })
       setOriginalOrder(newOrderMap)
-
-      // Clear changed items since they've been saved
       setChangedItems([])
 
       router.refresh()
     } catch (error: any) {
       console.error('Error updating order:', error)
-
-      // Enhanced error handling with specific messages
       let errorMessage = 'Failed to save changes. Please try again.'
 
       if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
@@ -208,8 +200,6 @@ const KanbanPage = () => {
       })
 
       setChangedItems(changes)
-      console.log('Changed items:', changes)
-
       return updatedItems
     })
   }

@@ -11,8 +11,6 @@ export default function PWARegister() {
             scope: '/',
           })
 
-          console.log('Service Worker registered with scope:', registration.scope)
-
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing
             if (newWorker) {
@@ -55,7 +53,7 @@ export default function PWARegister() {
       const isAndroid = /Android/.test(navigator.userAgent)
 
       if (isStandalone) {
-        console.log('App launched as PWA')
+        // App launched as PWA
       }
 
       let deferredPrompt: any = null
@@ -63,12 +61,9 @@ export default function PWARegister() {
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault()
         deferredPrompt = e
-
-        console.log('PWA install prompt available')
       })
 
       window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed')
         deferredPrompt = null
       })
     }

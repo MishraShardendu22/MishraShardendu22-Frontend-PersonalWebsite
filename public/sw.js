@@ -13,10 +13,8 @@ const STATIC_ASSETS = [
 ]
 
 self.addEventListener('install', (event) => {
-  console.log('Service Worker installing...')
   event.waitUntil(
     caches.open(STATIC_CACHE_NAME).then((cache) => {
-      console.log('Caching static assets')
       return cache.addAll(STATIC_ASSETS)
     })
   )
@@ -24,7 +22,6 @@ self.addEventListener('install', (event) => {
 })
 
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker activating...')
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -87,7 +84,6 @@ self.addEventListener('fetch', (event) => {
 })
 
 self.addEventListener('push', (event) => {
-  console.log('Push notification received')
   const data = event.data
     ? event.data.json()
     : {
@@ -116,7 +112,6 @@ self.addEventListener('push', (event) => {
 })
 
 self.addEventListener('notificationclick', (event) => {
-  console.log('Notification clicked')
   event.notification.close()
 
   if (event.action === 'close') {
@@ -140,8 +135,7 @@ self.addEventListener('notificationclick', (event) => {
 })
 
 self.addEventListener('sync', (event) => {
-  console.log('Background sync triggered')
   if (event.tag === 'portfolio-sync') {
-    event.waitUntil(console.log('Syncing portfolio data...'))
+    event.waitUntil(Promise.resolve())
   }
 })

@@ -24,7 +24,6 @@ export const LazyExperienceSection = () => {
     setLoading(true)
     try {
       const experiencesRes = await experiencesAPI.getAllExperiences()
-      console.log('Raw experiences data:', experiencesRes.data)
 
       const validExperiences = Array.isArray(experiencesRes.data)
         ? experiencesRes.data.filter((exp: Experience) => {
