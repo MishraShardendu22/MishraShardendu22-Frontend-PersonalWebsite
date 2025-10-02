@@ -1,23 +1,5 @@
 'use client'
 
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
-import { Badge } from '../../../components/ui/badge'
-import { Input } from '../../../components/ui/input'
-import { Label } from '../../../components/ui/label'
-import { Button } from '../../../components/ui/button'
-import { useEffect, useState } from 'react'
-import { TiptapModalEditor } from '@/components/extra/TipTap'
-import { Alert, AlertDescription } from '../../../components/ui/alert'
-import { Experience, CreateExperienceRequest } from '../../../data/types.data'
-import { experiencesAPI, projectsAPI, skillsAPI } from '../../../util/apiResponse.util'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../../../components/ui/card'
 import {
   Plus,
   Edit,
@@ -29,25 +11,30 @@ import {
   X,
 } from 'lucide-react'
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../../../components/ui/card'
+import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '../../../components/ui/dialog'
-
-interface ExperienceFormData {
-  company_name: string
-  position: string
-  start_date: string
-  end_date: string
-  description: string
-  technologies: string[]
-  company_logo: string
-  certificate_url: string
-  projects: string[]
-  images: string
-}
+import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { Badge } from '../../../components/ui/badge'
+import { Input } from '../../../components/ui/input'
+import { Label } from '../../../components/ui/label'
+import { Button } from '../../../components/ui/button'
+import { TiptapModalEditor } from '@/components/extra/TipTap'
+import { Alert, AlertDescription } from '../../../components/ui/alert'
+import { Experience, CreateExperienceRequest, ExperienceFormData } from '../../../data/types.data'
+import { experiencesAPI, projectsAPI, skillsAPI } from '../../../util/apiResponse.util'
 
 export default function AdminExperiencesPage() {
   const [experiences, setExperiences] = useState<Experience[]>([])

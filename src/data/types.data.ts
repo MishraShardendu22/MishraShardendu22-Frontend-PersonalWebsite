@@ -98,6 +98,19 @@ export interface ProfileData {
   certifications?: string[] | null
 }
 
+export interface ExperienceFormData {
+  company_name: string
+  position: string
+  start_date: string
+  end_date: string
+  description: string
+  technologies: string[]
+  company_logo: string
+  certificate_url: string
+  projects: string[]
+  images: string
+}
+
 export interface Project {
   inline: {
     id: string

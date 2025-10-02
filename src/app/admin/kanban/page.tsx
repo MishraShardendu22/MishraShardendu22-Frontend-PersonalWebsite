@@ -1,14 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { ProjectDetail } from '@/data/types.data'
-import { projectsAPI } from '@/util/apiResponse.util'
-import { FolderKanban, Loader2, AlertCircle, GripVertical, Save } from 'lucide-react'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   DndContext,
   closestCenter,
@@ -26,6 +17,15 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { ProjectDetail } from '@/data/types.data'
+import { projectsAPI } from '@/util/apiResponse.util'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { FolderKanban, Loader2, AlertCircle, GripVertical, Save } from 'lucide-react'
 
 interface SortableCardProps {
   project: ProjectDetail
