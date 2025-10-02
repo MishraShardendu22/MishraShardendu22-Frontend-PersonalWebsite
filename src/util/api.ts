@@ -5,6 +5,7 @@ const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL + '/api/proxy' : '/a
 
 const api = axios.create({
   baseURL,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
