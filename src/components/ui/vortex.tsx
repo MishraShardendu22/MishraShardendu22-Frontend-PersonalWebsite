@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable prefer-const */
 import { cn } from '@/lib/utils'
 import React, { useEffect, useRef } from 'react'
 import { createNoise3D } from 'simplex-noise'
-import { motion } from 'motion/react'
+import { useTheme } from 'next-themes'
+import { motion } from 'framer-motion'
 
 interface VortexProps {
   children?: any

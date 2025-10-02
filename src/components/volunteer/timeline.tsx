@@ -1,5 +1,5 @@
 'use client'
-import { useScroll, useTransform, motion } from 'motion/react'
+import { useScroll, useTransform, motion } from 'framer-motion'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Calendar,

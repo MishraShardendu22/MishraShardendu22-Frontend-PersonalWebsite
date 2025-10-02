@@ -1,7 +1,7 @@
-import { motion } from 'motion/react'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
-import { AnimatePresence } from 'motion/react'
+import { AnimatePresence } from 'framer-motion'
 import { CanvasRevealEffect } from '../ui/canvas-reveal-effect'
 
 export const CanvasCard = ({

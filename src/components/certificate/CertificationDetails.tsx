@@ -19,8 +19,6 @@ import ReactMarkdown from 'react-markdown'
 import { SkillsLens } from '../ui/skill-lens'
 import { Button } from '@/components/ui/button'
 import { Certification } from '@/data/types.data'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 
 interface CertificationDetailsProps {
@@ -66,19 +64,9 @@ const CodeBlock = ({ language, children }: { language: string; children: string 
           )}
         </Button>
       </div>
-      <SyntaxHighlighter
-        style={oneDark}
-        language={language}
-        customStyle={{
-          margin: 0,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          borderBottomLeftRadius: '0.5rem',
-          borderBottomRightRadius: '0.5rem',
-        }}
-      >
-        {children}
-      </SyntaxHighlighter>
+      <pre className="bg-gray-900 text-gray-100 p-4 rounded-b-lg overflow-x-auto m-0">
+        <code className={`language-${language}`}>{children}</code>
+      </pre>
     </div>
   )
 }

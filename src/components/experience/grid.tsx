@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, motion } from 'framer-motion'
 import ExperienceCards from './card'
 
 interface ExperienceGridProps {
   items: {
     title: string
     company: string
-  companyLogo?: string
+    companyLogo?: string
     description: string
     link: string
     technologies?: string[]
