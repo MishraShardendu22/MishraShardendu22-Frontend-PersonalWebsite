@@ -25,8 +25,11 @@ export const useAuth = create<AuthState>()(
       login: async (credentials: AuthRequest) => {
         set({ isLoading: true })
         try {
+          console.log('Making login request with credentials:', { email: credentials.email })
           const response = await authAPI.login(credentials)
-          console.log('Login response:', response)
+          console.log('Login response received:', response)
+          console.log('Response type:', typeof response)
+          console.log('Response keys:', Object.keys(response || {}))
 
           if (!response || typeof response !== 'object') {
             console.error('Login failed: No response or invalid response object')
@@ -38,7 +41,7 @@ export const useAuth = create<AuthState>()(
           const token = response.token
           console.log('Status:', status, 'Token:', token ? 'present' : 'missing')
 
-          if ((status === 202 || status === 201) && token) {
+          if ((status === 202 || status === 201 || status === 200) && token) {
             console.log('Login successful, setting auth state')
             if (typeof window !== 'undefined') {
               localStorage.setItem('jwt_token', token)
@@ -51,10 +54,10 @@ export const useAuth = create<AuthState>()(
             return { success: true }
           }
 
-          if (response.error) {
-            console.error('Login failed:', response.error)
+          if (response.message) {
+            console.error('Login failed:', response.message)
             set({ isLoading: false })
-            return { success: false, error: response.error || 'Login failed. Please try again.' }
+            return { success: false, error: response.message || 'Login failed. Please try again.' }
           }
           if (!token) {
             console.error('Login failed: Missing token in response', response)
@@ -65,13 +68,24 @@ export const useAuth = create<AuthState>()(
           set({ isLoading: false })
           return { success: false, error: 'Login failed. Please try again.' }
         } catch (error: any) {
-          let errorMsg = 'Login error. Please try again.'
-          if (error?.response?.data?.error) {
+          console.error('Login error caught:', error)
+          console.error('Error type:', typeof error)
+          console.error('Error name:', error?.name)
+          console.error('Error message:', error?.message)
+          console.error('Error response:', error?.response)
+          console.error('Error response data:', error?.response?.data)
+          console.error('Error response status:', error?.response?.status)
+          console.error('Error code:', error?.code)
+
+          let errorMsg = 'Network error. Please try again.'
+          if (error?.response?.data?.message) {
+            errorMsg = error.response.data.message
+          } else if (error?.response?.data?.error) {
             errorMsg = error.response.data.error
           } else if (error?.message) {
             errorMsg = error.message
           }
-          console.error('Login error:', error)
+          console.error('Final error message:', errorMsg)
           set({ isLoading: false })
           return { success: false, error: errorMsg }
         }

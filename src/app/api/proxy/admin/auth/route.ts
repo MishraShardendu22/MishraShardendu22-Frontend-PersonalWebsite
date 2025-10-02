@@ -1,15 +1,57 @@
-import { NextRequest } from 'next/server'
-import { proxyRequest } from '@/lib/proxy-utils'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
-  return proxyRequest(
-    req,
-    (pathname) => pathname.replace('/api/proxy/admin/auth', '/api/admin/auth'),
-    {
-      customHeaders: {
+  console.log('[Admin Auth Proxy] Request received')
+
+  try {
+    // Get the request body
+    const body = await req.json()
+    console.log('[Admin Auth Proxy] Request body:', { email: body.email })
+
+    // Get backend targets
+    const targets = [process.env.BACKEND_1, process.env.BACKEND_2, process.env.BACKEND_3].filter(
+      Boolean
+    ) as string[]
+
+    if (targets.length === 0) {
+      return NextResponse.json({ error: 'No backend targets configured' }, { status: 500 })
+    }
+
+    // Use the first available backend for now
+    const backendUrl = `${targets[0]}/api/admin/auth`
+    console.log('[Admin Auth Proxy] Forwarding to:', backendUrl)
+
+    // Forward the request to the backend
+    const response = await fetch(backendUrl, {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
       },
-      responseType: 'text',
+      body: JSON.stringify(body),
+    })
+
+    console.log('[Admin Auth Proxy] Backend response status:', response.status)
+
+    if (!response.ok) {
+      const errorData = await response.text()
+      console.log('[Admin Auth Proxy] Backend error:', errorData)
     }
-  )
+
+    // Get the response data
+    const responseData = await response.text()
+    console.log('[Admin Auth Proxy] Backend response data length:', responseData.length)
+    console.log('[Admin Auth Proxy] Backend response data preview:', responseData.substring(0, 100))
+
+    // Return the response
+    return new NextResponse(responseData, {
+      status: response.status,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Proxy-Backend': targets[0],
+      },
+    })
+  } catch (error) {
+    console.error('[Admin Auth Proxy] Error:', error)
+    return NextResponse.json({ error: 'Proxy error' }, { status: 500 })
+  }
 }
