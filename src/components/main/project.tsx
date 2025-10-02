@@ -18,7 +18,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [windowWidth, setWindowWidth] = useState(0)
 
   // Sort projects by order (largest first) to show newest first
-  const sortedProjects = useMemo(() => [...projects].sort((a, b) => b.order - a.order), [projects])
+  const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.order - b.order), [projects])
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
