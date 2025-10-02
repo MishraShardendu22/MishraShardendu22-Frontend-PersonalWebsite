@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ProjectPaginationProps } from '@/data/static_link'
+import { ProjectPaginationProps } from '@/services'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 
 export default function ProjectPagination({

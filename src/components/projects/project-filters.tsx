@@ -1,6 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { ProjectFiltersProps } from '@/data/static_link'
+import { ProjectFiltersProps } from '@/services'
+
 import {
   Select,
   SelectTrigger,

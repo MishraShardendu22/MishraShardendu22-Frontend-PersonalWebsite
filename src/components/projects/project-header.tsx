@@ -1,5 +1,5 @@
 import { Sparkles } from 'lucide-react'
-import { ProjectHeaderProps } from '@/data/static_link'
+import { ProjectHeaderProps } from '@/services'
 
 export default function ProjectHeader({
   totalProjects,
