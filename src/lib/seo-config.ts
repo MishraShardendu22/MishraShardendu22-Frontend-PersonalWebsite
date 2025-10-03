@@ -1,3 +1,10 @@
+import {
+  XProfile,
+  GitHubProject,
+  LinkedInProfile,
+  YouTubeChannel,
+  LeetCodeProfile,
+} from '@/data/static_link'
 import { BASE_URL } from '@/constants/url'
 
 export const seoConfig = {
@@ -67,13 +74,11 @@ export const seoConfig = {
   },
 
   social: {
-    twitter: 'https://x.com/mishrashardendu',
-    linkedin: 'https://www.linkedin.com/in/mishrashardendu22/',
-    github: 'https://github.com/MishraShardendu22',
-    youtube: 'https://www.youtube.com/@mishrashardendu22',
-    leetcode: 'https://leetcode.com/u/MishraShardendu22/',
-    codechef: 'https://www.codechef.com/users/mishrashardendu',
-    codeforces: 'https://codeforces.com/profile/mishrashardendu22',
+    twitter: XProfile,
+    linkedin: LinkedInProfile,
+    github: GitHubProject,
+    youtube: YouTubeChannel,
+    leetcode: LeetCodeProfile,
   },
 
   pages: {

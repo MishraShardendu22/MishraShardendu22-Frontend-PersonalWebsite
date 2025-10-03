@@ -1,82 +1,65 @@
-import { Clock, Rocket, Dribbble, Users } from 'lucide-react'
+'use client'
+
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, Construction } from 'lucide-react'
 
 const page = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(139,92,246,0.1),transparent_50%)]"></div>
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:64px_64px]"></div>
-
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        <div className="flex justify-center mb-10">
-          <div className="relative">
-            <div className="absolute inset-0 bg-violet-500/30 rounded-full blur-2xl"></div>
-            <div className="relative bg-gradient-to-br from-violet-600 to-purple-700 p-8 rounded-3xl shadow-2xl">
-              <Rocket className="w-16 h-16 text-white" />
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
+        <div className="container mx-auto px-6 py-4 max-w-full">
+          <div className="flex items-center justify-between">
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="flex items-center gap-2 hover:bg-muted">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Home
+              </Button>
+            </Link>
           </div>
         </div>
+      </div>
 
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-500/10 border border-violet-500/20 rounded-full mb-8">
-          <Dribbble className="w-4 h-4 text-violet-400" />
-          <span className="text-violet-300 text-sm font-medium">Under Construction</span>
-        </div>
-
-        <h1 className="text-6xl sm:text-7xl md:text-8xl font-bold text-white mb-6 tracking-tight">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400">
-            Coming Soon
-          </span>
-        </h1>
-
-        <p className="text-xl sm:text-2xl text-slate-400 mb-4 max-w-2xl mx-auto font-light">
-          Revealing accounts soon
-        </p>
-        <p className="text-base text-slate-500 max-w-xl mx-auto">
-          We`re crafting something special for you. Stay tuned for updates!
-        </p>
-
-        <div className="flex items-center justify-center my-12">
-          <div className="h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent w-full max-w-md"></div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:border-violet-500/50 transition-colors">
-            <div className="bg-violet-500/10 w-14 h-14 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Clock className="w-7 h-7 text-violet-400" />
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-73px)] px-6">
+        <div className="max-w-2xl w-full text-center space-y-8">
+          <div className="flex flex-col items-center gap-6">
+            <div className="bg-muted/50 p-6 rounded-lg border border-border/50">
+              <Construction className="w-12 h-12 text-muted-foreground" />
             </div>
-            <h3 className="text-white font-semibold text-lg mb-2">In Progress</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Building something amazing for you
+
+            <div className="space-y-3">
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground">
+                Under Development
+              </h1>
+
+              <p className="text-lg text-muted-foreground">
+                This section is currently being developed
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-2">
+            <p className="text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
+              This account is not yet available. Please check back later and explore other projects
+              of mine.
             </p>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:border-purple-500/50 transition-colors">
-            <div className="bg-purple-500/10 w-14 h-14 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Users className="w-7 h-7 text-purple-400" />
-            </div>
-            <h3 className="text-white font-semibold text-lg mb-2">Community</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Connect with like-minded people
-            </p>
-          </div>
-
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:border-fuchsia-500/50 transition-colors">
-            <div className="bg-fuchsia-500/10 w-14 h-14 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Dribbble className="w-7 h-7 text-fuchsia-400" />
-            </div>
-            <h3 className="text-white font-semibold text-lg mb-2">Features</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">Packed with exciting new tools</p>
+          <div className="pt-6">
+            <Link href="/">
+              <Button size="lg" variant="default" className="hover:bg-primary/90 transition-colors">
+                Return to Home
+              </Button>
+            </Link>
           </div>
         </div>
+      </div>
 
-        <div className="flex justify-center items-center gap-3 mt-16">
-          <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/80 rounded-full border border-slate-700/50">
-            <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
-            <span className="text-slate-300 text-sm">Development</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/80 rounded-full border border-slate-700/50">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-            <span className="text-slate-300 text-sm">Active</span>
-          </div>
+      <div className="absolute bottom-0 left-0 right-0 border-t border-border/30 bg-background/80 backdrop-blur-sm">
+        <div className="container mx-auto px-6 py-4">
+          <p className="text-center text-sm text-muted-foreground">
+            Additional content will be added in future updates
+          </p>
         </div>
       </div>
     </div>

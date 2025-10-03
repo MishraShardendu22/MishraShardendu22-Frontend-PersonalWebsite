@@ -320,7 +320,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Email: mishrashardendu22@gmail.com
 - GitHub: [@ShardenduMishra22](https://github.com/MishraShardendu22)
-- LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22/)
+- LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22)
 - Portfolio: [mishrashardendu22.is-a.dev](https://mishrashardendu22.is-a.dev)
 
 ## 🙏 Acknowledgments
@@ -338,7 +338,7 @@ If you have any questions or need help:
 
 - Create an issue on GitHub
 - Contact via email: mishrashardendu22@gmail.com
-- Connect on LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22/)
+- Connect on LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22)
 
 ---
 
