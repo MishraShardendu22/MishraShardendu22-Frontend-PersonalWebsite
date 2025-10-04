@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Experience, VolunteerExperience } from '@/data/types.data'
 import { useIsMobile } from '@/hooks/use-mobile'
@@ -41,94 +41,92 @@ const CombinedTimeline = ({
   const isMobile = useIsMobile()
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
-  const processedData = useMemo(() => {
-    const allExperiences: ProcessedExperience[] = []
+  const allExperiences: ProcessedExperience[] = []
 
-    experiences.forEach((exp) => {
-      exp.experience_time_line.forEach((timeline) => {
-        const startDate = new Date(timeline.start_date)
-        const endDate = timeline.end_date ? new Date(timeline.end_date) : new Date()
+  experiences.forEach((exp) => {
+    exp.experience_time_line.forEach((timeline) => {
+      const startDate = new Date(timeline.start_date)
+      const endDate = timeline.end_date ? new Date(timeline.end_date) : new Date()
 
-        allExperiences.push({
-          type: 'work',
-          name: exp.company_name,
-          logo: exp.company_logo || '',
-          position: timeline.position,
-          start_date: timeline.start_date,
-          end_date: timeline.end_date || '',
-          startMonth: startDate,
-          endMonth: endDate,
-          description: exp.description,
-          technologies: exp.technologies,
-        })
+      allExperiences.push({
+        type: 'work',
+        name: exp.company_name,
+        logo: exp.company_logo || '',
+        position: timeline.position,
+        start_date: timeline.start_date,
+        end_date: timeline.end_date || '',
+        startMonth: startDate,
+        endMonth: endDate,
+        description: exp.description,
+        technologies: exp.technologies,
       })
     })
+  })
 
-    volunteerExpProps.forEach((exp) => {
-      exp.volunteer_time_line.forEach((timeline) => {
-        const startDate = new Date(timeline.start_date)
-        const endDate = timeline.end_date ? new Date(timeline.end_date) : new Date()
+  volunteerExpProps.forEach((exp) => {
+    exp.volunteer_time_line.forEach((timeline) => {
+      const startDate = new Date(timeline.start_date)
+      const endDate = timeline.end_date ? new Date(timeline.end_date) : new Date()
 
-        allExperiences.push({
-          type: 'volunteer',
-          name: exp.organisation,
-          logo: exp.organisation_logo || '',
-          position: timeline.position,
-          start_date: timeline.start_date,
-          end_date: timeline.end_date || '',
-          startMonth: startDate,
-          endMonth: endDate,
-          description: exp.description,
-          technologies: exp.technologies,
-        })
+      allExperiences.push({
+        type: 'volunteer',
+        name: exp.organisation,
+        logo: exp.organisation_logo || '',
+        position: timeline.position,
+        start_date: timeline.start_date,
+        end_date: timeline.end_date || '',
+        startMonth: startDate,
+        endMonth: endDate,
+        description: exp.description,
+        technologies: exp.technologies,
       })
     })
+  })
 
-    allExperiences.sort((a, b) => b.startMonth.getTime() - a.startMonth.getTime())
+  allExperiences.sort((a, b) => b.startMonth.getTime() - a.startMonth.getTime())
 
-    const earliestStart =
-      allExperiences.length > 0
-        ? new Date(Math.min(...allExperiences.map((exp) => exp.startMonth.getTime())))
-        : new Date()
+  const earliestStart =
+    allExperiences.length > 0
+      ? new Date(Math.min(...allExperiences.map((exp) => exp.startMonth.getTime())))
+      : new Date()
 
-    const latestEnd = new Date()
+  const latestEnd = new Date()
 
-    const months: Array<{
-      date: Date
-      year: number
-      month: number
-      monthName: string
-      isYearStart: boolean
-    }> = []
+  const months: Array<{
+    date: Date
+    year: number
+    month: number
+    monthName: string
+    isYearStart: boolean
+  }> = []
 
-    const current = new Date(earliestStart.getFullYear(), earliestStart.getMonth(), 1)
-    while (current <= latestEnd) {
-      const monthNames = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ]
-      months.push({
-        date: new Date(current),
-        year: current.getFullYear(),
-        month: current.getMonth(),
-        monthName: monthNames[current.getMonth()],
-        isYearStart: current.getMonth() === 0,
-      })
-      current.setMonth(current.getMonth() + 1)
-    }
+  const current = new Date(earliestStart.getFullYear(), earliestStart.getMonth(), 1)
+  while (current <= latestEnd) {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
+    months.push({
+      date: new Date(current),
+      year: current.getFullYear(),
+      month: current.getMonth(),
+      monthName: monthNames[current.getMonth()],
+      isYearStart: current.getMonth() === 0,
+    })
+    current.setMonth(current.getMonth() + 1)
+  }
 
-    return { allExperiences, months, earliestStart, latestEnd }
-  }, [experiences, volunteerExpProps])
+  const processedData = { allExperiences, months, earliestStart, latestEnd }
 
   const getMonthPosition = (date: Date) => {
     const monthIndex = processedData.months.findIndex(

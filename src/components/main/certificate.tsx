@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
 import { Certification } from '@/data/types.data'
 import { CertificationFocusCards } from '../ui/focus-cards'
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Award, ArrowRight, Star, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface CertificationsSectionProps {
@@ -32,13 +32,9 @@ export default function CertificationsSection({ certifications }: Certifications
   const itemsPerPage = getItemsPerPage()
   const totalPages = Math.ceil(certifications.length / itemsPerPage)
 
-  const { currentPageCertifications, startIndex, endIndex } = useMemo(() => {
-    const startIndex = currentPage * itemsPerPage
-    const endIndex = Math.min(startIndex + itemsPerPage, certifications.length)
-    const currentPageCertifications = certifications.slice(startIndex, endIndex)
-
-    return { currentPageCertifications, startIndex, endIndex }
-  }, [certifications, currentPage, itemsPerPage])
+  const startIndex = currentPage * itemsPerPage
+  const endIndex = Math.min(startIndex + itemsPerPage, certifications.length)
+  const currentPageCertifications = certifications.slice(startIndex, endIndex)
 
   useEffect(() => {
     setCurrentPage(0)

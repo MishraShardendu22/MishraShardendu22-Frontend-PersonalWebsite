@@ -69,185 +69,183 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
     })
   }
 
-  const timelineData: TimelineEntry[] = React.useMemo(() => {
-    return [...experience.experience_time_line]
-      .reverse()
-      .map((timeline: ExperienceTimeLine, index: number) => {
-        const duration = calculateDuration(timeline.start_date, timeline.end_date)
-        const isCurrent = isCurrentPosition(timeline.end_date)
-        const originalIndex = experience.experience_time_line.length - 1 - index
-        const isLatest = originalIndex === experience.experience_time_line.length - 1
+  const timelineData: TimelineEntry[] = [...experience.experience_time_line]
+    .reverse()
+    .map((timeline: ExperienceTimeLine, index: number) => {
+      const duration = calculateDuration(timeline.start_date, timeline.end_date)
+      const isCurrent = isCurrentPosition(timeline.end_date)
+      const originalIndex = experience.experience_time_line.length - 1 - index
+      const isLatest = originalIndex === experience.experience_time_line.length - 1
 
-        return {
-          title: timeline.position,
-          content: (
-            <div className="space-y-6 pb-8">
+      return {
+        title: timeline.position,
+        content: (
+          <div className="space-y-6 pb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className={cn(
+                'relative rounded-2xl p-6 border backdrop-blur-sm transition-all duration-300 overflow-visible',
+                isCurrent
+                  ? 'bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-primary/30 shadow-lg shadow-primary/10'
+                  : 'bg-gradient-to-br from-card/90 via-card to-card/80 border-border/40 shadow-md'
+              )}
+            >
+              {isCurrent && (
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.3, type: 'spring' }}
+                  className="absolute -top-3 -right-3 z-[100] px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-xl border-2 border-white dark:border-gray-800 flex items-center gap-1"
+                  style={{
+                    position: 'absolute',
+                    zIndex: 100,
+                    top: '-12px',
+                    right: '-12px',
+                  }}
+                >
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                  CURRENT
+                </motion.div>
+              )}
+
+              <div className="flex items-start gap-4 mb-4">
+                <div
+                  className={cn(
+                    'p-3 rounded-xl border',
+                    isCurrent
+                      ? 'bg-primary/20 border-primary/30'
+                      : 'bg-secondary/20 border-secondary/30'
+                  )}
+                >
+                  <Building2
+                    className={cn('w-6 h-6', isCurrent ? 'text-primary' : 'text-secondary')}
+                  />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h4 className="text-lg font-bold text-foreground truncate">
+                      {experience.company_name}
+                    </h4>
+                    {isLatest && !isCurrent && (
+                      <div className="px-2 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold rounded-full border border-amber-500/30 flex-shrink-0">
+                        Latest
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4 flex-shrink-0" />
+                      <span className="truncate">
+                        {formatDate(timeline.start_date)} –{' '}
+                        {timeline.end_date ? formatDate(timeline.end_date) : 'Present'}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4 flex-shrink-0" />
+                      <span>{duration}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Award className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="font-semibold text-foreground">Role & Responsibilities</span>
+                </div>
+
+                <p className="text-foreground/80 leading-relaxed">
+                  Worked as <strong>{timeline.position}</strong> at {experience.company_name},
+                  contributing to product development and organizational growth through dedicated
+                  professional service.
+                </p>
+              </div>
+            </motion.div>
+
+            {experience.technologies && experience.technologies.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className={cn(
-                  'relative rounded-2xl p-6 border backdrop-blur-sm transition-all duration-300 overflow-visible',
-                  isCurrent
-                    ? 'bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-primary/30 shadow-lg shadow-primary/10'
-                    : 'bg-gradient-to-br from-card/90 via-card to-card/80 border-border/40 shadow-md'
-                )}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/40"
               >
-                {isCurrent && (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.3, type: 'spring' }}
-                    className="absolute -top-3 -right-3 z-[100] px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-xl border-2 border-white dark:border-gray-800 flex items-center gap-1"
-                    style={{
-                      position: 'absolute',
-                      zIndex: 100,
-                      top: '-12px',
-                      right: '-12px',
-                    }}
-                  >
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    CURRENT
-                  </motion.div>
-                )}
-
-                <div className="flex items-start gap-4 mb-4">
-                  <div
-                    className={cn(
-                      'p-3 rounded-xl border',
-                      isCurrent
-                        ? 'bg-primary/20 border-primary/30'
-                        : 'bg-secondary/20 border-secondary/30'
-                    )}
-                  >
-                    <Building2
-                      className={cn('w-6 h-6', isCurrent ? 'text-primary' : 'text-secondary')}
-                    />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h4 className="text-lg font-bold text-foreground truncate">
-                        {experience.company_name}
-                      </h4>
-                      {isLatest && !isCurrent && (
-                        <div className="px-2 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-semibold rounded-full border border-amber-500/30 flex-shrink-0">
-                          Latest
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4 flex-shrink-0" />
-                        <span className="truncate">
-                          {formatDate(timeline.start_date)} –{' '}
-                          {timeline.end_date ? formatDate(timeline.end_date) : 'Present'}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4 flex-shrink-0" />
-                        <span>{duration}</span>
-                      </div>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Target className="w-5 h-5 text-secondary flex-shrink-0" />
+                  <h5 className="font-semibold text-foreground">Technologies & Skills</h5>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="font-semibold text-foreground">Role & Responsibilities</span>
-                  </div>
-
-                  <p className="text-foreground/80 leading-relaxed">
-                    Worked as <strong>{timeline.position}</strong> at {experience.company_name},
-                    contributing to product development and organizational growth through dedicated
-                    professional service.
-                  </p>
+                <div className="flex flex-wrap gap-2">
+                  {experience.technologies.slice(0, 8).map((tech, techIndex) => (
+                    <motion.span
+                      key={techIndex}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 + techIndex * 0.05 }}
+                      className="px-3 py-1 text-xs font-medium bg-gradient-to-r from-secondary/20 to-accent/20 text-foreground/80 rounded-full border border-secondary/30 hover:border-secondary/50 transition-colors"
+                    >
+                      {tech}
+                    </motion.span>
+                  ))}
+                  {experience.technologies.length > 8 && (
+                    <span className="px-3 py-1 text-xs font-medium bg-foreground/10 text-foreground/60 rounded-full border border-foreground/20">
+                      +{experience.technologies.length - 8} more
+                    </span>
+                  )}
                 </div>
               </motion.div>
+            )}
 
-              {experience.technologies && experience.technologies.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/40"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <Target className="w-5 h-5 text-secondary flex-shrink-0" />
-                    <h5 className="font-semibold text-foreground">Technologies & Skills</h5>
-                  </div>
+            {experience.projects && experience.projects.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/40"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Trophy className="w-5 h-5 text-accent flex-shrink-0" />
+                  <h5 className="font-semibold text-foreground">Projects & Contributions</h5>
+                </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {experience.technologies.slice(0, 8).map((tech, techIndex) => (
-                      <motion.span
-                        key={techIndex}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3 + techIndex * 0.05 }}
-                        className="px-3 py-1 text-xs font-medium bg-gradient-to-r from-secondary/20 to-accent/20 text-foreground/80 rounded-full border border-secondary/30 hover:border-secondary/50 transition-colors"
-                      >
-                        {tech}
-                      </motion.span>
-                    ))}
-                    {experience.technologies.length > 8 && (
-                      <span className="px-3 py-1 text-xs font-medium bg-foreground/10 text-foreground/60 rounded-full border border-foreground/20">
-                        +{experience.technologies.length - 8} more
-                      </span>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-
-              {experience.projects && experience.projects.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="bg-card/50 backdrop-blur-sm rounded-xl p-5 border border-border/40"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <Trophy className="w-5 h-5 text-accent flex-shrink-0" />
-                    <h5 className="font-semibold text-foreground">Projects & Contributions</h5>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800/50">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        {experience.projects.length}
-                      </div>
-                      <div className="text-sm text-blue-600/70 dark:text-blue-400/70 font-medium">
-                        Project{experience.projects.length !== 1 ? 's' : ''}
-                      </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800/50">
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                      {experience.projects.length}
                     </div>
-
-                    <div className="text-center p-3 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800/50">
-                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                        {experience.technologies?.length || 0}
-                      </div>
-                      <div className="text-sm text-green-600/70 dark:text-green-400/70 font-medium">
-                        Technologies
-                      </div>
-                    </div>
-
-                    <div className="text-center p-3 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/50">
-                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                        {experience.experience_time_line.length}
-                      </div>
-                      <div className="text-sm text-purple-600/70 dark:text-purple-400/70 font-medium">
-                        Position{experience.experience_time_line.length !== 1 ? 's' : ''}
-                      </div>
+                    <div className="text-sm text-blue-600/70 dark:text-blue-400/70 font-medium">
+                      Project{experience.projects.length !== 1 ? 's' : ''}
                     </div>
                   </div>
-                </motion.div>
-              )}
-            </div>
-          ),
-        }
-      })
-  }, [experience])
+
+                  <div className="text-center p-3 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800/50">
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                      {experience.technologies?.length || 0}
+                    </div>
+                    <div className="text-sm text-green-600/70 dark:text-green-400/70 font-medium">
+                      Technologies
+                    </div>
+                  </div>
+
+                  <div className="text-center p-3 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800/50">
+                    <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                      {experience.experience_time_line.length}
+                    </div>
+                    <div className="text-sm text-purple-600/70 dark:text-purple-400/70 font-medium">
+                      Position{experience.experience_time_line.length !== 1 ? 's' : ''}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        ),
+      }
+    })
 
   return (
     <div className="w-full bg-background font-sans" ref={containerRef}>

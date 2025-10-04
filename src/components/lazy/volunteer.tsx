@@ -4,7 +4,7 @@ import { useIntersectionObserver } from './obs'
 import { ExperienceSkeleton } from '../main/loading'
 import { VolunteerExperience } from '@/data/types.data'
 import { LoadingState } from '../experience/load-error'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { volunteerExperiencesAPI } from '@/util/apiResponse.util'
 import ExperienceSection from '../main/volunteer'
 
@@ -13,13 +13,13 @@ export const LazyVExperienceSection = () => {
   const [loading, setLoading] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
   const [experiences, setExperiences] = useState<VolunteerExperience[]>([])
-  
+
   const { hasBeenVisible } = useIntersectionObserver(sectionRef as React.RefObject<Element>, {
     threshold: 0.05,
     rootMargin: '100px',
   })
 
-  const fetchExperiences = useCallback(async () => {
+  const fetchExperiences = async () => {
     if (loaded || loading) return
 
     setLoading(true)
@@ -33,20 +33,16 @@ export const LazyVExperienceSection = () => {
     } finally {
       setLoading(false)
     }
-  }, [loaded, loading])
+  }
 
   useEffect(() => {
     if (hasBeenVisible && !loaded && !loading) {
       fetchExperiences()
     }
-  }, [hasBeenVisible, loaded, loading, fetchExperiences])
+  }, [hasBeenVisible, loaded, loading])
 
   return (
-    <div 
-      ref={sectionRef} 
-      className="scroll-mt-20 relative" 
-      id="experience-section"
-    >
+    <div ref={sectionRef} className="scroll-mt-20 relative" id="experience-section">
       {loading ? (
         <div className="w-full">
           <ExperienceSkeleton />

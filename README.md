@@ -8,7 +8,7 @@ A modern, full-stack portfolio website built with Next.js 15, featuring a blog s
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.11-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-336791?style=for-the-badge&logo=postgresql)
 
-## 🌟 Features
+## Features
 
 ### Portfolio Sections
 
@@ -49,7 +49,7 @@ A modern, full-stack portfolio website built with Next.js 15, featuring a blog s
 - **SEO Optimized** - Meta tags, structured data, and performance
 - **Performance Optimized** - Image optimization, lazy loading, caching
 
-## 🏗️ Architecture
+## Architecture
 
 ### Frontend (Next.js 15)
 
@@ -92,7 +92,7 @@ followers, notifications, reports
 user_profiles, blog_revisions
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -168,7 +168,7 @@ The Go backend is available at: https://github.com/ShardenduMishra22/portfolio-b
 
 Follow the setup instructions in the backend repository to complete the full-stack setup.
 
-## 🛠️ Development
+## Development
 
 ### Available Scripts
 
@@ -216,7 +216,7 @@ pnpm drizzle-kit push
 pnpm drizzle-kit studio
 ```
 
-## 🎨 Styling
+## Styling
 
 ### Design System
 
@@ -232,7 +232,7 @@ pnpm drizzle-kit studio
 - **System Preference** - Automatic theme switching
 - **Custom Colors** - Brand-specific color palette
 
-## 📊 Performance
+## Performance
 
 ### Optimization Features
 
@@ -249,7 +249,7 @@ pnpm drizzle-kit studio
 - **Speed Insights** - Core Web Vitals tracking
 - **Custom Metrics** - Blog engagement analytics
 
-## 🔒 Security
+## Security
 
 ### Authentication
 
@@ -265,7 +265,7 @@ pnpm drizzle-kit studio
 - **XSS Protection** - Content sanitization
 - **CSRF Protection** - Cross-site request forgery prevention
 
-## 🚀 Deployment
+## Deployment
 
 ### Vercel (Recommended)
 
@@ -294,7 +294,11 @@ vercel --prod
 - [ ] Monitoring set up
 - [ ] Backup strategy implemented
 
-## 🤝 Contributing
+## Contributing
+
+Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for detailed guidelines on how to contribute to this project.
+
+### Quick Start
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -302,28 +306,20 @@ vercel --prod
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Use conventional commits
-- Write meaningful commit messages
-- Add tests for new features
-- Update documentation
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## Author
 
-**Shardendu Mishra**
+### Shardendu Mishra
 
-- Email: mishrashardendu22@gmail.com
+- Email: [mishrashardendu22@gmail.com](mailto:mishrashardendu22@gmail.com)
 - GitHub: [@ShardenduMishra22](https://github.com/MishraShardendu22)
 - LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22/)
 - Portfolio: [mishrashardendu22.is-a.dev](https://mishrashardendu22.is-a.dev)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Next.js](https://nextjs.org/) - React framework
 - [shadcn/ui](https://ui.shadcn.com/) - UI components
@@ -332,14 +328,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [TipTap](https://tiptap.dev/) - Rich text editor
 - [Vercel](https://vercel.com/) - Deployment platform
 
-## 📞 Support
+## Support
 
 If you have any questions or need help:
 
 - Create an issue on GitHub
-- Contact via email: mishrashardendu22@gmail.com
+- Contact via email: [mishrashardendu22@gmail.com](mailto:mishrashardendu22@gmail.com)
 - Connect on LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22/)
 
 ---
 
-⭐ **Star this repository if you found it helpful!**
+If you found this project helpful, please consider giving it a star on GitHub!

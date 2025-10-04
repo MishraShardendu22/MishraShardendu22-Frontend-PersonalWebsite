@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Badge } from './badge'
 import { Button } from './button'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Card, CardDescription, CardTitle } from './card'
 import { ExternalLink, Github, ArrowRight } from 'lucide-react'
 import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
@@ -17,13 +17,10 @@ export interface HeroProject {
 }
 
 export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
-  const optimizedProjects = useMemo(() => {
-    return projects.slice(0, 12)
-  }, [projects])
-
-  const firstRow = useMemo(() => optimizedProjects.slice(0, 4), [optimizedProjects])
-  const secondRow = useMemo(() => optimizedProjects.slice(4, 8), [optimizedProjects])
-  const thirdRow = useMemo(() => optimizedProjects.slice(8, 12), [optimizedProjects])
+  const optimizedProjects = projects.slice(0, 12)
+  const firstRow = optimizedProjects.slice(0, 4)
+  const secondRow = optimizedProjects.slice(4, 8)
+  const thirdRow = optimizedProjects.slice(8, 12)
 
   const ref = React.useRef(null)
   const { scrollYProgress } = useScroll({
@@ -31,14 +28,11 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
     offset: ['start start', 'end start'],
   })
 
-  const springConfig = useMemo(
-    () => ({
-      stiffness: 100,
-      damping: 40,
-      bounce: 25,
-    }),
-    []
-  )
+  const springConfig = {
+    stiffness: 100,
+    damping: 40,
+    bounce: 25,
+  }
 
   const translateX = useSpring(useTransform(scrollYProgress, [0, 1], [0, 600]), springConfig)
   const translateXReverse = useSpring(
@@ -50,18 +44,6 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
   const rotateZ = useSpring(useTransform(scrollYProgress, [0, 0.2], [20, 0]), springConfig)
   const translateY = useSpring(useTransform(scrollYProgress, [0, 0.2], [-500, 300]), springConfig)
 
-  const transforms = useMemo(
-    () => ({
-      translateX,
-      translateXReverse,
-      rotateX,
-      opacity,
-      rotateZ,
-      translateY,
-    }),
-    [translateX, translateXReverse, rotateX, opacity, rotateZ, translateY]
-  )
-
   return (
     <div
       ref={ref}
@@ -74,10 +56,10 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
       <Header />
       <motion.div
         style={{
-          rotateX: transforms.rotateX,
-          rotateZ: transforms.rotateZ,
-          translateY: transforms.translateY,
-          opacity: transforms.opacity,
+          rotateX: rotateX,
+          rotateZ: rotateZ,
+          translateY: translateY,
+          opacity: opacity,
           willChange: 'transform, opacity',
         }}
         className=""
@@ -86,7 +68,7 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
           {firstRow.map((project, index) => (
             <ProjectCard
               project={project}
-              translate={transforms.translateX}
+              translate={translateX}
               key={project.inline.id}
               index={index + 1}
             />
@@ -97,7 +79,7 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
           {secondRow.map((project, index) => (
             <ProjectCard
               project={project}
-              translate={transforms.translateXReverse}
+              translate={translateXReverse}
               key={project.inline.id}
               index={index + 5}
             />
@@ -108,7 +90,7 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
           {thirdRow.map((project, index) => (
             <ProjectCard
               project={project}
-              translate={transforms.translateX}
+              translate={translateX}
               key={project.inline.id}
               index={index + 9}
             />
@@ -120,13 +102,10 @@ export const HeroParallax = ({ projects }: { projects: HeroProject[] }) => {
 }
 
 export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }) => {
-  const optimizedProjects = useMemo(() => {
-    return projects.slice(0, 9)
-  }, [projects])
-
-  const firstRow = useMemo(() => optimizedProjects.slice(0, 3), [optimizedProjects])
-  const secondRow = useMemo(() => optimizedProjects.slice(3, 6), [optimizedProjects])
-  const thirdRow = useMemo(() => optimizedProjects.slice(6, 9), [optimizedProjects])
+  const optimizedProjects = projects.slice(0, 9)
+  const firstRow = optimizedProjects.slice(0, 3)
+  const secondRow = optimizedProjects.slice(3, 6)
+  const thirdRow = optimizedProjects.slice(6, 9)
 
   const ref = React.useRef(null)
   const { scrollYProgress } = useScroll({
@@ -134,14 +113,11 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
     offset: ['start start', 'end start'],
   })
 
-  const springConfig = useMemo(
-    () => ({
-      stiffness: 100,
-      damping: 40,
-      bounce: 25,
-    }),
-    []
-  )
+  const springConfig = {
+    stiffness: 100,
+    damping: 40,
+    bounce: 25,
+  }
 
   const translateX = useSpring(useTransform(scrollYProgress, [0, 1], [0, 400]), springConfig)
   const translateXReverse = useSpring(
@@ -152,18 +128,6 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
   const opacity = useSpring(useTransform(scrollYProgress, [0, 0.2], [0.2, 1]), springConfig)
   const rotateZ = useSpring(useTransform(scrollYProgress, [0, 0.2], [20, 0]), springConfig)
   const translateY = useSpring(useTransform(scrollYProgress, [0, 0.2], [-400, 200]), springConfig)
-
-  const transforms = useMemo(
-    () => ({
-      translateX,
-      translateXReverse,
-      rotateX,
-      opacity,
-      rotateZ,
-      translateY,
-    }),
-    [translateX, translateXReverse, rotateX, opacity, rotateZ, translateY]
-  )
 
   return (
     <div
@@ -177,10 +141,10 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
       <Header />
       <motion.div
         style={{
-          rotateX: transforms.rotateX,
-          rotateZ: transforms.rotateZ,
-          translateY: transforms.translateY,
-          opacity: transforms.opacity,
+          rotateX: rotateX,
+          rotateZ: rotateZ,
+          translateY: translateY,
+          opacity: opacity,
           willChange: 'transform, opacity',
         }}
         className=""
@@ -189,7 +153,7 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
           {firstRow.map((project, index) => (
             <ProjectCard
               project={project}
-              translate={transforms.translateX}
+              translate={translateX}
               key={project.inline.id}
               index={index + 1}
               className="w-[450px]"
@@ -201,7 +165,7 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
           {secondRow.map((project, index) => (
             <ProjectCard
               project={project}
-              translate={transforms.translateXReverse}
+              translate={translateXReverse}
               key={project.inline.id}
               index={index + 4}
               className="w-[450px]"
@@ -213,7 +177,7 @@ export const HeroParallaxResponsive = ({ projects }: { projects: HeroProject[] }
           {thirdRow.map((project, index) => (
             <ProjectCard
               project={project}
-              translate={transforms.translateX}
+              translate={translateX}
               key={project.inline.id}
               index={index + 7}
               className="w-[450px]"
@@ -237,11 +201,8 @@ export const ProjectCard = React.memo(
     index: number
     className?: string
   }) => {
-    const displaySkills = useMemo(() => project.skills.slice(0, 3), [project.skills])
-    const remainingSkillsCount = useMemo(
-      () => (project.skills.length > 3 ? project.skills.length - 3 : 0),
-      [project.skills.length]
-    )
+    const displaySkills = project.skills.slice(0, 3)
+    const remainingSkillsCount = project.skills.length > 3 ? project.skills.length - 3 : 0
 
     return (
       <motion.div

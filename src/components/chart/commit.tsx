@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -25,9 +25,10 @@ export const EnhancedCommitsChart = ({ commits }: EnhancedCommitsChartProps) => 
   const [chartType, setChartType] = useState<'bar' | 'line' | 'area'>('bar')
   const [timeRange, setTimeRange] = useState<'all' | '30d' | '90d' | '1y'>('all')
 
-  const processedData = useMemo(() => {
-    if (!commits || commits.length === 0) return { chartData: [], stats: null }
+  let chartData: Array<{ date: string; commits: number; rawDate: string }> = []
+  let computedStats = null
 
+  if (commits && commits.length > 0) {
     const sortedCommits = [...commits].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     )
@@ -57,7 +58,7 @@ export const EnhancedCommitsChart = ({ commits }: EnhancedCommitsChartProps) => 
       weeklyData.set(weekKey, (weeklyData.get(weekKey) || 0) + commit.count)
     })
 
-    const chartData = Array.from(weeklyData.entries())
+    chartData = Array.from(weeklyData.entries())
       .map(([date, commits]) => ({
         date: new Date(date).toLocaleDateString('en-US', {
           month: 'short',
@@ -98,7 +99,7 @@ export const EnhancedCommitsChart = ({ commits }: EnhancedCommitsChartProps) => 
       percentage: Math.abs(percentage),
     }
 
-    const stats = {
+    computedStats = {
       totalCommits,
       avgCommitsPerWeek,
       maxWeek,
@@ -106,9 +107,9 @@ export const EnhancedCommitsChart = ({ commits }: EnhancedCommitsChartProps) => 
       totalWeeks: chartData.length,
       activeWeeks: chartData.filter((week) => week.commits > 0).length,
     }
+  }
 
-    return { chartData, stats }
-  }, [commits, timeRange])
+  const processedData = { chartData, stats: computedStats }
 
   const themeColors = getThemeColors()
 

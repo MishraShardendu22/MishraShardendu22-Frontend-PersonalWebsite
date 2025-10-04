@@ -4,7 +4,7 @@ import { Certification } from '@/data/types.data'
 import CertificationsSection from '../main/certificate'
 import { CertificationsSkeleton } from '../main/loading'
 import { certificationsAPI } from '@/util/apiResponse.util'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const LazyCertificationsSection = () => {
   const [certifications, setCertifications] = useState<Certification[]>([])
@@ -16,7 +16,7 @@ export const LazyCertificationsSection = () => {
     rootMargin: '200px',
   })
 
-  const fetchCertifications = useCallback(async () => {
+  const fetchCertifications = async () => {
     if (loaded || loading) return
 
     setLoading(true)
@@ -31,13 +31,13 @@ export const LazyCertificationsSection = () => {
     } finally {
       setLoading(false)
     }
-  }, [loaded, loading])
+  }
 
   useEffect(() => {
     if (hasBeenVisible && !loaded) {
       fetchCertifications()
     }
-  }, [hasBeenVisible, loaded, fetchCertifications])
+  }, [hasBeenVisible, loaded])
 
   return (
     <div ref={sectionRef} className="scroll-mt-20 relative">

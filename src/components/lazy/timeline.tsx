@@ -3,7 +3,7 @@ import { useIntersectionObserver } from './obs'
 import { Experience, VolunteerExperience } from '@/data/types.data'
 import { ExperienceSkeleton } from '../main/loading'
 import { LoadingState } from '../experience/load-error'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { experiencesAPI, volunteerExperiencesAPI } from '@/util/apiResponse.util'
 import CombinedTimeline from '../main/timeline'
 
@@ -19,7 +19,7 @@ export const LazyTimelineSection = () => {
     rootMargin: '100px',
   })
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     if (loaded || loading) return
 
     setLoading(true)
@@ -38,13 +38,13 @@ export const LazyTimelineSection = () => {
     } finally {
       setLoading(false)
     }
-  }, [loaded, loading])
+  }
 
   useEffect(() => {
     if (hasBeenVisible && !loaded && !loading) {
       fetchData()
     }
-  }, [hasBeenVisible, loaded, loading, fetchData])
+  }, [hasBeenVisible, loaded, loading])
 
   return (
     <div

@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { VolunteerExperience } from '@/data/types.data'
-import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ArrowRight, ChevronLeft, ChevronRight, Heart, Users, HandHeart } from 'lucide-react'
 import { ExperienceFocusCards } from '../ui/focus-cards-vol'
 
@@ -32,32 +32,28 @@ export default function VolunteerExperienceSection({
   const itemsPerPage = getItemsPerPage()
   const totalPages = Math.ceil(experiences.length / itemsPerPage)
 
-  const { currentPageExperiences, startIndex, endIndex } = useMemo(() => {
-    const startIndex = currentPage * itemsPerPage
-    const endIndex = Math.min(startIndex + itemsPerPage, experiences.length)
-    const currentPageExperiences = experiences.slice(startIndex, endIndex)
-
-    return { currentPageExperiences, startIndex, endIndex }
-  }, [experiences, currentPage, itemsPerPage])
+  const startIndex = currentPage * itemsPerPage
+  const endIndex = Math.min(startIndex + itemsPerPage, experiences.length)
+  const currentPageExperiences = experiences.slice(startIndex, endIndex)
 
   useEffect(() => {
     setCurrentPage(0)
   }, [itemsPerPage])
 
-  const nextPage = useCallback(() => {
+  const nextPage = () => {
     if (currentPage < totalPages - 1) setCurrentPage((prev) => prev + 1)
-  }, [currentPage, totalPages])
+  }
 
-  const prevPage = useCallback(() => {
+  const prevPage = () => {
     if (currentPage > 0) setCurrentPage((prev) => prev - 1)
-  }, [currentPage])
+  }
 
-  const getVisiblePageNumbers = useCallback(() => {
+  const getVisiblePageNumbers = () => {
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i)
     }
 
-    const pages = []
+    const pages: (number | string)[] = []
     const delta = 1
 
     pages.push(0)
@@ -84,26 +80,24 @@ export default function VolunteerExperienceSection({
     }
 
     return pages
-  }, [totalPages, currentPage])
+  }
 
   const isMobile = windowWidth < 640
 
-  const volunteerStats = useMemo(() => {
-    const totalOrganizations = new Set(experiences.map((exp) => exp.organisation)).size
-    const totalProjects = experiences.reduce((sum, exp) => sum + (exp.projects?.length || 0), 0)
-    const totalTechnologies = new Set(experiences.flatMap((exp) => exp.technologies || [])).size
-    const totalPositions = experiences.reduce(
-      (sum, exp) => sum + (exp.volunteer_time_line?.length || 0),
-      0
-    )
+  const totalOrganizations = new Set(experiences.map((exp) => exp.organisation)).size
+  const totalProjects = experiences.reduce((sum, exp) => sum + (exp.projects?.length || 0), 0)
+  const totalTechnologies = new Set(experiences.flatMap((exp) => exp.technologies || [])).size
+  const totalPositions = experiences.reduce(
+    (sum, exp) => sum + (exp.volunteer_time_line?.length || 0),
+    0
+  )
 
-    return {
-      organizations: totalOrganizations,
-      projects: totalProjects,
-      technologies: totalTechnologies,
-      positions: totalPositions,
-    }
-  }, [experiences])
+  const volunteerStats = {
+    organizations: totalOrganizations,
+    projects: totalProjects,
+    technologies: totalTechnologies,
+    positions: totalPositions,
+  }
 
   if (!experiences.length) {
     return (

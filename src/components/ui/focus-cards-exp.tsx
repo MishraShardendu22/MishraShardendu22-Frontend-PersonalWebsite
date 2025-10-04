@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Badge } from './badge'
 import { cn } from '@/lib/utils'
 import { Button } from './button'
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Experience } from '@/data/types.data'
 import { Card, CardDescription, CardTitle } from './card'
@@ -40,36 +40,37 @@ export const ExperienceFocusCard = React.memo(
     const latestPosition = exp.experience_time_line?.[exp.experience_time_line.length - 1]
     const earliestPosition = exp.experience_time_line?.[0]
 
-    const dateRange = useMemo(() => {
-      if (!earliestPosition?.start_date || !latestPosition?.end_date) return '—'
+    let dateRange = '—'
+    if (earliestPosition?.start_date && latestPosition?.end_date) {
       const startDate = new Date(earliestPosition.start_date)
       const endDate = new Date(latestPosition.end_date)
       const startStr = startDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'short' })
       const endStr = endDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'short' })
-      return `${startStr} - ${endStr}`
-    }, [earliestPosition?.start_date, latestPosition?.end_date])
+      dateRange = `${startStr} - ${endStr}`
+    }
 
-    const totalDuration = useMemo(() => {
-      if (!earliestPosition?.start_date || !latestPosition?.end_date) return null
+    let totalDuration = null
+    if (earliestPosition?.start_date && latestPosition?.end_date) {
       const start = new Date(earliestPosition.start_date)
       const end = new Date(latestPosition.end_date)
       const diffTime = Math.abs(end.getTime() - start.getTime())
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
       const months = Math.floor(diffDays / 30)
 
-      if (months < 1) return '< 1 month'
-      if (months < 12) return `${months} month${months > 1 ? 's' : ''}`
-      const years = Math.floor(months / 12)
-      const remainingMonths = months % 12
-      return `${years}y${remainingMonths > 0 ? ` ${remainingMonths}m` : ''}`
-    }, [earliestPosition?.start_date, latestPosition?.end_date])
+      if (months < 1) {
+        totalDuration = '< 1 month'
+      } else if (months < 12) {
+        totalDuration = `${months} month${months > 1 ? 's' : ''}`
+      } else {
+        const years = Math.floor(months / 12)
+        const remainingMonths = months % 12
+        totalDuration = `${years}y${remainingMonths > 0 ? ` ${remainingMonths}m` : ''}`
+      }
+    }
 
-    const summary = useMemo(() => {
-      const limit = isMobile ? 140 : 180
-      return exp.description.length > limit
-        ? `${exp.description.slice(0, limit)}…`
-        : exp.description
-    }, [exp.description, isMobile])
+    const limit = isMobile ? 140 : 180
+    const summary =
+      exp.description.length > limit ? `${exp.description.slice(0, limit)}…` : exp.description
 
     const currentPosition = latestPosition?.position || earliestPosition?.position || 'Professional'
     const positionCount = exp.experience_time_line?.length || 0
@@ -77,12 +78,12 @@ export const ExperienceFocusCard = React.memo(
     const projectCount = exp.projects?.length + exp.images?.length || 0
     const imageCount = exp.images?.length || 0
 
-    const isCurrentlyActive = useMemo(() => {
-      if (!latestPosition?.end_date) return true
+    let isCurrentlyActive = true
+    if (latestPosition?.end_date) {
       const endDate = new Date(latestPosition.end_date)
       const now = new Date()
-      return endDate > now
-    }, [latestPosition?.end_date])
+      isCurrentlyActive = endDate > now
+    }
 
     return (
       <div

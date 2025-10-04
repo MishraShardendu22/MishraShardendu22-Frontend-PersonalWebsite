@@ -1,7 +1,7 @@
 'use client'
 import { cn } from '@/lib/utils'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import React, { useMemo, useRef } from 'react'
+import React, { useRef } from 'react'
 import * as THREE from 'three'
 
 export const CanvasRevealEffect = ({
@@ -57,33 +57,31 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
   shader = '',
   center = ['x', 'y'],
 }) => {
-  const uniforms = React.useMemo(() => {
-    let colorsArray = [colors[0], colors[0], colors[0], colors[0], colors[0], colors[0]]
-    if (colors.length === 2) {
-      colorsArray = [colors[0], colors[0], colors[0], colors[1], colors[1], colors[1]]
-    } else if (colors.length === 3) {
-      colorsArray = [colors[0], colors[0], colors[1], colors[1], colors[2], colors[2]]
-    }
+  let colorsArray = [colors[0], colors[0], colors[0], colors[0], colors[0], colors[0]]
+  if (colors.length === 2) {
+    colorsArray = [colors[0], colors[0], colors[0], colors[1], colors[1], colors[1]]
+  } else if (colors.length === 3) {
+    colorsArray = [colors[0], colors[0], colors[1], colors[1], colors[2], colors[2]]
+  }
 
-    return {
-      u_colors: {
-        value: colorsArray.map((color) => [color[0] / 255, color[1] / 255, color[2] / 255]),
-        type: 'uniform3fv',
-      },
-      u_opacities: {
-        value: opacities,
-        type: 'uniform1fv',
-      },
-      u_total_size: {
-        value: totalSize,
-        type: 'uniform1f',
-      },
-      u_dot_size: {
-        value: dotSize,
-        type: 'uniform1f',
-      },
-    }
-  }, [colors, opacities, totalSize, dotSize])
+  const uniforms = {
+    u_colors: {
+      value: colorsArray.map((color) => [color[0] / 255, color[1] / 255, color[2] / 255]),
+      type: 'uniform3fv',
+    },
+    u_opacities: {
+      value: opacities,
+      type: 'uniform1fv',
+    },
+    u_total_size: {
+      value: totalSize,
+      type: 'uniform1f',
+    },
+    u_dot_size: {
+      value: dotSize,
+      type: 'uniform1f',
+    },
+  }
 
   return (
     <Shader
@@ -219,53 +217,8 @@ const ShaderMaterial = ({
     return preparedUniforms
   }
 
-  const material = useMemo(() => {
-    const getUniforms = () => {
-      const preparedUniforms: any = {}
-
-      for (const uniformName in uniforms) {
-        const uniform: any = uniforms[uniformName]
-
-        switch (uniform.type) {
-          case 'uniform1f':
-            preparedUniforms[uniformName] = { value: uniform.value, type: '1f' }
-            break
-          case 'uniform3f':
-            preparedUniforms[uniformName] = {
-              value: new THREE.Vector3().fromArray(uniform.value),
-              type: '3f',
-            }
-            break
-          case 'uniform1fv':
-            preparedUniforms[uniformName] = { value: uniform.value, type: '1fv' }
-            break
-          case 'uniform3fv':
-            preparedUniforms[uniformName] = {
-              value: uniform.value.map((v: number[]) => new THREE.Vector3().fromArray(v)),
-              type: '3fv',
-            }
-            break
-          case 'uniform2f':
-            preparedUniforms[uniformName] = {
-              value: new THREE.Vector2().fromArray(uniform.value),
-              type: '2f',
-            }
-            break
-          default:
-            console.error(`Invalid uniform type for '${uniformName}'.`)
-            break
-        }
-      }
-
-      preparedUniforms['u_time'] = { value: 0, type: '1f' }
-      preparedUniforms['u_resolution'] = {
-        value: new THREE.Vector2(size.width * 2, size.height * 2),
-      }
-      return preparedUniforms
-    }
-
-    const materialObject = new THREE.ShaderMaterial({
-      vertexShader: `
+  const material = new THREE.ShaderMaterial({
+    vertexShader: `
       precision mediump float;
       in vec2 coordinates;
       uniform vec2 u_resolution;
@@ -278,16 +231,13 @@ const ShaderMaterial = ({
         fragCoord.y = u_resolution.y - fragCoord.y;
       }
       `,
-      fragmentShader: source,
-      uniforms: getUniforms(),
-      glslVersion: THREE.GLSL3,
-      blending: THREE.CustomBlending,
-      blendSrc: THREE.SrcAlphaFactor,
-      blendDst: THREE.OneFactor,
-    })
-
-    return materialObject
-  }, [size, uniforms, source])
+    fragmentShader: source,
+    uniforms: getUniforms(),
+    glslVersion: THREE.GLSL3,
+    blending: THREE.CustomBlending,
+    blendSrc: THREE.SrcAlphaFactor,
+    blendDst: THREE.OneFactor,
+  })
 
   return (
     <mesh ref={ref as any}>

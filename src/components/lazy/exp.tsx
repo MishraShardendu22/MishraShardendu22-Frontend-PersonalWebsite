@@ -5,7 +5,7 @@ import { useIntersectionObserver } from './obs'
 import { ExperienceSkeleton } from '../main/loading'
 import { LoadingState } from '../experience/load-error'
 import { experiencesAPI } from '@/util/apiResponse.util'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const LazyExperienceSection = () => {
   const [loaded, setLoaded] = useState(false)
@@ -18,7 +18,7 @@ export const LazyExperienceSection = () => {
     rootMargin: '100px',
   })
 
-  const fetchExperiences = useCallback(async () => {
+  const fetchExperiences = async () => {
     if (loaded || loading) return
 
     setLoading(true)
@@ -55,13 +55,13 @@ export const LazyExperienceSection = () => {
     } finally {
       setLoading(false)
     }
-  }, [loaded, loading])
+  }
 
   useEffect(() => {
     if (hasBeenVisible && !loaded && !loading) {
       fetchExperiences()
     }
-  }, [hasBeenVisible, loaded, loading, fetchExperiences])
+  }, [hasBeenVisible, loaded, loading])
 
   return (
     <div ref={sectionRef} className="scroll-mt-20 relative" id="experience-section">

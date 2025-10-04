@@ -1,6 +1,6 @@
 import { Badge } from '../ui/badge'
 import { Code, Zap, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Vortex } from '../ui/vortex'
 
 interface SkillsSectionProps {
@@ -21,14 +21,10 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
 
   const [itemsPerPage] = useState(getItemsPerPage())
 
-  const { totalPages, currentSkills, startIndex, endIndex } = useMemo(() => {
-    const totalPages = Math.ceil(skills.length / itemsPerPage)
-    const startIndex = (currentPage - 1) * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
-    const currentSkills = skills.slice(startIndex, endIndex)
-
-    return { totalPages, currentSkills, startIndex, endIndex }
-  }, [skills, itemsPerPage, currentPage])
+  const totalPages = Math.ceil(skills.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentSkills = skills.slice(startIndex, endIndex)
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {

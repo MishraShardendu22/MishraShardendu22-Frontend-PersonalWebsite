@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Project } from '@/data/types.data'
 import { HeroParallax } from '../ui/hero-parallax'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Star, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { ProjectFocusCards } from '../ui/focus-cards-projects'
 
@@ -17,7 +17,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [windowWidth, setWindowWidth] = useState(0)
 
-  const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.order - b.order), [projects])
+  const sortedProjects = [...projects].sort((a, b) => a.order - b.order)
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
@@ -27,16 +27,14 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const heroParallaxProjects = useMemo(() => {
-    return sortedProjects.slice(0, 15).map((project) => ({
-      inline: project.inline,
-      project_name: project.project_name,
-      small_description: project.small_description,
-      skills: project.skills,
-      project_live_link: project.project_live_link,
-      project_repository: project.project_repository,
-    }))
-  }, [sortedProjects])
+  const heroParallaxProjects = sortedProjects.slice(0, 15).map((project) => ({
+    inline: project.inline,
+    project_name: project.project_name,
+    small_description: project.small_description,
+    skills: project.skills,
+    project_live_link: project.project_live_link,
+    project_repository: project.project_repository,
+  }))
 
   const getProjectsPerPage = () => {
     if (windowWidth < 640) return 1
@@ -47,13 +45,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const projectsPerPage = getProjectsPerPage()
   const totalPages = Math.ceil(sortedProjects.length / projectsPerPage)
 
-  const { currentPageProjects, startIndex, endIndex } = useMemo(() => {
-    const startIndex = currentPage * projectsPerPage
-    const endIndex = Math.min(startIndex + projectsPerPage, sortedProjects.length)
-    const currentPageProjects = sortedProjects.slice(startIndex, endIndex)
-
-    return { currentPageProjects, startIndex, endIndex }
-  }, [sortedProjects, currentPage, projectsPerPage])
+  const startIndex = currentPage * projectsPerPage
+  const endIndex = Math.min(startIndex + projectsPerPage, sortedProjects.length)
+  const currentPageProjects = sortedProjects.slice(startIndex, endIndex)
 
   useEffect(() => {
     setCurrentPage(0)

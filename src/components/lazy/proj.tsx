@@ -4,7 +4,7 @@ import ProjectsSection from '../main/project'
 import { useIntersectionObserver } from './obs'
 import { ProjectsSkeleton } from '../main/loading'
 import { projectsAPI } from '@/util/apiResponse.util'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const LazyProjectsSection = () => {
   const [projects, setProjects] = useState<Project[]>([])
@@ -16,7 +16,7 @@ export const LazyProjectsSection = () => {
     rootMargin: '800px',
   })
 
-  const fetchProjects = useCallback(async () => {
+  const fetchProjects = async () => {
     if (loaded || loading) return
 
     setLoading(true)
@@ -33,13 +33,13 @@ export const LazyProjectsSection = () => {
     } finally {
       setLoading(false)
     }
-  }, [loaded, loading])
+  }
 
   useEffect(() => {
     if (hasBeenVisible && !loaded) {
       fetchProjects()
     }
-  }, [hasBeenVisible, loaded, fetchProjects])
+  }, [hasBeenVisible, loaded])
 
   return (
     <div ref={sectionRef} className="scroll-mt-20 relative">

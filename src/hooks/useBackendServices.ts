@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import {
   authService,
   usersService,
@@ -22,36 +22,35 @@ export const useBackendServices = () => {
     error: null,
   })
 
-  const executeService = useCallback(
-    async <T>(serviceCall: () => Promise<ApiResponse<T>>): Promise<ApiResponse<T> | null> => {
-      setState((prev) => ({ ...prev, loading: true, error: null }))
+  const executeService = async <T>(
+    serviceCall: () => Promise<ApiResponse<T>>
+  ): Promise<ApiResponse<T> | null> => {
+    setState((prev) => ({ ...prev, loading: true, error: null }))
 
-      try {
-        const response = await serviceCall()
+    try {
+      const response = await serviceCall()
 
-        if (response.success) {
-          setState((prev) => ({ ...prev, data: response.data, loading: false }))
-        } else {
-          setState((prev) => ({
-            ...prev,
-            error: response.error || 'Operation failed',
-            loading: false,
-          }))
-        }
-
-        return response
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'An error occurred'
-        setState((prev) => ({ ...prev, error: errorMessage, loading: false }))
-        return null
+      if (response.success) {
+        setState((prev) => ({ ...prev, data: response.data, loading: false }))
+      } else {
+        setState((prev) => ({
+          ...prev,
+          error: response.error || 'Operation failed',
+          loading: false,
+        }))
       }
-    },
-    []
-  )
 
-  const clearState = useCallback(() => {
+      return response
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred'
+      setState((prev) => ({ ...prev, error: errorMessage, loading: false }))
+      return null
+    }
+  }
+
+  const clearState = () => {
     setState({ data: null, loading: false, error: null })
-  }, [])
+  }
 
   return {
     ...state,
