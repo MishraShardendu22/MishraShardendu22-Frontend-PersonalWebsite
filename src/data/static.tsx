@@ -642,7 +642,7 @@ export const FedoraIcon = ({ className = 'h-12 w-12 m-2' }) => (
 // EXPORT ALL
 // =============================================================================
 
-export default {
+const staticData = {
   personalInfo,
   socialLinks,
   navItems,
@@ -661,3 +661,5 @@ export default {
   GoLangIcon,
   FedoraIcon,
 }
+
+export default staticData
