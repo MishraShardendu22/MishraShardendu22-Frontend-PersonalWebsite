@@ -1,14 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/index'
-import {
-  blogTable,
-  userProfilesTable,
-  likesTable,
-  commentsTable,
-  blogViewsTable,
-} from '@/db/schema'
+import { blogTable, userProfilesTable, commentsTable } from '@/db/schema'
 import { eq, desc, like, and, or, count } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
+
+const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
 
 export async function GET(request: NextRequest) {
   try {
@@ -70,23 +66,16 @@ export async function GET(request: NextRequest) {
 
     const blogsWithCounts = await Promise.all(
       blogs.map(async (blog) => {
-        const [likesCount, commentsCount, viewsCount] = await Promise.all([
-          db.select({ count: count() }).from(likesTable).where(eq(likesTable.blogId, blog.id)),
+        const [commentsCount] = await Promise.all([
           db
             .select({ count: count() })
             .from(commentsTable)
             .where(eq(commentsTable.blogId, blog.id)),
-          db
-            .select({ count: count() })
-            .from(blogViewsTable)
-            .where(eq(blogViewsTable.blogId, blog.id)),
         ])
 
         return {
           ...blog,
-          likes: likesCount[0]?.count || 0,
           comments: commentsCount[0]?.count || 0,
-          views: viewsCount[0]?.count || 0,
         }
       })
     )
@@ -125,6 +114,14 @@ export async function POST(request: NextRequest) {
 
     if (author.length === 0) {
       return NextResponse.json({ success: false, error: 'Author not found' }, { status: 404 })
+    }
+
+    // Only allow owner to create blogs
+    if (author[0].email !== OWNER_EMAIL) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized: Only the owner can create blog posts' },
+        { status: 403 }
+      )
     }
 
     const [newBlog] = await db

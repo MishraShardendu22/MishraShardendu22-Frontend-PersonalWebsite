@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/index'
-import {
-  blogTable,
-  userProfilesTable,
-  likesTable,
-  commentsTable,
-  blogViewsTable,
-} from '@/db/schema'
+import { blogTable, userProfilesTable, commentsTable } from '@/db/schema'
 import { eq, count } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 import { auth } from '@/lib/auth'
+
+const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const blogId = parseInt((await params).id)
@@ -49,17 +45,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
     }
 
-    const [likesCount, commentsCount, viewsCount] = await Promise.all([
-      db.select({ count: count() }).from(likesTable).where(eq(likesTable.blogId, blogId)),
+    const [commentsCount] = await Promise.all([
       db.select({ count: count() }).from(commentsTable).where(eq(commentsTable.blogId, blogId)),
-      db.select({ count: count() }).from(blogViewsTable).where(eq(blogViewsTable.blogId, blogId)),
     ])
 
     const blogWithCounts = {
       ...blog[0],
-      likes: likesCount[0]?.count || 0,
       comments: commentsCount[0]?.count || 0,
-      views: viewsCount[0]?.count || 0,
     }
 
     return NextResponse.json({
@@ -80,6 +72,23 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
     if (isNaN(blogId)) {
       return NextResponse.json({ success: false, error: 'Invalid blog ID' }, { status: 400 })
+    }
+
+    const session = await auth.api.getSession({ headers: request.headers })
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      )
+    }
+
+    // Only allow owner to update blogs
+    if (session.user.email !== OWNER_EMAIL) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized: Only the owner can update blog posts' },
+        { status: 403 }
+      )
     }
 
     const existingBlog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
@@ -137,19 +146,18 @@ export async function DELETE(
       )
     }
 
-    const currentUserId = session.user.id
+    // Only allow owner to delete blogs
+    if (session.user.email !== OWNER_EMAIL) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized: Only the owner can delete blog posts' },
+        { status: 403 }
+      )
+    }
 
     const existingBlog = await db.select().from(blogTable).where(eq(blogTable.id, blogId)).limit(1)
 
     if (existingBlog.length === 0) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 })
-    }
-
-    if (existingBlog[0].authorId !== currentUserId) {
-      return NextResponse.json(
-        { success: false, error: 'You can only delete your own blog posts' },
-        { status: 403 }
-      )
     }
 
     await db.delete(blogTable).where(eq(blogTable.id, blogId))

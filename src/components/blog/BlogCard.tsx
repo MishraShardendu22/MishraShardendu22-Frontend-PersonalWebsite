@@ -1,38 +1,24 @@
 'use client'
 
 import React from 'react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Heart, Bookmark, Eye, MessageCircle, Calendar, ArrowRight } from 'lucide-react'
+import { MessageCircle, Calendar, ArrowRight, User } from 'lucide-react'
 import { Blog } from '@/services/types'
 
 interface BlogCardProps {
   blog: Blog
-  onLike?: (blogId: string) => void
-  onBookmark?: (blogId: string) => void
   onReadMore?: (blogId: string) => void
-  isLiked?: boolean
-  isBookmarked?: boolean
   showActions?: boolean
+  customActions?: React.ReactNode
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
   blog,
-  onLike,
-  onBookmark,
   onReadMore,
-  isLiked = false,
-  isBookmarked = false,
   showActions = true,
+  customActions,
 }) => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -46,119 +32,90 @@ const BlogCard: React.FC<BlogCardProps> = ({
     return `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`.toUpperCase()
   }
 
-  const truncateText = (text: string, maxLength: number = 120) => {
+  const truncateText = (text: string, maxLength: number = 150) => {
     if (text.length <= maxLength) return text
     return text.substring(0, maxLength) + '...'
   }
 
   return (
-    <Card className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all group">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center space-x-3">
-            <Avatar className="w-8 h-8">
-              <AvatarImage src={blog.author.avatar || ''} />
-              <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                {blog.author.name && blog.author.name
-                  ? getInitials(blog.author.name, blog.author.name)
-                  : blog.author.email?.charAt(0).toUpperCase() || 'U'}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="font-medium text-foreground text-sm truncate">
-                {blog.author?.name ? blog.author.name : blog.author?.email || 'Unknown Author'}
-              </p>
-              <p className="text-xs text-foreground flex items-center">
-                <Calendar className="w-3 h-3 mr-1" />
-                {formatDate(blog.createdAt)}
-              </p>
-            </div>
-          </div>
-          {showActions && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => onBookmark?.(blog.id.toString())}
-            >
-              <Bookmark
-                className={`w-4 h-4 ${
-                  isBookmarked ? 'fill-current text-primary' : 'text-foreground'
-                }`}
-              />
-            </Button>
-          )}
-        </div>
-      </CardHeader>
-
-      <CardContent className="pt-0 pb-3">
-        <CardTitle className="text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors font-heading">
-          {blog.title}
-        </CardTitle>
-        <CardDescription className="line-clamp-3 text-sm mb-3">
-          {truncateText(blog.content)}
-        </CardDescription>
-
-        {blog.tags && blog.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {blog.tags.slice(0, 2).map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
-            {blog.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs">
-                +{blog.tags.length - 2}
-              </Badge>
-            )}
-          </div>
-        )}
-      </CardContent>
-
-      <CardFooter className="pt-0 flex items-center justify-between">
-        <div className="flex items-center space-x-3 text-xs text-foreground">
-          <div className="flex items-center space-x-1">
-            <Eye className="w-3 h-3" />
-            <span>{Array.isArray(blog.views) ? blog.views.length : (blog.views ?? 0)}</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <Heart className={`w-3 h-3 ${isLiked ? 'fill-current text-destructive' : ''}`} />
-            <span>{Array.isArray(blog.likes) ? blog.likes.length : (blog.likes ?? 0)}</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <MessageCircle className="w-3 h-3" />
-            <span>
-              {Array.isArray(blog.comments) ? blog.comments.length : (blog.comments ?? 0)}
-            </span>
+    <div className="rounded-lg border border-border bg-card p-4">
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <Avatar className="w-8 h-8 flex-shrink-0">
+            <AvatarImage src={blog.author.avatar || ''} className="object-cover" />
+            <AvatarFallback className="bg-muted text-foreground text-xs">
+              {blog.author.name && blog.author.name
+                ? getInitials(blog.author.name, blog.author.name)
+                : blog.author.email?.charAt(0).toUpperCase() || <User className="w-4 h-4" />}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-medium text-foreground truncate">
+              {blog.author?.name ? blog.author.name : blog.author?.email || 'Unknown Author'}
+            </p>
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <Calendar className="w-3 h-3" />
+              {formatDate(blog.createdAt)}
+            </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-1">
-          {showActions && onLike && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onLike(blog.id.toString())}
-              className={`h-8 w-8 p-0 ${
-                isLiked ? 'text-destructive' : 'text-foreground'
-              } hover:text-destructive`}
-            >
-              <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
-            </Button>
-          )}
+        <div className="flex items-center gap-1 text-muted-foreground flex-shrink-0">
+          <MessageCircle className="w-4 h-4" />
+          <span className="text-xs">
+            {Array.isArray(blog.comments) ? blog.comments.length : (blog.comments ?? 0)}
+          </span>
+        </div>
+      </div>
 
+      <h4 className="text-base font-semibold text-foreground mb-3 line-clamp-2">{blog.title}</h4>
+
+      {blog.tags && blog.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {blog.tags.slice(0, 3).map((tag, index) => (
+            <Badge key={index} variant="secondary" className="text-xs px-2 py-0.5">
+              {tag}
+            </Badge>
+          ))}
+          {blog.tags.length > 3 && (
+            <Badge variant="outline" className="text-xs px-2 py-0.5">
+              +{blog.tags.length - 3}
+            </Badge>
+          )}
+        </div>
+      )}
+
+      {customActions ? (
+        <div className="flex items-center gap-2">
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => onReadMore?.(blog.id.toString())}
-            className="text-primary hover:text-primary-foreground hover:bg-primary h-8 px-3"
+            className="flex-1 text-sm group/btn relative overflow-hidden"
           >
-            Read More
-            <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+            <span className="relative flex items-center justify-center gap-2">
+              Continue Reading
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
+            </span>
           </Button>
+          {customActions}
         </div>
-      </CardFooter>
-    </Card>
+      ) : (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onReadMore?.(blog.id.toString())}
+          className="w-full text-sm group/btn relative overflow-hidden"
+        >
+          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+          <span className="relative flex items-center justify-center gap-2">
+            Continue Reading
+            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
+          </span>
+        </Button>
+      )}
+    </div>
   )
 }
 

@@ -1,25 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/index'
-import {
-  blogTable,
-  userProfilesTable,
-  likesTable,
-  commentsTable,
-  blogViewsTable,
-} from '@/db/schema'
+import { blogTable, userProfilesTable, commentsTable } from '@/db/schema'
 import { eq, count, desc, sql } from 'drizzle-orm'
 import { user as usersTable } from '@/db/authSchema'
 
 export async function GET(request: NextRequest) {
   try {
-    const [totalPosts, totalLikes, totalComments, totalViews] = await Promise.all([
+    const [totalPosts, totalComments] = await Promise.all([
       db.select({ count: count() }).from(blogTable),
-      db.select({ count: count() }).from(likesTable),
       db.select({ count: count() }).from(commentsTable),
-      db.select({ count: count() }).from(blogViewsTable),
     ])
 
-    const topBlog = await db
+    const recentPostsRaw = await db
       .select({
         id: blogTable.id,
         title: blogTable.title,
@@ -28,55 +20,36 @@ export async function GET(request: NextRequest) {
         authorId: blogTable.authorId,
         createdAt: blogTable.createdAt,
         updatedAt: blogTable.updatedAt,
-        author: {
-          id: usersTable.id,
-          email: usersTable.email,
-        },
-        authorProfile: {
-          firstName: userProfilesTable.firstName,
-          lastName: userProfilesTable.lastName,
-          avatar: userProfilesTable.avatar,
-        },
-        viewCount: sql<number>`(
-          SELECT COUNT(*) FROM ${blogViewsTable} 
-          WHERE ${blogViewsTable.blogId} = ${blogTable.id}
-        )`,
-      })
-      .from(blogTable)
-      .leftJoin(usersTable, eq(blogTable.authorId, usersTable.id))
-      .leftJoin(userProfilesTable, eq(usersTable.id, userProfilesTable.userId))
-      .orderBy(
-        desc(sql<number>`(
-        SELECT COUNT(*) FROM ${blogViewsTable} 
-        WHERE ${blogViewsTable.blogId} = ${blogTable.id}
-      )`)
-      )
-      .limit(1)
-
-    const recentPosts = await db
-      .select({
-        id: blogTable.id,
-        title: blogTable.title,
-        content: blogTable.content,
-        tags: blogTable.tags,
-        authorId: blogTable.authorId,
-        createdAt: blogTable.createdAt,
-        updatedAt: blogTable.updatedAt,
-        author: {
-          id: usersTable.id,
-          email: usersTable.email,
-        },
-        authorProfile: {
-          firstName: userProfilesTable.firstName,
-          lastName: userProfilesTable.lastName,
-          avatar: userProfilesTable.avatar,
-        },
+        authorEmail: usersTable.email,
+        firstName: userProfilesTable.firstName,
+        lastName: userProfilesTable.lastName,
+        avatar: userProfilesTable.avatar,
       })
       .from(blogTable)
       .leftJoin(usersTable, eq(blogTable.authorId, usersTable.id))
       .leftJoin(userProfilesTable, eq(usersTable.id, userProfilesTable.userId))
       .orderBy(desc(blogTable.createdAt))
       .limit(5)
+
+    // Format recent posts to match Blog interface
+    const recentPosts = recentPostsRaw.map((post) => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      tags: post.tags || [],
+      authorId: post.authorId,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+      author: {
+        id: post.authorId,
+        email: post.authorEmail || '',
+        name:
+          post.firstName && post.lastName
+            ? `${post.firstName} ${post.lastName}`
+            : post.authorEmail || 'Unknown',
+        avatar: post.avatar || '',
+      },
+    }))
 
     const authorStats = await db
       .select({
@@ -86,18 +59,6 @@ export async function GET(request: NextRequest) {
         lastName: userProfilesTable.lastName,
         avatar: userProfilesTable.avatar,
         postCount: count(blogTable.id),
-        totalViews: sql<number>`(
-          SELECT COUNT(*) FROM ${blogViewsTable} 
-          WHERE ${blogViewsTable.blogId} IN (
-            SELECT id FROM ${blogTable} WHERE author_id = ${blogTable.authorId}
-          )
-        )`,
-        totalLikes: sql<number>`(
-          SELECT COUNT(*) FROM ${likesTable} 
-          WHERE ${likesTable.blogId} IN (
-            SELECT id FROM ${blogTable} WHERE author_id = ${blogTable.authorId}
-          )
-        )`,
       })
       .from(blogTable)
       .leftJoin(usersTable, eq(blogTable.authorId, usersTable.id))
@@ -109,14 +70,7 @@ export async function GET(request: NextRequest) {
         userProfilesTable.lastName,
         userProfilesTable.avatar
       )
-      .orderBy(
-        desc(sql<number>`(
-        SELECT COUNT(*) FROM ${blogViewsTable} 
-        WHERE ${blogViewsTable.blogId} IN (
-          SELECT id FROM ${blogTable} WHERE author_id = ${blogTable.authorId}
-        )
-      )`)
-      )
+      .orderBy(desc(count(blogTable.id)))
 
     const tagStats = await db
       .select({
@@ -129,19 +83,10 @@ export async function GET(request: NextRequest) {
 
     const stats = {
       totalPosts: totalPosts[0]?.count || 0,
-      totalLikes: totalLikes[0]?.count || 0,
       totalComments: totalComments[0]?.count || 0,
-      totalViews: totalViews[0]?.count || 0,
-      averageViewsPerPost: totalPosts[0]?.count
-        ? Math.round((totalViews[0]?.count || 0) / totalPosts[0]?.count)
-        : 0,
-      averageLikesPerPost: totalPosts[0]?.count
-        ? Math.round((totalLikes[0]?.count || 0) / totalPosts[0]?.count)
-        : 0,
       averageCommentsPerPost: totalPosts[0]?.count
         ? Math.round((totalComments[0]?.count || 0) / totalPosts[0]?.count)
         : 0,
-      topPerformingPost: topBlog[0] || null,
       recentPosts: recentPosts,
       authorStats: authorStats,
       tagStats: tagStats,

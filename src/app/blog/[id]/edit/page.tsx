@@ -24,6 +24,8 @@ import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
 import TipTap from '@/components/extra/TipTap'
 
+const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
+
 const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = React.use(params)
   const session = authClient.useSession()
@@ -99,6 +101,27 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  // Access control - redirect if not owner
+  useEffect(() => {
+    if (session?.data?.user?.email && session.data.user.email !== OWNER_EMAIL) {
+      router.push('/blog')
+    }
+  }, [session, router])
+
+  // Don't render if not the owner
+  if (!session?.data?.user || session.data.user.email !== OWNER_EMAIL) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="max-w-md">
+          <CardHeader>
+            <CardTitle>Access Denied</CardTitle>
+            <CardDescription>You don&apos;t have permission to edit blog posts.</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    )
   }
 
   if (loading) {
@@ -364,18 +387,6 @@ const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
                   <span className="text-sm text-foreground">Last Updated:</span>
                   <span className="text-sm font-medium">
                     {new Date(blog.updatedAt).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-foreground">Views:</span>
-                  <span className="text-sm font-medium">
-                    {Array.isArray(blog.views) ? blog.views.length : blog.views || 0}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-foreground">Likes:</span>
-                  <span className="text-sm font-medium">
-                    {Array.isArray(blog.likes) ? blog.likes.length : blog.likes || 0}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

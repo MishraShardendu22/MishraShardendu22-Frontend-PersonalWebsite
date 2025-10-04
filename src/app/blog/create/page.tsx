@@ -2,7 +2,7 @@
 
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -32,10 +32,14 @@ import {
   DialogClose,
 } from '@/components/ui/dialog'
 import ReactMarkdown from 'react-markdown'
+import { useBlogHeader } from '@/components/blog'
+
+const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
 
 const CreateBlogPage = () => {
   const session = authClient.useSession()
   const router = useRouter()
+  const headerContext = useBlogHeader()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [tags, setTags] = useState<string[]>([])
@@ -45,6 +49,49 @@ const CreateBlogPage = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [previewOpen, setPreviewOpen] = useState(false)
+
+  // Set up header actions
+  useEffect(() => {
+    headerContext.setOnPreview(() => () => setPreviewOpen(true))
+    headerContext.setOnPublish(() => handleSubmit)
+    headerContext.setCanPublish(!!title.trim() && !!content.trim())
+    headerContext.setIsPublishing(isSubmitting)
+
+    return () => {
+      headerContext.clearCustomization()
+    }
+  }, [title, content, isSubmitting])
+
+  // Update canPublish when title or content changes
+  useEffect(() => {
+    headerContext.setCanPublish(!!title.trim() && !!content.trim())
+  }, [title, content])
+
+  // Update isPublishing
+  useEffect(() => {
+    headerContext.setIsPublishing(isSubmitting)
+  }, [isSubmitting])
+
+  // Access control - only allow owner to access this page
+  useEffect(() => {
+    if (session?.data?.user?.email && session.data.user.email !== OWNER_EMAIL) {
+      router.push('/blog')
+    }
+  }, [session, router])
+
+  // Don't render if not the owner
+  if (!session?.data?.user || session.data.user.email !== OWNER_EMAIL) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="max-w-md">
+          <CardHeader>
+            <CardTitle>Access Denied</CardTitle>
+            <CardDescription>You don&apos;t have permission to create blog posts.</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    )
+  }
 
   const handleAddTag = () => {
     const newTags = newTag
@@ -181,234 +228,190 @@ const CreateBlogPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" onClick={() => router.back()} className="h-9 px-3">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-4 h-4 text-primary-foreground" />
+    <div className="space-y-6">
+      {error && (
+        <Alert className="mb-4 bg-destructive/10 border-destructive/20">
+          <AlertCircle className="h-4 w-4 text-destructive" />
+          <AlertDescription className="text-destructive text-sm">{error}</AlertDescription>
+        </Alert>
+      )}
+
+      {success && (
+        <Alert className="mb-4 bg-green-500/10 border-green-500/20">
+          <CheckCircle className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-600 text-sm">{success}</AlertDescription>
+        </Alert>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
+                <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Dribbble className="w-3 h-3 text-primary" />
                 </div>
-                <div>
-                  <h1 className="text-xl font-bold font-heading text-black dark:text-white">
-                    Create New Post
-                  </h1>
-                  <p className="text-sm text-black dark:text-white">Share your thoughts</p>
+                Post Title
+              </CardTitle>
+              <CardDescription className="text-sm text-black dark:text-white">
+                Write a compelling title for your post
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <Input
+                placeholder="Enter your post title..."
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="text-lg font-medium bg-background border-border h-12"
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
+                <div className="w-6 h-6 bg-secondary/10 rounded-lg flex items-center justify-center">
+                  <BookOpen className="w-3 h-3 text-secondary" />
                 </div>
+                Content
+              </CardTitle>
+              <CardDescription className="text-sm text-black dark:text-white">
+                Write your blog post content
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="min-h-[400px] bg-background rounded-lg p-4 ">
+                <TiptapModalEditor value={content} onChange={setContent} />
               </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" onClick={() => setPreviewOpen(true)} className="h-9 px-3">
-                <Eye className="w-4 h-4 mr-2" />
-                Preview
-              </Button>
-
-              <Button
-                onClick={handleSubmit}
-                disabled={isSubmitting || !title.trim() || !content.trim()}
-                className="h-9 px-4"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                {isSubmitting ? 'Publishing...' : 'Publish'}
-              </Button>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-6">
-        {error && (
-          <Alert className="mb-4 bg-destructive/10 border-destructive/20">
-            <AlertCircle className="h-4 w-4 text-destructive" />
-            <AlertDescription className="text-destructive text-sm">{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {success && (
-          <Alert className="mb-4 bg-green-500/10 border-green-500/20">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <AlertDescription className="text-green-600 text-sm">{success}</AlertDescription>
-          </Alert>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
-                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Dribbble className="w-3 h-3 text-primary" />
-                  </div>
-                  Post Title
-                </CardTitle>
-                <CardDescription className="text-sm text-black dark:text-white">
-                  Write a compelling title for your post
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
+        <div className="space-y-6">
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
+                <div className="w-6 h-6 bg-accent/10 rounded-lg flex items-center justify-center">
+                  <Tag className="w-3 h-3 text-accent" />
+                </div>
+                Tags
+              </CardTitle>
+              <CardDescription className="text-sm text-black dark:text-white">
+                Add relevant tags
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-0 space-y-4">
+              <div className="flex space-x-2">
                 <Input
-                  placeholder="Enter your post title..."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="text-lg font-medium bg-background border-border h-12"
+                  placeholder="Add a tag or comma-separated tags..."
+                  value={newTag}
+                  onChange={(e) => setNewTag(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      handleAddTag()
+                    }
+                  }}
+                  className="bg-background border-border h-9"
                 />
-              </CardContent>
-            </Card>
+                <Button
+                  onClick={handleAddTag}
+                  disabled={!newTag.trim()}
+                  size="sm"
+                  className="h-9 w-9 p-0"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </div>
 
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
-                  <div className="w-6 h-6 bg-secondary/10 rounded-lg flex items-center justify-center">
-                    <BookOpen className="w-3 h-3 text-secondary" />
-                  </div>
-                  Content
-                </CardTitle>
-                <CardDescription className="text-sm text-black dark:text-white">
-                  Write your blog post content
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="min-h-[400px] bg-background rounded-lg p-4 ">
-                  <TiptapModalEditor value={content} onChange={setContent} />
+              {tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="flex items-center space-x-1 text-xs"
+                    >
+                      <span>{tag}</span>
+                      <button
+                        onClick={() => handleRemoveTag(tag)}
+                        className="ml-1 hover:text-destructive transition-colors"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              )}
+            </CardContent>
+          </Card>
 
-          <div className="space-y-6">
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
-                  <div className="w-6 h-6 bg-accent/10 rounded-lg flex items-center justify-center">
-                    <Tag className="w-3 h-3 text-accent" />
-                  </div>
-                  Tags
-                </CardTitle>
-                <CardDescription className="text-sm text-black dark:text-white">
-                  Add relevant tags
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0 space-y-4">
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Add a tag or comma-separated tags..."
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleAddTag()
-                      }
-                    }}
-                    className="bg-background border-border h-9"
-                  />
-                  <Button
-                    onClick={handleAddTag}
-                    disabled={!newTag.trim()}
-                    size="sm"
-                    className="h-9 w-9 p-0"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
+          <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+            <DialogContent className="max-w-6xl w-full max-h-[100%] min-h-[40vh] overflow-y-auto flex flex-col justify-center items-center">
+              <DialogHeader className="w-full">
+                <DialogTitle>Preview Blog Post</DialogTitle>
+                <DialogDescription>How your post will appear to readers</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 bg-muted/50 rounded-xl p-10 w-full max-w-5xl mx-auto shadow-lg">
+                <h1 className="text-4xl font-extrabold font-heading text-black dark:text-white mb-4 text-center tracking-tight leading-tight">
+                  {title || 'Your post title will appear here'}
+                </h1>
+                <Separator />
+                <div className="prose prose-lg max-w-none text-black dark:text-white mx-auto px-2">
+                  <ReactMarkdown>{content || 'Your post content will appear here.'}</ReactMarkdown>
                 </div>
-
                 {tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-3 pt-4 justify-center">
                     {tags.map((tag, index) => (
                       <Badge
                         key={index}
-                        variant="secondary"
-                        className="flex items-center space-x-1 text-xs"
+                        variant="outline"
+                        className="text-sm px-3 py-1 rounded-2xl"
                       >
-                        <span>{tag}</span>
-                        <button
-                          onClick={() => handleRemoveTag(tag)}
-                          className="ml-1 hover:text-destructive transition-colors"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
+                        {tag}
                       </Badge>
                     ))}
                   </div>
                 )}
-              </CardContent>
-            </Card>
+                <DialogClose asChild>
+                  <Button className="mt-6 w-1/4 min-w-[150px] mx-auto" variant="outline">
+                    Close Preview
+                  </Button>
+                </DialogClose>
+              </div>
+            </DialogContent>
+          </Dialog>
 
-            <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
-              <DialogContent className="max-w-6xl w-full max-h-[100%] min-h-[40vh] overflow-y-auto flex flex-col justify-center items-center">
-                <DialogHeader className="w-full">
-                  <DialogTitle>Preview Blog Post</DialogTitle>
-                  <DialogDescription>How your post will appear to readers</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 bg-muted/50 rounded-xl p-10 w-full max-w-5xl mx-auto shadow-lg">
-                  <h1 className="text-4xl font-extrabold font-heading text-black dark:text-white mb-4 text-center tracking-tight leading-tight">
-                    {title || 'Your post title will appear here'}
-                  </h1>
-                  <Separator />
-                  <div className="prose prose-lg max-w-none text-black dark:text-white mx-auto px-2">
-                    <ReactMarkdown>
-                      {content || 'Your post content will appear here.'}
-                    </ReactMarkdown>
-                  </div>
-                  {tags.length > 0 && (
-                    <div className="flex flex-wrap gap-3 pt-4 justify-center">
-                      {tags.map((tag, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="text-sm px-3 py-1 rounded-2xl"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                  <DialogClose asChild>
-                    <Button className="mt-6 w-1/4 min-w-[150px] mx-auto" variant="outline">
-                      Close Preview
-                    </Button>
-                  </DialogClose>
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
+                <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Dribbble className="w-3 h-3 text-primary" />
                 </div>
-              </DialogContent>
-            </Dialog>
-
-            <Card className="bg-card border-border">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center space-x-2 text-base font-heading text-black dark:text-white">
-                  <div className="w-6 h-6 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Dribbble className="w-3 h-3 text-primary" />
-                  </div>
-                  Publishing Tips
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0 space-y-3">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">Write a compelling title</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">Use clear, engaging content</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">Add relevant tags</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-black dark:text-white">Preview before publishing</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                Publishing Tips
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0 space-y-3">
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-black dark:text-white">Write a compelling title</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-secondary rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-black dark:text-white">Use clear, engaging content</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-black dark:text-white">Add relevant tags</p>
+              </div>
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-destructive rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-sm text-black dark:text-white">Preview before publishing</p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

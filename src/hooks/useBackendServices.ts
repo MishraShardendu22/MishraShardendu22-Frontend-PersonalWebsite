@@ -4,8 +4,6 @@ import {
   usersService,
   blogsService,
   categoriesService,
-  notificationsService,
-  reportsService,
   type ApiResponse,
 } from '@/services'
 
@@ -115,21 +113,6 @@ export const useBackendServices = () => {
 
     deleteBlog: (id: string) => executeService(() => blogsService.deleteBlog(id)),
 
-    likeBlog: (id: string, userId: string) =>
-      executeService(() => blogsService.likeBlog(id, { userId })),
-
-    unlikeBlog: (id: string, userId: string) =>
-      executeService(() => blogsService.unlikeBlog(id, { userId })),
-
-    bookmarkBlog: (id: string, userId: string) =>
-      executeService(() => blogsService.bookmarkBlog(id, { userId })),
-
-    unbookmarkBlog: (id: string, userId: string) =>
-      executeService(() => blogsService.unbookmarkBlog(id, { userId })),
-
-    addToHistory: (id: string, userId: string) =>
-      executeService(() => blogsService.addToHistory(id, { userId })),
-
     getCategories: (params?: { page?: number; limit?: number; search?: string }) =>
       executeService(() => categoriesService.getCategories(params)),
 
@@ -145,30 +128,5 @@ export const useBackendServices = () => {
     ) => executeService(() => categoriesService.updateCategory(id, categoryData)),
 
     deleteCategory: (id: string) => executeService(() => categoriesService.deleteCategory(id)),
-
-    getNotificationById: (id: string) =>
-      executeService(() => notificationsService.getNotificationById(id)),
-
-    markNotificationRead: (id: string) =>
-      executeService(() => notificationsService.markNotificationRead(id)),
-
-    deleteNotification: (id: string) =>
-      executeService(() => notificationsService.deleteNotification(id)),
-
-    getReports: (params?: { page?: number; limit?: number; search?: string }) =>
-      executeService(() => reportsService.getReports(params)),
-
-    getReportById: (id: string) => executeService(() => reportsService.getReport(id)),
-
-    createReport: (reportData: {
-      type: 'blog' | 'comment' | 'user'
-      reason: string
-      relatedId: number
-    }) => executeService(() => reportsService.createReport(reportData)),
-
-    updateReportStatus: (
-      id: string,
-      statusData: { status: 'pending' | 'resolved' | 'dismissed' }
-    ) => executeService(() => reportsService.updateReportStatus(id, statusData)),
   }
 }

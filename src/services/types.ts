@@ -105,10 +105,7 @@ export interface Blog {
   }
   tags?: string[]
   categories?: Category[]
-  likes?: Like[]
   comments?: Comment[]
-  bookmarks?: Bookmark[]
-  views?: BlogView[]
   createdAt: string
   updatedAt: string
 }

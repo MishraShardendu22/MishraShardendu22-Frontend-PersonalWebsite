@@ -10,9 +10,6 @@ import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 import {
   ArrowLeft,
-  Heart,
-  Bookmark,
-  Eye,
   MessageCircle,
   Share2,
   Calendar,
@@ -50,12 +47,23 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(true)
-  const [isLiked, setIsLiked] = useState(false)
-  const [isBookmarked, setIsBookmarked] = useState(false)
-  const [likesCount, setLikesCount] = useState(0)
-  const [viewsCount, setViewsCount] = useState(0)
   const [commentsCount, setCommentsCount] = useState(0)
   const [shareSuccess, setShareSuccess] = useState(false)
+  const [readingProgress, setReadingProgress] = useState(0)
+
+  // Reading progress tracker
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const scrollTop = window.scrollY
+      const progress = (scrollTop / (documentHeight - windowHeight)) * 100
+      setReadingProgress(Math.min(progress, 100))
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const fetchBlogPost = useCallback(async () => {
     try {
@@ -63,8 +71,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
       const response = await blogsService.getBlogById(resolvedParams.id)
       if (response.success && response.data) {
         setBlog(response.data)
-        setLikesCount(typeof response.data.likes === 'number' ? response.data.likes : 0)
-        setViewsCount(typeof response.data.views === 'number' ? response.data.views : 0)
         setCommentsCount(typeof response.data.comments === 'number' ? response.data.comments : 0)
       }
     } catch (error) {
@@ -85,59 +91,12 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }
   }, [resolvedParams.id])
 
-  const addView = useCallback(async () => {
-    try {
-      if (session?.data?.user?.id) {
-        await blogsService.addBlogView(resolvedParams.id, {
-          userId: session.data.user.id,
-          ipAddress: '127.0.0.1',
-          userAgent: navigator.userAgent,
-        })
-      }
-    } catch (error) {
-      console.error('Error adding view:', error)
-    }
-  }, [resolvedParams.id, session?.data?.user?.id])
-
   useEffect(() => {
     if (resolvedParams.id) {
       fetchBlogPost()
       fetchComments()
-      addView()
     }
-  }, [resolvedParams.id, fetchBlogPost, fetchComments, addView])
-
-  const handleLike = async () => {
-    if (!session?.data?.user?.id) return
-
-    try {
-      if (isLiked) {
-        await blogsService.unlikeBlog(resolvedParams.id, { userId: session.data.user.id })
-        setLikesCount((prev) => prev - 1)
-      } else {
-        await blogsService.likeBlog(resolvedParams.id, { userId: session.data.user.id })
-        setLikesCount((prev) => prev + 1)
-      }
-      setIsLiked(!isLiked)
-    } catch (error) {
-      console.error('Error toggling like:', error)
-    }
-  }
-
-  const handleBookmark = async () => {
-    if (!session?.data?.user?.id) return
-
-    try {
-      if (isBookmarked) {
-        await blogsService.unbookmarkBlog(resolvedParams.id, { userId: session.data.user.id })
-      } else {
-        await blogsService.bookmarkBlog(resolvedParams.id, { userId: session.data.user.id })
-      }
-      setIsBookmarked(!isBookmarked)
-    } catch (error) {
-      console.error('Error toggling bookmark:', error)
-    }
-  }
+  }, [resolvedParams.id, fetchBlogPost, fetchComments])
 
   const handleShare = async () => {
     try {
@@ -256,38 +215,46 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/80 backdrop-blur-lg sticky top-0 z-10">
-        <div className="w-full px-6 py-4">
-          <div className="flex items-center justify-between">
+      {/* Reading Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 h-1 bg-muted/20 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-primary via-accent to-primary transition-all duration-300 shadow-sm shadow-primary/50"
+          style={{ width: `${readingProgress}%` }}
+        />
+      </div>
+
+      <header className="border-b border-border/40 bg-card/50 backdrop-blur-xl sticky top-0 z-10 shadow-sm mt-1">
+        <div className="w-full px-6 py-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
             <Button
               variant="ghost"
               onClick={() => router.back()}
               size="default"
-              className="hover:bg-muted/50"
+              className="hover:bg-primary/10 hover:text-primary transition-all gap-2.5 font-medium rounded-xl"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4" />
               Back
             </Button>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-3">
               <Button
                 variant="outline"
                 size="default"
                 onClick={handleShare}
-                className={`transition-all duration-200 ${
+                className={`transition-all duration-300 gap-2 rounded-xl font-medium ${
                   shareSuccess
-                    ? 'bg-green-50 border-green-200 text-green-700 dark:bg-green-950/20 dark:border-green-800 dark:text-green-400'
-                    : ''
+                    ? 'bg-green-50 border-green-300 text-green-700 dark:bg-green-950/30 dark:border-green-700 dark:text-green-400 shadow-lg shadow-green-500/20'
+                    : 'hover:bg-primary/5 hover:border-primary/50 border-border/60'
                 }`}
               >
                 {shareSuccess ? (
                   <>
-                    <Check className="w-4 h-4 mr-2" />
+                    <Check className="w-4 h-4" />
                     Copied!
                   </>
                 ) : (
                   <>
-                    <Share2 className="w-4 h-4 mr-2" />
+                    <Share2 className="w-4 h-4" />
                     Share
                   </>
                 )}
@@ -297,110 +264,108 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       </header>
 
-      <main className="w-full px-6 py-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-12">
-            <h1 className="text-5xl font-bold text-foreground font-heading mb-8 leading-tight">
+      <main className="w-full px-6 py-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-16">
+            {/* Tags Section - Moved to Top */}
+            {blog.tags && blog.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2.5 mb-8">
+                {blog.tags.map((tag, index) => (
+                  <Badge
+                    key={index}
+                    variant="secondary"
+                    className="px-4 py-1.5 text-sm font-semibold bg-gradient-to-r from-primary/15 to-accent/15 text-primary border border-primary/20 hover:bg-primary/20 transition-all rounded-full shadow-sm"
+                  >
+                    #{tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            {/* Title with improved spacing */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground font-heading mb-8 leading-[1.1] tracking-tight">
               {blog.title}
             </h1>
 
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center space-x-6">
+            {/* Metadata Section with improved styling */}
+            <div className="flex items-center gap-6 mb-10 pb-10 border-b border-border/40">
+              <div className="flex items-center gap-4">
+                <Avatar className="w-14 h-14 border-2 border-primary/20 ring-4 ring-background shadow-md">
+                  <AvatarImage src={blog.author?.avatar || '/Professional.webp'} />
+                  <AvatarFallback className="bg-gradient-to-br from-primary/30 to-primary/20 text-primary-foreground font-bold text-lg">
+                    {blog.author?.name
+                      ? blog.author.name.charAt(0).toUpperCase()
+                      : blog.author?.email?.charAt(0).toUpperCase() || 'M'}
+                  </AvatarFallback>
+                </Avatar>
                 <div>
-                  <div className="flex items-center space-x-6 text-sm text-foreground mt-1">
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2" />
+                  <p className="font-semibold text-foreground text-lg">
+                    {blog.author?.name || blog.author?.email || 'Unknown Author'}
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1.5">
+                    <span className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
                       {formatDate(blog.createdAt)}
                     </span>
-                    <span className="flex items-center">
-                      <Clock className="w-4 h-4 mr-2" />
+                    <span className="text-border">•</span>
+                    <span className="flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
                       {getReadingTime(blog.content)}
                     </span>
                   </div>
                 </div>
               </div>
-
-              <div className="flex items-center space-x-6 text-sm text-foreground">
-                <span className="flex items-center bg-muted/50 px-3 py-2 rounded-full">
-                  <Eye className="w-4 h-4 mr-2" />
-                  {viewsCount} views
-                </span>
-                <span className="flex items-center bg-muted/50 px-3 py-2 rounded-full">
-                  <Heart className="w-4 h-4 mr-2" />
-                  {likesCount} likes
-                </span>
-              </div>
             </div>
-
-            {blog.tags && blog.tags.length > 0 && (
-              <div className="flex flex-wrap gap-3 mb-10">
-                {blog.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="text-sm px-3 py-1">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
           </div>
 
-          <div className="mb-8">
-            <div className="prose prose-xl max-w-none dark:prose-invert prose-headings:font-heading prose-headings:text-foreground prose-p:text-foreground prose-p:leading-relaxed prose-li:text-foreground prose-strong:text-foreground prose-em:text-foreground">
+          {/* Content with improved typography */}
+          <div className="mb-16">
+            <div
+              className="prose prose-lg max-w-none dark:prose-invert 
+              prose-headings:font-heading prose-headings:text-foreground prose-headings:font-bold prose-headings:tracking-tight
+              prose-h1:text-4xl prose-h1:mb-6 prose-h1:mt-12
+              prose-h2:text-3xl prose-h2:mb-5 prose-h2:mt-10
+              prose-h3:text-2xl prose-h3:mb-4 prose-h3:mt-8
+              prose-p:text-foreground/90 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-base
+              prose-li:text-foreground/90 prose-li:leading-relaxed
+              prose-strong:text-foreground prose-strong:font-semibold
+              prose-em:text-foreground/80
+              prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-a:underline-offset-4
+              prose-code:text-primary prose-code:bg-primary/10 prose-code:px-2 prose-code:py-1 prose-code:rounded-md prose-code:text-sm prose-code:font-medium
+              prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border/60 prose-pre:rounded-xl prose-pre:shadow-inner
+              prose-blockquote:border-l-primary prose-blockquote:border-l-4 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-foreground/80
+              prose-img:rounded-2xl prose-img:shadow-2xl prose-img:border prose-img:border-border/50
+              prose-hr:border-border/40 prose-hr:my-10
+              prose-ul:my-6 prose-ol:my-6
+            "
+            >
               <ReactMarkdown>{blog.content}</ReactMarkdown>
             </div>
           </div>
 
-          <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-border/50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
-                <Button
-                  variant="ghost"
-                  onClick={handleLike}
-                  size="lg"
-                  className={`flex items-center space-x-2 ${isLiked ? 'text-red-500' : 'text-foreground'} hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20`}
-                >
-                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
-                  <span className="text-base font-medium">{likesCount}</span>
-                </Button>
-
-                <div className="flex items-center space-x-2 text-foreground bg-muted/50 px-4 py-2 rounded-full">
-                  <Eye className="w-5 h-5" />
-                  <span className="text-base font-medium">{viewsCount}</span>
+          {/* Comments Section with improved design */}
+          <div className="bg-gradient-to-br from-card/40 via-card/30 to-card/40 backdrop-blur-sm rounded-2xl border border-border/50 shadow-lg overflow-hidden">
+            <div className="p-8 pb-6 border-b border-border/40 bg-card/30">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center shadow-sm">
+                  <MessageCircle className="w-6 h-6 text-primary" />
                 </div>
-
-                <div className="flex items-center space-x-2 text-foreground bg-muted/50 px-4 py-2 rounded-full">
-                  <MessageCircle className="w-5 h-5" />
-                  <span className="text-base font-medium">{commentsCount}</span>
+                <div>
+                  <h3 className="text-2xl font-bold font-heading text-foreground">Discussion</h3>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    {commentsCount} {commentsCount === 1 ? 'comment' : 'comments'}
+                  </p>
                 </div>
-              </div>
-
-              <Button
-                variant="ghost"
-                onClick={handleBookmark}
-                size="lg"
-                className={`${isBookmarked ? 'text-primary bg-primary/10' : 'text-foreground'} hover:bg-primary/20`}
-              >
-                <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
-              </Button>
-            </div>
-          </div>
-
-          <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50">
-            <div className="p-6 pb-4 border-b border-border/50">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                  <MessageCircle className="w-4 h-4 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold font-heading">Comments ({commentsCount})</h3>
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
+            <div className="p-8 space-y-8">
               {session?.data?.user && (
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <Avatar className="w-10 h-10">
+                  <div className="flex items-start gap-4">
+                    <Avatar className="w-11 h-11 border-2 border-primary/20 ring-2 ring-background shadow-sm">
                       <AvatarImage src={session.data.user.image || ''} />
-                      <AvatarFallback className="bg-primary/10 text-primary text-sm">
+                      <AvatarFallback className="bg-gradient-to-br from-primary/30 to-primary/20 text-primary-foreground font-bold">
                         {getInitials(
                           session.data.user.name?.split(' ')[0] || '',
                           session.data.user.name?.split(' ')[1] || ''
@@ -409,17 +374,20 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     </Avatar>
                     <div className="flex-1 space-y-3">
                       <Textarea
-                        placeholder="Write a thoughtful comment..."
+                        placeholder="Share your thoughts..."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
-                        className="min-h-[100px] bg-background border-border resize-none text-base"
+                        className="min-h-[120px] bg-background/60 border-border/60 focus:border-primary/40 hover:border-border resize-none text-base rounded-xl transition-all shadow-sm"
                       />
                       <div className="flex items-center justify-between">
-                        <p className="text-xs text-foreground">Press Ctrl+Enter to submit</p>
+                        <p className="text-xs text-muted-foreground font-medium">
+                          Markdown is supported
+                        </p>
                         <Button
                           onClick={handleAddComment}
                           disabled={!newComment.trim()}
                           size="default"
+                          className="bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all font-semibold rounded-xl"
                         >
                           <Send className="w-4 h-4 mr-2" />
                           Post Comment
@@ -430,39 +398,46 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
               )}
 
-              <Separator />
+              {session?.data?.user && <Separator className="bg-border/40" />}
 
               <div className="space-y-6">
                 {comments.map((comment) => (
-                  <div key={comment.id} className="flex items-start space-x-4">
-                    <Avatar className="w-10 h-10">
+                  <div key={comment.id} className="flex items-start gap-4 group">
+                    <Avatar className="w-11 h-11 border-2 border-border/40 group-hover:border-primary/30 transition-all shadow-sm">
                       <AvatarImage src={comment.user?.avatar || ''} />
-                      <AvatarFallback className="bg-primary/10 text-primary text-sm">
+                      <AvatarFallback className="bg-muted text-muted-foreground text-sm font-semibold">
                         {getInitials(
                           comment.user?.name?.split(' ')[0] || '',
                           comment.user?.name?.split(' ')[1] || ''
                         )}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
+                    <div className="flex-1 bg-muted/40 rounded-xl p-5 border border-border/40 group-hover:border-border/60 group-hover:shadow-sm transition-all">
+                      <div className="flex items-center gap-3 mb-3">
                         <p className="font-semibold text-foreground text-base">
                           {comment.user?.name}
                         </p>
-                        <p className="text-sm text-foreground">{formatDate(comment.createdAt)}</p>
+                        <span className="text-xs text-muted-foreground">•</span>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDate(comment.createdAt)}
+                        </p>
                       </div>
-                      <p className="text-foreground text-base leading-relaxed">{comment.content}</p>
+                      <p className="text-foreground/90 leading-relaxed text-base">
+                        {comment.content}
+                      </p>
                     </div>
                   </div>
                 ))}
 
                 {comments.length === 0 && (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <MessageCircle className="w-8 h-8 text-primary" />
+                  <div className="text-center py-20">
+                    <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                      <MessageCircle className="w-12 h-12 text-primary/70" />
                     </div>
-                    <h4 className="text-lg font-semibold text-foreground mb-2">No comments yet</h4>
-                    <p className="text-foreground text-base">
+                    <h4 className="text-xl font-bold font-heading text-foreground mb-2">
+                      No comments yet
+                    </h4>
+                    <p className="text-muted-foreground text-base">
                       Be the first to share your thoughts!
                     </p>
                   </div>

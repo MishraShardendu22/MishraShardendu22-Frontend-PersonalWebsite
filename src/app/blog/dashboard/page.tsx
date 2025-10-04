@@ -1,19 +1,14 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   BookOpen,
   Plus,
   Search,
-  Calendar,
-  Eye,
-  Heart,
   MessageCircle,
   ArrowRight,
   Trash2,
@@ -36,7 +31,10 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import toast from 'react-hot-toast'
-import ReactMarkdown from 'react-markdown'
+import { StatCard } from '@/components/blog/StatCard'
+import BlogCard from '@/components/blog/BlogCard'
+
+const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
 
 const BlogDashboardPage = () => {
   const router = useRouter()
@@ -49,6 +47,14 @@ const BlogDashboardPage = () => {
   const [deletingBlogId, setDeletingBlogId] = useState<string | null>(null)
   const session = authClient.useSession()
 
+  // Access control - only allow owner to access this page
+  useEffect(() => {
+    if (session?.data?.user?.email && session.data.user.email !== OWNER_EMAIL) {
+      router.push('/blog')
+    }
+  }, [session, router])
+
+  // Fetch blogs on mount
   useEffect(() => {
     fetchBlogs()
   }, [])
@@ -107,11 +113,11 @@ const BlogDashboardPage = () => {
         )
       case 'title':
         return [...blogs].sort((a, b) => a.title.localeCompare(b.title))
-      case 'popular':
+      case 'comments':
         return [...blogs].sort((a, b) => {
-          const aViews = Array.isArray(a.views) ? a.views.length : a.views || 0
-          const bViews = Array.isArray(b.views) ? b.views.length : b.views || 0
-          return bViews - aViews
+          const aComments = Array.isArray(a.comments) ? a.comments.length : a.comments || 0
+          const bComments = Array.isArray(b.comments) ? b.comments.length : b.comments || 0
+          return bComments - aComments
         })
       default:
         return blogs
@@ -129,22 +135,12 @@ const BlogDashboardPage = () => {
   )
 
   const getTotalStats = () => {
-    const totalViews = blogs.reduce((sum, blog) => {
-      const views = Array.isArray(blog.views) ? blog.views.length : blog.views || 0
-      return sum + views
-    }, 0)
-
-    const totalLikes = blogs.reduce((sum, blog) => {
-      const likes = Array.isArray(blog.likes) ? blog.likes.length : blog.likes || 0
-      return sum + likes
-    }, 0)
-
     const totalComments = blogs.reduce((sum, blog) => {
       const comments = Array.isArray(blog.comments) ? blog.comments.length : blog.comments || 0
       return sum + comments
     }, 0)
 
-    return { totalViews, totalLikes, totalComments }
+    return { totalComments }
   }
 
   const stats = getTotalStats()
@@ -166,6 +162,32 @@ const BlogDashboardPage = () => {
     } finally {
       setDeletingBlogId(null)
     }
+  }
+
+  // Don't render dashboard if not the owner
+  if (!session?.data?.user || session.data.user.email !== OWNER_EMAIL) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-4">
+        <div className="max-w-md w-full text-center">
+          <div className="w-20 h-20 bg-destructive/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-destructive/20">
+            <AlertTriangle className="w-10 h-10 text-destructive" />
+          </div>
+          <h2 className="text-2xl font-bold text-foreground mb-3">Access Denied</h2>
+          <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+            You don&apos;t have permission to access the blog dashboard. This area is restricted to
+            authorized users only.
+          </p>
+          <Button
+            onClick={() => router.push('/blog')}
+            variant="outline"
+            className="w-full sm:w-auto"
+          >
+            <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
+            Back to Blogs
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   if (loading || session.isPending) {
@@ -265,312 +287,175 @@ const BlogDashboardPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold font-heading text-foreground">Blog Dashboard</h1>
-                <p className="text-sm text-foreground">Manage your blog posts</p>
-              </div>
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Stat Cards */}
+        <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <StatCard
+            title="Total Posts"
+            value={blogs.length}
+            description="Published articles"
+            icon={BookOpen}
+            variant="primary"
+          />
+
+          <StatCard
+            title="Comments"
+            value={stats.totalComments}
+            description="User engagement"
+            icon={MessageCircle}
+            variant="accent"
+          />
+        </div>
+
+        {/* Search and Filters */}
+        <div className="lg:col-span-8 flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Search your blogs..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-11 h-10 bg-background/60 border-border/70 focus:border-primary/50 rounded-lg text-sm transition-colors"
+              />
             </div>
 
-            <Button onClick={() => router.push('/blog/create')} className="h-9 px-4">
-              <Plus className="w-4 h-4 mr-2" />
-              Create Post
-            </Button>
+            <div className="flex items-center gap-2">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="h-10 px-3 bg-background/60 border border-border/70 rounded-lg text-sm font-medium text-foreground focus:border-primary/50 focus:outline-none transition-colors"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="title">Alphabetical</option>
+                <option value="comments">Most Comments</option>
+              </select>
+
+              <div className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-sm font-semibold border border-primary/20 whitespace-nowrap">
+                {filteredAndSortedBlogs.length} of {blogs.length}
+              </div>
+            </div>
           </div>
-        </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-          <Card className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs font-medium text-foreground">Posts</CardTitle>
-              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                <BookOpen className="h-4 w-4 text-primary" />
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-xl font-bold text-foreground mb-1">{blogs.length}</div>
-              <p className="text-xs text-foreground">Published articles</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border hover:bg-accent/5 hover:border-secondary/20 transition-all">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs font-medium text-foreground">Views</CardTitle>
-              <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                <Eye className="h-4 w-4 text-secondary" />
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-xl font-bold text-foreground mb-1">{stats.totalViews}</div>
-              <p className="text-xs text-foreground">Page visits</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border hover:bg-accent/5 hover:border-destructive/20 transition-all">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs font-medium text-foreground">Likes</CardTitle>
-              <div className="w-8 h-8 bg-destructive/10 rounded-lg flex items-center justify-center">
-                <Heart className="h-4 w-4 text-destructive" />
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-xl font-bold text-foreground mb-1">{stats.totalLikes}</div>
-              <p className="text-xs text-foreground">User reactions</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border hover:bg-accent/5 hover:border-accent/40 transition-all">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs font-medium text-foreground">Comments</CardTitle>
-              <div className="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
-                <MessageCircle className="h-4 w-4 text-accent" />
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="text-xl font-bold text-foreground mb-1">{stats.totalComments}</div>
-              <p className="text-xs text-foreground">User engagement</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="mb-6">
-          <div className="bg-card border border-border rounded-lg p-4">
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground w-4 h-4" />
-                <Input
-                  placeholder="Search blogs..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-10 bg-background border-border"
-                />
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="h-10 px-3 bg-background border border-border rounded-md text-sm"
+          {/* Tags */}
+          <div className="flex items-center gap-2">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="inline-flex h-9 items-center justify-start rounded-lg bg-muted/50 p-1 text-foreground shadow-sm w-full">
+                <TabsTrigger
+                  value="all"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="title">Alphabetical</option>
-                  <option value="popular">Most Popular</option>
-                </select>
-
-                <div className="px-3 py-1 bg-primary/10 text-primary rounded-md text-sm">
-                  {filteredAndSortedBlogs.length} of {blogs.length}
-                </div>
-              </div>
-            </div>
+                  All Posts
+                </TabsTrigger>
+                <TabsTrigger
+                  value="technology"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
+                >
+                  Technology
+                </TabsTrigger>
+                <TabsTrigger
+                  value="lifestyle"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
+                >
+                  Lifestyle
+                </TabsTrigger>
+                <TabsTrigger
+                  value="tutorial"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
+                >
+                  Tutorial
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
         </div>
+      </div>
 
-        {error && (
-          <div className="mb-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
-            <p className="text-destructive text-sm">{error}</p>
-          </div>
-        )}
+      {error && (
+        <div className="mb-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+          <p className="text-destructive text-sm">{error}</p>
+        </div>
+      )}
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="inline-flex h-10 items-center justify-center rounded-lg bg-muted/50 p-1 text-foreground shadow-sm">
-            <TabsTrigger
-              value="all"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
-            >
-              All Posts
-            </TabsTrigger>
-            <TabsTrigger
-              value="technology"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
-            >
-              Technology
-            </TabsTrigger>
-            <TabsTrigger
-              value="lifestyle"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
-            >
-              Lifestyle
-            </TabsTrigger>
-            <TabsTrigger
-              value="tutorial"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm hover:bg-background/50"
-            >
-              Tutorial
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value={activeTab} className="mt-6">
-            {filteredAndSortedBlogs.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold font-heading text-foreground mb-2">
-                  {searchTerm ? 'No blogs found' : 'No blogs yet'}
-                </h3>
-                <p className="text-foreground text-sm max-w-md mx-auto mb-6">
-                  {searchTerm
-                    ? 'Try adjusting your search terms'
-                    : 'Start your blogging journey by creating your first post'}
-                </p>
-                {!searchTerm && (
-                  <Button onClick={() => router.push('/blog/create')}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Create First Post
-                  </Button>
-                )}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsContent value={activeTab} className="mt-0">
+          {filteredAndSortedBlogs.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="w-8 h-8 text-primary" />
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {filteredAndSortedBlogs.map((blog) => (
-                  <Card
-                    key={blog.id}
-                    className="bg-card border-border hover:bg-accent/5 hover:border-primary/20 transition-all group"
-                  >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center space-x-3">
-                        <Avatar className="w-8 h-8">
-                          <AvatarImage src={blog.author?.avatar || ''} />
-                          <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                            {blog.author?.name
-                              ? `${blog.author.name.charAt(0)}`
-                              : blog.author?.email?.charAt(0).toUpperCase() || 'U'}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm truncate">
-                            {blog.author?.name
-                              ? blog.author.name
-                              : blog.author?.email || 'Unknown Author'}
-                          </p>
-                          <p className="text-xs text-foreground flex items-center">
-                            <Calendar className="w-3 h-3 mr-1" />
-                            {formatDate(blog.createdAt)}
-                          </p>
-                        </div>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="pt-0 pb-3">
-                      <CardTitle className="text-base mb-2 line-clamp-2 group-hover:text-primary transition-colors font-heading">
-                        {blog.title}
-                      </CardTitle>
-                      <CardDescription className="line-clamp-3 text-sm mb-3">
-                        <ReactMarkdown>{truncateText(blog.content)}</ReactMarkdown>
-                      </CardDescription>
-
-                      {blog.tags && blog.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-3">
-                          {blog.tags.slice(0, 2).map((tag, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                          {blog.tags.length > 2 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{blog.tags.length - 2}
-                            </Badge>
-                          )}
-                        </div>
-                      )}
-                    </CardContent>
-
-                    <CardContent className="pt-0 border-t border-border">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3 text-xs text-foreground">
-                          <div className="flex items-center space-x-1">
-                            <Eye className="w-3 h-3" />
-                            <span>
-                              {Array.isArray(blog.views) ? blog.views.length : blog.views || 0}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Heart className="w-3 h-3" />
-                            <span>
-                              {Array.isArray(blog.likes) ? blog.likes.length : blog.likes || 0}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <MessageCircle className="w-3 h-3" />
-                            <span>
-                              {Array.isArray(blog.comments)
-                                ? blog.comments.length
-                                : blog.comments || 0}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center space-x-1">
+              <h3 className="text-xl font-bold font-heading text-foreground mb-2">
+                {searchTerm ? 'No blogs found' : 'No blogs yet'}
+              </h3>
+              <p className="text-foreground text-sm max-w-md mx-auto mb-6">
+                {searchTerm
+                  ? 'Try adjusting your search terms'
+                  : 'Start your blogging journey by creating your first post'}
+              </p>
+              {!searchTerm && (
+                <Button onClick={() => router.push('/blog/create')}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create First Post
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {filteredAndSortedBlogs.map((blog) => (
+                <BlogCard
+                  key={blog.id}
+                  blog={blog}
+                  onReadMore={(blogId) => router.push(`/blog/${blogId}`)}
+                  customActions={
+                    isAuthor(blog.authorId) ? (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
                           <Button
-                            variant="ghost"
+                            variant="outline"
                             size="sm"
-                            onClick={() => router.push(`/blog/${blog.id}`)}
-                            className="text-primary hover:text-primary-foreground hover:bg-primary h-8 px-3"
+                            className="h-9 w-9 p-0 text-destructive"
+                            disabled={deletingBlogId === String(blog.id)}
                           >
-                            Read More
-                            <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                            {deletingBlogId === String(blog.id) ? (
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
                           </Button>
-
-                          {isAuthor(blog.authorId) && (
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="text-destructive hover:text-destructive-foreground hover:bg-destructive h-8 w-8 p-0"
-                                  disabled={deletingBlogId === String(blog.id)}
-                                >
-                                  {deletingBlogId === String(blog.id) ? (
-                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
-                                  ) : (
-                                    <Trash2 className="w-4 h-4" />
-                                  )}
-                                </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle className="flex items-center gap-2">
-                                    <AlertTriangle className="w-4 h-4 text-destructive" />
-                                    Delete Blog Post
-                                  </AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Are you sure you want to delete &quot;{blog.title}&quot;? This
-                                    action cannot be undone and will permanently remove the blog
-                                    post and all its associated data.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => handleDeleteBlog(blog.id.toString())}
-                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                  >
-                                    Delete Post
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </main>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="flex items-center gap-2">
+                              <AlertTriangle className="w-4 h-4 text-destructive" />
+                              Delete Blog Post
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete &quot;{blog.title}&quot;? This action
+                              cannot be undone and will permanently remove the blog post and all its
+                              associated data.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDeleteBlog(blog.id.toString())}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Delete Post
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    ) : undefined
+                  }
+                />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

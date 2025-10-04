@@ -56,54 +56,6 @@ export const blogsService = {
     return response.data
   },
 
-  getBlogLikes: async (
-    id: string,
-    params?: PaginationParams
-  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
-    const response = await localAPI.get(`/blogs/${id}/likes`, { params })
-    return response.data
-  },
-
-  likeBlog: async (
-    id: string,
-    data: { userId: string }
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/like`, data)
-    return response.data
-  },
-
-  unlikeBlog: async (
-    id: string,
-    data: { userId: string }
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/unlike`, data)
-    return response.data
-  },
-
-  bookmarkBlog: async (
-    id: string,
-    data: { userId: string }
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/bookmark`, data)
-    return response.data
-  },
-
-  unbookmarkBlog: async (
-    id: string,
-    data: { userId: string }
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/unbookmark`, data)
-    return response.data
-  },
-
-  addToHistory: async (
-    id: string,
-    data: { userId: string }
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/history`, data)
-    return response.data
-  },
-
   getBlogCategories: async (id: string): Promise<ApiResponse<any[]>> => {
     const response = await localAPI.get(`/blogs/${id}/categories`)
     return response.data
@@ -122,22 +74,6 @@ export const blogsService = {
     categoryId: number
   ): Promise<ApiResponse<{ message: string }>> => {
     const response = await localAPI.delete(`/blogs/${id}/categories/${categoryId}`)
-    return response.data
-  },
-
-  getBlogViews: async (
-    id: string,
-    params?: PaginationParams
-  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
-    const response = await localAPI.get(`/blogs/${id}/views`, { params })
-    return response.data
-  },
-
-  addBlogView: async (
-    id: string,
-    data: { userId?: string; ipAddress?: string; userAgent?: string }
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/views`, data)
     return response.data
   },
 

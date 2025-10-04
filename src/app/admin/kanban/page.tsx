@@ -1,22 +1,22 @@
 'use client'
 
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
+  DndContext,
   DragOverlay,
+  DragEndEvent,
+  PointerSensor,
+  closestCenter,
   DragStartEvent,
+  KeyboardSensor,
 } from '@dnd-kit/core'
 import {
   arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
   useSortable,
+  SortableContext,
   rectSortingStrategy,
+  sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useRouter } from 'next/navigation'
@@ -28,15 +28,15 @@ import { projectsAPI } from '@/util/apiResponse.util'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
-  FolderKanban,
+  Save,
+  Package,
   Loader2,
+  TrendingUp,
   AlertCircle,
   GripVertical,
-  Save,
   CheckCircle2,
-  TrendingUp,
   TrendingDown,
-  Package,
+  FolderKanban,
 } from 'lucide-react'
 
 interface SortableCardProps {

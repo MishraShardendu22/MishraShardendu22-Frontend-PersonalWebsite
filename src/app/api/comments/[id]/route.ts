@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/index'
 import { commentsTable } from '@/db/schema'
 import { eq } from 'drizzle-orm'
+import { auth } from '@/lib/auth'
+import { user as usersTable } from '@/db/authSchema'
+
+const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -47,6 +51,15 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Invalid comment ID' }, { status: 400 })
     }
 
+    const session = await auth.api.getSession({ headers: request.headers })
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      )
+    }
+
     const existingComment = await db
       .select()
       .from(commentsTable)
@@ -55,6 +68,17 @@ export async function DELETE(
 
     if (existingComment.length === 0) {
       return NextResponse.json({ success: false, error: 'Comment not found' }, { status: 404 })
+    }
+
+    // Allow deletion if user is the comment owner OR the blog owner (mishrashardendu22@gmail.com)
+    const isCommentOwner = existingComment[0].userId === session.user.id
+    const isBlogOwner = session.user.email === OWNER_EMAIL
+
+    if (!isCommentOwner && !isBlogOwner) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized: You can only delete your own comments' },
+        { status: 403 }
+      )
     }
 
     await db.delete(commentsTable).where(eq(commentsTable.id, commentId))
