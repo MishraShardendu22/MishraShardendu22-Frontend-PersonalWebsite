@@ -2,7 +2,7 @@
 
 import { authClient } from '@/lib/authClient'
 import { useRouter } from 'next/navigation'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -50,65 +50,7 @@ const CreateBlogPage = () => {
   const [success, setSuccess] = useState('')
   const [previewOpen, setPreviewOpen] = useState(false)
 
-  // Set up header actions
-  useEffect(() => {
-    headerContext.setOnPreview(() => () => setPreviewOpen(true))
-    headerContext.setOnPublish(() => handleSubmit)
-    headerContext.setCanPublish(!!title.trim() && !!content.trim())
-    headerContext.setIsPublishing(isSubmitting)
-
-    return () => {
-      headerContext.clearCustomization()
-    }
-  }, [title, content, isSubmitting])
-
-  // Update canPublish when title or content changes
-  useEffect(() => {
-    headerContext.setCanPublish(!!title.trim() && !!content.trim())
-  }, [title, content])
-
-  // Update isPublishing
-  useEffect(() => {
-    headerContext.setIsPublishing(isSubmitting)
-  }, [isSubmitting])
-
-  // Access control - only allow owner to access this page
-  useEffect(() => {
-    if (session?.data?.user?.email && session.data.user.email !== OWNER_EMAIL) {
-      router.push('/blog')
-    }
-  }, [session, router])
-
-  // Don't render if not the owner
-  if (!session?.data?.user || session.data.user.email !== OWNER_EMAIL) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>Access Denied</CardTitle>
-            <CardDescription>You don&apos;t have permission to create blog posts.</CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    )
-  }
-
-  const handleAddTag = () => {
-    const newTags = newTag
-      .split(',')
-      .map((t) => t.trim())
-      .filter((t) => t && !tags.includes(t))
-    if (newTags.length > 0) {
-      setTags([...tags, ...newTags])
-      setNewTag('')
-    }
-  }
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove))
-  }
-
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!title.trim() || !content.trim()) {
       setError('Please fill in both title and content')
       return
@@ -157,6 +99,64 @@ const CreateBlogPage = () => {
     } finally {
       setIsSubmitting(false)
     }
+  }, [title, content, tags, session, router])
+
+  // Set up header actions
+  useEffect(() => {
+    headerContext.setOnPreview(() => () => setPreviewOpen(true))
+    headerContext.setOnPublish(() => handleSubmit)
+    headerContext.setCanPublish(!!title.trim() && !!content.trim())
+    headerContext.setIsPublishing(isSubmitting)
+
+    return () => {
+      headerContext.clearCustomization()
+    }
+  }, [title, content, isSubmitting, handleSubmit, headerContext])
+
+  // Update canPublish when title or content changes
+  useEffect(() => {
+    headerContext.setCanPublish(!!title.trim() && !!content.trim())
+  }, [title, content, headerContext])
+
+  // Update isPublishing
+  useEffect(() => {
+    headerContext.setIsPublishing(isSubmitting)
+  }, [isSubmitting, headerContext])
+
+  // Access control - only allow owner to access this page
+  useEffect(() => {
+    if (session?.data?.user?.email && session.data.user.email !== OWNER_EMAIL) {
+      router.push('/blog')
+    }
+  }, [session, router])
+
+  // Don't render if not the owner
+  if (!session?.data?.user || session.data.user.email !== OWNER_EMAIL) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="max-w-md">
+          <CardHeader>
+            <CardTitle>Access Denied</CardTitle>
+            <CardDescription>You don&apos;t have permission to create blog posts.</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    )
+  }
+
+  const handleAddTag = () => {
+    const newTags = newTag
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t && !tags.includes(t))
+    if (newTags.length > 0) {
+      setTags([...tags, ...newTags])
+      setNewTag('')
+    }
+  }
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove))
   }
 
   if (!session) {
