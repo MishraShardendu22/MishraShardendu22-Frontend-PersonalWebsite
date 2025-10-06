@@ -32,10 +32,6 @@ function NavLink({
         isMobile && 'w-full justify-start'
       )}
     >
-      {isActive && (
-        <div className="absolute inset-0 bg-gradient-to-r from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      )}
-
       <Icon
         className={cn(
           'h-5 w-5 flex-shrink-0 transition-all duration-300',
@@ -53,10 +49,6 @@ function NavLink({
       >
         {label}
       </span>
-
-      {isActive && (
-        <div className="absolute right-2 w-2 h-2 bg-primary rounded-full animate-pulse" />
-      )}
 
       {!isExpanded && !isMobile && (
         <div className="absolute left-full ml-3 px-3 py-2 bg-popover/95 backdrop-blur-sm text-popover-foreground text-xs rounded-lg shadow-xl border border-border opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-50 transform translate-x-2 group-hover:translate-x-0">

@@ -25,10 +25,10 @@ import { PersonJsonLd, WebsiteJsonLd, OrganizationJsonLd } from '@/components/se
 
 export default function HomePage() {
   const [skills, setSkills] = useState<string[]>([])
+  const [error, setError] = useState('')
   const [loading, setLoading] = useState({
     skills: true,
   })
-  const [error, setError] = useState('')
   const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
