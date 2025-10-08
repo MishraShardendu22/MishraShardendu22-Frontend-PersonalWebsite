@@ -498,6 +498,28 @@ h6 {
   background: var(--muted-foreground);
 }
 
+/* Custom scrollbar for comments section */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  opacity: 0.5;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+  opacity: 0.8;
+}
+
 /* iOS-specific optimizations */
 @supports (-webkit-touch-callout: none) {
   body {

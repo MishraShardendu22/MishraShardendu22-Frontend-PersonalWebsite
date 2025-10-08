@@ -81,7 +81,7 @@ export default function BlogNavigation() {
 
   return (
     <>
-      <div className="lg:hidden fixed top-4 left-4 z-50">
+      <div className="lg:hidden fixed top-4 right-4 z-50">
         <Button
           variant="outline"
           size="sm"

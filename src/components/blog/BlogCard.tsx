@@ -38,15 +38,17 @@ const BlogCard: React.FC<BlogCardProps> = ({
   }
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          <Avatar className="w-8 h-8 flex-shrink-0">
+    <div className="rounded-lg border border-border bg-card p-3 sm:p-4">
+      <div className="flex items-start justify-between gap-2 sm:gap-3 mb-2 sm:mb-3">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+          <Avatar className="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0">
             <AvatarImage src={blog.author.avatar || ''} className="object-cover" />
             <AvatarFallback className="bg-muted text-foreground text-xs">
               {blog.author.name && blog.author.name
                 ? getInitials(blog.author.name, blog.author.name)
-                : blog.author.email?.charAt(0).toUpperCase() || <User className="w-4 h-4" />}
+                : blog.author.email?.charAt(0).toUpperCase() || (
+                    <User className="w-3 h-3 sm:w-4 sm:h-4" />
+                  )}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
@@ -55,30 +57,38 @@ const BlogCard: React.FC<BlogCardProps> = ({
             </p>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
               <Calendar className="w-3 h-3" />
-              {formatDate(blog.createdAt)}
+              <span className="hidden sm:inline">{formatDate(blog.createdAt)}</span>
+              <span className="sm:hidden">
+                {new Date(blog.createdAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </span>
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1 text-muted-foreground flex-shrink-0">
-          <MessageCircle className="w-4 h-4" />
+          <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span className="text-xs">
             {Array.isArray(blog.comments) ? blog.comments.length : (blog.comments ?? 0)}
           </span>
         </div>
       </div>
 
-      <h4 className="text-base font-semibold text-foreground mb-3 line-clamp-2">{blog.title}</h4>
+      <h4 className="text-sm sm:text-base font-semibold text-foreground mb-2 sm:mb-3 line-clamp-2">
+        {blog.title}
+      </h4>
 
       {blog.tags && blog.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-3">
+        <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-2 sm:mb-3">
           {blog.tags.slice(0, 3).map((tag, index) => (
-            <Badge key={index} variant="secondary" className="text-xs px-2 py-0.5">
+            <Badge key={index} variant="secondary" className="text-xs px-1.5 sm:px-2 py-0.5">
               {tag}
             </Badge>
           ))}
           {blog.tags.length > 3 && (
-            <Badge variant="outline" className="text-xs px-2 py-0.5">
+            <Badge variant="outline" className="text-xs px-1.5 sm:px-2 py-0.5">
               +{blog.tags.length - 3}
             </Badge>
           )}
@@ -91,12 +101,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
             variant="outline"
             size="sm"
             onClick={() => onReadMore?.(blog.id.toString())}
-            className="flex-1 text-sm group/btn relative overflow-hidden"
+            className="flex-1 text-xs sm:text-sm group/btn relative overflow-hidden h-8 sm:h-9"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-            <span className="relative flex items-center justify-center gap-2">
-              Continue Reading
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
+            <span className="relative flex items-center justify-center gap-1.5 sm:gap-2">
+              <span className="hidden sm:inline">Continue Reading</span>
+              <span className="sm:hidden">Read</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
             </span>
           </Button>
           {customActions}
@@ -106,12 +117,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
           variant="outline"
           size="sm"
           onClick={() => onReadMore?.(blog.id.toString())}
-          className="w-full text-sm group/btn relative overflow-hidden"
+          className="w-full text-xs sm:text-sm group/btn relative overflow-hidden h-8 sm:h-9"
         >
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-          <span className="relative flex items-center justify-center gap-2">
-            Continue Reading
-            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
+          <span className="relative flex items-center justify-center gap-1.5 sm:gap-2">
+            <span className="hidden sm:inline">Continue Reading</span>
+            <span className="sm:hidden">Read More</span>
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform duration-200" />
           </span>
         </Button>
       )}

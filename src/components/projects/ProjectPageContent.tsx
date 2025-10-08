@@ -94,34 +94,35 @@ export default function ProjectPageContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <div className="sticky top-0 z-40 border-b border-border/50 bg-background/95 backdrop-blur-md">
-        <div className="container mx-auto px-6 py-4 max-w-full">
-          <div className="flex items-center justify-between gap-8">
-            <div className="flex items-center gap-6 flex-shrink-0">
+        <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 max-w-full">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 sm:gap-4 lg:gap-8">
+            <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 flex-shrink-0 w-full lg:w-auto">
               <Link href="/">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="flex items-center gap-2 hover:bg-muted"
+                  className="flex items-center gap-1.5 sm:gap-2 hover:bg-muted h-8 sm:h-9 text-xs sm:text-sm px-2 sm:px-3"
                 >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back to Home
+                  <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Back to Home</span>
+                  <span className="sm:hidden">Back</span>
                 </Button>
               </Link>
 
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Dribbble className="w-5 h-5 text-primary" />
-                  <h1 className="text-2xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent whitespace-nowrap">
+              <div className="flex items-center gap-2 sm:gap-4 flex-1 lg:flex-initial">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Dribbble className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                  <h1 className="text-lg sm:text-xl lg:text-2xl font-heading font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent whitespace-nowrap">
                     Projects
                   </h1>
                 </div>
 
-                <div className="hidden lg:flex items-center gap-3 text-sm">
+                <div className="hidden md:flex lg:flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
                   <div className="flex items-center gap-1">
                     <span className="font-semibold text-primary">{projects.length}</span>
                     <span className="text-muted-foreground">Total</span>
                   </div>
-                  <div className="w-px h-4 bg-border" />
+                  <div className="w-px h-3 sm:h-4 bg-border" />
                   <div className="flex items-center gap-1">
                     <span className="font-semibold text-secondary">{currentPage}</span>
                     <span className="text-muted-foreground">of</span>
@@ -131,17 +132,17 @@ export default function ProjectPageContent() {
               </div>
             </div>
 
-            <div className="flex-1 flex justify-center">
+            <div className="flex-1 flex justify-center w-full lg:w-auto lg:max-w-md">
               <Input
                 type="text"
                 placeholder="Search projects..."
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="h-10 w-full border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50"
+                className="h-9 sm:h-10 w-full border-2 border-border/50 hover:border-primary/50 focus:border-primary transition-colors bg-background/50 text-sm"
               />
             </div>
 
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 hidden lg:block">
               {totalPages > 1 && (
                 <ProjectPagination
                   currentPage={currentPage}
@@ -158,10 +159,10 @@ export default function ProjectPageContent() {
       </div>
 
       <div className="border-b border-border/30 bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-3 max-w-full">
-          <div className="flex items-center justify-center gap-4">
+        <div className="container mx-auto px-4 sm:px-6 py-3 max-w-full">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between sm:justify-center gap-3 sm:gap-4">
             <Select value={selectedSkill} onValueChange={setSelectedSkill}>
-              <SelectTrigger className="w-[200px] h-9">
+              <SelectTrigger className="w-full sm:w-[200px] h-9 text-sm">
                 <SelectValue placeholder="Filter by Skill" />
               </SelectTrigger>
               <SelectContent>
@@ -179,18 +180,18 @@ export default function ProjectPageContent() {
                 variant="secondary"
                 size="sm"
                 onClick={() => setSelectedSkill('__all__')}
-                className="h-9"
+                className="h-9 w-full sm:w-auto text-sm"
               >
                 Clear Filters
               </Button>
             )}
 
-            <div className="lg:hidden flex items-center gap-3 text-sm ml-4">
+            <div className="md:hidden flex items-center gap-2 sm:gap-3 text-xs sm:text-sm w-full sm:w-auto justify-center">
               <div className="flex items-center gap-1">
                 <span className="font-semibold text-primary">{projects.length}</span>
                 <span className="text-muted-foreground">Total</span>
               </div>
-              <div className="w-px h-4 bg-border" />
+              <div className="w-px h-3 sm:h-4 bg-border" />
               <div className="flex items-center gap-1">
                 <span className="font-semibold text-secondary">{currentPage}</span>
                 <span className="text-muted-foreground">of</span>
@@ -202,26 +203,28 @@ export default function ProjectPageContent() {
       </div>
 
       <div className="flex-1">
-        <div className="container mx-auto px-6 py-8 max-w-full">
+        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-full">
           {projects.length === 0 ? (
-            <div className="flex items-center justify-center py-20">
+            <div className="flex items-center justify-center py-12 sm:py-16 md:py-20">
               <EmptyState />
             </div>
           ) : (
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <ProjectGrid
                 items={transformedProjects}
-                className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
               />
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-6 border-t border-border/30 text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center justify-between pt-4 sm:pt-6 border-t border-border/30 text-xs sm:text-sm text-muted-foreground gap-3 sm:gap-0">
             <p>
               Showing {filteredProjects.length === 0 ? 0 : startIndex + 1}-
               {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
             </p>
-            <p className="text-xs">A curated collection of my latest work and contributions</p>
+            <p className="text-xs text-center sm:text-left">
+              A curated collection of my latest work and contributions
+            </p>
           </div>
         </div>
       </div>

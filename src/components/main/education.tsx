@@ -83,16 +83,16 @@ const EducationSection = () => {
             onMouseLeave={() => !isMobile && setHoveredCard(null)}
           >
             <div
-              className={`flex items-start justify-between mb-6 ${isMobile ? 'flex-col items-center space-y-4 text-center' : ''}`}
+              className={`flex mb-6 ${isMobile ? 'flex-col items-center space-y-4 text-center' : 'items-start justify-between'}`}
             >
               <div
-                className={`flex items-center space-x-4 ${isMobile ? 'flex-col items-center space-x-0 space-y-3' : ''}`}
+                className={`flex items-center space-x-4 ${isMobile ? 'flex-col items-center space-x-0 space-y-3 w-full' : ''}`}
               >
                 <div className="w-14 h-14 sm:w-16 sm:h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 flex-shrink-0">
                   <GraduationCap className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                 </div>
 
-                <div className={`min-w-0 ${isMobile ? 'text-center' : ''}`}>
+                <div className={`min-w-0 ${isMobile ? 'text-center w-full' : ''}`}>
                   <h3 className="text-lg sm:text-xl font-bold text-primary mb-2">
                     Higher Education
                   </h3>
@@ -132,7 +132,7 @@ const EducationSection = () => {
               </div>
 
               <div
-                className={`flex items-start space-x-2 text-muted-foreground ${isMobile ? 'justify-center' : ''}`}
+                className={`flex space-x-2 text-muted-foreground ${isMobile ? 'justify-center items-center' : 'items-start'}`}
               >
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <span className="text-sm leading-relaxed">
@@ -177,12 +177,12 @@ const EducationSection = () => {
             onMouseLeave={() => !isMobile && setHoveredCard(null)}
           >
             <div
-              className={`flex items-center space-x-4 mb-6 ${isMobile ? 'flex-col items-center space-x-0 space-y-3' : ''}`}
+              className={`flex space-x-4 mb-6 ${isMobile ? 'flex-col items-center space-x-0 space-y-3 w-full' : 'items-center'}`}
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 bg-secondary/10 rounded-full flex items-center justify-center border border-secondary/20 flex-shrink-0">
                 <BookOpen className="w-7 h-7 sm:w-8 sm:h-8 text-secondary" />
               </div>
-              <div className={`min-w-0 ${isMobile ? 'text-center' : ''}`}>
+              <div className={`min-w-0 ${isMobile ? 'text-center w-full' : ''}`}>
                 <h3 className="text-lg sm:text-xl font-bold text-secondary mb-2">
                   School Education
                 </h3>
@@ -207,7 +207,7 @@ const EducationSection = () => {
               </div>
 
               <div
-                className={`flex items-start space-x-2 text-muted-foreground ${isMobile ? 'justify-center' : ''}`}
+                className={`flex space-x-2 text-muted-foreground ${isMobile ? 'justify-center items-center' : 'items-start'}`}
               >
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <span className="text-sm leading-relaxed">
@@ -263,18 +263,20 @@ const EducationSection = () => {
             onMouseLeave={() => !isMobile && setHoveredCard(null)}
           >
             <div
-              className={`flex items-center space-x-4 mb-6 ${isMobile ? 'flex-col items-center space-x-0 space-y-3' : ''}`}
+              className={`flex space-x-4 mb-6 ${isMobile ? 'flex-col items-center space-x-0 space-y-3 w-full' : 'items-center'}`}
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 bg-accent/10 rounded-full flex items-center justify-center border border-accent/20 flex-shrink-0">
                 <Languages className="w-7 h-7 sm:w-8 sm:h-8 text-accent" />
               </div>
-              <div className={`${isMobile ? 'text-center' : ''}`}>
+              <div className={`${isMobile ? 'text-center w-full' : ''}`}>
                 <h3 className="text-lg sm:text-xl font-bold text-accent mb-1">Languages</h3>
                 <p className="text-sm text-muted-foreground">Communication</p>
               </div>
             </div>
 
-            <div className={`flex-1 flex items-start ${isMobile ? 'justify-center' : ''}`}>
+            <div
+              className={`flex-1 flex ${isMobile ? 'justify-center items-start' : 'items-start'}`}
+            >
               <div className="flex flex-wrap gap-3">
                 {educationData.Languages.map((language, index) => (
                   <div
