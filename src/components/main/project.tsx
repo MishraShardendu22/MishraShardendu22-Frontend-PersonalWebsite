@@ -154,66 +154,135 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             />
 
             {totalPages > 1 && (
-              <div className="mt-8 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
-                <div className="flex items-center gap-2 sm:gap-4 order-2 sm:order-none">
+              <div className="mt-8 sm:mt-16 px-4">
+                {/* Desktop Navigation */}
+                <div className="hidden sm:flex flex-row items-center justify-center gap-6">
                   <Button
                     onClick={prevPage}
                     variant="outline"
-                    size={windowWidth < 640 ? 'sm' : 'lg'}
+                    size="lg"
                     className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
                     disabled={currentPage === 0}
                   >
-                    <ChevronLeft className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:-translate-x-1" />
-                    <span className="text-xs sm:text-sm">
-                      {windowWidth < 640 ? 'Prev' : 'Previous'}
-                    </span>
+                    <ChevronLeft className="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
+                    <span className="text-sm">Previous</span>
                   </Button>
+
+                  <div className="flex items-center gap-2 lg:gap-3">
+                    {getVisiblePageNumbers().map((pageNum, index) => {
+                      if (pageNum === '...') {
+                        return (
+                          <span
+                            key={`dots-${index}`}
+                            className="px-2 py-1 text-sm text-foreground/50"
+                          >
+                            ...
+                          </span>
+                        )
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum as number)}
+                          className={`w-10 h-10 rounded-full font-semibold transition-all duration-300 text-sm touch-manipulation ${
+                            currentPage === pageNum
+                              ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105'
+                              : 'bg-card hover:bg-primary/5 border border-primary/20 hover:border-primary/30 text-foreground/70 hover:text-primary hover:scale-105'
+                          }`}
+                          aria-label={`Go to page ${(pageNum as number) + 1}`}
+                          aria-current={currentPage === pageNum ? 'page' : undefined}
+                        >
+                          {(pageNum as number) + 1}
+                        </button>
+                      )
+                    })}
+                  </div>
 
                   <Button
                     onClick={nextPage}
                     variant="outline"
-                    size={windowWidth < 640 ? 'sm' : 'lg'}
+                    size="lg"
                     className="group bg-card hover:bg-primary/5 border-primary/20 hover:border-primary/30 transition-all duration-300 touch-manipulation"
                     disabled={currentPage === totalPages - 1}
                   >
-                    <span className="text-xs sm:text-sm">Next</span>
-                    <ChevronRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
+                    <span className="text-sm">Next</span>
+                    <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </div>
 
-                <div className="flex items-center gap-1 sm:gap-2 lg:gap-3 order-1 sm:order-none">
-                  {getVisiblePageNumbers().map((pageNum, index) => {
-                    if (pageNum === '...') {
-                      return (
-                        <span
-                          key={`dots-${index}`}
-                          className="px-2 py-1 text-xs sm:text-sm text-foreground/50"
-                        >
-                          ...
-                        </span>
-                      )
-                    }
+                {/* Mobile Navigation */}
+                <div className="sm:hidden space-y-5">
+                  <div className="text-center bg-card/30 rounded-lg py-2 border border-border/50">
+                    <span className="text-sm text-foreground/80 font-semibold">
+                      Page {currentPage + 1} of {totalPages}
+                    </span>
+                  </div>
 
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum as number)}
-                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full font-semibold transition-all duration-300 text-xs sm:text-sm touch-manipulation ${
-                          currentPage === pageNum
-                            ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105'
-                            : 'bg-card hover:bg-primary/5 border border-primary/20 hover:border-primary/30 text-foreground/70 hover:text-primary hover:scale-105'
-                        }`}
-                        aria-label={`Go to page ${(pageNum as number) + 1}`}
-                        aria-current={currentPage === pageNum ? 'page' : undefined}
-                      >
-                        {(pageNum as number) + 1}
-                      </button>
-                    )
-                  })}
-                </div>
+                  <div className="flex items-center justify-center gap-4">
+                    <Button
+                      onClick={prevPage}
+                      variant="outline"
+                      size="lg"
+                      className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[160px] backdrop-blur-sm h-12 touch-manipulation"
+                      disabled={currentPage === 0}
+                      aria-label="Go to previous page"
+                    >
+                      <ChevronLeft
+                        className="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                      <span className="text-base font-semibold">Previous</span>
+                    </Button>
 
-                <div className="text-xs text-foreground/70 sm:hidden order-3">
-                  Page {currentPage + 1} of {totalPages}
+                    <Button
+                      onClick={nextPage}
+                      variant="outline"
+                      size="lg"
+                      className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[160px] backdrop-blur-sm h-12 touch-manipulation"
+                      disabled={currentPage === totalPages - 1}
+                      aria-label="Go to next page"
+                    >
+                      <span className="text-base font-semibold">Next</span>
+                      <ChevronRight
+                        className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </Button>
+                  </div>
+
+                  {totalPages <= 5 && (
+                    <div className="flex items-center justify-center gap-2 pb-2">
+                      {getVisiblePageNumbers().map((pageNum, index) => {
+                        if (pageNum === '...') {
+                          return (
+                            <span
+                              key={`dots-${index}`}
+                              className="px-2 py-1 text-sm text-foreground/50"
+                            >
+                              ...
+                            </span>
+                          )
+                        }
+
+                        return (
+                          <button
+                            key={pageNum}
+                            onClick={() => setCurrentPage(pageNum as number)}
+                            className={`w-11 h-11 rounded-full font-bold transition-all duration-300 text-base flex items-center justify-center touch-manipulation ${
+                              currentPage === pageNum
+                                ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-110'
+                                : 'bg-card/50 hover:bg-primary/5 border-2 border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm hover:scale-105'
+                            }`}
+                            aria-label={`Go to page ${(pageNum as number) + 1}`}
+                            aria-current={currentPage === pageNum ? 'page' : undefined}
+                          >
+                            {(pageNum as number) + 1}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
