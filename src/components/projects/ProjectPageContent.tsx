@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Dribbble } from 'lucide-react'
+import { ArrowLeft, Dribbble, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Project } from '@/data/types.data'
@@ -209,12 +209,93 @@ export default function ProjectPageContent() {
               <EmptyState />
             </div>
           ) : (
-            <div className="mb-6 sm:mb-8">
-              <ProjectGrid
-                items={transformedProjects}
-                className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
-              />
-            </div>
+            <>
+              <div className="mb-6 sm:mb-8">
+                <ProjectGrid
+                  items={transformedProjects}
+                  className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
+                />
+              </div>
+
+              {/* Mobile Pagination */}
+              {totalPages > 1 && (
+                <div className="lg:hidden mb-6 sm:mb-8">
+                  <div className="space-y-5 px-4">
+                    <div className="text-center bg-card/30 rounded-lg py-2 border border-border/50">
+                      <span className="text-sm text-foreground/80 font-semibold">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-4">
+                      <Button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        variant="outline"
+                        size="lg"
+                        className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[160px] backdrop-blur-sm h-12 touch-manipulation"
+                        disabled={currentPage === 1}
+                        aria-label="Go to previous page"
+                      >
+                        <ChevronLeft
+                          className="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-0.5"
+                          aria-hidden="true"
+                        />
+                        <span className="text-base font-semibold">Previous</span>
+                      </Button>
+
+                      <Button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        variant="outline"
+                        size="lg"
+                        className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[160px] backdrop-blur-sm h-12 touch-manipulation"
+                        disabled={currentPage === totalPages}
+                        aria-label="Go to next page"
+                      >
+                        <span className="text-base font-semibold">Next</span>
+                        <ChevronRight
+                          className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                          aria-hidden="true"
+                        />
+                      </Button>
+                    </div>
+
+                    {totalPages <= 5 && (
+                      <div className="flex items-center justify-center gap-2 pb-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                          <button
+                            key={pageNum}
+                            onClick={() => handlePageChange(pageNum)}
+                            className={`w-11 h-11 rounded-full font-bold transition-all duration-300 text-base flex items-center justify-center touch-manipulation ${
+                              currentPage === pageNum
+                                ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-110'
+                                : 'bg-card/50 hover:bg-primary/5 border-2 border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm hover:scale-105'
+                            }`}
+                            aria-label={`Go to page ${pageNum}`}
+                            aria-current={currentPage === pageNum ? 'page' : undefined}
+                          >
+                            {pageNum}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Desktop Pagination */}
+              <div className="hidden lg:block mb-6 sm:mb-8">
+                {totalPages > 1 && (
+                  <ProjectPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    startIndex={startIndex}
+                    endIndex={endIndex}
+                    totalItems={filteredProjects.length}
+                  />
+                )}
+              </div>
+            </>
           )}
 
           <div className="flex flex-col sm:flex-row items-center justify-between pt-4 sm:pt-6 border-t border-border/30 text-xs sm:text-sm text-muted-foreground gap-3 sm:gap-0">

@@ -14,6 +14,10 @@ interface ExperienceSectionProps {
 export default function ExperienceSection({ experiences }: ExperienceSectionProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [windowWidth, setWindowWidth] = useState(0)
+  const paginationRef = React.useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
@@ -208,56 +212,56 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
                 </Button>
               </div>
 
-              <div className="sm:hidden space-y-4">
-                <div className="text-center">
-                  <span className="text-sm text-foreground/70 font-medium">
+              <div className="sm:hidden space-y-5 px-4">
+                <div className="text-center bg-card/30 rounded-lg py-2 border border-border/50">
+                  <span className="text-sm text-foreground/80 font-semibold">
                     Page {currentPage + 1} of {totalPages}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex items-center justify-center gap-4">
                   <Button
                     onClick={prevPage}
                     variant="outline"
-                    size="sm"
-                    className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[140px] backdrop-blur-sm"
+                    size="lg"
+                    className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[160px] backdrop-blur-sm h-12 touch-manipulation"
                     disabled={currentPage === 0}
                     aria-label="Go to previous page"
                   >
                     <ChevronLeft
-                      className="mr-1.5 h-4 w-4 transition-transform group-hover:-translate-x-0.5"
+                      className="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-0.5"
                       aria-hidden="true"
                     />
-                    <span className="text-sm font-medium">Previous</span>
+                    <span className="text-base font-semibold">Previous</span>
                   </Button>
 
                   <Button
                     onClick={nextPage}
                     variant="outline"
-                    size="sm"
-                    className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[140px] backdrop-blur-sm"
+                    size="lg"
+                    className="group bg-card/50 hover:bg-primary/5 border-primary/20 hover:border-primary/40 transition-all duration-300 flex-1 max-w-[160px] backdrop-blur-sm h-12 touch-manipulation"
                     disabled={currentPage === totalPages - 1}
                     aria-label="Go to next page"
                   >
-                    <span className="text-sm font-medium">Next</span>
+                    <span className="text-base font-semibold">Next</span>
                     <ChevronRight
-                      className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5"
                       aria-hidden="true"
                     />
                   </Button>
                 </div>
 
                 {totalPages <= 7 && (
-                  <div className="flex items-center justify-center gap-1">
+                  <div className="flex items-center justify-center gap-2 pb-2">
                     {Array.from({ length: totalPages }, (_, i) => (
                       <button
                         key={i}
                         onClick={() => setCurrentPage(i)}
                         className={cn(
-                          'w-9 h-9 rounded-full font-semibold transition-all duration-300 text-sm flex items-center justify-center',
+                          'w-11 h-11 rounded-full font-bold transition-all duration-300 text-base flex items-center justify-center touch-manipulation',
                           currentPage === i
-                            ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-105'
-                            : 'bg-card/50 hover:bg-primary/5 border border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm'
+                            ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg scale-110'
+                            : 'bg-card/50 hover:bg-primary/5 border-2 border-primary/20 hover:border-primary/40 text-foreground/70 hover:text-primary backdrop-blur-sm hover:scale-105'
                         )}
                         aria-label={`Go to page ${i + 1}`}
                         aria-current={currentPage === i ? 'page' : undefined}

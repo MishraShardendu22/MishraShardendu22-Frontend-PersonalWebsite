@@ -11,7 +11,7 @@ export const LinkGroup = ({ items, isMobile }: LinkGroupProps) => (
   <div className={`${isMobile ? 'space-y-2' : 'space-y-3'}`}>
     {items.map((item) => (
       <Link
-        key={item.href}
+        key={item.label}
         href={item.href}
         target={item.href.startsWith('mailto:') || item.href.startsWith('#') ? undefined : '_blank'}
         rel={
