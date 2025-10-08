@@ -203,7 +203,7 @@ export function ExperienceDescription({ experience }: ExperienceDescriptionProps
                     <div className="absolute inset-0 bg-gradient-to-br from-background/80 to-background/60 rounded-lg" />
                     <div className="relative p-4 text-center backdrop-blur-sm rounded-lg border border-border/40 hover:border-primary/30 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
                       <div className="text-2xl font-bold text-primary mb-1">
-                        {experience.projects.length}
+                        {experience.projects.length + experience.images.length}
                       </div>
                       <div className="text-sm text-muted-foreground font-medium">Projects</div>
                       <div className="w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent rounded-full mt-2" />

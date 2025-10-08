@@ -50,13 +50,13 @@ export function ExperienceSidebar({
                   />
                 </div>
               )}
-              <h4 className="text-white font-semibold text-lg">{experience.company_name}</h4>
-              <p className="text-white/80 text-sm">
+              <h4 className="font-semibold text-lg">{experience.company_name}</h4>
+              <p className="opacity-80 text-sm">
                 {experience.experience_time_line?.[0]?.position ?? ''}
               </p>
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
+            <div className="flex items-center justify-center gap-2 opacity-70 text-sm">
               <Clock className="w-4 h-4" />
               <span>
                 {formatDate(experience.experience_time_line?.[0]?.start_date ?? '')} -{' '}
@@ -74,7 +74,7 @@ export function ExperienceSidebar({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-white/30 text-white hover:bg-white/20"
+                  className="border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:text-white group-hover/canvas-card:hover:bg-white/20"
                 >
                   <Award className="w-4 h-4 mr-2" />
                   View Certificate
@@ -96,15 +96,18 @@ export function ExperienceSidebar({
           dotSize={2}
         >
           <div className="space-y-4">
-            <p className="text-white/90 text-sm">Technologies used in this role</p>
+            <p className="opacity-90 text-sm">Technologies used in this role</p>
             <div className="flex flex-wrap gap-2">
               {experience.technologies.slice(0, 6).map((tech, index) => (
-                <Badge key={index} className="text-xs bg-white/20 text-white border-white/30">
+                <Badge
+                  key={index}
+                  className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30"
+                >
                   {tech}
                 </Badge>
               ))}
               {experience.technologies.length > 6 && (
-                <Badge className="text-xs bg-white/20 text-white border-white/30">
+                <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
                   +{experience.technologies.length - 6} more
                 </Badge>
               )}
@@ -124,12 +127,12 @@ export function ExperienceSidebar({
           dotSize={2}
         >
           <div className="space-y-4">
-            <p className="text-white/90 text-sm">Share or copy experience details</p>
+            <p className="opacity-90 text-sm">Share or copy experience details</p>
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
                 onClick={onShare}
-                className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:text-white group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                 size="sm"
                 disabled={shareClicked}
               >
@@ -140,7 +143,7 @@ export function ExperienceSidebar({
               <Button
                 variant="outline"
                 onClick={onCopyMarkdown}
-                className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:text-white group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                 size="sm"
                 disabled={copyClicked}
               >
@@ -174,36 +177,38 @@ export function ExperienceSidebar({
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">
-                  {experience.technologies.length}
-                </div>
-                <div className="text-xs text-white/70">Technologies</div>
+                <div className="text-2xl font-bold">{experience.technologies.length}</div>
+                <div className="text-xs opacity-70">Technologies</div>
               </div>
 
               <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">{experience.projects.length}</div>
-                <div className="text-xs text-white/70">Projects</div>
+                <div className="text-2xl font-bold">
+                  {experience.projects.length + experience.images.length}
+                </div>
+                <div className="text-xs opacity-70">Projects</div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="text-sm font-medium text-white">Features:</div>
+              <div className="text-sm font-medium">Features:</div>
               <div className="flex flex-wrap gap-2">
                 {experience.certificate_url && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
                     ✓ Certified
                   </Badge>
                 )}
                 {experience.projects.length > 0 && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
                     ✓ Projects
                   </Badge>
                 )}
                 {experience.images.length > 0 && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">✓ Media</Badge>
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
+                    ✓ Media
+                  </Badge>
                 )}
                 {experience.technologies.length > 5 && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
                     ✓ Multi-tech
                   </Badge>
                 )}

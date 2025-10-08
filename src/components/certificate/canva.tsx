@@ -31,12 +31,12 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="border border-border/50 group/canvas-card w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-500"
+      className="border border-border/50 group/canvas-card w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-white dark:bg-black backdrop-blur-sm hover:shadow-lg transition-all duration-500"
     >
-      <div className="absolute h-4 w-4 -top-2 -left-2 text-primary opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
+      <div className="absolute h-4 w-4 -top-2 -left-2 text-primary dark:text-white/20 opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
         <Dribbble className="h-full w-full" />
       </div>
-      <div className="absolute h-4 w-4 -bottom-2 -right-2 text-primary opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
+      <div className="absolute h-4 w-4 -bottom-2 -right-2 text-primary dark:text-white/20 opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
         <Dribbble className="h-full w-full" />
       </div>
 
@@ -79,7 +79,7 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
             </h3>
           </div>
         </div>
-        <div className="group-hover/canvas-card:text-white transition-colors duration-500">
+        <div className="text-foreground group-hover/canvas-card:text-white transition-colors duration-500">
           {children}
         </div>
       </div>

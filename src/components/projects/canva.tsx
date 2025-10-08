@@ -26,7 +26,7 @@ export const CanvasCard = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="border border-border/50 group/canvas-card flex flex-col justify-between dark:border-white/[0.2] w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300"
+      className="border border-border/50 group/canvas-card flex flex-col justify-between dark:border-white/[0.2] w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-white dark:bg-card/50 backdrop-blur-sm hover:shadow-lg transition-all duration-300"
     >
       <div className="absolute h-4 w-4 -top-2 -left-2 dark:text-white text-primary opacity-30">
         <Dribbble className="h-full w-full" />
@@ -60,7 +60,7 @@ export const CanvasCard = ({
           </div>
         </div>
 
-        <div className="group-hover/canvas-card:text-white transition-colors duration-200">
+        <div className="text-foreground group-hover/canvas-card:text-white transition-colors duration-200">
           {children}
         </div>
       </div>

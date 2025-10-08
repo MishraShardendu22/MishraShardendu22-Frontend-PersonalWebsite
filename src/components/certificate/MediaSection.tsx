@@ -103,12 +103,12 @@ export const MediaSection: React.FC<MediaSectionProps> = ({ certification }) => 
                     href={src}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white/90 hover:text-white transition-colors"
+                    className="group-hover/canvas-card:text-white/90 group-hover/canvas-card:hover:text-white transition-colors"
                   >
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-white/30 text-white hover:bg-white/20 text-xs"
+                      className="text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:text-white group-hover/canvas-card:hover:bg-white/20"
                     >
                       <ExternalLink className="w-3 h-3 mr-1" />
                       View Full
@@ -119,7 +119,7 @@ export const MediaSection: React.FC<MediaSectionProps> = ({ certification }) => 
                     variant="outline"
                     size="sm"
                     onClick={() => handleCopyUrl(src, i)}
-                    className="border-white/30 text-white hover:bg-white/20 text-xs"
+                    className="text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:text-white group-hover/canvas-card:hover:bg-white/20"
                     disabled={copyStates[i]}
                   >
                     {copyStates[i] ? (
@@ -136,7 +136,7 @@ export const MediaSection: React.FC<MediaSectionProps> = ({ certification }) => 
                   </Button>
                 </div>
 
-                <div className="text-white/70 text-xs">
+                <div className="opacity-70 text-xs group-hover/canvas-card:text-white/70">
                   {isYouTubeUrl(src)
                     ? 'Interactive video demonstration'
                     : 'Embedded content preview'}

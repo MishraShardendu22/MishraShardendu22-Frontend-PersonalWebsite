@@ -135,11 +135,11 @@ ${
               >
                 <div className="space-y-4">
                   <div className="text-center">
-                    <h4 className="text-white font-semibold text-lg">{certification.issuer}</h4>
-                    <p className="text-white/80 text-sm">{certification.title}</p>
+                    <h4 className="font-semibold text-lg">{certification.issuer}</h4>
+                    <p className="opacity-80 text-sm">{certification.title}</p>
                   </div>
 
-                  <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
+                  <div className="flex items-center justify-center gap-2 opacity-70 text-sm">
                     <Calendar className="w-4 h-4" />
                     <span>{formatDate(certification.issue_date)}</span>
                   </div>
@@ -154,7 +154,7 @@ ${
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-white/30 text-white hover:bg-white/20"
+                        className="border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20"
                       >
                         <Award className="w-4 h-4 mr-2" />
                         View Certificate
@@ -174,15 +174,18 @@ ${
                 ]}
               >
                 <div className="space-y-4">
-                  <p className="text-white/90 text-sm">Key competencies gained</p>
+                  <p className="opacity-90 text-sm">Key competencies gained</p>
                   <div className="flex flex-wrap gap-2">
                     {certification.skills.slice(0, 6).map((skill, index) => (
-                      <Badge key={index} className="text-xs bg-white/20 text-white border-white/30">
+                      <Badge
+                        key={index}
+                        className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30"
+                      >
                         {skill}
                       </Badge>
                     ))}
                     {certification.skills.length > 6 && (
-                      <Badge className="text-xs bg-white/20 text-white border-white/30">
+                      <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                         +{certification.skills.length - 6} more
                       </Badge>
                     )}
@@ -200,12 +203,12 @@ ${
                 ]}
               >
                 <div className="space-y-4">
-                  <p className="text-white/90 text-sm">Share or copy certification details</p>
+                  <p className="opacity-90 text-sm">Share or copy certification details</p>
                   <div className="grid grid-cols-2 gap-2">
                     <Button
                       variant="outline"
                       onClick={handleShare}
-                      className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                      className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                       size="sm"
                       disabled={shareClicked}
                     >
@@ -216,7 +219,7 @@ ${
                     <Button
                       variant="outline"
                       onClick={handleCopyMarkdown}
-                      className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                      className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                       size="sm"
                       disabled={copyClicked}
                     >
@@ -248,40 +251,38 @@ ${
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                      <div className="text-2xl font-bold text-white">
-                        {certification.skills.length}
-                      </div>
-                      <div className="text-xs text-white/70">Skills</div>
+                      <div className="text-2xl font-bold">{certification.skills.length}</div>
+                      <div className="text-xs opacity-70">Skills</div>
                     </div>
 
                     <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-2xl font-bold">
                         {certification.projects?.length || 0}
                       </div>
-                      <div className="text-xs text-white/70">Projects</div>
+                      <div className="text-xs opacity-70">Projects</div>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <div className="text-sm font-medium text-white">Features:</div>
+                    <div className="text-sm font-medium">Features:</div>
                     <div className="flex flex-wrap gap-2">
                       {certification.certificate_url && (
-                        <Badge className="text-xs bg-white/20 text-white border-white/30">
+                        <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                           ✓ Certified
                         </Badge>
                       )}
                       {certification.projects && certification.projects.length > 0 && (
-                        <Badge className="text-xs bg-white/20 text-white border-white/30">
+                        <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                           ✓ Projects
                         </Badge>
                       )}
                       {certification.images && certification.images.length > 0 && (
-                        <Badge className="text-xs bg-white/20 text-white border-white/30">
+                        <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                           ✓ Media
                         </Badge>
                       )}
                       {certification.skills.length > 5 && (
-                        <Badge className="text-xs bg-white/20 text-white border-white/30">
+                        <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                           ✓ Multi-skill
                         </Badge>
                       )}

@@ -62,13 +62,13 @@ export function ExperienceSidebar({
                   />
                 </div>
               )}
-              <h4 className="text-white font-semibold text-lg">{experience.organisation}</h4>
-              <p className="text-white/80 text-sm">
+              <h4 className="font-semibold text-lg">{experience.organisation}</h4>
+              <p className="opacity-80 text-sm">
                 {experience.volunteer_time_line?.[0]?.position ?? ''}
               </p>
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-white/70 text-sm">
+            <div className="flex items-center justify-center gap-2 opacity-70 text-sm">
               <Clock className="w-4 h-4" />
               <span>
                 {formatDate(experience.volunteer_time_line?.[0]?.start_date ?? '')} -{' '}
@@ -90,15 +90,18 @@ export function ExperienceSidebar({
           dotSize={2}
         >
           <div className="space-y-4">
-            <p className="text-white/90 text-sm">Technologies used in this role</p>
+            <p className="opacity-90 text-sm">Technologies used in this role</p>
             <div className="flex flex-wrap gap-2">
               {experience.technologies.slice(0, 6).map((tech, index) => (
-                <Badge key={index} className="text-xs bg-white/20 text-white border-white/30">
+                <Badge
+                  key={index}
+                  className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30"
+                >
                   {tech}
                 </Badge>
               ))}
               {experience.technologies.length > 6 && (
-                <Badge className="text-xs bg-white/20 text-white border-white/30">
+                <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                   +{experience.technologies.length - 6} more
                 </Badge>
               )}
@@ -118,12 +121,12 @@ export function ExperienceSidebar({
           dotSize={2}
         >
           <div className="space-y-4">
-            <p className="text-white/90 text-sm">Share or copy experience details</p>
+            <p className="opacity-90 text-sm">Share or copy experience details</p>
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
                 onClick={onShare}
-                className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                 size="sm"
                 disabled={shareClicked}
               >
@@ -134,7 +137,7 @@ export function ExperienceSidebar({
               <Button
                 variant="outline"
                 onClick={onCopyMarkdown}
-                className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                 size="sm"
                 disabled={copyClicked}
               >
@@ -168,31 +171,33 @@ export function ExperienceSidebar({
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">
-                  {experience.technologies.length}
-                </div>
-                <div className="text-xs text-white/70">Technologies</div>
+                <div className="text-2xl font-bold">{experience.technologies.length}</div>
+                <div className="text-xs opacity-70">Technologies</div>
               </div>
 
               <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                <div className="text-2xl font-bold text-white">{experience.projects.length}</div>
-                <div className="text-xs text-white/70">Projects</div>
+                <div className="text-2xl font-bold">
+                  {experience.projects.length + experience.images.length}
+                </div>
+                <div className="text-xs opacity-70">Projects</div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <div className="text-sm font-medium text-white">Features:</div>
+              <div className="text-sm font-medium">Features:</div>
               <div className="flex flex-wrap gap-2">
                 {experience.projects.length > 0 && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                     ✓ Projects
                   </Badge>
                 )}
                 {experience.images.length > 0 && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">✓ Media</Badge>
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
+                    ✓ Media
+                  </Badge>
                 )}
                 {experience.technologies.length > 5 && (
-                  <Badge className="text-xs bg-white/20 text-white border-white/30">
+                  <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                     ✓ Multi-tech
                   </Badge>
                 )}
@@ -213,7 +218,7 @@ export function ExperienceSidebar({
           dotSize={2}
         >
           <div className="space-y-4">
-            <p className="text-white/90 text-sm">Timeline indicators guide</p>
+            <p className="opacity-90 text-sm">Timeline indicators guide</p>
 
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-xs">
@@ -221,7 +226,7 @@ export function ExperienceSidebar({
                   <Award className="w-2 h-2 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-white font-medium">Current Position</div>
+                  <div className="font-medium">Current Position</div>
                 </div>
               </div>
 
@@ -230,7 +235,7 @@ export function ExperienceSidebar({
                   <Briefcase className="w-2 h-2 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-white font-medium">Past Position</div>
+                  <div className="font-medium">Past Position</div>
                 </div>
               </div>
 
@@ -239,20 +244,20 @@ export function ExperienceSidebar({
                   <div className="px-2 py-0.5 bg-green-500/30 text-green-200 text-[10px] font-semibold rounded-full border border-green-400/30">
                     CURRENT
                   </div>
-                  <span className="text-white/80 text-[11px]">Active role</span>
+                  <span className="opacity-80 text-[11px]">Active role</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs">
                   <div className="px-2 py-0.5 bg-amber-500/30 text-amber-200 text-[10px] font-semibold rounded-full border border-amber-400/30">
                     Latest
                   </div>
-                  <span className="text-white/80 text-[11px]">Most recent</span>
+                  <span className="opacity-80 text-[11px]">Most recent</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-2 border-t border-white/20">
-              <div className="flex items-center gap-2 text-xs text-white/70">
+              <div className="flex items-center gap-2 text-xs opacity-70">
                 <div className="w-4 h-[2px] bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 rounded-full"></div>
                 <span className="text-[11px]">Recent → Earlier</span>
               </div>
@@ -272,7 +277,7 @@ export function ExperienceSidebar({
           dotSize={2}
         >
           <div className="space-y-4">
-            <p className="text-white/90 text-sm">Role progression timeline</p>
+            <p className="opacity-90 text-sm">Role progression timeline</p>
 
             <div className="relative">
               <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-violet-400 via-purple-400 to-violet-400"></div>
@@ -303,10 +308,10 @@ export function ExperienceSidebar({
                         </div>
 
                         <div className="flex-1 min-w-0 pb-2">
-                          <div className="text-white font-medium text-sm leading-tight">
+                          <div className="font-medium text-sm leading-tight">
                             {timeline.position}
                           </div>
-                          <div className="text-white/70 text-xs mt-1">
+                          <div className="opacity-70 text-xs mt-1">
                             {formatDate(timeline.start_date)} -{' '}
                             {timeline.end_date ? formatDate(timeline.end_date) : 'Present'}
                           </div>
@@ -325,7 +330,7 @@ export function ExperienceSidebar({
                     <div className="w-6 h-6 rounded-full border-2 border-white/30 bg-white/10 flex items-center justify-center">
                       <span className="text-white text-xs font-bold">+</span>
                     </div>
-                    <div className="text-white/70 text-xs">
+                    <div className="opacity-70 text-xs">
                       {experience.volunteer_time_line.length - 4} more positions
                     </div>
                   </div>

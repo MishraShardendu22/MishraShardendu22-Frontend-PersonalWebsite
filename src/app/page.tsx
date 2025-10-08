@@ -1,6 +1,6 @@
 'use client'
 
-import toast from 'react-hot-toast'
+import { showToast } from '@/lib/toast'
 import { useEffect, useState } from 'react'
 import Error from '@/components/extra/Error'
 import { navItems } from '@/data/static_link'
@@ -59,10 +59,10 @@ export default function HomePage() {
         setSkills(Array.isArray(skillsRes.data) ? skillsRes.data : [])
         setLoading((prev) => ({ ...prev, skills: false }))
 
-        toast.success('Initial data loaded!')
+        showToast.success('Initial data loaded!')
       } catch (err) {
         setError('Failed to load initial data')
-        toast.error('Failed to load initial data')
+        showToast.error('Failed to load initial data')
         setLoading({ skills: false })
       }
     }

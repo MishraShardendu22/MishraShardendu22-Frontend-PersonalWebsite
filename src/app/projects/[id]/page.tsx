@@ -190,7 +190,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   }}
                 >
                   <div className="space-y-4">
-                    <p className="text-sm text-white/90 leading-relaxed">
+                    <p className="text-sm leading-relaxed opacity-90">
                       Explore the live demo or browse the source code to understand the
                       implementation details.
                     </p>
@@ -199,7 +199,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                       <Button
                         variant="outline"
                         onClick={handleShare}
-                        className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                        className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                         size="sm"
                         disabled={shareClicked}
                       >
@@ -210,7 +210,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                       <Button
                         variant="outline"
                         onClick={handleCopyMarkdown}
-                        className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                        className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                         size="sm"
                         disabled={copyClicked}
                       >
@@ -244,7 +244,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   }}
                 >
                   <div className="space-y-4">
-                    <p className="text-sm text-white/80 leading-relaxed">
+                    <p className="text-sm leading-relaxed opacity-80">
                       Explore the live demo or browse the source code to understand the
                       implementation details.
                     </p>
@@ -270,12 +270,12 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                        <div className="text-2xl font-bold text-white">{skills.length}</div>
-                        <div className="text-xs text-white/70">Technologies</div>
+                        <div className="text-2xl font-bold">{skills.length}</div>
+                        <div className="text-xs opacity-70">Technologies</div>
                       </div>
 
                       <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold">
                           {
                             [
                               project.project_live_link,
@@ -284,30 +284,30 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                             ].filter(Boolean).length
                           }
                         </div>
-                        <div className="text-xs text-white/70">Resources</div>
+                        <div className="text-xs opacity-70">Resources</div>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <div className="text-sm font-medium text-white">Features:</div>
+                      <div className="text-sm font-medium">Features:</div>
                       <div className="flex flex-wrap gap-2">
                         {project.project_live_link && (
-                          <Badge className="text-xs bg-white/20 text-white border-white/30">
+                          <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                             ✓ Live Demo
                           </Badge>
                         )}
                         {project.project_repository && (
-                          <Badge className="text-xs bg-white/20 text-white border-white/30">
+                          <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                             ✓ Open Source
                           </Badge>
                         )}
                         {project.project_video && (
-                          <Badge className="text-xs bg-white/20 text-white border-white/30">
+                          <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                             ✓ Video Demo
                           </Badge>
                         )}
                         {skills.length > 5 && (
-                          <Badge className="text-xs bg-white/20 text-white border-white/30">
+                          <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:border-white/30">
                             ✓ Multi-tech
                           </Badge>
                         )}
@@ -330,7 +330,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                   }}
                 >
                   <div className="space-y-4">
-                    <p className="text-sm text-white/90 leading-relaxed">
+                    <p className="text-sm leading-relaxed opacity-90">
                       Browse through my complete portfolio of projects and discover more innovative
                       solutions.
                     </p>
@@ -339,7 +339,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                       <Button
                         variant="outline"
                         onClick={() => window.history.back()}
-                        className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                        className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                         size="sm"
                       >
                         <ExternalLink className="w-3 h-3 mr-1" />
@@ -349,7 +349,7 @@ ${project.project_video ? `- **Video Demo:** ${project.project_video}` : ''}
                       <Button
                         variant="outline"
                         onClick={() => (window.location.href = '/')}
-                        className="justify-center hover:bg-white/20 text-xs border-white/30 hover:border-white/50 text-white"
+                        className="justify-center text-xs border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:hover:bg-white/20 group-hover/canvas-card:hover:border-white/50"
                         size="sm"
                       >
                         <ExternalLink className="w-3 h-3 mr-1" />

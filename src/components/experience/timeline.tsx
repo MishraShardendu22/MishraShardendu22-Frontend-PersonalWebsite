@@ -216,10 +216,13 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800/50">
                       <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        {experience.projects.length}
+                        {experience.projects.length + (experience.images?.length || 0)}
                       </div>
                       <div className="text-sm text-blue-600/70 dark:text-blue-400/70 font-medium">
-                        Project{experience.projects.length !== 1 ? 's' : ''}
+                        Project
+                        {experience.projects.length + (experience.images?.length || 0) !== 1
+                          ? 's'
+                          : ''}
                       </div>
                     </div>
 
@@ -285,7 +288,7 @@ export const ExperienceTimeline = ({ experience }: ExperienceTimelineProps) => {
             <div className="w-px h-8 bg-border" />
             <div className="text-center">
               <div className="text-2xl font-bold text-secondary">
-                {experience.projects?.length || 0}
+                {(experience.projects?.length || 0) + (experience.images?.length || 0)}
               </div>
               <div className="text-sm text-muted-foreground">Projects</div>
             </div>

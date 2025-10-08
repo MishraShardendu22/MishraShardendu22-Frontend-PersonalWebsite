@@ -63,17 +63,17 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ certification 
 
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Badge className="text-xs bg-white/20 text-white border-white/30">
+                    <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
                       <Code2 className="w-3 h-3 mr-1" />
                       Implementation
                     </Badge>
-                    <Badge className="text-xs bg-white/20 text-white border-white/30">
+                    <Badge className="text-xs border-border bg-secondary group-hover/canvas-card:bg-white/20 group-hover/canvas-card:text-white group-hover/canvas-card:border-white/30">
                       <Star className="w-3 h-3 mr-1" />
                       Featured
                     </Badge>
                   </div>
 
-                  <p className="text-white/80 text-sm">
+                  <p className="opacity-80 text-sm group-hover/canvas-card:text-white/80">
                     Practical application of certification concepts and methodologies.
                   </p>
 
@@ -81,7 +81,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ certification 
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full border-white/30 text-white hover:bg-white/20"
+                      className="w-full border-border hover:bg-accent group-hover/canvas-card:border-white/30 group-hover/canvas-card:text-white group-hover/canvas-card:hover:bg-white/20"
                     >
                       <ExternalLink className="w-3 h-3 mr-2" />
                       Explore Project
