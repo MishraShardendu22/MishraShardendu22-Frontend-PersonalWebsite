@@ -90,7 +90,10 @@ export default function VolunteerExperienceSection({
 
   const volunteerStats = useMemo(() => {
     const totalOrganizations = new Set(experiences.map((exp) => exp.organisation)).size
-    const totalProjects = experiences.reduce((sum, exp) => sum + (exp.projects?.length || 0), 0)
+    const totalProjects = experiences.reduce(
+      (sum, exp) => sum + (exp.projects?.length || 0) + (exp.images?.length || 0),
+      0
+    )
     const totalTechnologies = new Set(experiences.flatMap((exp) => exp.technologies || [])).size
     const totalPositions = experiences.reduce(
       (sum, exp) => sum + (exp.volunteer_time_line?.length || 0),

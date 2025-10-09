@@ -90,6 +90,26 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
 
   const isMobile = windowWidth < 640
 
+  const experienceStats = useMemo(() => {
+    const totalCompanies = new Set(experiences.map((exp) => exp.company_name)).size
+    const totalProjects = experiences.reduce(
+      (sum, exp) => sum + (exp.projects?.length || 0) + (exp.images?.length || 0),
+      0
+    )
+    const totalTechnologies = new Set(experiences.flatMap((exp) => exp.technologies || [])).size
+    const totalPositions = experiences.reduce(
+      (sum, exp) => sum + (exp.experience_time_line?.length || 0),
+      0
+    )
+
+    return {
+      companies: totalCompanies,
+      projects: totalProjects,
+      technologies: totalTechnologies,
+      positions: totalPositions,
+    }
+  }, [experiences])
+
   if (!experiences.length) {
     return (
       <section className="relative overflow-hidden min-h-[500px] flex items-center justify-center">
@@ -132,6 +152,46 @@ export default function ExperienceSection({ experiences }: ExperienceSectionProp
               My professional journey and contributions across different organizations, showcasing
               growth and expertise in various domains
             </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 rounded-xl p-4 border border-blue-200/50 dark:border-blue-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
+                  {experienceStats.companies}
+                </div>
+                <div className="text-xs sm:text-sm text-blue-600/80 dark:text-blue-400/80 font-medium">
+                  Compan{experienceStats.companies !== 1 ? 'ies' : 'y'}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/20 rounded-xl p-4 border border-green-200/50 dark:border-green-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400">
+                  {experienceStats.positions}
+                </div>
+                <div className="text-xs sm:text-sm text-green-600/80 dark:text-green-400/80 font-medium">
+                  Position{experienceStats.positions !== 1 ? 's' : ''}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/30 dark:to-purple-900/20 rounded-xl p-4 border border-purple-200/50 dark:border-purple-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  {experienceStats.projects}
+                </div>
+                <div className="text-xs sm:text-sm text-purple-600/80 dark:text-purple-400/80 font-medium">
+                  Project{experienceStats.projects !== 1 ? 's' : ''}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/30 dark:to-orange-900/20 rounded-xl p-4 border border-orange-200/50 dark:border-orange-800/30">
+                <div className="text-2xl sm:text-3xl font-bold text-orange-600 dark:text-orange-400">
+                  {experienceStats.technologies}
+                </div>
+                <div className="text-xs sm:text-sm text-orange-600/80 dark:text-orange-400/80 font-medium">
+                  Tech{experienceStats.technologies !== 1 ? 's' : ''}
+                </div>
+              </div>
+            </div>
           </div>
 
           {experiences.length > 0 && (
