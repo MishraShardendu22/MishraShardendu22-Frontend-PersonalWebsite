@@ -1,11 +1,5 @@
 import { useState, useCallback } from 'react'
-import {
-  authService,
-  usersService,
-  blogsService,
-  categoriesService,
-  type ApiResponse,
-} from '@/services'
+import { authService, blogsService, type ApiResponse } from '@/services'
 
 interface ServiceState<T> {
   data: T | null
@@ -66,26 +60,6 @@ export const useBackendServices = () => {
 
     getCurrentUser: () => executeService(() => authService.getCurrentUser()),
 
-    getUsers: (params?: { page?: number; limit?: number; search?: string }) =>
-      executeService(() => usersService.getUsers(params)),
-
-    getUserById: (id: string) => executeService(() => usersService.getUserById(id)),
-
-    createUser: (userData: { email: string; username: string; password: string }) =>
-      executeService(() => usersService.createUser(userData)),
-
-    updateUser: (id: string, userData: { email?: string; username?: string }) =>
-      executeService(() => usersService.updateUser(id, userData)),
-
-    deleteUser: (id: string) => executeService(() => usersService.deleteUser(id)),
-
-    getUserProfile: (id: string) => executeService(() => usersService.getUserProfile(id)),
-
-    updateUserProfile: (
-      id: string,
-      profileData: { bio?: string; avatar?: string; website?: string; location?: string }
-    ) => executeService(() => usersService.updateUserProfile(id, profileData)),
-
     getBlogs: (params?: { page?: number; limit?: number; search?: string }) =>
       executeService(() => blogsService.getBlogs(params)),
 
@@ -97,7 +71,6 @@ export const useBackendServices = () => {
       authorId: string
       excerpt?: string
       published?: boolean
-      categoryIds?: number[]
     }) => executeService(() => blogsService.createBlog(blogData)),
 
     updateBlog: (
@@ -107,26 +80,9 @@ export const useBackendServices = () => {
         content?: string
         excerpt?: string
         published?: boolean
-        categoryIds?: number[]
       }
     ) => executeService(() => blogsService.updateBlog(id, blogData)),
 
     deleteBlog: (id: string) => executeService(() => blogsService.deleteBlog(id)),
-
-    getCategories: (params?: { page?: number; limit?: number; search?: string }) =>
-      executeService(() => categoriesService.getCategories(params)),
-
-    getCategoryByParam: (param: string) =>
-      executeService(() => categoriesService.getCategoryByParam(param)),
-
-    createCategory: (categoryData: { name: string; slug: string; description?: string }) =>
-      executeService(() => categoriesService.createCategory(categoryData)),
-
-    updateCategory: (
-      id: string,
-      categoryData: { name?: string; slug?: string; description?: string }
-    ) => executeService(() => categoriesService.updateCategory(id, categoryData)),
-
-    deleteCategory: (id: string) => executeService(() => categoriesService.deleteCategory(id)),
   }
 }

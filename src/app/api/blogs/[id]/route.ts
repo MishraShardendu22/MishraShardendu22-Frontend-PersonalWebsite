@@ -171,3 +171,6 @@ export async function DELETE(
     return NextResponse.json({ success: false, error: 'Failed to delete blog' }, { status: 500 })
   }
 }
+
+// Alias PUT to PATCH for compatibility with service layer
+export const PUT = PATCH

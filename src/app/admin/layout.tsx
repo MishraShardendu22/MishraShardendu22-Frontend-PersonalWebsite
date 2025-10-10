@@ -68,7 +68,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         }
 
         const data = await res.json()
-        setProfile(data)
+        setProfile(data.data || data)
       } catch (error) {
         console.error('Profile fetch error:', error)
         setError('Failed to load profile')

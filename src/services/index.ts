@@ -1,7 +1,4 @@
 export * from './types'
 export { authService } from './auth'
-export { usersService } from './users'
 export { blogsService } from './blogs'
-export { commentsService } from './comments'
 export { default as backendAPI } from './api'
-export { categoriesService } from './categories'

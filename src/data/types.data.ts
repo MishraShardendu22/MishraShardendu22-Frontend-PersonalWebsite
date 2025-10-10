@@ -92,7 +92,7 @@ export interface ProfileData {
   email: string
   password: string
   admin_pass: string
-  skills: string[]
+  skills: string[] | null
   projects: string[]
   experiences: string[]
   certifications?: string[] | null

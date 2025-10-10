@@ -104,7 +104,6 @@ export interface Blog {
     avatar: string
   }
   tags?: string[]
-  categories?: Category[]
   comments?: Comment[]
   createdAt: string
   updatedAt: string
@@ -115,7 +114,6 @@ export interface CreateBlogRequest {
   content: string
   excerpt?: string
   published?: boolean
-  categoryIds?: number[]
   tags?: string[]
   authorId: string
 }
@@ -125,7 +123,6 @@ export interface UpdateBlogRequest {
   content?: string
   excerpt?: string
   published?: boolean
-  categoryIds?: number[]
 }
 
 export interface Comment {
@@ -154,107 +151,6 @@ export interface CreateCommentRequest {
 
 export interface UpdateCommentRequest {
   content: string
-}
-
-export interface Like {
-  id: number
-  blogId: number
-  userId: number
-  createdAt: string
-}
-
-export interface Bookmark {
-  id: number
-  blogId: number
-  userId: number
-  createdAt: string
-}
-
-export interface History {
-  id: number
-  blogId: number
-  userId: number
-  createdAt: string
-}
-
-export interface Category {
-  id: number
-  name: string
-  slug: string
-  description?: string
-  createdAt: string
-  updatedAt: string
-}
-
-export interface CreateCategoryRequest {
-  name: string
-  slug: string
-  description?: string
-}
-
-export interface UpdateCategoryRequest {
-  name?: string
-  slug?: string
-  description?: string
-}
-
-export interface Follower {
-  id: number
-  followerId: number
-  followingId: number
-  follower?: User
-  following?: User
-  createdAt: string
-}
-
-export interface BlogView {
-  id: number
-  blogId: number
-  userId?: number
-  ipAddress?: string
-  userAgent?: string
-  createdAt: string
-}
-
-export interface Notification {
-  id: number
-  userId: number
-  type: 'like' | 'comment' | 'follow' | 'mention'
-  title: string
-  message: string
-  read: boolean
-  relatedId?: number
-  createdAt: string
-}
-
-export interface CreateNotificationRequest {
-  userId: number
-  type: 'like' | 'comment' | 'follow' | 'mention'
-  title: string
-  message: string
-  relatedId?: number
-}
-
-export interface Report {
-  id: number
-  reporterId: number
-  reporter?: User
-  type: 'blog' | 'comment' | 'user'
-  reason: string
-  status: 'pending' | 'resolved' | 'dismissed'
-  relatedId: number
-  createdAt: string
-  updatedAt: string
-}
-
-export interface CreateReportRequest {
-  type: 'blog' | 'comment' | 'user'
-  reason: string
-  relatedId: number
-}
-
-export interface UpdateReportStatusRequest {
-  status: 'pending' | 'resolved' | 'dismissed'
 }
 
 export interface PaginationParams {

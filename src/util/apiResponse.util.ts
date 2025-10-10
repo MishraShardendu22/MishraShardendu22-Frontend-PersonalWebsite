@@ -23,7 +23,6 @@ import {
 export const authAPI = {
   login: async (credentials: AuthRequest): Promise<any> => {
     try {
-      // Temporarily connect directly to backend to bypass proxy issues
       const response = await fetch(
         'https://mishrashardendu22-backend-personalwebsite.onrender.com/api/admin/auth',
         {

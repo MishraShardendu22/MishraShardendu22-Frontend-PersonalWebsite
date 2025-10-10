@@ -1,12 +1,4 @@
-import backendAPI from '../api'
-import {
-  ApiResponse,
-  Blog,
-  CreateBlogRequest,
-  UpdateBlogRequest,
-  PaginationParams,
-  PaginatedResponse,
-} from '../types'
+import { ApiResponse, Blog, CreateBlogRequest, UpdateBlogRequest, PaginationParams } from '../types'
 import axios from 'axios'
 
 const localAPI = axios.create({
@@ -53,48 +45,6 @@ export const blogsService = {
     commentData: { content: string; userId: string }
   ): Promise<ApiResponse<any>> => {
     const response = await localAPI.post(`/blogs/${id}/comments`, commentData)
-    return response.data
-  },
-
-  getBlogCategories: async (id: string): Promise<ApiResponse<any[]>> => {
-    const response = await localAPI.get(`/blogs/${id}/categories`)
-    return response.data
-  },
-
-  addBlogCategory: async (
-    id: string,
-    categoryId: number
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.post(`/blogs/${id}/categories`, { categoryId })
-    return response.data
-  },
-
-  removeBlogCategory: async (
-    id: string,
-    categoryId: number
-  ): Promise<ApiResponse<{ message: string }>> => {
-    const response = await localAPI.delete(`/blogs/${id}/categories/${categoryId}`)
-    return response.data
-  },
-
-  getBlogRevisions: async (
-    id: string,
-    params?: PaginationParams
-  ): Promise<ApiResponse<PaginatedResponse<any>>> => {
-    const response = await localAPI.get(`/blogs/${id}/revisions`, { params })
-    return response.data
-  },
-
-  createBlogRevision: async (
-    id: string,
-    revisionData: { content: string; version: string }
-  ): Promise<ApiResponse<any>> => {
-    const response = await localAPI.post(`/blogs/${id}/revisions`, revisionData)
-    return response.data
-  },
-
-  getBlogRevision: async (id: string, version: string): Promise<ApiResponse<any>> => {
-    const response = await localAPI.get(`/blogs/${id}/revisions/${version}`)
     return response.data
   },
 

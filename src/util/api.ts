@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
-// Extend axios config to include metadata
 declare module 'axios' {
   interface InternalAxiosRequestConfig {
     metadata?: {
@@ -12,23 +11,19 @@ declare module 'axios' {
 const isServer = typeof window === 'undefined'
 const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL + '/api/proxy' : '/api/proxy'
 
-// Create axios instance with improved configuration
 const api = axios.create({
   baseURL,
-  timeout: 60000, // Increased to 60 seconds for bulk operations
+  timeout: 60000,
   headers: {
     'Content-Type': 'application/json',
   },
-  // Add keep-alive and connection pooling
   maxRedirects: 5,
-  maxContentLength: 50 * 1024 * 1024, // 50MB max content length
+  maxContentLength: 50 * 1024 * 1024,
 })
 
-// Retry configuration
 const MAX_RETRIES = 3
-const RETRY_DELAY = 1000 // Base delay in ms
+const RETRY_DELAY = 1000
 
-// Retry logic for network errors
 const retryRequest = async (config: AxiosRequestConfig, retryCount = 0): Promise<any> => {
   try {
     return await api.request(config)
@@ -42,7 +37,7 @@ const retryRequest = async (config: AxiosRequestConfig, retryCount = 0): Promise
         error.response?.status >= 500)
 
     if (shouldRetry) {
-      const delay = RETRY_DELAY * Math.pow(2, retryCount) // Exponential backoff
+      const delay = RETRY_DELAY * Math.pow(2, retryCount)
       console.warn(`Request failed, retrying in ${delay}ms... (${retryCount + 1}/${MAX_RETRIES})`)
 
       await new Promise((resolve) => setTimeout(resolve, delay))
@@ -60,7 +55,6 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`
     }
 
-    // Add timestamp for request tracking
     config.metadata = { startTime: Date.now() }
 
     return config
@@ -72,16 +66,13 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    // Log response time for debugging
     const requestTime = Date.now() - (response.config.metadata?.startTime || 0)
     if (requestTime > 10000) {
-      // Log slow requests (>10s)
       console.warn(`Slow request detected: ${response.config.url} took ${requestTime}ms`)
     }
     return response
   },
   async (error: AxiosError) => {
-    // Handle authentication errors
     if (error.response?.status === 401) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt_token')
@@ -94,7 +85,6 @@ api.interceptors.response.use(
       }
     }
 
-    // Enhanced error logging
     const requestTime = Date.now() - (error.config?.metadata?.startTime || 0)
     console.error('API Error:', {
       url: error.config?.url,
@@ -116,6 +106,5 @@ api.interceptors.response.use(
   }
 )
 
-// Export both the configured instance and retry function
 export default api
 export { retryRequest }
