@@ -174,40 +174,48 @@ export default function AdminSkillsPage() {
           <SkillsManagement skills={paginatedSkills} />
 
           {totalPages > 1 && (
-            <div className="mt-8 flex justify-center items-center gap-4">
-              <Button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-                variant="outline"
-                disabled={currentPage === 0}
-                className="flex items-center gap-1"
-              >
-                <ChevronLeft className="w-5 h-5" />
-                Prev
-              </Button>
-
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentPage(i)}
-                  className={`w-10 h-10 rounded-full font-semibold transition-all duration-300 ${
-                    currentPage === i
-                      ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg'
-                      : 'bg-card hover:bg-primary/5 border border-primary/20 hover:border-primary/30 text-foreground/70 hover:text-primary'
-                  }`}
+            <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-center">
+                <Button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+                  variant="outline"
+                  disabled={currentPage === 0}
+                  className="flex items-center gap-1 flex-1 sm:flex-initial"
                 >
-                  {i + 1}
-                </button>
-              ))}
+                  <ChevronLeft className="w-5 h-5" />
+                  Prev
+                </Button>
 
-              <Button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
-                variant="outline"
-                disabled={currentPage === totalPages - 1}
-                className="flex items-center gap-1"
-              >
-                Next
-                <ChevronRight className="w-5 h-5" />
-              </Button>
+                <span className="text-sm font-medium text-foreground sm:hidden">
+                  Page {currentPage + 1} of {totalPages}
+                </span>
+
+                <Button
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+                  variant="outline"
+                  disabled={currentPage === totalPages - 1}
+                  className="flex items-center gap-1 flex-1 sm:flex-initial"
+                >
+                  Next
+                  <ChevronRight className="w-5 h-5" />
+                </Button>
+              </div>
+
+              <div className="hidden sm:flex items-center gap-2 flex-wrap justify-center">
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentPage(i)}
+                    className={`w-10 h-10 rounded-full font-semibold transition-all duration-300 ${
+                      currentPage === i
+                        ? 'bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg'
+                        : 'bg-card hover:bg-primary/5 border border-primary/20 hover:border-primary/30 text-foreground/70 hover:text-primary'
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </>

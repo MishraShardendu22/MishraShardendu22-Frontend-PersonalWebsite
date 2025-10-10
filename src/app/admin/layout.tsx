@@ -150,7 +150,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       </header>
 
       {mobileMenuOpen && (
-        <nav className="lg:hidden bg-card/90 backdrop-blur-md border-b border-border shadow-md flex flex-col px-4 py-2 gap-2">
+        <nav className="lg:hidden sticky top-16 z-40 bg-card/90 backdrop-blur-md border-b border-border shadow-md flex flex-col px-4 py-2 gap-2">
           {navigation.map(({ name, href, icon: Icon }) => (
             <Link
               key={name}

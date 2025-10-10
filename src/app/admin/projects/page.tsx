@@ -485,28 +485,32 @@ export default function AdminProjectsPage() {
           </div>
 
           {totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-3 mt-10">
+            <div className="flex flex-wrap justify-center items-center gap-2 mt-10 px-4">
               <Button
                 variant="outline"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                className="min-w-[60px] sm:min-w-[80px]"
               >
                 Prev
               </Button>
-              {[...Array(totalPages)].map((_, i) => (
-                <Button
-                  key={i}
-                  variant={currentPage === i + 1 ? 'default' : 'outline'}
-                  onClick={() => setCurrentPage(i + 1)}
-                  className="min-w-[36px] px-3"
-                >
-                  {i + 1}
-                </Button>
-              ))}
+              <div className="flex flex-wrap justify-center gap-2">
+                {[...Array(totalPages)].map((_, i) => (
+                  <Button
+                    key={i}
+                    variant={currentPage === i + 1 ? 'default' : 'outline'}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className="min-w-[36px] sm:min-w-[44px] px-2 sm:px-3"
+                  >
+                    {i + 1}
+                  </Button>
+                ))}
+              </div>
               <Button
                 variant="outline"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                className="min-w-[60px] sm:min-w-[80px]"
               >
                 Next
               </Button>
