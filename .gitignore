@@ -1,7 +1,8 @@
 # Node modules
 node_modules/
 package-lock.json
-Blog-Temp-Folders
+Blog-Temp
+Asmin-Temp
 Portfolio.postman_collection.json
 
 # Production build
