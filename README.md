@@ -49,6 +49,41 @@ A modern, full-stack portfolio website built with Next.js 15, featuring a blog s
 - **SEO Optimized** - Meta tags, structured data, and performance
 - **Performance Optimized** - Image optimization, lazy loading, caching
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/) (v20.x or later)
+- [pnpm](https://pnpm.io/installation)
+
+### Installation
+
+1. Fork the repository.
+2. Clone your forked repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/MishraShardendu22-Frontend-PersonalWebsite.git
+   ```
+3. Navigate to the project directory:
+   ```bash
+   cd MishraShardendu22-Frontend-PersonalWebsite
+   ```
+4. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+5. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see the [Contributing Guidelines](CONTRIBUTING.md) for more details.
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## 🏗️ Architecture
 
 ### Frontend (Next.js 15)
