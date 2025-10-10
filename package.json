@@ -1,20 +1,20 @@
 {
   "name": "mishrashardendu22",
-  "version": "1.0.0",
-  "private": true,
+  "version": "2.10.0",
+  "private": "false",
   "description": "Portfolio site for Shardendu Mishra - Engineer and software developer passionate about Go, AI, and building impactful tools.",
   "author": {
     "name": "Shardendu Mishra",
     "email": "mishrashardendu22@gmail.com",
-    "url": "https://github.com/ShardenduMishra22"
+    "url": "https://github.com/MishraShardendu22"
   },
-  "homepage": "https://github.com/MishraShardendu22/MishraShardendu",
+  "homepage": "https://github.com/MishraShardendu22/MishraShardendu22-Frontend-PersonalWebsite",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MishraShardendu22/MishraShardendu.git"
+    "url": "https://github.com/MishraShardendu22/MishraShardendu22-Frontend-PersonalWebsite.git"
   },
   "bugs": {
-    "url": "https://github.com/MishraShardendu22/MishraShardendu/issues"
+    "url": "https://github.com/MishraShardendu22/MishraShardendu22-Frontend-PersonalWebsite/issues"
   },
   "license": "MIT",
   "keywords": [
@@ -40,10 +40,6 @@
       "url": "https://linkedin.com/in/shardendumishra22"
     }
   ],
-  "funding": {
-    "type": "individual",
-    "url": "https://github.com/sponsors/ShardenduMishra22"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
