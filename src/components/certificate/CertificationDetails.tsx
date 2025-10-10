@@ -208,7 +208,7 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl" />
 
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                       <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
@@ -216,7 +216,7 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                       </span>
                     </div>
 
-                    <div className="flex-1 text-center">
+                    <div className="flex-1 text-center md:text-center">
                       <h4 className="text-lg font-semibold text-foreground mb-1">
                         Official Certification
                       </h4>
@@ -225,7 +225,7 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                       </p>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                       <NextLink
                         href={certification.certificate_url}
                         target="_blank"
@@ -251,7 +251,7 @@ export const CertificationDetails: React.FC<CertificationDetailsProps> = ({ cert
                             console.error('Failed to copy URL:', err)
                           }
                         }}
-                        className={`inline-flex items-center gap-2 transition-all duration-300 ${
+                        className={`inline-flex items-center justify-center gap-2 transition-all duration-300 ${
                           copied
                             ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800'
                             : 'bg-background/80 hover:bg-background'

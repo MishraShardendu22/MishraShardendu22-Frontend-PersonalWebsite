@@ -31,7 +31,8 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="border border-border/50 group/canvas-card w-full relative h-auto min-h-[200px] rounded-xl overflow-hidden bg-white dark:bg-black backdrop-blur-sm hover:shadow-lg transition-all duration-500"
+      className="border border-border/50 group/canvas-card w-full relative h-auto min-h-[180px] sm:min-h-[200px] rounded-xl overflow-hidden bg-white dark:bg-black backdrop-blur-sm hover:shadow-lg transition-all duration-500"
+      style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
     >
       <div className="absolute h-4 w-4 -top-2 -left-2 text-primary dark:text-white/20 opacity-30 transition-opacity duration-300 group-hover/canvas-card:opacity-60">
         <Dribbble className="h-full w-full" />
@@ -64,22 +65,22 @@ export const CanvasCard: React.FC<CanvasCardProps> = ({
         )}
       </AnimatePresence>
 
-      <div className="relative z-20 p-6 flex flex-col justify-between h-full">
-        <div className="mb-4">
-          <div className="flex items-center gap-3 mb-3">
+      <div className="relative z-20 p-4 sm:p-6 flex flex-col justify-between h-full min-w-0">
+        <div className="mb-4 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 mb-3 min-w-0">
             <motion.div
-              className="text-primary group-hover/canvas-card:text-white transition-colors duration-500"
+              className="text-primary group-hover/canvas-card:text-white transition-colors duration-500 flex-shrink-0"
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
               {icon}
             </motion.div>
-            <h3 className="text-lg font-semibold text-foreground group-hover/canvas-card:text-white transition-colors duration-500">
+            <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover/canvas-card:text-white transition-colors duration-500 break-words min-w-0">
               {title}
             </h3>
           </div>
         </div>
-        <div className="text-foreground group-hover/canvas-card:text-white transition-colors duration-500">
+        <div className="text-foreground group-hover/canvas-card:text-white transition-colors duration-500 min-w-0">
           {children}
         </div>
       </div>
