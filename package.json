@@ -41,7 +41,8 @@
     }
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port $(microfrontends port)",
+    "proxy": "microfrontends proxy --local-apps mishrashardendu22",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -94,6 +95,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/microfrontends": "^2.0.0",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.12.2",
     "better-auth": "^1.3.26",

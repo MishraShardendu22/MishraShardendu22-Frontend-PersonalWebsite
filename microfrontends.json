@@ -3,20 +3,22 @@
   "applications": {
     "mishrashardendu22": {
       "development": {
-        "fallback": "mishrashardendu22.is-a.dev"
+        "fallback": "https://mishrashardendu22.is-a.dev"
       }
     },
     "mishrashardendu22-admin": {
       "routing": [
         {
-          "paths": ["/admin", "/admin/*"]
+          "group": "admin",
+          "paths": ["/admin", "/admin/:path*"]
         }
       ]
     },
     "mishrashardendu22-blog": {
       "routing": [
         {
-          "paths": ["/blog", "/blog/*"]
+          "group": "blog",
+          "paths": ["/blog", "/blog/:path*"]
         }
       ]
     }
