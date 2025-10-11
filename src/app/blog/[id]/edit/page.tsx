@@ -23,8 +23,7 @@ import {
 import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
 import TipTap from '@/components/extra/TipTap'
-
-const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
+import { OWNER_EMAIL } from '@/lib/blog-utils'
 
 const BlogEditPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = React.use(params)

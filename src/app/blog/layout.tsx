@@ -3,15 +3,14 @@ import { JSX, ReactNode, useMemo } from 'react'
 import BlogNavigation from '@/components/blog/BlogNavigation'
 import { DynamicBlogHeader, BlogHeaderProvider, useBlogHeader } from '@/components/blog'
 import { authClient } from '@/lib/authClient'
-
-const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
+import { OWNER_EMAIL, isOwner as checkIsOwner } from '@/lib/blog-utils'
 
 function BlogLayoutContent({ children }: { children: ReactNode }): JSX.Element {
   const session = authClient.useSession()
   const headerContext = useBlogHeader()
 
   const isOwner = useMemo(() => {
-    return session?.data?.user?.email === OWNER_EMAIL
+    return checkIsOwner(session?.data?.user?.email)
   }, [session?.data?.user?.email])
 
   return (

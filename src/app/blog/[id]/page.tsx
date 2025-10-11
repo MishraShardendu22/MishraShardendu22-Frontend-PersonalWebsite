@@ -24,6 +24,7 @@ import { Blog } from '@/services/types'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { formatDate, getReadingTime, getInitials } from '@/lib/blog-utils'
 
 interface Comment {
   id: number
@@ -359,27 +360,6 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
-
-  const getInitials = (firstName: string, lastName: string) => {
-    return `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`.toUpperCase()
-  }
-
-  const getReadingTime = (content: string) => {
-    const wordsPerMinute = 200
-    const wordCount = content.split(/\s+/).length
-    const readingTime = Math.ceil(wordCount / wordsPerMinute)
-    return `${readingTime} min read`
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -505,7 +485,15 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm">
                   <Calendar className="w-4 h-4 text-primary" />
-                  <span className="text-muted-foreground">{formatDate(blog.createdAt)}</span>
+                  <span className="text-muted-foreground">
+                    {formatDate(blog.createdAt, {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <Clock className="w-4 h-4 text-primary" />
@@ -637,7 +625,13 @@ const BlogPostPage = ({ params }: { params: Promise<{ id: string }> }) => {
                             {comment.user?.name}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {formatDate(comment.createdAt)}
+                            {formatDate(comment.createdAt, {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
                           </p>
                         </div>
                       </div>

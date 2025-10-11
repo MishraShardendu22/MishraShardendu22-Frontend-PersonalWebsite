@@ -33,8 +33,7 @@ import {
 import toast from 'react-hot-toast'
 import { StatCard } from '@/components/blog/StatCard'
 import BlogCard from '@/components/blog/BlogCard'
-
-const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
+import { OWNER_EMAIL, sortBlogs, getTotalComments } from '@/lib/blog-utils'
 
 const BlogDashboardPage = () => {
   const router = useRouter()
@@ -88,42 +87,6 @@ const BlogDashboardPage = () => {
     }
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-
-  const truncateText = (text: string, maxLength: number = 120) => {
-    if (text.length <= maxLength) return text
-    return text.substring(0, maxLength) + '...'
-  }
-
-  const sortBlogs = (blogs: Blog[]) => {
-    switch (sortBy) {
-      case 'newest':
-        return [...blogs].sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-      case 'oldest':
-        return [...blogs].sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        )
-      case 'title':
-        return [...blogs].sort((a, b) => a.title.localeCompare(b.title))
-      case 'comments':
-        return [...blogs].sort((a, b) => {
-          const aComments = Array.isArray(a.comments) ? a.comments.length : a.comments || 0
-          const bComments = Array.isArray(b.comments) ? b.comments.length : b.comments || 0
-          return bComments - aComments
-        })
-      default:
-        return blogs
-    }
-  }
-
   const filteredAndSortedBlogs = sortBlogs(
     blogs.filter((blog) => {
       const matchesSearch =
@@ -131,14 +94,12 @@ const BlogDashboardPage = () => {
         blog.content.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesTab = activeTab === 'all' || blog.tags?.includes(activeTab)
       return matchesSearch && matchesTab
-    })
+    }),
+    sortBy
   )
 
   const getTotalStats = () => {
-    const totalComments = blogs.reduce((sum, blog) => {
-      const comments = Array.isArray(blog.comments) ? blog.comments.length : blog.comments || 0
-      return sum + comments
-    }, 0)
+    const totalComments = getTotalComments(blogs)
 
     return { totalComments }
   }

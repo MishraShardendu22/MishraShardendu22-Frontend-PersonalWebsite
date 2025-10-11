@@ -29,8 +29,7 @@ import { blogsService } from '@/services/blogs'
 import { Blog } from '@/services/types'
 import { authClient } from '@/lib/authClient'
 import { StatCard } from '@/components/blog/StatCard'
-
-const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
+import { OWNER_EMAIL, formatDate, formatNumber, sortBlogs } from '@/lib/blog-utils'
 
 interface BlogStats {
   totalPosts: number
@@ -146,28 +145,6 @@ const BlogStatsPage = () => {
     }
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-
-  const formatNumber = (num: number | undefined | null) => {
-    // Handle undefined, null, or NaN
-    if (num == null || isNaN(num)) {
-      return '0'
-    }
-
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M'
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'K'
-    }
-    return num.toString()
-  }
-
   const getGrowthIndicator = (current: number, previous: number) => {
     if (current > previous) {
       return {
@@ -186,27 +163,6 @@ const BlogStatsPage = () => {
     }
   }
 
-  const sortBlogs = (blogs: Blog[]) => {
-    switch (sortBy) {
-      case 'comments':
-        return [...blogs].sort((a, b) => {
-          const aComments = Array.isArray(a.comments) ? a.comments.length : a.comments || 0
-          const bComments = Array.isArray(b.comments) ? b.comments.length : b.comments || 0
-          return bComments - aComments
-        })
-      case 'newest':
-        return [...blogs].sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-      case 'oldest':
-        return [...blogs].sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        )
-      default:
-        return blogs
-    }
-  }
-
   const filteredAndSortedBlogs = sortBlogs(
     blogs.filter((blog) => {
       const matchesSearch =
@@ -218,7 +174,8 @@ const BlogStatsPage = () => {
             .toLowerCase()
             .includes(searchTerm.toLowerCase()))
       return matchesSearch
-    })
+    }),
+    sortBy
   )
 
   const calculatedStats = calculateStats()

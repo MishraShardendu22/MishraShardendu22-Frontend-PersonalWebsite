@@ -33,8 +33,7 @@ import {
 } from '@/components/ui/dialog'
 import ReactMarkdown from 'react-markdown'
 import { useBlogHeader } from '@/components/blog'
-
-const OWNER_EMAIL = 'mishrashardendu22@gmail.com'
+import { OWNER_EMAIL } from '@/lib/blog-utils'
 
 const CreateBlogPage = () => {
   const session = authClient.useSession()
