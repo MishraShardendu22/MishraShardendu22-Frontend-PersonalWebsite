@@ -8,7 +8,7 @@
     },
     "mishrashardendu22-admin": {
       "development": {
-        "fallback": "http://localhost:5174"
+        "fallback": "https://mishrashardendu22.is-a.dev"
       },
       "routing": [
         {
@@ -19,7 +19,7 @@
     },
     "mishrashardendu22-blog": {
       "development": {
-        "fallback": "http://localhost:5175"
+        "fallback": "https://mishrashardendu22.is-a.dev"
       },
       "routing": [
         {
