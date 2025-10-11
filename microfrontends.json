@@ -7,6 +7,9 @@
       }
     },
     "mishrashardendu22-admin": {
+      "development": {
+        "fallback": "http://localhost:5174"
+      },
       "routing": [
         {
           "group": "admin",
@@ -15,6 +18,9 @@
       ]
     },
     "mishrashardendu22-blog": {
+      "development": {
+        "fallback": "http://localhost:5175"
+      },
       "routing": [
         {
           "group": "blog",
