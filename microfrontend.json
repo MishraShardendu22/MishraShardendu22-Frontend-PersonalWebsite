@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "applications": {
+    "mishrashardendu22": {
+      "development": {
+        "fallback": "mishrashardendu22.is-a.dev"
+      }
+    },
+    "mishrashardendu22-admin": {
+      "routing": [
+        {
+          "paths": ["/admin", "/admin/*"]
+        }
+      ]
+    },
+    "mishrashardendu22-blog": {
+      "routing": [
+        {
+          "paths": ["/blog", "/blog/*"]
+        }
+      ]
+    }
+  }
+}
