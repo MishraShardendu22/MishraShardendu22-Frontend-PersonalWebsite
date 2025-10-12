@@ -7,24 +7,18 @@
       }
     },
     "mishrashardendu22-admin": {
-      "development": {
-        "fallback": "https://mishrashardendu22.is-a.dev"
-      },
       "routing": [
         {
           "group": "admin",
-          "paths": ["/admin", "/admin/:path*"]
+          "paths": ["/admin", "/admin/:path*", "/vc-ap-mishrashardendu22-admin/:path*"]
         }
       ]
     },
     "mishrashardendu22-blog": {
-      "development": {
-        "fallback": "https://mishrashardendu22.is-a.dev"
-      },
       "routing": [
         {
           "group": "blog",
-          "paths": ["/blog", "/blog/:path*"]
+          "paths": ["/blog", "/blog/:path*", "/vc-ap-mishrashardendu22-blog/:path*"]
         }
       ]
     }
