@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next'
-import { withMicrofrontends } from '@vercel/microfrontends/next/config'
 
 const nextConfig: NextConfig = {
   eslint: {
@@ -25,4 +24,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withMicrofrontends(nextConfig)
+export default nextConfig
