@@ -221,7 +221,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           disableTransitionOnChange
         >
           <div className="min-h-screen bg-background text-foreground">
-            <div className="fixed top-4 right-4 z-50">
+            <div className="fixed bottom-4 right-4 z-50">
               <ThemeToggleClient />
             </div>
             {children}
