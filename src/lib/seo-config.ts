@@ -97,11 +97,6 @@ export const seoConfig = {
       description:
         'My professional experience and journey as a software developer, including internships, projects, and technical contributions.',
     },
-    blog: {
-      title: 'Blog | Shardendu Mishra',
-      description:
-        'Technical articles, tutorials, and insights about software development, programming, and technology trends.',
-    },
     certifications: {
       title: 'Certifications | Shardendu Mishra',
       description:

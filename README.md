@@ -1,380 +1,629 @@
-# Shardendu Mishra - Personal Website
+# Personal Website - Next.js 15 Portfolio Application
 
-A modern, full-stack portfolio website built with Next.js 15, featuring a blog system, admin panel, and dual backend architecture with load balancing.
+Professional portfolio application showcasing projects, experiences, skills, and certifications. Built with Next.js 15 App Router and modern web technologies.
 
-![Portfolio Preview](https://img.shields.io/badge/Next.js-15.3.5-black?style=for-the-badge&logo=next.js)
-![React](https://img.shields.io/badge/React-19.1.0-blue?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.11-38B2AC?style=for-the-badge&logo=tailwind-css)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-336791?style=for-the-badge&logo=postgresql)
+## Table of Contents
 
-## 🌟 Features
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+- [Environment Configuration](#environment-configuration)
+- [Development](#development)
+- [Database Schema](#database-schema)
+- [API Routes](#api-routes)
+- [Authentication](#authentication)
+- [Deployment](#deployment)
+- [Performance Optimization](#performance-optimization)
+- [Testing](#testing)
+- [Contributing](#contributing)
 
-### Portfolio Sections
+## Overview
 
-- **Hero Section** - Animated introduction with modern design
-- **Education** - Academic background and achievements
-- **Skills** - Interactive skill showcase with pagination
-- **Projects** - Portfolio projects with detailed descriptions
-- **Experience** - Professional work history
-- **Certifications** - Professional certifications and achievements
-- **Contact** - Contact information and social links
+This is the main portfolio application of the monorepo, serving as the primary web presence. It provides a comprehensive showcase of professional work, technical skills, and career achievements through an intuitive and performant interface.
 
-### Blog System
+**Key Characteristics**:
+- Server-side rendering with Next.js 15 App Router
+- Type-safe database operations with Drizzle ORM
+- Modern authentication with Better-auth
+- Progressive Web App capabilities
+- Optimized for Core Web Vitals
 
-- **Rich Text Editor** - TipTap-based markdown editor
-- **Categories & Tags** - Organized content management
-- **Comments System** - User interaction and engagement
-- **Like & Bookmark** - Social features for content
-- **View Tracking** - Analytics and engagement metrics
-- **Search & Filtering** - Advanced content discovery
-- **Revision History** - Content version control
-- **Reporting System** - Content moderation tools
+## Technology Stack
 
-### Admin Panel
+### Core Framework
+- **Next.js 15.5.3**: React framework with App Router, Server Components, and Server Actions
+- **React 19.2.0**: UI library with concurrent features and improved hydration
+- **TypeScript 5.8**: Static type checking and enhanced developer experience
 
-- **Authentication** - Secure admin login system
-- **Dashboard** - Overview of site statistics
-- **Content Management** - CRUD operations for all content
-- **User Management** - User profiles and permissions
-- **Analytics** - Detailed performance metrics
-- **Moderation** - Report handling and content review
+### Styling & UI
+- **Tailwind CSS 4**: Utility-first CSS framework with JIT compilation
+- **shadcn/ui**: High-quality accessible component library built on Radix UI
+- **Radix UI**: Unstyled, accessible component primitives
+- **Lucide React**: Beautiful and consistent icon library
+- **Framer Motion**: Production-ready animation library
+
+### Database & ORM
+- **PostgreSQL 15+**: Relational database for structured data
+- **Drizzle ORM**: Type-safe SQL ORM with excellent TypeScript support
+- **Better-auth**: Modern authentication library with session management
+
+### Data Visualization
+- **Nivo**: Rich data visualization library
+- **Recharts**: Composable charting library built on D3
+
+### Form Management
+- **React Hook Form**: Performant form library with minimal re-renders
+- **Zod**: TypeScript-first schema validation
+- **@hookform/resolvers**: Integration between React Hook Form and Zod
+
+### Additional Libraries
+- **Axios**: HTTP client for API requests
+- **date-fns**: Modern date utility library
+- **React Markdown**: Markdown rendering component
+- **remark-gfm**: GitHub Flavored Markdown support
+- **Three.js**: 3D graphics library for interactive elements
+
+## Features
+
+### Portfolio Showcase
+- **Dynamic Project Gallery**: Filterable and searchable project showcase with live statistics
+- **Project Details**: Comprehensive project pages with descriptions, technologies, and links
+- **GitHub Integration**: Real-time repository statistics and contribution data
+- **Category Filtering**: Projects organized by type (web, mobile, AI/ML, backend)
+- **Technology Tags**: Visual representation of tech stack for each project
+
+### Professional Experience
+- **Timeline View**: Chronological display of work experience
+- **Achievement Highlights**: Key accomplishments and responsibilities
+- **Skills Matrix**: Interactive visualization of technical proficiencies
+- **Certifications**: Verified credentials with validation links
+- **Volunteer Work**: Community contributions and open-source involvement
+
+### Content Management
+- **Blog Integration**: Seamless connection with blog application
+- **Rich Text Support**: Markdown and HTML content rendering
+- **Comment System**: Engagement through threaded discussions
+- **SEO Optimization**: Meta tags, Open Graph, and structured data
+- **Analytics Dashboard**: Performance metrics and visitor insights
+
+### User Experience
+- **Responsive Design**: Mobile-first approach with breakpoint optimization
+- **Dark/Light Mode**: System preference detection with manual toggle
+- **Progressive Web App**: Offline support and app-like experience
+- **Fast Navigation**: Optimistic UI updates and prefetching
+- **Accessibility**: WCAG 2.1 AA compliance with keyboard navigation
 
 ### Technical Features
+- **Server Components**: Optimal data fetching and reduced client bundle
+- **Streaming SSR**: Progressive page rendering for faster perceived performance
+- **Image Optimization**: WebP/AVIF formats with lazy loading
+- **Code Splitting**: Automatic bundle optimization per route
+- **Edge Caching**: CDN integration for global performance
 
-- **Dual Backend Architecture** - Next.js API + Go backend with load balancing
-- **Real-time Updates** - Live content synchronization
-- **Responsive Design** - Mobile-first approach
-- **Dark/Light Theme** - Theme switching with system preference
-- **SEO Optimized** - Meta tags, structured data, and performance
-- **Performance Optimized** - Image optimization, lazy loading, caching
+## Architecture
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/en/) (v20.x or later)
-- [pnpm](https://pnpm.io/installation)
-
-### Installation
-
-1. Fork the repository.
-2. Clone your forked repository:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/MishraShardendu22-Frontend-PersonalWebsite.git
-   ```
-3. Navigate to the project directory:
-   ```bash
-   cd MishraShardendu22-Frontend-PersonalWebsite
-   ```
-4. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-5. Start the development server:
-   ```bash
-   pnpm dev
-   ```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please see the [Contributing Guidelines](CONTRIBUTING.md) for more details.
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🏗️ Architecture
-
-### Frontend (Next.js 15)
+### Application Structure
 
 ```
 src/
-├── app/                    # Next.js App Router
-│   ├── admin/             # Admin panel routes
-│   ├── api/               # Next.js API routes
-│   ├── blog/              # Blog system routes
-│   ├── projects/          # Project pages
-│   ├── experiences/       # Experience pages
-│   └── certifications/    # Certification pages
-├── components/            # Reusable UI components
-│   ├── ui/               # Base UI components (shadcn/ui)
-│   ├── admin/            # Admin-specific components
-│   ├── blog/             # Blog-specific components
-│   └── main/             # Portfolio section components
-├── db/                   # Database schemas
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility libraries
-├── services/             # API service layer
-└── util/                 # Utility functions
+├── app/                          # Next.js App Router pages
+│   ├── (main)/                   # Main application routes
+│   │   ├── page.tsx             # Home page
+│   │   ├── projects/            # Project showcase
+│   │   ├── experiences/         # Work experience
+│   │   ├── certifications/      # Certifications
+│   │   └── volunteer/           # Volunteer work
+│   ├── api/                     # API routes
+│   │   ├── auth/                # Authentication endpoints
+│   │   ├── blogs/               # Blog API
+│   │   ├── proxy/               # Backend proxy routes
+│   │   └── health/              # Health check
+│   ├── layout.tsx               # Root layout
+│   └── providers.tsx            # Context providers
+├── components/                   # React components
+│   ├── ui/                      # shadcn/ui components
+│   ├── layout/                  # Layout components
+│   ├── home/                    # Home page components
+│   └── shared/                  # Shared components
+├── lib/                         # Utility libraries
+│   ├── db/                      # Database configuration
+│   ├── auth/                    # Authentication setup
+│   └── utils.ts                 # Helper functions
+├── hooks/                       # Custom React hooks
+├── types/                       # TypeScript type definitions
+└── styles/                      # Global styles
+
+drizzle/                         # Database migrations
+├── migrations/                  # SQL migration files
+└── schema.ts                    # Database schema definitions
+
+public/                          # Static assets
+├── icons/                       # App icons
+├── images/                      # Image assets
+└── manifest.json               # PWA manifest
 ```
 
-### Backend Architecture
+### Data Flow
 
-- **Next.js API Routes** - Blog system, user management, authentication
-- **Go Backend** - Portfolio data (projects, experiences, skills, certifications)
-- **Load Balancer** - Round-robin distribution between backends
-- **PostgreSQL** - Primary database with Drizzle ORM
+1. **Client Request**: User navigates to a route
+2. **Server Component**: Next.js renders server component with data
+3. **Database Query**: Drizzle ORM fetches data from PostgreSQL
+4. **Data Transformation**: Server processes and formats data
+5. **HTML Streaming**: Progressive HTML sent to client
+6. **Client Hydration**: React hydrates interactive components
+7. **Client-side Navigation**: Subsequent navigation via client router
 
-### Database Schema
+### State Management
 
-```sql
--- Core Tables
-users, sessions, accounts, verifications
-blog, comments, likes, bookmarks, views
-categories, blog_categories
-followers, notifications, reports
-user_profiles, blog_revisions
-```
+- **Server State**: React Server Components for data fetching
+- **Client State**: React hooks (useState, useReducer) for local state
+- **URL State**: Search params and pathname for shareable state
+- **Form State**: React Hook Form for complex form management
+- **Auth State**: Better-auth for authentication state
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- PostgreSQL 13+
-- Go 1.21+ (for backend)
-- pnpm (recommended) or npm
-
-### Environment Variables
-
-Create a `.env.local` file:
-
-```env
-# Database
-DATABASE_URL="postgresql://user:password@localhost:5432/portfolio"
-
-# Backend URLs (Load Balancer)
-BACKEND_1="http://localhost:8080"
-BACKEND_2="http://localhost:8081"
-BACKEND_3="http://localhost:8082"
-
-# Next.js
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
-
-# Authentication
-NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
-
-# Optional: Analytics
-NEXT_PUBLIC_GA_ID="your-ga-id"
-```
+- Node.js >= 18.0.0
+- PNPM >= 9.0.0
+- PostgreSQL >= 15
+- Git
 
 ### Installation
 
-1. **Clone the repository**
-
 ```bash
-git clone https://github.com/ShardenduMishra22/portfolio-frontend.git
-cd portfolio-frontend
-```
+# Navigate to the project directory
+cd apps/MishraShardendu22-Frontend-PersonalWebsite
 
-2. **Install dependencies**
-
-```bash
+# Install dependencies
 pnpm install
-```
 
-3. **Set up the database**
+# Setup environment variables
+cp .env.example .env.local
 
-```bash
-# Run database migrations
-pnpm drizzle-kit push
+# Configure your .env.local file with required values
+# (See Environment Configuration section)
 
-# Generate types (optional)
-pnpm drizzle-kit generate
-```
+# Generate Drizzle client
+pnpm db:generate
 
-4. **Start the development server**
+# Push database schema
+pnpm db:push
 
-```bash
+# (Optional) Seed database with sample data
+pnpm db:seed
+
+# Start development server
 pnpm dev
 ```
 
-5. **Access the application**
+The application will be available at `http://localhost:3000`
 
-- Frontend: http://localhost:3000
-- Admin Panel: http://localhost:3000/admin
-- API Documentation: http://localhost:3000/api
+## Environment Configuration
 
-### Backend Setup
+Create a `.env.local` file in the project root with the following variables:
 
-The Go backend is available at: https://github.com/ShardenduMishra22/portfolio-backend
+### Database Configuration
 
-Follow the setup instructions in the backend repository to complete the full-stack setup.
+```env
+# PostgreSQL Database URL
+DATABASE_URL="postgresql://username:password@localhost:5432/portfolio_db"
 
-## 🛠️ Development
+# Direct database connection (for migrations)
+DIRECT_URL="postgresql://username:password@localhost:5432/portfolio_db"
+```
+
+### Authentication
+
+```env
+# Better-auth configuration
+BETTER_AUTH_SECRET="your-secret-key-min-32-characters"
+BETTER_AUTH_URL="http://localhost:3000"
+
+# JWT Configuration
+JWT_SECRET="your-jwt-secret-matching-backend"
+JWT_EXPIRATION="7d"
+```
+
+### API Configuration
+
+```env
+# Next.js base URL
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+
+# Backend API URL (Go Fiber service)
+NEXT_PUBLIC_API_BASE_URL="http://localhost:5000"
+
+# API timeout settings
+API_TIMEOUT="30000"
+```
+
+### External Services
+
+```env
+# Email service (Resend)
+RESEND_API_KEY="re_your_resend_api_key"
+SMTP_FROM="noreply@yourdomain.com"
+
+# GitHub Integration
+GITHUB_TOKEN="ghp_your_github_token"
+GITHUB_USERNAME="your_github_username"
+
+# Analytics
+VERCEL_ANALYTICS_ID="your_analytics_id"
+GOOGLE_ANALYTICS_ID="G-YOUR-GA-ID"
+```
+
+### Feature Flags
+
+```env
+# Enable/disable features
+NEXT_PUBLIC_ENABLE_COMMENTS="true"
+NEXT_PUBLIC_ENABLE_ANALYTICS="true"
+NEXT_PUBLIC_MAINTENANCE_MODE="false"
+```
+
+## Development
 
 ### Available Scripts
 
 ```bash
-pnpm dev          # Start development server
-pnpm build        # Build for production
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
-pnpm format       # Format code with Prettier
-pnpm type-check   # Run TypeScript type checking
+# Development server with hot reload
+pnpm dev
+
+# Production build
+pnpm build
+
+# Start production server
+pnpm start
+
+# Run ESLint
+pnpm lint
+
+# Fix ESLint errors
+pnpm lint:fix
+
+# Format code with Prettier
+pnpm format
+
+# Type checking
+pnpm typecheck
+
+# Database operations
+pnpm db:generate      # Generate migration files
+pnpm db:push         # Push schema to database
+pnpm db:studio       # Open Drizzle Studio
+pnpm db:seed         # Seed database with sample data
+
+# Testing
+pnpm test            # Run unit tests
+pnpm test:watch      # Run tests in watch mode
+pnpm test:coverage   # Generate coverage report
+pnpm test:e2e        # Run end-to-end tests
 ```
 
-### Code Structure
+### Development Workflow
 
-#### API Routes
+1. **Feature Development**:
+   - Create feature branch from `main`
+   - Implement feature with tests
+   - Run `pnpm lint` and `pnpm typecheck`
+   - Submit pull request
 
-- `/api/blogs/*` - Blog system endpoints
-- `/api/users/*` - User management
-- `/api/proxy/*` - Load balancer proxy to Go backend
-- `/api/auth/*` - Authentication endpoints
+2. **Database Changes**:
+   - Modify schema in `drizzle/schema.ts`
+   - Run `pnpm db:generate` to create migration
+   - Run `pnpm db:push` to apply changes
+   - Test changes locally
 
-#### Components
+3. **Component Development**:
+   - Create component in appropriate directory
+   - Add TypeScript types
+   - Include unit tests
+   - Document props and usage
 
-- **UI Components** - Reusable shadcn/ui components
-- **Admin Components** - Admin panel specific components
-- **Blog Components** - Blog system components
-- **Main Components** - Portfolio section components
+## Database Schema
 
-#### Services
+### Core Tables
 
-- **API Services** - Centralized API calls
-- **Auth Services** - Authentication and authorization
-- **Backend Services** - Go backend integration
-
-### Database Management
-
-```bash
-# Generate migration
-pnpm drizzle-kit generate
-
-# Push schema changes
-pnpm drizzle-kit push
-
-# Studio (database GUI)
-pnpm drizzle-kit studio
+#### Projects Table
+```typescript
+export const projects = pgTable('projects', {
+  id: serial('id').primaryKey(),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description').notNull(),
+  longDescription: text('long_description'),
+  technologies: text('technologies').array(),
+  category: varchar('category', { length: 50 }),
+  demoUrl: varchar('demo_url', { length: 500 }),
+  repositoryUrl: varchar('repository_url', { length: 500 }),
+  imageUrl: varchar('image_url', { length: 500 }),
+  featured: boolean('featured').default(false),
+  status: varchar('status', { length: 50 }).default('active'),
+  displayOrder: integer('display_order'),
+  githubStars: integer('github_stars'),
+  githubForks: integer('github_forks'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
+});
 ```
 
-## 🎨 Styling
+#### Experiences Table
+```typescript
+export const experiences = pgTable('experiences', {
+  id: serial('id').primaryKey(),
+  company: varchar('company', { length: 255 }).notNull(),
+  position: varchar('position', { length: 255 }).notNull(),
+  description: text('description'),
+  responsibilities: text('responsibilities').array(),
+  achievements: text('achievements').array(),
+  technologies: text('technologies').array(),
+  location: varchar('location', { length: 255 }),
+  employmentType: varchar('employment_type', { length: 50 }),
+  startDate: date('start_date').notNull(),
+  endDate: date('end_date'),
+  current: boolean('current').default(false),
+  companyUrl: varchar('company_url', { length: 500 }),
+  companyLogo: varchar('company_logo', { length: 500 }),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
+});
+```
 
-### Design System
+#### Certifications Table
+```typescript
+export const certifications = pgTable('certifications', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 255 }).notNull(),
+  issuer: varchar('issuer', { length: 255 }).notNull(),
+  description: text('description'),
+  issueDate: date('issue_date').notNull(),
+  expirationDate: date('expiration_date'),
+  credentialId: varchar('credential_id', { length: 255 }),
+  credentialUrl: varchar('credential_url', { length: 500 }),
+  skills: text('skills').array(),
+  imageUrl: varchar('image_url', { length: 500 }),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
+});
+```
 
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **Custom CSS Variables** - Theme-aware design tokens
-- **shadcn/ui** - High-quality React components
-- **Custom Animations** - Smooth transitions and micro-interactions
+### Relationships
 
-### Theme Support
+- Projects can have multiple comments (one-to-many)
+- Users can create multiple projects (one-to-many)
+- Experiences belong to users (many-to-one)
+- Certifications belong to users (many-to-one)
 
-- **Light Theme** - Clean, professional appearance
-- **Dark Theme** - Modern, eye-friendly design
-- **System Preference** - Automatic theme switching
-- **Custom Colors** - Brand-specific color palette
+## API Routes
 
-## 📊 Performance
+### Authentication Endpoints
 
-### Optimization Features
+```
+POST   /api/auth/sign-in          # User sign in
+POST   /api/auth/sign-up          # User registration
+POST   /api/auth/sign-out         # User sign out
+GET    /api/auth/session          # Get current session
+POST   /api/auth/refresh          # Refresh access token
+```
 
-- **Next.js 15** - Latest performance improvements
-- **Turbopack** - Fast development builds
-- **Image Optimization** - Automatic image compression
-- **Code Splitting** - Lazy loading of components
-- **Caching** - Strategic caching strategies
-- **CDN Ready** - Optimized for content delivery
+### Blog Endpoints
 
-### Analytics
+```
+GET    /api/blogs                 # List all blogs
+GET    /api/blogs/:id             # Get blog by ID
+POST   /api/blogs                 # Create new blog
+PUT    /api/blogs/:id             # Update blog
+DELETE /api/blogs/:id             # Delete blog
+GET    /api/blogs/:id/comments    # Get blog comments
+POST   /api/blogs/:id/comments    # Add comment
+GET    /api/blogs/stats           # Get blog statistics
+```
 
-- **Vercel Analytics** - Performance monitoring
-- **Speed Insights** - Core Web Vitals tracking
-- **Custom Metrics** - Blog engagement analytics
+### Proxy Endpoints (Backend Integration)
 
-## 🔒 Security
+```
+GET    /api/proxy/projects        # Fetch projects from backend
+GET    /api/proxy/projects/:id    # Get project details
+POST   /api/proxy/projects        # Create project
+PUT    /api/proxy/projects/:id    # Update project
+DELETE /api/proxy/projects/:id    # Delete project
 
-### Authentication
+GET    /api/proxy/experiences     # Fetch experiences
+GET    /api/proxy/certifications  # Fetch certifications
+GET    /api/proxy/skills          # Fetch skills
+```
 
-- **Better Auth** - Modern authentication library
-- **JWT Tokens** - Secure token-based authentication
-- **Session Management** - Secure session handling
-- **Role-based Access** - Admin and user permissions
+### Health Check
 
-### Data Protection
+```
+GET    /api/health                # Application health status
+```
 
-- **Input Validation** - Zod schema validation
-- **SQL Injection Prevention** - Parameterized queries
-- **XSS Protection** - Content sanitization
-- **CSRF Protection** - Cross-site request forgery prevention
+## Authentication
 
-## 🚀 Deployment
+### Better-auth Integration
 
-### Vercel (Recommended)
+The application uses Better-auth for modern, secure authentication:
+
+**Features**:
+- Email/password authentication
+- Session management with secure cookies
+- CSRF protection
+- Rate limiting on auth endpoints
+- Password hashing with bcrypt
+- JWT token generation for API access
+
+**Configuration** (`lib/auth.ts`):
+```typescript
+import { betterAuth } from "better-auth"
+import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { db } from "./db"
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "pg"
+  }),
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24 // 24 hours
+  },
+  emailAndPassword: {
+    enabled: true,
+    minPasswordLength: 8
+  }
+})
+```
+
+### Protected Routes
+
+Protected routes use middleware to verify authentication:
+
+```typescript
+// middleware.ts
+import { authMiddleware } from "@/lib/auth"
+
+export default authMiddleware({
+  publicRoutes: ["/", "/projects", "/experiences"],
+  protectedRoutes: ["/api/admin/*"]
+})
+```
+
+## Deployment
+
+### Vercel Deployment (Recommended)
 
 ```bash
 # Install Vercel CLI
-npm i -g vercel
+npm install -g vercel
 
-# Deploy
+# Login to Vercel
+vercel login
+
+# Deploy to production
 vercel --prod
 ```
 
-### Environment Setup
+### Environment Variables on Vercel
 
-1. Set up PostgreSQL database
-2. Configure environment variables
-3. Deploy Go backend
-4. Configure load balancer
-5. Deploy Next.js frontend
+Add all required environment variables in Vercel dashboard:
+1. Go to Project Settings > Environment Variables
+2. Add each variable from `.env.local`
+3. Set scope (Production, Preview, Development)
+4. Deploy changes
 
-### Production Checklist
+### Build Configuration
 
-- [ ] Environment variables configured
-- [ ] Database migrations applied
-- [ ] SSL certificates installed
-- [ ] CDN configured
-- [ ] Monitoring set up
-- [ ] Backup strategy implemented
+**vercel.json**:
+```json
+{
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "outputDirectory": ".next"
+}
+```
 
-## 🤝 Contributing
+### Database Setup for Production
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Use managed PostgreSQL service:
+- **Vercel Postgres**: Integrated solution
+- **Neon**: Serverless PostgreSQL
+- **Supabase**: PostgreSQL with additional features
+- **Railway**: Simple PostgreSQL hosting
 
-### Development Guidelines
+## Performance Optimization
 
-- Follow TypeScript best practices
-- Use conventional commits
-- Write meaningful commit messages
-- Add tests for new features
-- Update documentation
+### Core Web Vitals Targets
 
-## 📝 License
+- **Largest Contentful Paint (LCP)**: < 2.5s
+- **First Input Delay (FID)**: < 100ms
+- **Cumulative Layout Shift (CLS)**: < 0.1
+- **First Contentful Paint (FCP)**: < 1.8s
+- **Time to Interactive (TTI)**: < 3.8s
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Optimization Strategies
 
-## 👨‍💻 Author
+1. **Image Optimization**:
+   - Next.js Image component for automatic optimization
+   - WebP/AVIF format with fallback
+   - Lazy loading for below-fold images
+   - Responsive images with srcset
 
-**Shardendu Mishra**
+2. **Code Splitting**:
+   - Route-based code splitting
+   - Dynamic imports for large components
+   - Tree shaking for unused code
+   - Vendor bundle optimization
 
-- Email: mishrashardendu22@gmail.com
-- GitHub: [@ShardenduMishra22](https://github.com/MishraShardendu22)
-- LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22)
-- Portfolio: [mishrashardendu22.is-a.dev](https://mishrashardendu22.is-a.dev)
+3. **Caching Strategy**:
+   - Static page generation where possible
+   - Incremental Static Regeneration (ISR)
+   - CDN caching with proper headers
+   - Browser caching for assets
 
-## 🙏 Acknowledgments
+4. **Server Components**:
+   - Data fetching in server components
+   - Reduced client-side JavaScript
+   - Streaming for progressive rendering
+   - Parallel data fetching
 
-- [Next.js](https://nextjs.org/) - React framework
-- [shadcn/ui](https://ui.shadcn.com/) - UI components
-- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
-- [Drizzle ORM](https://orm.drizzle.team/) - TypeScript ORM
-- [TipTap](https://tiptap.dev/) - Rich text editor
-- [Vercel](https://vercel.com/) - Deployment platform
+## Testing
 
-## 📞 Support
+### Unit Testing
 
-If you have any questions or need help:
+```bash
+# Run unit tests
+pnpm test
 
-- Create an issue on GitHub
-- Contact via email: mishrashardendu22@gmail.com
-- Connect on LinkedIn: [Shardendu Mishra](https://linkedin.com/in/shardendumishra22)
+# Watch mode
+pnpm test:watch
 
----
+# Coverage report
+pnpm test:coverage
+```
 
-⭐ **Star this repository if you found it helpful!**
+### End-to-End Testing
+
+```bash
+# Run E2E tests
+pnpm test:e2e
+
+# Run specific test file
+pnpm test:e2e tests/projects.spec.ts
+```
+
+### Testing Stack
+
+- **Jest**: Unit testing framework
+- **React Testing Library**: Component testing
+- **Playwright**: E2E testing
+- **MSW**: API mocking for tests
+
+## Contributing
+
+For contribution guidelines, please refer to the [main repository CONTRIBUTING.md](../../docs/CONTRIBUTING.md).
+
+### Quick Guidelines
+
+1. Follow TypeScript strict mode conventions
+2. Write tests for new features
+3. Use conventional commits
+4. Update documentation
+5. Ensure all checks pass before PR
+
+## Support
+
+For issues, questions, or contributions:
+- **Issues**: [GitHub Issues](https://github.com/MishraShardendu22/MishraShardendu/issues)
+- **Documentation**: [Root Docs](../../docs)
+- **Email**: mishrashardendu22@gmail.com
+
+## License
+
+This project is part of the MishraShardendu monorepo and is licensed under the MIT License.

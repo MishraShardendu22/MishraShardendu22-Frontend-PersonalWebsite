@@ -2,7 +2,7 @@ import './globals.css'
 import { BASE_URL } from '@/constants/url'
 import { ThemeProvider } from 'next-themes'
 import type { Metadata, Viewport } from 'next'
-import { Analytics } from '@vercel/analytics/next'
+import { Analytics } from "@vercel/analytics/next"
 import PWARegister from '@/components/extra/PWARegister'
 import { Fredoka, Poppins, Inter } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -64,7 +64,6 @@ export const metadata: Metadata = {
     'Open Source Contributor',
     'LeetCode',
     'Competitive Programming',
-    'Tech Blog',
     'Developer Portfolio',
     'Software Projects',
     'Programming Projects',
@@ -219,15 +218,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          storageKey="portfolio-theme"
         >
           <div className="min-h-screen bg-background text-foreground">
             <div className="fixed bottom-4 right-4 z-50">
               <ThemeToggleClient />
             </div>
             {children}
-            <ToasterClient />
-            <PWARegister />
             <Analytics />
+            <PWARegister />
+            <ToasterClient />
             <SpeedInsights />
           </div>
         </ThemeProvider>

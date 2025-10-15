@@ -90,68 +90,7 @@ export interface UpdateProfileRequest {
   location?: string
 }
 
-export interface Blog {
-  id: number
-  title: string
-  content: string
-  excerpt?: string
-  published?: boolean
-  authorId: string
-  author: {
-    id: string
-    email: string
-    name: string
-    avatar: string
-  }
-  tags?: string[]
-  comments?: Comment[]
-  createdAt: string
-  updatedAt: string
-}
 
-export interface CreateBlogRequest {
-  title: string
-  content: string
-  excerpt?: string
-  published?: boolean
-  tags?: string[]
-  authorId: string
-}
-
-export interface UpdateBlogRequest {
-  title?: string
-  content?: string
-  excerpt?: string
-  published?: boolean
-}
-
-export interface Comment {
-  id: number
-  content: string
-  blogId: number
-  userId: string
-  user?: {
-    id: string
-    email: string
-  }
-  userProfile?: {
-    firstName?: string
-    lastName?: string
-    avatar?: string
-  }
-  createdAt: string
-  updatedAt?: string
-}
-
-export interface CreateCommentRequest {
-  content: string
-  userId: string
-  blogId?: number
-}
-
-export interface UpdateCommentRequest {
-  content: string
-}
 
 export interface PaginationParams {
   page?: number

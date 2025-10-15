@@ -1,0 +1,56 @@
+{
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "applications": {
+    "ms22-main": {
+      "development": {
+        "local": 3000,
+        "fallback": "ms22-main.vercel.app"
+      }
+    },
+    "ms22-admin": {
+      "development": {
+        "local": 5173,
+        "fallback": "ms22-admin.vercel.app"
+      },
+      "routing": [
+        {
+          "group": "admin",
+          "paths": [
+            "/admin",
+            "/admin/login",
+            "/admin/dashboard",
+            "/admin/profile",
+            "/admin/projects",
+            "/admin/experiences",
+            "/admin/skills",
+            "/admin/certifications",
+            "/admin/kanban",
+            "/admin/:path*",
+            "/vc-ap-ms22-admin/:path*"
+          ]
+        }
+      ]
+    },
+    "ms22-blog": {
+      "development": {
+        "local": 5174,
+        "fallback": "ms22-blog.vercel.app"
+      },
+      "routing": [
+        {
+          "group": "blog",
+          "paths": [
+            "/blog/read",
+            "/blog/read/:id",
+            "/blog/read/:id/edit",
+            "/blog/login",
+            "/blog/dashboard",
+            "/blog/create",
+            "/blog/:path*",
+            "/vc-ap-ms22-blog/:path*"
+          ]
+        }
+      ]
+    }
+  }
+}

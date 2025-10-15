@@ -1,0 +1,11 @@
+{
+  "buildCommand": "bash build.sh",
+  "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "build": {
+    "env": {
+      "NEXT_TELEMETRY_DISABLED": "1"
+    }
+  }
+}

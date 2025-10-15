@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { authService, blogsService, type ApiResponse } from '@/services'
+import { authService, type ApiResponse } from '@/services'
 
 interface ServiceState<T> {
   data: T | null
@@ -59,30 +59,5 @@ export const useBackendServices = () => {
     logout: () => executeService(() => authService.logout()),
 
     getCurrentUser: () => executeService(() => authService.getCurrentUser()),
-
-    getBlogs: (params?: { page?: number; limit?: number; search?: string }) =>
-      executeService(() => blogsService.getBlogs(params)),
-
-    getBlogById: (id: string) => executeService(() => blogsService.getBlogById(id)),
-
-    createBlog: (blogData: {
-      title: string
-      content: string
-      authorId: string
-      excerpt?: string
-      published?: boolean
-    }) => executeService(() => blogsService.createBlog(blogData)),
-
-    updateBlog: (
-      id: string,
-      blogData: {
-        title?: string
-        content?: string
-        excerpt?: string
-        published?: boolean
-      }
-    ) => executeService(() => blogsService.updateBlog(id, blogData)),
-
-    deleteBlog: (id: string) => executeService(() => blogsService.deleteBlog(id)),
   }
 }

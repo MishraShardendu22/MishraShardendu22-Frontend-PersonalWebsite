@@ -1,0 +1,7 @@
+
+> ms22-main@2.10.0 proxy /home/mishrashardendu22/Coding_Stuff_Fedora/Dev/Personal-Project/Portfolio/mishrashardendu22/apps/MishraShardendu22-Frontend-PersonalWebsite
+> microfrontends proxy "/home/mishrashardendu22/Coding_Stuff_Fedora/Dev/Personal-Project/Portfolio/mishrashardendu22/apps/MishraShardendu22-Frontend-PersonalWebsite/microfrontends.json" "--names" "ms22-blog" "ms22-main" "ms22-admin"
+
+Microfrontends Proxy: http://localhost:3024
+(node:3413264) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)

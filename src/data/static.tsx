@@ -133,7 +133,6 @@ export const navItems = [
   { href: '#volunteer', label: 'Volunteer', icon: Heart },
   { href: '#certifications', label: 'Certifications', icon: Award },
   { href: '#contact', label: 'Contact', icon: Mail },
-  { href: '/blog', label: 'Blog', icon: Glasses },
 ]
 
 // =============================================================================
@@ -269,11 +268,6 @@ export const seoMetadata = {
       title: 'Experience | Shardendu Mishra',
       description:
         'My professional experience and journey as a software developer, including internships, projects, and technical contributions.',
-    },
-    blog: {
-      title: 'Blog | Shardendu Mishra',
-      description:
-        'Technical articles, tutorials, and insights about software development, programming, and technology trends.',
     },
     certifications: {
       title: 'Certifications | Shardendu Mishra',
@@ -440,7 +434,6 @@ export const footerData = {
       links: [
         { label: 'Home', href: '/' },
         { label: 'Projects', href: '/projects' },
-        { label: 'Blog', href: '/blog' },
         { label: 'Experience', href: '/experiences' },
       ],
     },
@@ -518,7 +511,6 @@ export const apiEndpoints = {
   volunteer: '/api/volunteer',
   education: '/api/education',
   contact: '/api/contact',
-  blog: '/api/blog',
   stats: '/api/stats',
 }
 
@@ -527,7 +519,6 @@ export const apiEndpoints = {
 // =============================================================================
 
 export const featureFlags = {
-  enableBlog: true,
   enableComments: true,
   enableAnalytics: true,
   enableNewsletter: false,
@@ -563,13 +554,6 @@ export const analyticsConfig = {
 // =============================================================================
 
 export const miscConfig = {
-  blog: {
-    postsPerPage: 10,
-    featuredPostsCount: 3,
-    enableComments: true,
-    enableSharing: true,
-  },
-
   // Projects settings
   projects: {
     projectsPerPage: 6,

@@ -1,0 +1,26 @@
+
+> ms22-main@2.10.0 dev /home/mishrashardendu22/Coding_Stuff_Fedora/Dev/Personal-Project/Portfolio/mishrashardendu22/apps/MishraShardendu22-Frontend-PersonalWebsite
+> next dev --port 3000
+
+Microfrontends Proxy running on http://localhost:3024
+   [1m[38;2;173;127;168m▲ Next.js 15.5.3[39m[22m
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.5.6:3000
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · proxyTimeout: 120000
+     [1m✓[22m webpackBuildWorker
+     [1m✓[22m multiZoneDraftMode
+     · ...
+
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 2.2s
+ [37m[1m○[22m[39m Compiling / ...
+ [32m[1m✓[22m[39m Compiled / in 8.4s (3414 modules)
+ GET / [32m200[39m in 12072ms
+ GET / [32m200[39m in 230ms
+ [31m[1m⨯[22m[39m The requested resource isn't a valid image for /Professional.webp received [1mnull[22m
+ [37m[1m○[22m[39m Compiling /api/proxy/skills ...
+ [32m[1m✓[22m[39m Compiled /api/proxy/skills in 2.7s (3541 modules)
+ GET /api/proxy/skills [32m200[39m in 4835ms
+[?25h

@@ -70,17 +70,4 @@ export const ExperienceBreadcrumb = () => (
   />
 )
 
-export const BlogBreadcrumb = () => (
-  <BreadcrumbJsonLd
-    items={[
-      {
-        name: 'Home',
-        url: BASE_URL,
-      },
-      {
-        name: 'Blog',
-        url: `${BASE_URL}/blog`,
-      },
-    ]}
-  />
-)
+

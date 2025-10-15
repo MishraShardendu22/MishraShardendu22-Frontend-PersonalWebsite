@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next'
 import { BASE_URL } from '@/constants/url'
 import { projectsAPI } from '@/util/apiResponse.util'
-import { blogsService } from '@/services/blogs'
 
 async function getProjects() {
   try {
@@ -13,16 +12,6 @@ async function getProjects() {
   }
 }
 
-async function getBlogPosts() {
-  try {
-    const response = await blogsService.getBlogs()
-    return Array.isArray(response.data) ? response.data : []
-  } catch (error) {
-    console.error('Error fetching blog posts for sitemap:', error)
-    return []
-  }
-}
-
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -30,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const currentDate = new Date()
 
   // Fetch dynamic data
-  const [projects, blogPosts] = await Promise.all([getProjects(), getBlogPosts()])
+  const projects = await getProjects()
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -63,12 +52,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
   ]
 
   // Add project routes
@@ -79,13 +62,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  // Add blog post routes
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.id}`,
-    lastModified: post.updatedAt ? new Date(post.updatedAt) : currentDate,
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }))
-
-  return [...staticRoutes, ...projectRoutes, ...blogRoutes]
+  return [...staticRoutes, ...projectRoutes]
 }

@@ -1,0 +1,15 @@
+# Vercel build outputs
+.vercel
+.next
+out
+
+# Development
+.turbo
+node_modules
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
